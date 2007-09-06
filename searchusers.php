@@ -1,0 +1,132 @@
+<?php
+define("IN_BTIT",true);
+
+
+$THIS_BASEPATH=dirname(__FILE__);
+require("$THIS_BASEPATH/include/functions.php");
+
+dbconn();
+
+
+
+// get user's style
+$resheet=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}style where id=".$CURUSER["style"]."");
+if (!$resheet)
+   {
+
+   $STYLEPATH="$THIS_BASEPATH/style/btit";
+   $STYLEURL="$BASEURL/style/btit";
+   $style="$BASEURL/style/btit/main.css";
+   }
+else
+    {
+        $resstyle=mysql_fetch_array($resheet);
+        $STYLEPATH="$THIS_BASEPATH/".$resstyle["style_url"];
+        $style="$BASEURL/".$resstyle["style_url"]."/main.css";
+        $STYLEURL="$BASEURL/".$resstyle["style_url"];
+    }
+
+
+$idlang=intval($_GET["language"]);
+
+// getting user language
+if ($idlang==0)
+   $reslang=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}language WHERE id=".$CURUSER["language"]);
+else
+   $reslang=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}language WHERE id=$idlang");
+
+if (!$reslang)
+   {
+   $USERLANG="$THIS_BASEPATH/language/english";
+   }
+else
+    {
+        $rlang=mysql_fetch_array($reslang);
+        $USERLANG="$THIS_BASEPATH/".$rlang["language_url"];
+    }
+
+if (!file_exists($USERLANG))
+    {
+    err_msg("Error!","Missing Language!");
+    print_version();
+    print("</body>\n</html>\n");
+    die;
+}
+
+
+require_once(load_language("lang_main.php"));
+
+
+if (isset($_GET['action']) && $_GET['action'])
+            $action=$_GET['action'];
+else $action = '';;
+
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+  <title>Search User</title>
+  <meta http-equiv="content-type" content="text/html; charset=<tag:main_charset />" />
+  <link rel="stylesheet" href="<?php echo $style; ?>" type="text/css" />
+  </head>
+  <body>
+<?php
+
+if ($action!="find")
+   {
+?>
+<form action="searchusers.php?action=find" name="users" method="post">
+<div align="center">
+  <table class="lista">
+  <tr>
+     <td class="header"><?php echo $language["USER_NAME"];?>:</td>
+     <td class="lista"><input type="text" name="user" size="40" maxlength="40" /></td>
+     <td class="lista"><input type="submit" name="confirm" value="Search" /></td>
+  </tr>
+  </table>
+</div>
+</form>
+<?php
+}
+else
+{
+  $res=do_sqlquery("SELECT username FROM {$TABLE_PREFIX}users WHERE id>1 AND username LIKE '%".mysql_escape_string($_POST["user"])."%' ORDER BY username");
+  if (!$res or mysql_num_rows($res)==0)
+     {
+         print("<center>".$language["NO_USERS_FOUND"]."!<br />");
+         print("<a href=searchusers.php>".$language["RETRY"]."</a></center>");
+     }
+  else {
+?>
+<script type="text/javascript">
+
+function SendIT(){
+    window.opener.document.forms['edit'].elements['receiver'].value = document.forms['result'].elements['name'].options[document.forms['result'].elements['name'].options.selectedIndex].value;
+    window.close();
+}
+</script>
+
+<div align="center">
+  <form action="searchusers.php?action=find" name="result" method="post">
+  <table class="lista">
+  <tr>
+     <td class="header"><?php print($language["USER_NAME"]);?>:</td>
+<?php
+     print("\n<td class=\"lista\">
+     <select name=\"name\" size=\"1\">");
+     while($result=mysql_fetch_array($res))
+         print("\n<option value=\"".$result["username"]."\">".$result["username"]."</option>");
+     print("\n</select>\n</td>");
+     print("\n<td class=\"lista\"><input type=\"button\" name=\"confirm\" onclick=\"javascript:SendIT();\" value=\"".$language["FRM_CONFIRM"]."\" /></td>");
+?>
+  </tr>
+  </table>
+  </form>
+</div>
+<?php
+   }
+}
+print("\n<br />\n<div align=\"center\"><a href=\"javascript: window.close()\">".$language["CLOSE"]."</a></div>");
+print("</body>\n</html>\n");
+?>

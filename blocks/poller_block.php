@@ -1,0 +1,215 @@
+<?php
+
+global $STYLEURL;
+
+if ($GLOBALS["ajax_poller"])
+{
+
+  if (!$CURUSER || $CURUSER["view_users"]=="yes")
+    {
+      print("<a name=\"poll\" />");
+      block_begin(LATEST_POLL);
+  ?>
+  <table border="0" cellspacing="0" cellpadding="10" width="100%"><tr><td class="lista" align="center">
+  <form action="<?php echo $_SERVER['PHP_SELF']; ?>" onsubmit="return false" method="post" name="poller">
+  <div id="mainContainer">
+      <div id="mainContent">
+    <?php
+    $poll = mysql_query("SELECT * FROM {$TABLE_PREFIX}poller WHERE active='yes' ORDER BY ID DESC LIMIT 1");
+    if($pollid = mysql_fetch_array($poll))
+    $pollerId = $pollid["ID"];  // Id of poller
+    ?>
+    <!-- START OF POLLER -->
+    <div class="poller">
+      <div class="poller_question" id="poller_question<?php echo $pollerId; ?>">
+      <?php      
+      // Retreving poll from database
+      $res = mysql_query("select * from {$TABLE_PREFIX}poller where ID='$pollerId'");
+      if($inf = mysql_fetch_array($res)){
+        echo "<div class=\"pollerTitle\">".$inf["pollerTitle"]."</div>";  // Output poller title
+        $resOptions = mysql_query("select * from {$TABLE_PREFIX}poller_option where pollerID='$pollerId' order by pollerOrder") or die(mysql_error());  // Find poll options, i.e. radio buttons
+        while($infOptions = mysql_fetch_array($resOptions)){
+          if($infOptions["defaultChecked"])$checked=" checked=\"checked\""; else $checked = "";
+          echo "<div class=\"pollerOption\"><input$checked type=\"radio\" value=\"".$infOptions["ID"]."\" name=\"vote[".$inf["ID"]."]\" id=\"pollerOption".$infOptions["ID"]."\" /><label for=\"pollerOption".$infOptions["ID"]."\" id=\"optionLabel".$infOptions["ID"]."\">".$infOptions["optionText"]."</label></div>";  
+        }
+      }      
+      ?>      
+      <!-- <a href="#poll" onclick="castMyVote(<?php echo $pollerId; ?>,document.forms['poller'])"><img src="images/vote_button.gif"></a> -->
+      <img src="images/vote_button.gif" alt="<?php echo $language["CAST_VOTE"]; ?>" title="<?php echo $language["CAST_VOTE"]; ?>" onclick="castMyVote(<?php echo $pollerId; ?>,document.forms['poller'])" style="cursor:pointer; cursor:hand;"/>
+
+      </div>
+      <div class="poller_waitMessage" id="poller_waitMessage<?php echo $pollerId; ?>" align="center">
+        <br /><br /><br /><br /><table border="0" cellspacing="0" cellpadding="4"><tr><td align="center" style="background-image: url('images/ajax-loader.gif'); background-repeat: no-repeat; background-position:center center; width:16px; height:16px;"></td><td align="left"><?php echo FETCHING_RESULTS; ?></td></tr></table><br /><br /><br /><br /><br />
+      </div>
+      <div class="poller_results" id="poller_results<?php echo $pollerId; ?>">
+      <!-- This div will be filled from Ajax, so leave it empty --></div><br />
+    </div>
+    <!-- END OF POLLER -->
+      <?php
+
+        $uid_query = mysql_query("SELECT COUNT(ID) FROM {$TABLE_PREFIX}poller_vote WHERE memberID='".$CURUSER['uid']."' AND pollerID='".$pollerId."'");
+        $ip_query = mysql_query("SELECT COUNT(ID) FROM {$TABLE_PREFIX}poller_vote WHERE ipAddress='".ip2long($_SERVER['REMOTE_ADDR'])."' AND pollerID='".$pollerId."'");
+
+          if ($GLOBALS["ipcheck_poller"]==false)
+      {
+        if ($uid_query!=0)
+          $uidcount = mysql_fetch_array($uid_query);
+        $uid = $uidcount["COUNT(ID)"];
+        $ip = 0;
+      }
+          elseif ($GLOBALS["ipcheck_poller"]==true)
+       {
+        if ($uid_query!=0)
+          $uidcount = mysql_fetch_array($uid_query);
+        if ($ip_query!=0)
+          $ipcount = mysql_fetch_array($ip_query);
+        $uid = $uidcount["COUNT(ID)"];
+        $ip = $ipcount["COUNT(ID)"];
+      }
+
+          if ($uid == "0" && $ip >= "1" || $uid >= "1" && $ip >= "1" || $uid >= "1" && $ip == "0")
+      {
+        print("<script type=\"text/javascript\">\n");
+        print("if(useCookiesToRememberCastedVotes){\n");
+        // This is the code you can use to prevent someone from casting a vote. You should check on cookie or ip address
+        print("displayResultsWithoutVoting(".$pollerId.");\n");
+        print("}\n");
+        print("</script>\n");
+      }
+
+      ?>
+
+      </div>
+      <div class="clear"></div>
+  </div>
+  </form>
+  </td></tr></table>
+      <?php
+      block_end();
+    }
+
+}
+else
+{
+
+require_once ("include/functions.php");
+require_once ("include/config.php");
+
+dbconn();
+
+     $res =mysql_query("SELECT * FROM {$TABLE_PREFIX}polls WHERE status='true'") or die(mysql_error());
+     $result=mysql_fetch_array($res);
+   $pid=$result["pid"];
+if($result){
+     $res2=mysql_query("SELECT * FROM {$TABLE_PREFIX}poll_voters WHERE pid='$pid'") or die(mysql_error());
+     $question=$result["poll_question"];
+     block_begin("Poll: $question");
+     print("<tr><td class=blocklist align=center>\n");
+     print("<table cellspacing=2 cellpading=2>\n");
+if(!isset ($CURUSER)) global $CURUSER;
+$total_votes = 0;
+$check=0;
+if($CURUSER["id_level"]<3 || (isset($_POST['showres']) && $_POST['showres'] == 'Show Results')) $check=1;
+else $check=0;
+while($voters=mysql_fetch_array($res2)){
+if($CURUSER["uid"]==$voters["memberid"]) $check=1;
+}
+
+
+        if($check==1){  
+          
+          $poll_answers = unserialize(stripslashes($result["choices"]));
+          
+          reset($poll_answers);
+          foreach ($poll_answers as $entry)
+          {
+            $id     = $entry[0];
+            $choice = $entry[1];
+            $votes  = $entry[2];
+            
+            $total_votes += $votes;
+            
+            if ( strlen($choice) < 1 )
+            {
+              continue;
+            }
+            
+                   
+            $percent = $votes == 0 ? 0 : $votes / $result["votes"] * 100;
+            $percent = sprintf( '%.2f' , $percent );
+            $width   = $percent > 0 ? floor( round( $percent )*0.7) : 0;
+      $percent = floor($percent);
+            
+      print ("<tr><td width=\"50%\" class=\"lista\">$choice</td><td class=\"lista\"> (<b>$votes</b>) </td><td class=\"lista\"><img src=\"images/bar.gif\" width=\"4\" height=\"11\" align=\"left\" alt=\"\" title=\"bar\" border=\"0\" /></td><td align=\"left\" class=\"lista\">&nbsp;($percent%)</td></tr>");
+          }
+  }
+
+
+
+  elseif($check==0){
+// Show poll form
+
+
+    $poll_answers = unserialize(stripslashes($result["choices"]));
+          reset($poll_answers);
+          
+     ?>     
+   <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">     
+  <?php
+          foreach ($poll_answers as $entry)
+          {
+            $id     = $entry[0];
+            $choice = $entry[1];
+            $votes  = $entry[2];
+            
+            $total_votes += $votes;
+            
+            if ( strlen($choice) < 1 )
+            {
+              continue;
+            }
+            
+        ?>
+      <tr><td colspan="3" align="left"><input type="radio" name="poll_vote" value="<?php echo $id?> " /><b>&nbsp;<?php echo $choice ?><b> </td></tr>
+  <?php
+
+
+          }
+
+    print("\n<td align=\"left\" class=\"lista\"><input type=\"submit\" name=\"submit\" value=\"Submit\" />&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"submit\" name=\"showres\" value=\"Show Results\" /></td>");
+?>
+</form>
+<?php
+}            
+if(isset($_POST['submit']) && $_POST['submit'] == 'Submit' && isset($_POST['poll_vote']) && $check!=1){
+  $voteid=$_POST['poll_vote'];
+  $memberid=$CURUSER["uid"];
+  $ip= $_SERVER['REMOTE_ADDR'];
+  $new_poll_array=array();
+  mysql_query("INSERT INTO poll_voters SET ip='$ip', votedate='".time()."', pid='$pid', memberid='$memberid'");
+  $poll_answers = unserialize(stripslashes($result["choices"]));
+  reset($poll_answers);
+
+  foreach ($poll_answers as $var){
+            $id     = $var[0];
+            $choice = $var[1];
+            $votes  = $var[2];
+    if($id==$voteid) $votes++;
+    $new_poll_array[] = array( $id, $choice, $votes);
+  }
+  $votings= addslashes(serialize($new_poll_array));
+  $uvotes=$result["votes"]+1;
+  mysql_query("UPDATE {$TABLE_PREFIX}polls SET votes='$uvotes', choices='$votings' WHERE pid='$pid'");
+  redirect("index.php");
+  
+}
+    
+
+
+     print("</table>\n</td></tr>");
+     block_end();
+}
+
+}
+
+?>

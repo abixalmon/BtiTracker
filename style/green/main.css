@@ -1,0 +1,434 @@
+body {
+    font-family: tahoma, arial, helvetica, sans-serif;
+    font-size: 8pt;
+    background-image: url('images/bkk.gif');
+    margin: 9px 13px 0px 11px;
+    padding: 0;
+}
+
+.highlight {
+  background: #F8F81A;
+  color: #FF0000;
+}
+
+/* A quote, perhaps from another post. */
+.quote
+{
+	color: #000;
+	background-color: #DEEDE5;
+	border-style: inset;
+  border-width: 1px solid;
+  border-color: #000;
+	margin: 1px;
+	padding: 1px;
+	font-size: x-small;
+	line-height: 1.4em;
+}
+
+/* A code block - maybe even PHP ;). */
+.code
+{
+	color: #000;
+	background-color: #ECECEC;
+	font-family: "courier new", "times new roman", monospace;
+	font-size: x-small;
+	line-height: 1.3em;
+	/* Put a nice border around it. */
+	border-style: inset;
+  border-width: 1px solid;
+  border-color: #000;
+	margin: 1px auto 1px auto;
+	padding: 1px;
+	width: 99%;
+	/* Wrap its contents, and show scrollbars. */
+	white-space: wrap;
+	overflow: auto;
+	/*Stop after about 24 lines, and just show a scrollbar.*/ 
+	max-height: 10em;
+}
+
+.btn{
+  background: #DFE6EF;
+  border: 1px solid #4C77B6;
+  color: #000;
+  font-family: Verdana, Helvetica, Sans-Serif;
+  font-size: 11px;
+  padding: 2px;
+  vertical-align: middle;
+  cursor: pointer;
+
+}
+
+.post{
+  border:1px solid #4E7FCD;
+  background-color: #E8EFF7;
+  padding:0px;
+  margin:1px;
+  color:#000000;
+  text-align:left;
+}
+
+select.drop_pager {
+  background-color: #E0ECF7;
+  font-size: 11px;
+
+}
+
+.pager {
+  background-color: #E0ECF7;
+  border: 1px solid #072A66;
+  padding: 1px 3px 1px 3px;
+}
+
+.pagercurrent {
+  background-color: #7FBDFA;
+  border: 1px solid #072A66;
+  padding: 1px 3px 1px 3px;
+}
+
+.pager a:link,
+.pager a:visited,
+.pagercurrent a:link,
+.pagercurrent a:visited {
+    text-decoration:none;
+}
+
+.pager a:hover,
+.pagercurrent a:hover {
+    text-decoration:underline overline;
+}
+
+#tracker_logo {
+	background:transparent;
+	width:100%;
+}
+
+#main {
+    background:transparent;
+    width:100%;
+    margin: 10px auto;
+}
+
+#slideIt {background:transparent; align:right;}
+
+#header{
+    background:transparent;
+    width:100%;
+}
+
+#left{
+    float:left;
+    background:transparent;
+    width:170px;
+}
+
+#nocolumn{
+    background:transparent;
+    width:100%;
+}
+
+#central{
+    background:transparent;
+    margin-left: 170px;
+    margin-right: 170px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#leftcolumn{
+    background:transparent;
+    margin-left: 170px;
+    padding-left: 5px;
+}
+
+
+#right{
+    float:right;
+    background:transparent;
+    width:170px;
+}
+
+#bottom{
+    clear:both;
+    background:transparent;
+    width:100%;
+}
+
+#footer{
+    clear:both;
+    background:transparent;
+		color:#025082;
+    height:50px;
+    width:100%;
+}
+
+div.chat {
+/* Wrap its contents, and show scrollbars. */
+	white-space: wrap;
+	overflow: auto;
+	/*Stop after about 24 lines, and just show a scrollbar.*/ 
+	max-height: 36em;
+  width: 100%;
+  padding: 0px;
+}
+
+
+a:link,a:active,a:visited { color: #000000; }
+a:hover        { text-decoration: underline; color: #365d81; }
+
+h1 {
+    font-size: 12pt;
+}
+
+p {
+    font-size: 10pt;
+}
+
+table {
+    border:0px;
+}
+
+table.lista {
+    background-color: #DEEDE5;
+    border: 1px #3F7A7A solid;
+}
+
+td.block {
+  background-image:url(images/lite-green.gif);
+	background-color: #DEEDE5;
+	height:25px;
+	padding-left: 3px;
+	padding-right: 3px;
+	border-bottom: solid 1px #076D06;
+  color: #E8F6EE;
+}
+
+td.blocklist {
+  background:#BBDAC8;
+  padding:2px;
+  margin:1px;
+  font-size: 8pt;
+  font-weight: bold;
+  color: #000;
+}
+
+td.lista {
+	  background:#DEEDE5;
+		border:solid 1px #BBDAC8;
+    color: #3F7A7A;
+    padding:2px;
+    margin:0px;
+		text-align:left;
+    font-size: 8pt;
+}
+
+td {
+
+}
+
+td.header {
+     font-weight:bold;
+     color:#025082;
+     padding:5px;
+		 border: 1px #BFD3EE solid;
+     background-image: url(images/header_back.gif);
+     background-color: #CEECD4;
+		 background-repeat:repeat-x;
+     
+}
+
+td.title {
+    font-size: 8pt;
+}
+
+td.navigation {
+    background-color: #E1F3D9;
+    font-weight: bold;
+    font-size: 8pt;
+}
+
+form {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.sublink {
+    font-style: italic;
+    font-size: 7pt;
+    font-weight: normal;
+}
+
+a.index {
+    font-weight: bold;
+}
+
+a.biglink {
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+.important {
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+td.red {
+    background-color:#BBDAC8;
+    color: red;
+}
+
+
+td.yellow {
+    background-color:#BBDAC8;
+    color: #BEC635;
+}
+
+
+td.green {
+    background-color:#BBDAC8;
+    color: green;
+}
+
+td.progress {
+    padding: 0px;
+    background-image: url(images/backprogress.gif);
+    background-repeat: repeat-x;
+    height: 10px;
+}
+
+td.red a:link {
+    color: red;
+}
+td.red a:visited {
+    color: red;
+}
+
+td.yellow a:link {
+    color: #BEC635;
+}
+td.yellow a:visited {
+    color: #BEC635;
+}
+
+td.green a:link {
+    color: green;
+}
+
+td.green a:visited {
+    color: green;
+}
+li{
+list-style-position:inside;
+} 
+
+.error { color:black; font-weight: bold; font-size: 14pt; background:url(images/chr.gif); background-repeat: repeat-x;}
+.information { color:black; font-weight: bold; font-size: 14pt; background:url(images/chb.gif); background-repeat: repeat-x;}
+.success { color:black; font-weight: bold; font-size: 14pt; background:url(images/chg.gif); background-repeat: repeat-x;}
+
+/* Ajax Poll System */
+img {
+    border:0px;
+}
+
+td.deleted {
+    background-color:#FF95AC;
+    color:#000000;
+}
+
+td.added {
+    background-color:#C1FF83;
+    color:#000000;
+}
+
+td.modified {
+    background-color:#DEDEDE;
+    color:#000000;
+}
+
+#mainContainer {
+    width:100%;
+    margin:0 auto;
+    text-align:left;
+    background-color:#FFF;
+    
+}
+
+#mainContent {
+    padding:0px;
+}
+  
+.clear {
+    clear:both;
+}
+
+.poller {  /* The poller box */
+  
+    width:auto;
+  /*  background-image:url(images/question.gif);
+    background-repeat:no-repeat;
+    background-position: bottom center;*/
+    background-color:#BBDAC8;
+		padding-left:7px;
+	/*	height:170px;*/
+		overflow:hidden;
+}
+
+.pollerTitle {  /* Poller title above radio buttons */
+    margin-top:0px;
+    margin-bottom:5px;
+    font-weight:bold;
+    font-size:1em;
+}
+
+.pollerOption {  /* Label for each radio button */
+    margin:0px;
+}
+
+.result_pollerOption {  /* Label for each option above graph - i.e. results */
+    margin:0px;
+    font-size:0.8em;
+}
+
+.result_pollerTitle {  /* Title of poller - when ajax shows the results */
+    margin-top:0px;
+    margin-bottom:5px;
+    font-weight:bold;
+    font-size:1em;
+}
+
+.result_pollGraph img {  /* Don't change this one, it is used to get the left and right image(the corner) positioned correctly */
+    float:left;
+}
+
+.result_pollGraph div {  /* The <div> tag where the percentage result is shown */
+    float:left;
+    height:12px;
+    background-repeat:repeat-x;
+    color:#FFF;
+    font-size:0.9em;
+    line-height:16px;
+}
+
+.result_pollGraph {  /* Graph div - parent of both the corner images and the div displaying percentage votes */  
+    height:12px;
+}
+  
+.poller_waitMessage {  /* Message when Ajax is working getting restults fromt the server */
+    display:none;  
+}  
+
+.result_totalVotes{
+    clear:left;
+    font-size:0.8em;
+    margin-top:10px;
+    font-style:italic;
+    background-color:#BBDAC8;
+}
+
+th {
+    text-align:left;
+}
+.formButton {
+    width:75px;
+}
+/* Ajax Poll System */

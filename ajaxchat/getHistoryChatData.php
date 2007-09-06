@@ -1,0 +1,308 @@
+<?php
+
+  /*################################################################
+  #
+  #         Ajax MySQL shoutbox for btit
+  #         Version  1.0
+  #         Author : miskotes
+  #         Created: 11/07/2007
+  #         Contact: miskotes [at] yahoo.co.uk
+  #         Website: YU-Corner.com
+  #         Credits: linuxuser.at, plasticshore.com
+  #
+  ################################################################*/
+  
+  define("DELETE_CONFIRM", "If you are really sure you want to delete this click OK, othervise Cancel!");
+  $language["ERR_MODERATE_SHOUT"]="You are not authorised to moderate this shout!";
+
+  # avoid Undefined variable: lastID, seems to be never set...
+  $lastID=0;
+
+	if (isset($_GET["delete"]))
+		$delete = $_GET["delete"]; # getting the delete header
+		
+	if (isset($_GET["edit"]))
+  		$edit = $_GET["edit"]; # getting the edit header
+  		
+	if (isset($_GET["sid"])) {
+		$sid = intval($_GET["sid"]); # getting shout id (sid)
+
+    $post = $_POST["shoutid"]; # setting shout id 
+		$post = str_replace("'","\'",$post); # our textarea string replacement for preview
+		
+	}
+	else
+    	$post="";
+    	
+  function shoutError() {
+    global $language;
+    print "<script type='text/javascript'>
+    alert('$language[ERR_MODERATE_SHOUT]')</script>";
+    exit;
+    
+  }
+ 
+ function smile() {
+
+  global $smilies;
+  reset($smilies);
+  
+    # getting smilies
+    while (list($code, $url) = each($smilies)) { 
+        print("\n<a href=\"javascript: SmileIT('".str_replace("'","\'",$code)."')\">
+               <img border=\"0\" src=\"images/smilies/$url\" alt=\"$code\" /></a>");
+ 
+        $count++;
+    }
+  
+ }
+
+ 
+if (isset($_POST["confirm"]) && $_POST["confirm"]==$language["FRM_CANCEL"]) {
+    
+      header("Location: index.php?page=allshout&amp;nocolumns=1");
+}
+
+
+  global $CURUSER;
+  
+      require_once("ajaxchat/conn.php"); # getting connection data
+      $conn = his_getDBConnection(); # establishes the connection to the database
+      
+      include("include/settings.php");	# getting table prefix
+
+  # deleting the shout
+  if (isset($delete)) {
+        
+      $query = "SELECT uid FROM {$TABLE_PREFIX}chat WHERE id = $sid";
+      $res = mysql_query($query, $conn);
+      $row = mysql_fetch_array($res);
+      	      
+	    # check for valid moderation
+        if ($CURUSER["admin_access"]!="yes" && $CURUSER["uid"]!="".$row[uid]."") {
+        shoutError();
+        
+        }
+        
+        # actual delete
+        else {
+        $sql ="DELETE FROM {$TABLE_PREFIX}chat WHERE id = $sid";
+        $results = mysql_query($sql, $conn);
+          
+        }
+    }
+    
+# some bb stuff and badwords...
+require_once("ajaxchat/format_shout.php");
+
+# Headers are sent to prevent browsers from caching.. IE is still resistent sometimes
+header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" ); 
+header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" ); 
+header( "Cache-Control: no-cache, must-revalidate" ); 
+header( "Pragma: no-cache" );
+header("Content-Type: text/html; charset=$GLOBALS[charset]");
+
+
+  if (isset($edit)) {
+  
+  print "<script type='text/javascript' language='javascript' src='ajaxchat/functions.js' ></script>";
+
+ ?>
+  <script type="text/javascript">
+ 
+  // inserts smilies into form
+  function SmileIT(smile) {
+    document.forms['shout'].elements['shoutid'].value = document.forms['shout'].elements['shoutid'].value+" "+smile+" ";  //this non standard attribute prevents firefox' autofill function to clash with this script
+    document.forms['shout'].elements['shoutid'].focus();
+  }
+  </script>
+
+ <?php
+ 
+
+      $query = "SELECT * FROM {$TABLE_PREFIX}chat WHERE id = $sid";
+      $res = mysql_query($query, $conn);
+      $row = mysql_fetch_array($res);
+
+  	    # check for valid moderation
+        if ($CURUSER["admin_access"]!="yes" && $CURUSER["uid"]!="".$row[uid]."") {
+        shoutError();
+        
+        }
+                
+        # actual edit widgets
+        else {
+        print "<span class='name'>".date("d/m/Y H:i:s", $row["time"] - $offset)." | <a href=javascript:windowunder('index.php?page=userdetails&id=".$row[uid]."')>".$row[name]."</a>:</span>";
+        
+        	                  print "
+                            <div style='text-align:right;
+	                              margin-top:-13px;
+	                              margin-bottom:-3.5px;
+	                              '>
+	                              <a onclick=\"return confirm('". str_replace("'","\'",DELETE_CONFIRM)."')\" href='index.php?page=allshout&amp;nocolumns=1&sid=$sid&delete'>
+                                <img border='0' class='DeleteSwap' src='ajaxchat/images/canvas.gif'></a>
+
+                            </div>";
+                            
+        	                  print "
+                            <div style='text-align:right;
+	                              margin-top:-15px;
+	                              margin-bottom:2px;
+	                              padding-right:22px;
+	                              '>
+                                # $row[id]
+                            </div>";
+
+
+            if (isset($_POST["confirm"]) && $_POST["confirm"]==$language["FRM_PREVIEW"]) {
+                            
+            $post = str_replace("\'","'",$post);
+
+            print "<div class='chatoutput'>".format_shout($post)."</div>";
+            
+            $text = $post;		 
+
+            }
+
+            else {
+
+            print "<div class='chatoutput'>".format_shout($row[text])."</div>";
+            
+            $text = $row[text];
+    
+            }
+
+
+
+            $edit_text = "
+            <form enctype='multipart/form-data' name='shout' method='post' action='index.php?page=allshout&amp;nocolumns=1&sid=$sid&edit'>
+
+            <textarea style='width:99%; style='overflow: auto;' rows='2' name='shoutid'>".htmlspecialchars(unesc($text))."</textarea>
+                          <div style='text-align:right;
+                                  margin-top:5px;
+                                  margin-bottom:9px;'>
+                      <input type='submit' name='confirm' value='$language[FRM_CONFIRM]' />
+                      <input type='submit' name='confirm' value='$language[FRM_PREVIEW]' />
+                      <input type='submit' name='confirm' value='$language[FRM_CANCEL]' />
+                      
+            &nbsp;                     
+            <a href='#smile' onclick=javascript:servOC('20','',''); Hide('Hide'); id='name20'>
+            <img src='ajaxchat/images/smile.gif' border='0' class='form' title='$language[MORE_SMILES]' align='top'></a>
+
+            ";
+                                                  
+                            
+ if (isset($_POST["confirm"]) && $_POST["confirm"]==$language["FRM_CONFIRM"]) {
+
+#################################################
+ 
+  $sql = "UPDATE {$TABLE_PREFIX}chat SET text = '".$post."' WHERE id = '".$sid."'";
+	$conn = his_getDBConnection();
+	$results = mysql_query($sql, $conn);
+
+	if (!$results || empty($results)) {
+		 # echo 'There was an error creating the entry';
+		end;
+	}
+   
+         //header("Location: index.php?page=allshout&amp;nocolumns=1");
+         redirect("index.php?page=allshout&amp;nocolumns=1");
+   
+      ############################################################
+}
+
+
+        print  "<div align='center'>$edit_text</div>";
+ ?>        
+	<div id='ihtr20' align='center' style='border:1px solid #CECECE; display:none; margin-top:5px;
+	
+	overflow: auto; /* this makes our div to have scrolls */
+	'>
+	
+  <div id='ihif20' width='100%'>
+  
+  <?php smile(); ?>
+  
+  </div>
+    </div>
+      </div>
+        </form>
+  <hr>
+  
+   <?php                   
+
+        }
+  }
+
+# getting the style wc3
+global $tpl;
+$tpl->set("more_css","<link href='ajaxchat/default.css' rel='stylesheet' type='text/css' />");
+
+# if no id of the last known message id is set to 0
+if (!$lastID) { $lastID = 0; } # we treat 0 (zero) as null point, sorry...
+
+# call to retrieve all messages with an id greater than $lastID which is NOT zero 
+getData($lastID);
+
+# function that do retrieve all messages with a set id
+function getData($lastID) {
+
+  include("include/settings.php");	# getting table prefix
+  include("include/offset.php");
+
+  # discard it if we are editing
+  $sid = isset($_GET["sid"])?$_GET["sid"]:0; # get shout id (sid)and set it to zero for bool
+
+  
+	$sql = 	"SELECT * FROM {$TABLE_PREFIX}chat WHERE id > ".$lastID." AND id != ".$sid." ORDER BY id DESC";
+	$conn = his_getDBConnection(); # establishes the connection to the database
+	$results = mysql_query($sql, $conn);
+	
+	# getting the data array
+	while ($row = mysql_fetch_array($results)) {
+	
+    # creating and naming array
+		$id   = $row[id];
+		$uid  = $row[uid];
+		$time = $row[time];
+		$name = $row[name];
+		$text = $row[text];
+		
+		# if no name is present somehow, $name and $text are set to the strings under
+		# we assume all must be ok, othervise no post will be made by javascript check
+		# if ($name == '') { $name = 'Anonymous'; $text = 'No message'; }
+  
+	  # we lego put together our chat using some conditions and css and javascript this time
+
+      print "<span class='name'>".date("d/m/Y H:i:s", $time - $offset)." | <a href=\"javascript:windowunder('index.php?page=userdetails&amp;id=".$uid."')\">".$name."</a>:</span>";
+
+	      global $CURUSER;
+	      
+        if ($CURUSER["admin_access"]!="yes" && $CURUSER["uid"]!="".$uid."") {}
+        
+        else {
+               # edit/delete buttons -->
+	             print "<div style='text-align:right;
+	                         margin-top:-13px;
+	                         margin-bottom:-3.5px;
+	                         '>
+	                  <a href='index.php?page=allshout&amp;nocolumns=1&sid=$id&edit'><img border='0' class='EditSwap' src='ajaxchat/images/canvas.gif'></a>
+	                  <a onclick=\"return confirm('". str_replace("'","\'",DELETE_CONFIRM)."')\" href='index.php?page=allshout&amp;nocolumns=1&sid=$id&delete'>
+	                  <img border='0' class='DeleteSwap' src='ajaxchat/images/canvas.gif'></a>
+	             </div>";
+	                  
+	           }
+	                  
+	             # chat output -->
+	             print "<div class='chatoutput'>".format_shout($text)."</div>";		 
+	}
+}
+?>
+  <script type="text/javascript">
+
+  // closes popup and displays details in parent window
+  function windowunder(link) {
+    window.opener.document.location=link;
+    window.close();
+  }
+  </script>

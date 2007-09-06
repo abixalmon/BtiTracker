@@ -1,0 +1,51 @@
+<?php
+//AJAX Poll System Hack Start - 5:03 PM 3/24/2007
+$language["POLL_ID"]="ID";
+$language["LATEST_POLL"]="Najnowsza ankieta";
+$language["CAST_VOTE"]="G³osuj!";
+$language["FETCHING_RESULTS"]="Pobieram wyniki ankiety. Proszê czekaæ...";
+$language["POLL_TITLE"]="Tytu³ ankiety";
+$language["POLL_TITLE_MISSING"]="Brakuje tytu³u ankiety";
+$language["POLLING_SYSTEM"]="AJAX System Ankiet";
+$language["CURRENT_POLLS"]="Aktualne ankiety";
+$language["POLL_STARTED"]="Rozpoczêta dnia";
+$language["POLL_ENDED"]="Zakoñczona dnia";
+$language["POLL_LASTED"]="Zakoñczona";
+$language["POLL_BY"]="Rozpoczêta przez";
+$language["POLL_VOTES"]="G³osów";
+$language["POLL_STILL_ACTIVE"]="Nadal aktywna";
+$language["POLL_NEW"]="Nowa";
+$language["POLL_START_NEW"]="W³±cz now± ankietê";
+$language["POLL_ACTIVE"]="Aktywna";
+$language["POLL_ACTIVE_TRUE"]="Aktywna";
+$language["POLL_ACTIVE_FALSE"]="Nieaktywna";
+$language["POLL_OPTION"]="Opcja";
+$language["POLL_OPTIONS"]="Opcje";
+$language["POLL_MOVE"]="Przenie¶ ni¿ej";
+$language["POLL_NEW_OPTIONS"]="Nowa opcja";
+$language["POLL_SAVE"]="Zapisz";
+$language["POLL_CANCEL"]="Anuluj";
+$language["POLL_DELETE"]="Usuñ";
+$language["POLL_DEL_CONFIRM"]="Kliknij OK aby usun±æ t± ankietê";
+$language["POLL_VOTERS"]="G³osuj±cy";
+$language["POLL_IP_ADDRESS"]="Adres IP";
+$language["POLL_DATE"]="Data";
+$language["POLL_USER"]="User";
+$language["POLL_ACCOUNT_DEL"]="<i>konto usuniête</i>";
+$language["POLL_BACK"]="Wstecz";
+$language["YEAR"]="rok";
+$language["MONTH"]="miesi±c";
+$language["WEEK"]="tydzieñ";
+$language["DAY"]="dzieñ";
+$language["HOUR"]="godzina";
+$language["MINUTE"]="minuta";
+$language["SECOND"]="sekunda";
+$language["YEARS"]="lata";
+$language["MONTHS"]="miesi±ce";
+$language["WEEKS"]="tygodnie";
+$language["DAYS"]="dni";
+$language["HOURS"]="godziny";
+$language["MINUTES"]="minuty";
+$language["SECONDS"]="sekundy";
+//AJAX Poll System Hack Stop
+?>
