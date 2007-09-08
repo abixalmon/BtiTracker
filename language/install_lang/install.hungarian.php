@@ -81,5 +81,12 @@ $install_lang["succes_install1"]		= "A telepítés befejezõdött!";
 $install_lang["succes_install2"] 		= "<p>Sikeresen telepítetted a ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." trackert.</p><p>Azt tanácsoljuk, zárd le a telepítést. Ezt megteheted ha a <b>install.unlock</b> fájlt <b>install.lock</b>-ra nevezed vagy törlöd az <b>install.php</b> fájlt.</p>";
 $install_lang["succes_install3"]		= "<p>Mi a BTITeam csapata reméljük örömmel fogod használni a trackert és gyakran látunl majd a <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">fórumon</a>.</p>";
 $install_lang["go_to_tracker"]			= "Ugrás a trackeredre";
+$install_lang["forum_type"]             = "Forum típus";
+$install_lang["forum_internal"]         = "BTI-Tracker Internal Forum";
+$install_lang["forum_smf"]              = "Simple Machines Forum";
+$install_lang["forum_other"]            = "Nem integrált külsõ fórum - Ide írd az URL címet -->";
+$install_lang["smf_download"]           = "<strong>Ha SMF-et használsz:</strong><br /><br/ >Töltsd le a legújabb verziót <a target='_new' href='http://www.simplemachines.org/download/'>innen</a> és töltsd fel a tartalmát az \"smf\" mappába, majd <a target='_new' href='smf/install.php'>katt ide</a> és telepítsd.*<br /><strong>(Azonos adatbázist használj a tracker és az SMF telepítéséhez.)<br /><br /><font color='#FF0000'>Ha feltelepítetted,</font></strong> kattints a <strong>Következõre</strong>, hogy folytasd a  BTI-Tracker telepítését.<br /><br /><strong>* Mind a két link új ablakban jelenik meg, hogy ne vesszen el a jelenlegi ablak.</strong></p>";
+$install_lang["smf_err_1"]              = "Nem találom a Simple Machines Forum-ot az \"smf\" mappában. Kérlek telepítsd fel mielõtt folytatod a telepítést.<br /><br />Klikk <a href=\"javascript: history.go(-1);\">ide</a>, hogy visszatérj az elõzõ oldalra.";
+$install_lang["smf_err_2"]              = "Nem találom a Simple Machines Forum-ot az adatbázisban, kérlek telepítsd.<br /><br />Klikk <a href=\"javascript: history.go(-1);\">ide</a>, hogy visszatérj az elõzõ oldalra..";
 
 ?>
