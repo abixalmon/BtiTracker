@@ -3,17 +3,11 @@
 
 if (!defined("IN_BTIT"))
       die("non direct access!");
-
-
-/*#########################
+      
 
 $parentform=$_GET["form"];
 $parentarea=$_GET["text"];
 
-#########################*/
-
-$parentform=chatForm;
-$parentarea=chatbarText;
 
 $count=0;
 $i=0;
