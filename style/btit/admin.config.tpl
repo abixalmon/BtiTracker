@@ -9,6 +9,11 @@
     <tr>
       <td class="header" align="center" colspan="4"><tag:language.XBTT_BACKEND /></td>
     </tr>
+    <if:xbtt_error>
+    <tr>
+      <td class="lista" align="center" colspan="4" style="color:red; font-weight:bold;"><tag:language.XBTT_TABLES_ERROR /></td>
+    </tr>
+    </if:xbtt_error>
     <tr>
       <td class="header"><tag:language.XBTT_USE /></td>
       <td class="lista"><input type="checkbox" name="xbtt_use" value="xbtt_use" <tag:config.xbtt_use /> /></td>

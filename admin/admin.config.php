@@ -7,6 +7,7 @@ if (!defined("IN_ACP"))
       die("non direct access!");
 
 $admintpl->set("config_saved",false,true);
+$admintpl->set("xbtt_error",false,true);
 
 switch ($action)
     {
@@ -57,7 +58,30 @@ switch ($action)
         $btit_settings["forumlimit"]=$_POST["forumlimit"];
         $btit_settings["last10limit"]=$_POST["last10limit"];
         $btit_settings["mostpoplimit"]=$_POST["mostpoplimit"];
-        $btit_settings["xbtt_use"]=isset($_POST["xbtt_use"])?"true":"false";
+
+        // check if XBTT tables are present in current db
+        $res=do_sqlquery("SHOW TABLES LIKE 'xbt%'");
+        $xbt_tables=array('xbt_announce_log','xbt_config','xbt_deny_from_hosts','xbt_files','xbt_files_users','xbt_scrape_log','xbt_users');
+        $xbt_in_db=array();
+        if ($res)
+           {
+           while ($result=mysql_fetch_row($res))
+                 {
+                     $xbt_in_db[]=$result[0];
+                 }
+         }
+        $ad=array_diff($xbt_tables,$xbt_in_db);
+        // some xbtt tables missed!
+        if (count($ad)!=0)
+          {
+           $btit_settings["xbtt_use"]="false";
+           $admintpl->set("xbtt_error",true,true);
+        }
+        else
+          {
+          $btit_settings["xbtt_use"]=isset($_POST["xbtt_use"])?"true":"false";
+          $admintpl->set("xbtt_error",false,true);
+        }
         $btit_settings["xbtt_url"]=$_POST["xbtt_url"];
         $btit_settings["cache_duration"]=$_POST["cache_duration"];
         $btit_settings["cut_name"]=intval($_POST["cut_name"]);

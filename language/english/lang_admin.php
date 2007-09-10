@@ -87,6 +87,7 @@ $language["SETTING_SMTP_PORT"]="SMTP Port";
 $language["SETTING_SMTP_USERNAME"]="SMTP Username";
 $language["SETTING_SMTP_PASSWORD"]="SMTP Password";
 $language["SETTING_SMTP_PASSWORD_REPEAT"]="SMTP Password (Repeat)";
+$language["XBTT_TABLES_ERROR"]="You should have to import xbtt tables (look at xbtt installation instructions) into your database before activate xbtt backend!";
 // BAN FORM
 $language["BAN_NOTE"]="In this part of the admin panel, you can see the banned IPs and ban new IPs from accessing the tracker.<br />\nYou must insert a range from (first IP) to (last IP).";
 $language["BAN_NOIP"]="There are no banned IPs";
