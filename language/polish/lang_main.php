@@ -342,7 +342,7 @@ $language["SUC_SEND_EMAIL"]="Email potwierdzaj±cy zosta³ wys³any do";
 $language["SUC_SEND_EMAIL_2"]="Proszê poczekaæ kilka minut na email.";
 $language["SUCCESS"]="Sukces";
 $language["SUMADD_BUG"]="Tracker zwraca b³±d summaryAdd";
-$language["TABLE_NAME"]="Nazwa tabeli";$language["TABLE_NAME"]="Table Name";
+$language["TABLE_NAME"]="Nazwa tabeli";
 $language["TIMEZONE"]="Strefa czasowa";
 $language["TITLE"]="Tytu³";
 $language["TOP"]="góra";

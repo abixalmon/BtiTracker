@@ -87,6 +87,7 @@ $language["SETTING_SMTP_PORT"]="SMTP Port";
 $language["SETTING_SMTP_USERNAME"]="SMTP login";
 $language["SETTING_SMTP_PASSWORD"]="SMTP has³o";
 $language["SETTING_SMTP_PASSWORD_REPEAT"]="SMTP has³o (powtórz)";
+$language["XBTT_TABLES_ERROR"]="Powiniene¶ zaimportowaæ tabele xbtt (spójrz w instrukcjê instalacji xbtt) do twojej bazy danych przed aktywacj± xbtt!";
 // BAN FORM
 $language["BAN_NOTE"]="W tej czê¶ci panelu admina, mo¿esz zobaczyæ zbanowane IP lub zbanowaæ nowe IP zabraniaj±c tym samym dostêpu do trackera.<br />\nMusisz wpisaæ zakres od (pocz±tkowe IP) do (koñcowe IP).";
 $language["BAN_NOIP"]="Nie ma zbanowanych IP";
