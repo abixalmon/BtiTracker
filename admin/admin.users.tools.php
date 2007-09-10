@@ -21,9 +21,10 @@ switch ($action)
             do_sqlquery("DELETE FROM {$TABLE_PREFIX}users WHERE id=$uid",true);
             if($GLOBALS["FORUMLINK"]=="smf")
             {
+                $language2=$language;
                 $basedir=substr(str_replace("\\", "/", dirname(__FILE__)), 0, strrpos(str_replace("\\", "/", dirname(__FILE__)), '/'));
-                require_once($basedir."/smf/Settings.php");
-                
+                include($basedir."/smf/Settings.php");
+                $language=$language2;
                 $smf_fid=isset($_GET["smf_fid"])?intval($_GET["smf_fid"]):0;
                 
                 do_sqlquery("DELETE FROM {$db_prefix}members WHERE ID_MEMBER=$smf_fid",true);
@@ -197,7 +198,22 @@ switch ($action)
          if ($idflag>0)
             $set[]="flag=$idflag";
          if ($level>0)
-            $set[]="id_level='$level'";
+         {
+             if($GLOBALS["FORUMLINK"]=="smf")
+             {
+                 $forlev=$level+10;
+                 $language2=$language;
+                 $basedir=substr(str_replace("\\", "/", dirname(__FILE__)), 0, strrpos(str_replace("\\", "/", dirname(__FILE__)), '/'));
+                 include($basedir."/smf/Settings.php");
+                 $language=$language2;
+                
+                 $sql_query=mysql_query("SELECT smf_fid AS fid FROM {$TABLE_PREFIX}users WHERE id=$uid");
+                 $smf=mysql_fetch_assoc($sql_query);
+                 if($smf["fid"]>0)
+                     do_sqlquery("UPDATE {$db_prefix}members SET ID_GROUP=$forlev WHERE ID_MEMBER=".$smf["fid"],true);
+             }  
+             $set[]="id_level='$level'";
+         }
 
          $set[]="time_offset=".sqlesc(intval($_POST["timezone"]));
          $set[]="avatar=".sqlesc(htmlspecialchars($avatar));
