@@ -9,4 +9,5 @@ $language["EMAIL_FAILED"]="Wys³anie emaila zakoñczone niepowodzeniem!";
 $language["NO_SUBJECT"]="Brak Tematu";
 $language["MUST_ENTER_PASSWORD"]="<br /><font color='#FF0000'><strong>Musisz wpisaæ has³o aby zmieniæ powy¿sze ustawienia.</strong></font>";
 $language["ERR_PASS_WRONG"]="Has³o puste lub nieprawid³owe, nie mo¿na uaktualniæ profilu.";
+$language["MSG_DEL_ALL_PM"]="Je¿eli wybierzesz PM-y, których nie czyta³e¶ nie zostan± one usuniête";
 ?>
