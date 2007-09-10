@@ -196,7 +196,7 @@ if ($count>0) {
    $data["filename"]=unesc($data["filename"]);
    $filename=cut_string($data["filename"],intval($btit_settings["cut_name"]));
 
-   $torrents[$i]["category"]="<a href=\"index.php?page=torrents&amp;category=$data[catid]\">".image_or_link(($data["image"]==""?"":"images/categories/" . $data["image"]),"",$data["cname"])."</a>";
+   $torrents[$i]["category"]="<a href=\"index.php?page=torrents&amp;category=$data[catid]\">".image_or_link(($data["image"]==""?"":"$STYLEPATH/images/categories/" . $data["image"]),"",$data["cname"])."</a>";
    if ($GLOBALS["usepopup"])
        $torrents[$i]["filename"]="<a href=\"javascript:popdetails('index.php?page=torrent-details&amp;id=".$data["hash"]."');\" title=\"".$language["VIEW_DETAILS"].": ".($data["filename"]!=""?$filename:$data["hash"])."\">".$data["filename"]."</a>".($data["external"]=="no"?"":" (<span style=\"color:red\">EXT</span>)");
    else
@@ -301,9 +301,9 @@ if ($count>0) {
        else
          {
          $torrents[$i]["classe_seeds"]=linkcolor($data["seeds"]);
-         $torrents[$i]["seeds"]="<a href=\"peers.php?id=".$data["hash"]."\" title=\"".$language["PEERS_DETAILS"]."\">" . $data["seeds"] . "</a>";
+         $torrents[$i]["seeds"]="<a href=\"index.php?page=peers&amp;id=".$data["hash"]."\" title=\"".$language["PEERS_DETAILS"]."\">" . $data["seeds"] . "</a>";
          $torrents[$i]["classe_leechers"]=linkcolor($data["leechers"]);
-         $torrents[$i]["leechers"]="<a href=\"peers.php?id=".$data["hash"]."\" title=\"".$language["PEERS_DETAILS"]."\">" .$data["leechers"] . "</a>";
+         $torrents[$i]["leechers"]="<a href=\"index.php?page=peers&amp;id=".$data["hash"]."\" title=\"".$language["PEERS_DETAILS"]."\">" .$data["leechers"] . "</a>";
          if ($data["finished"]>0)
             $torrents[$i]["complete"]="<a href=\"torrent_history.php?id=".$data["hash"]."\" title=\"History - ".$data["filename"]."\">" . $data["finished"] . "</a>";
          else

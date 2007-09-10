@@ -172,6 +172,8 @@ $BASEURL=$btit_settings["url"];
 // tracker's announce urls, can be more than one
 $TRACKER_ANNOUNCEURLS=array();
 $TRACKER_ANNOUNCEURLS=unserialize($btit_settings["announce"]);
+for($i=0;$i<count($TRACKER_ANNOUNCEURLS);$i++)
+    $TRACKER_ANNOUNCEURLS[$i]=trim(str_replace(array("\r\n","\r","\n"),"",$TRACKER_ANNOUNCEURLS[$i]));
 //Tracker's email (owner email)
 $SITEEMAIL=$btit_settings["email"];
 //Torrent's DIR

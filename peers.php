@@ -1,6 +1,4 @@
 <?php
-require_once ("include/functions.php");
-require_once ("include/config.php");
 $i=0;
 dbconn();
 $scriptname = htmlspecialchars($_SERVER["PHP_SELF"]."?page=peers&id=$_GET[id]");
@@ -102,6 +100,4 @@ $peerstpl->set("XBTT",$XBTT_USE,TRUE);
 $peerstpl->set("XBTT2",$XBTT_USE,TRUE);
 $peerstpl->set("peers",$peers);
 
-
-stdfoot(($GLOBALS["usepopup"]?false:true),false);
 ?>

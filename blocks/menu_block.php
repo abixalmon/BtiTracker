@@ -3,7 +3,7 @@ global $CURUSER;
 
    block_begin(BLOCK_MENU);
 
-   print("<table class=\"lista\" width=\"100%\" cellspacing=\"0\">\n<tr><td class=\"blocklist\" align=\"center\"><a href=\"index.php\" target=\"_blank\">".$language["MNU_INDEX"]."</a></td></tr>\n");
+   print("<table class=\"lista\" width=\"100%\" cellspacing=\"0\">\n<tr><td class=\"blocklist\" align=\"center\"><a href=\"index.php\">".$language["MNU_INDEX"]."</a></td></tr>\n");
 
    if ($CURUSER["view_torrents"]=="yes")
       {

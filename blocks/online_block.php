@@ -35,7 +35,7 @@ else
       }
 
      print("<tr><td class=\"blocklist\" align=\"left\">Total</td><td class=\"blocklist\" align=\"right\">$total_online</td>\n</tr>\n");
-     print("<tr><td colspan=\"2\" class=\"blocklist\">".$language["REGISTERED"].": ".implode(",",$uo)."</td>\n</tr>\n");
+     print("<tr><td colspan=\"2\" class=\"blocklist\">".$language["REGISTERED"].": ".implode(", ",$uo)."</td>\n</tr>\n");
 
 
      //print($print. $gueststr . ($guest_num>0 && $regusers>0?" ".$language["WORD_AND"]." ":"") . ($regusers>0?"$regusers ".($regusers>1?$language["MEMBERS"]:$language["MEMBER"])."): ":")") . $users ."\n</td></tr>");

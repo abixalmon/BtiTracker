@@ -331,6 +331,7 @@ switch ($pageID) {
     // if popup enabled then we display the page without header and no columns, else full page
     case 'comment':
     case 'torrent-details':
+    case 'peers':
         stdfoot(($GLOBALS["usepopup"]?false:true));
         break;
 

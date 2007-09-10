@@ -1,6 +1,9 @@
 <?php
 $scriptname = htmlspecialchars($_SERVER["PHP_SELF"]."?page=upload");
 $addparam = "";
+
+require(load_language("lang_upload.php"));
+
 require_once ("include/BDecode.php");
 require_once ("include/BEncode.php");
 //// Configuration//
@@ -114,7 +117,7 @@ if (!isset($array["announce"]))
       $categoria = 0+$_POST["category"];
       $categoria = ($categoria);
       $comment = ($comment);
-      $announce=$array["announce"];
+      $announce=str_replace(array("\r\n","\r","\n"),"",$array["announce"]);
       $anonyme=$_POST["anonymous"];
 
       if ($categoria==0)
@@ -138,6 +141,7 @@ if (!isset($array["announce"]))
            exit();
          }
 //      if ($announce!=$BASEURL."/announce.php")
+        
       if (in_array($announce,$TRACKER_ANNOUNCEURLS)){
          $internal=true;
          // inserting into xbtt table
@@ -163,11 +167,11 @@ if (!isset($array["announce"]))
                 {
                 // ok, we found our announce, so it's internal and we will set our announce as main
                    $array["announce"]=$TRACKER_ANNOUNCEURLS[0];
+                   $query = "INSERT INTO {$TABLE_PREFIX}files (info_hash, filename, url, info, category, data, size, comment, uploader,anonymous, bin_hash) VALUES (\"$hash\", \"$filename\", \"$url\", \"$info\",0 + $categoria,NOW(), \"$size\", \"$comment\",".$CURUSER["uid"].",'$anonyme',0x$hash)";
                 }
               else
                   $query = "INSERT INTO {$TABLE_PREFIX}files (info_hash, filename, url, info, category, data, size, comment,external,announce_url, uploader,anonymous, bin_hash) VALUES (\"$hash\", \"$filename\", \"$url\", \"$info\",0 + $categoria,NOW(), \"$size\", \"$comment\",\"yes\",\"$announce\",".$CURUSER["uid"].",'$anonyme',0x$hash)";
         }
-
       //echo $query;
       do_sqlquery($query,true);
       $status = makeTorrent($hash, true);
@@ -204,12 +208,9 @@ if (!isset($array["announce"]))
                 write_log("Uploaded new torrent $filename ($hash)","add");
                
             $status=1;
-         
-
-        
-
          }
-}      else
+      }
+      else
           {
               err_msg($language["ERROR"],$language["ERR_ALREADY_EXIST"]);
               unlink($_FILES["torrent"]["tmp_name"]);
