@@ -223,23 +223,23 @@ if ($count>0) {
       {
       $totrate=round($vrow["totrate"]/$vrow["votes"],1);
       if ($totrate==5)
-         $totrate="<img src=$STYLEPATH/5.gif title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" />";
+         $totrate="<img src=\"$STYLEURL/images/5.gif\" title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" alt=\"\" />";
       elseif ($totrate>4.4 && $totrate<5)
-         $totrate="<img src=$STYLEPATH/4.5.gif title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" />";
+         $totrate="<img src=\"$STYLEURL/images/4.5.gif\" title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" alt=\"\" />";
       elseif ($totrate>3.9 && $totrate<4.5)
-         $totrate="<img src=$STYLEPATH/4.gif title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" />";
+         $totrate="<img src=\"$STYLEURL/images/4.gif\" title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" alt=\"\" />";
       elseif ($totrate>3.4 && $totrate<4)
-         $totrate="<img src=$STYLEPATH/3.5.gif title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" />";
+         $totrate="<img src=\"$STYLEURL/images/3.5.gif\" title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" alt=\"\" />";
       elseif ($totrate>2.9 && $totrate<3.5)
-         $totrate="<img src=$STYLEPATH/3.gif title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\"  />";
+         $totrate="<img src=\"$STYLEURL/images/3.gif\" title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\"  alt=\"\" />";
       elseif ($totrate>2.4 && $totrate<3)
-         $totrate="<img src=$STYLEPATH/2.5.gif title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\"  />";
+         $totrate="<img src=\"$STYLEURL/images/2.5.gif\" title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\"  alt=\"\" />";
       elseif ($totrate>1.9 && $totrate<2.5)
-         $totrate="<img src=$STYLEPATH/2.gif title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\"  />";
+         $totrate="<img src=\"$STYLEURL/images/2.gif\" title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\"  alt=\"\" />";
       elseif ($totrate>1.4 && $totrate<2)
-         $totrate="<img src=$STYLEPATH/1.5.gif title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\"  />";
+         $totrate="<img src=\"$STYLEURL/images/1.5.gif\" title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\"  alt=\"\" />";
       else
-         $totrate="<img src=$STYLEPATH/1.gif title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\"  />";
+         $totrate="<img src=$STYLEURL/images/1.gif\" title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\"  alt=\"\" />";
       }
    else
        $totrate=$language["NA"];

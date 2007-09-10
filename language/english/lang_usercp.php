@@ -9,4 +9,5 @@ $language["EMAIL_FAILED"]="Sending email has failed!";
 $language["NO_SUBJECT"]="No subject";
 $language["MUST_ENTER_PASSWORD"]="<br /><font color='#FF0000'><strong>You must enter your password to change the settings above.</strong></font>";
 $language["ERR_PASS_WRONG"]="Password empty or incorrect, cannot update profile.";
+$language["MSG_DEL_ALL_PM"]="If you select PMs which are not read, they will not be deleted";
 ?>

@@ -56,7 +56,10 @@ function popusers(url)
     </tr>
 </loop:pm>
     <tr>
-      <td class="lista" align="right" colspan="5"><input type="submit" name="action" value="<tag:language.DELETE_READED />" /></td>
+      <td class="lista" align="right" colspan="5">
+      <input type="submit" name="action" value="<tag:language.DELETE_READED />" />
+      &nbsp;&nbsp;&nbsp;<tag:language.MSG_DEL_ALL_PM />
+      </td>
     </tr>
 </if:NO_MESSAGES>
   </table>

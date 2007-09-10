@@ -57,7 +57,7 @@ if (max(0,$CURUSER["WT"])>0)
      else
         echo "\t<td width=\"60%\" class=\"lista\"><a href=\"details.php?id=" . $data['hash'] . "\" title=\"" . $language["VIEW_DETAILS"] . ": " . $data["filename"] . "\">" . $filename . "</a>".($data["external"]=="no"?"":" (<span style=\"color:red\">EXT</span>)")."</td>";
 
-     echo "\t<td align=\"center\" class=\"lista\"><a href=\"index.php?page=torrents&amp;category=$data[catid]\">" . image_or_link( ($data["image"] == "" ? "" : "images/categories/" . $data["image"]), "", $data["cname"]) . "</a></td>";
+     echo "\t<td align=\"center\" class=\"lista\"><a href=\"index.php?page=torrents&amp;category=$data[catid]\">" . image_or_link( ($data["image"] == "" ? "" : "$STYLEPATH/images/categories/" . $data["image"]), "", $data["cname"]) . "</a></td>";
 
     //waitingtime
     // only if current user is limited by WT

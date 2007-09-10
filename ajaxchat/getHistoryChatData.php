@@ -18,22 +18,22 @@
   # avoid Undefined variable: lastID, seems to be never set...
   $lastID=0;
 
-	if (isset($_GET["delete"]))
-		$delete = $_GET["delete"]; # getting the delete header
-		
-	if (isset($_GET["edit"]))
-  		$edit = $_GET["edit"]; # getting the edit header
-  		
-	if (isset($_GET["sid"])) {
-		$sid = intval($_GET["sid"]); # getting shout id (sid)
+    if (isset($_GET["delete"]))
+        $delete = $_GET["delete"]; # getting the delete header
+        
+    if (isset($_GET["edit"]))
+        $edit = $_GET["edit"]; # getting the edit header
+        
+    if (isset($_GET["sid"])) {
+        $sid = intval($_GET["sid"]); # getting shout id (sid)
 
     $post = $_POST["shoutid"]; # setting shout id 
-		$post = str_replace("'","\'",$post); # our textarea string replacement for preview
-		
-	}
-	else
-    	$post="";
-    	
+        $post = str_replace("'","\'",$post); # our textarea string replacement for preview
+        
+    }
+    else
+        $post="";
+        
   function shoutError() {
     global $language;
     print "<script type='text/javascript'>
@@ -69,7 +69,7 @@ if (isset($_POST["confirm"]) && $_POST["confirm"]==$language["FRM_CANCEL"]) {
       require_once("ajaxchat/conn.php"); # getting connection data
       $conn = his_getDBConnection(); # establishes the connection to the database
       
-      include("include/settings.php");	# getting table prefix
+      include("include/settings.php");  # getting table prefix
 
   # deleting the shout
   if (isset($delete)) {
@@ -77,8 +77,8 @@ if (isset($_POST["confirm"]) && $_POST["confirm"]==$language["FRM_CANCEL"]) {
       $query = "SELECT uid FROM {$TABLE_PREFIX}chat WHERE id = $sid";
       $res = mysql_query($query, $conn);
       $row = mysql_fetch_array($res);
-      	      
-	    # check for valid moderation
+              
+        # check for valid moderation
         if ($CURUSER["admin_access"]!="yes" && $CURUSER["uid"]!="".$row[uid]."") {
         shoutError();
         
@@ -124,7 +124,7 @@ header("Content-Type: text/html; charset=$GLOBALS[charset]");
       $res = mysql_query($query, $conn);
       $row = mysql_fetch_array($res);
 
-  	    # check for valid moderation
+        # check for valid moderation
         if ($CURUSER["admin_access"]!="yes" && $CURUSER["uid"]!="".$row[uid]."") {
         shoutError();
         
@@ -132,24 +132,24 @@ header("Content-Type: text/html; charset=$GLOBALS[charset]");
                 
         # actual edit widgets
         else {
-        print "<span class='name'>".date("d/m/Y H:i:s", $row["time"] - $offset)." | <a href=javascript:windowunder('index.php?page=userdetails&id=".$row[uid]."')>".$row[name]."</a>:</span>";
+        print "<span class='name'>".date("d/m/Y H:i:s", $row["time"] - $offset)." | <a href=javascript:windowunder('index.php?page=userdetails&amp;id=".$row[uid]."')>".$row[name]."</a>:</span>";
         
-        	                  print "
+                              print "
                             <div style='text-align:right;
-	                              margin-top:-13px;
-	                              margin-bottom:-3.5px;
-	                              '>
-	                              <a onclick=\"return confirm('". str_replace("'","\'",DELETE_CONFIRM)."')\" href='index.php?page=allshout&amp;nocolumns=1&sid=$sid&delete'>
-                                <img border='0' class='DeleteSwap' src='ajaxchat/images/canvas.gif'></a>
+                                  margin-top:-13px;
+                                  margin-bottom:-3.5px;
+                                  '>
+                                  <a onclick=\"return confirm('". str_replace("'","\'",DELETE_CONFIRM)."')\" href='index.php?page=allshout&amp;nocolumns=1&amp;sid=$sid&amp;delete'>
+                                <img border='0' class='DeleteSwap' src='ajaxchat/images/canvas.gif' alt='' /></a>
 
                             </div>";
                             
-        	                  print "
+                              print "
                             <div style='text-align:right;
-	                              margin-top:-15px;
-	                              margin-bottom:2px;
-	                              padding-right:22px;
-	                              '>
+                                  margin-top:-15px;
+                                  margin-bottom:2px;
+                                  padding-right:22px;
+                                  '>
                                 # $row[id]
                             </div>";
 
@@ -160,7 +160,7 @@ header("Content-Type: text/html; charset=$GLOBALS[charset]");
 
             print "<div class='chatoutput'>".format_shout($post)."</div>";
             
-            $text = $post;		 
+            $text = $post;       
 
             }
 
@@ -175,7 +175,7 @@ header("Content-Type: text/html; charset=$GLOBALS[charset]");
 
 
             $edit_text = "
-            <form enctype='multipart/form-data' name='shout' method='post' action='index.php?page=allshout&amp;nocolumns=1&sid=$sid&edit'>
+            <form enctype='multipart/form-data' name='shout' method='post' action='index.php?page=allshout&amp;nocolumns=1&amp;sid=$sid&amp;edit'>
 
             <textarea style='width:99%; style='overflow: auto;' rows='2' name='shoutid'>".htmlspecialchars(unesc($text))."</textarea>
                           <div style='text-align:right;
@@ -187,7 +187,7 @@ header("Content-Type: text/html; charset=$GLOBALS[charset]");
                       
             &nbsp;                     
             <a href='#smile' onclick=javascript:servOC('20','',''); Hide('Hide'); id='name20'>
-            <img src='ajaxchat/images/smile.gif' border='0' class='form' title='$language[MORE_SMILES]' align='top'></a>
+            <img src='ajaxchat/images/smile.gif' border='0' class='form' title='$language[MORE_SMILES]' align='top' alt='' /></a>
 
             ";
                                                   
@@ -197,13 +197,13 @@ header("Content-Type: text/html; charset=$GLOBALS[charset]");
 #################################################
  
   $sql = "UPDATE {$TABLE_PREFIX}chat SET text = '".$post."' WHERE id = '".$sid."'";
-	$conn = his_getDBConnection();
-	$results = mysql_query($sql, $conn);
+    $conn = his_getDBConnection();
+    $results = mysql_query($sql, $conn);
 
-	if (!$results || empty($results)) {
-		 # echo 'There was an error creating the entry';
-		end;
-	}
+    if (!$results || empty($results)) {
+         # echo 'There was an error creating the entry';
+        end;
+    }
    
          //header("Location: index.php?page=allshout&amp;nocolumns=1");
          redirect("index.php?page=allshout&amp;nocolumns=1");
@@ -214,11 +214,11 @@ header("Content-Type: text/html; charset=$GLOBALS[charset]");
 
         print  "<div align='center'>$edit_text</div>";
  ?>        
-	<div id='ihtr20' align='center' style='border:1px solid #CECECE; display:none; margin-top:5px;
-	
-	overflow: auto; /* this makes our div to have scrolls */
-	'>
-	
+    <div id='ihtr20' align='center' style='border:1px solid #CECECE; display:none; margin-top:5px;
+    
+    overflow: auto; /* this makes our div to have scrolls */
+    '>
+    
   <div id='ihif20' width='100%'>
   
   <?php smile(); ?>
@@ -247,55 +247,55 @@ getData($lastID);
 # function that do retrieve all messages with a set id
 function getData($lastID) {
 
-  include("include/settings.php");	# getting table prefix
+  include("include/settings.php");  # getting table prefix
   include("include/offset.php");
 
   # discard it if we are editing
   $sid = isset($_GET["sid"])?$_GET["sid"]:0; # get shout id (sid)and set it to zero for bool
 
   
-	$sql = 	"SELECT * FROM {$TABLE_PREFIX}chat WHERE id > ".$lastID." AND id != ".$sid." ORDER BY id DESC";
-	$conn = his_getDBConnection(); # establishes the connection to the database
-	$results = mysql_query($sql, $conn);
-	
-	# getting the data array
-	while ($row = mysql_fetch_array($results)) {
-	
+    $sql =  "SELECT * FROM {$TABLE_PREFIX}chat WHERE id > ".$lastID." AND id != ".$sid." ORDER BY id DESC";
+    $conn = his_getDBConnection(); # establishes the connection to the database
+    $results = mysql_query($sql, $conn);
+    
+    # getting the data array
+    while ($row = mysql_fetch_array($results)) {
+    
     # creating and naming array
-		$id   = $row[id];
-		$uid  = $row[uid];
-		$time = $row[time];
-		$name = $row[name];
-		$text = $row[text];
-		
-		# if no name is present somehow, $name and $text are set to the strings under
-		# we assume all must be ok, othervise no post will be made by javascript check
-		# if ($name == '') { $name = 'Anonymous'; $text = 'No message'; }
+        $id   = $row[id];
+        $uid  = $row[uid];
+        $time = $row[time];
+        $name = $row[name];
+        $text = $row[text];
+        
+        # if no name is present somehow, $name and $text are set to the strings under
+        # we assume all must be ok, othervise no post will be made by javascript check
+        # if ($name == '') { $name = 'Anonymous'; $text = 'No message'; }
   
-	  # we lego put together our chat using some conditions and css and javascript this time
+      # we lego put together our chat using some conditions and css and javascript this time
 
       print "<span class='name'>".date("d/m/Y H:i:s", $time - $offset)." | <a href=\"javascript:windowunder('index.php?page=userdetails&amp;id=".$uid."')\">".$name."</a>:</span>";
 
-	      global $CURUSER;
-	      
+          global $CURUSER;
+          
         if ($CURUSER["admin_access"]!="yes" && $CURUSER["uid"]!="".$uid."") {}
         
         else {
                # edit/delete buttons -->
-	             print "<div style='text-align:right;
-	                         margin-top:-13px;
-	                         margin-bottom:-3.5px;
-	                         '>
-	                  <a href='index.php?page=allshout&amp;nocolumns=1&sid=$id&edit'><img border='0' class='EditSwap' src='ajaxchat/images/canvas.gif'></a>
-	                  <a onclick=\"return confirm('". str_replace("'","\'",DELETE_CONFIRM)."')\" href='index.php?page=allshout&amp;nocolumns=1&sid=$id&delete'>
-	                  <img border='0' class='DeleteSwap' src='ajaxchat/images/canvas.gif'></a>
-	             </div>";
-	                  
-	           }
-	                  
-	             # chat output -->
-	             print "<div class='chatoutput'>".format_shout($text)."</div>";		 
-	}
+                 print "<div style='text-align:right;
+                             margin-top:-13px;
+                             margin-bottom:-3.5px;
+                             '>
+                      <a href='index.php?page=allshout&amp;nocolumns=1&amp;sid=$id&amp;edit'><img border='0' class='EditSwap' src='ajaxchat/images/canvas.gif' alt='' /></a>
+                      <a onclick=\"return confirm('". str_replace("'","\'",DELETE_CONFIRM)."')\" href='index.php?page=allshout&amp;nocolumns=1&amp;sid=$id&amp;delete'>
+                      <img border='0' class='DeleteSwap' src='ajaxchat/images/canvas.gif' alt='' /></a>
+                 </div>";
+                      
+               }
+                      
+                 # chat output -->
+                 print "<div class='chatoutput'>".format_shout($text)."</div>";      
+    }
 }
 ?>
   <script type="text/javascript">
@@ -306,3 +306,5 @@ function getData($lastID) {
     window.close();
   }
   </script>
+<br />
+<div align="center"><a href="javascript: window.close();"><?php echo $language["CLOSE"] ?></a></div>

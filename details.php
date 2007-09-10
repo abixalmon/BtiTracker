@@ -5,6 +5,8 @@ $id = AddSlashes((isset($_GET["id"])?$_GET["id"]:false));
 if (!isset($id) || !$id)
     stderr($language["ERROR"],$language["ERROR_ID"].": $id",$GLOBALS["usepopup"]);
 
+require_once(load_language("lang_torrents.php"));
+
 if (isset($_GET["act"]) && $_GET["act"]=="update")
    {
        //die("<center>".$language["TORRENT_UPDATE"]."</center>");
@@ -16,6 +18,7 @@ if (isset($_GET["act"]) && $_GET["act"]=="update")
        exit();
    }
 
+
 if (isset($_GET["vote"]) && $_GET["vote"]==$language["VOTE"])
    {
    if (isset($_GET["rating"]) && $_GET["rating"]==0)
@@ -25,7 +28,7 @@ if (isset($_GET["vote"]) && $_GET["vote"]==$language["VOTE"])
         exit();
    }
    else {
-      do_sqlquery("INSERT INTO {$TABLE_PREFIX}ratings SET infohash='$id',userid=$CURUSER[uid],rating=".intval($_GET["rating"]).",added='".time()."'");
+      do_sqlquery("INSERT INTO {$TABLE_PREFIX}ratings SET infohash='$id',userid=$CURUSER[uid],rating=".intval($_GET["rating"]).",added='".time()."'",true);
       redirect("index.php?page=torrent-details&id=$id");
       exit();
    }
@@ -64,7 +67,6 @@ $row=$res[0];
 
 $spacer = "&nbsp;&nbsp;";
 
-require_once(load_language("lang_torrents.php"));
 
 $torrenttpl=new bTemplate();
 $torrenttpl->set("language",$language);
@@ -74,6 +76,8 @@ if ($CURUSER["uid"]>1 && ($CURUSER["uid"]==$row["uploader"] || $CURUSER["edit_to
     $torrenttpl->set("MOD",TRUE,TRUE);
     $torrent_mod="<br />&nbsp;&nbsp;";
    }
+else
+    $torrenttpl->set("MOD",false,TRUE);
 
 // edit and delete picture/link
 if ($CURUSER["uid"]>1 && ($CURUSER["uid"]==$row["uploader"] || $CURUSER["edit_torrents"]=="yes")) {
@@ -108,23 +112,23 @@ if ($vrow && $vrow["votes"]>=1)
    {
    $totrate=round($vrow["totrate"]/$vrow["votes"],1);
    if ($totrate==5)
-      $totrate="<img src=\"$STYLEPATH/images/5.gif\" title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" />";
+      $totrate="<img src=\"$STYLEURL/images/5.gif\" title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" alt=\"\" />";
    elseif ($totrate>4.4 && $totrate<5)
-      $totrate="<img src=$STYLEPATH/images/4.5.gif title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" />";
+      $totrate="<img src=\"$STYLEURL/images/4.5.gif\" title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" alt=\"\" />";
    elseif ($totrate>3.9 && $totrate<4.5)
-      $totrate="<img src=$STYLEPATH/images/4.gif title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" />";
+      $totrate="<img src=\"$STYLEURL/images/4.gif\" title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" alt=\"\" />";
    elseif ($totrate>3.4 && $totrate<4)
-      $totrate="<img src=$STYLEPATH/images/3.5.gif title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" />";
+      $totrate="<img src=\"$STYLEURL/images/3.5.gif\" title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" alt=\"\" />";
    elseif ($totrate>2.9 && $totrate<3.5)
-      $totrate="<img src=$STYLEPATH/images/3.gif title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" />";
+      $totrate="<img src=\"$STYLEURL/images/3.gif\" title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" alt=\"\" />";
    elseif ($totrate>2.4 && $totrate<3)
-      $totrate="<img src=$STYLEPATH/images/2.5.gif title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" />";
+      $totrate="<img src=\"$STYLEURL/images/2.5.gif\" title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" alt=\"\" />";
    elseif ($totrate>1.9 && $totrate<2.5)
-      $totrate="<img src=$STYLEPATH/images/2.gif title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" />";
+      $totrate="<img src=\"$STYLEURL/images/2.gif\" title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" alt=\"\" />";
    elseif ($totrate>1.4 && $totrate<2)
-      $totrate="<img src=$STYLEPATH/images/1.5.gif title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" />";
+      $totrate="<img src=\"$STYLEURL/images/1.5.gif\" title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" alt=\"\" />";
    else
-      $totrate="<img src=$STYLEPATH/images/1.gif title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" />";
+      $totrate="<img src=\"$STYLEURL/images/1.gif\" title=\"$vrow[votes] ".$language["VOTES_RATING"].": $totrate/5.0)\" alt=\"\" />";
    }
 else
     $totrate=$language["NA"];
@@ -140,7 +144,8 @@ if ($row["username"]!=$CURUSER["username"] && $CURUSER["uid"]>1)
    if ($xrow)
        $s = $totrate. " (".$language["YOU_RATE"]." \"" . $ratings[$xrow["rating"]] . "\")";
    else {
-       $s = "<form method=\"get\" action=\"index.php?page=torrent-details\" name=\"vote\">\n";
+       $s = "<form method=\"get\" action=\"index.php\" name=\"frm_vote\">\n";
+       $s .="<input type=\"hidden\" name=\"page\" value=\"torrent-details\" />\n";
        $s .= "<input type=\"hidden\" name=\"id\" value=\"$id\" />\n";
        $s .= "<select name=\"rating\">\n";
        $s .= "<option value=\"0\">(".$language["ADD_RATING"].")</option>\n";

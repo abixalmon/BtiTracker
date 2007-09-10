@@ -21,7 +21,7 @@ function format_shout($text, $strip_html = true) {
        
        for ($i=0; $i<count($badwords); ++$i)
            $badwords[$i] = trim($badwords[$i]);
-       $s = str_replace($badwords, "<img src='ajaxchat/images/censored.gif' border='0'>", $s);
+       $s = str_replace($badwords, "<img src='ajaxchat/images/censored.gif' border='0' alt='' />", $s);
     }
     @fclose($f);
     
@@ -35,7 +35,7 @@ function format_shout($text, $strip_html = true) {
        
        for ($i=0; $i<count($badwords); ++$i)
            $badwords[$i] = trim($badwords[$i]);
-       $s = str_replace($badwords, "<img src='$BASEURL/ajaxchat/images/censored.gif' border='0'>", $s);
+       $s = str_replace($badwords, "<img src='$BASEURL/ajaxchat/images/censored.gif' border='0' alt='' />", $s);
     }
     @fclose($f);
 
