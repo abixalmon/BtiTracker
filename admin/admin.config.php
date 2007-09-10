@@ -59,28 +59,31 @@ switch ($action)
         $btit_settings["last10limit"]=$_POST["last10limit"];
         $btit_settings["mostpoplimit"]=$_POST["mostpoplimit"];
 
-        // check if XBTT tables are present in current db
-        $res=do_sqlquery("SHOW TABLES LIKE 'xbt%'");
-        $xbt_tables=array('xbt_announce_log','xbt_config','xbt_deny_from_hosts','xbt_files','xbt_files_users','xbt_scrape_log','xbt_users');
-        $xbt_in_db=array();
-        if ($res)
-           {
-           while ($result=mysql_fetch_row($res))
-                 {
-                     $xbt_in_db[]=$result[0];
-                 }
-         }
-        $ad=array_diff($xbt_tables,$xbt_in_db);
-        // some xbtt tables missed!
-        if (count($ad)!=0)
+        if (isset($_POST["xbtt_use"]))
           {
-           $btit_settings["xbtt_use"]="false";
-           $admintpl->set("xbtt_error",true,true);
-        }
-        else
-          {
-          $btit_settings["xbtt_use"]=isset($_POST["xbtt_use"])?"true":"false";
-          $admintpl->set("xbtt_error",false,true);
+            // check if XBTT tables are present in current db
+            $res=do_sqlquery("SHOW TABLES LIKE 'xbt%'");
+            $xbt_tables=array('xbt_announce_log','xbt_config','xbt_deny_from_hosts','xbt_files','xbt_files_users','xbt_scrape_log','xbt_users');
+            $xbt_in_db=array();
+            if ($res)
+               {
+               while ($result=mysql_fetch_row($res))
+                     {
+                         $xbt_in_db[]=$result[0];
+                     }
+             }
+            $ad=array_diff($xbt_tables,$xbt_in_db);
+            // some xbtt tables missed!
+            if (count($ad)!=0)
+              {
+               $btit_settings["xbtt_use"]="false";
+               $admintpl->set("xbtt_error",true,true);
+            }
+            else
+              {
+              $btit_settings["xbtt_use"]=isset($_POST["xbtt_use"])?"true":"false";
+              $admintpl->set("xbtt_error",false,true);
+            }
         }
         $btit_settings["xbtt_url"]=$_POST["xbtt_url"];
         $btit_settings["cache_duration"]=$_POST["cache_duration"];
@@ -100,6 +103,10 @@ switch ($action)
         //die(implode(",",$values));
         mysql_query("DELETE FROM {$TABLE_PREFIX }settings") or stderr($language["ERROR"],mysql_error());
         mysql_query("INSERT INTO {$TABLE_PREFIX }settings (`key`,`value`) VALUES ".implode(",",$values).";") or stderr($language["ERROR"],mysql_error());
+        // update guest values for language, style, torrentsxpage etc...
+        mysql_query("UPDATE {$TABLE_PREFIX }users SET language=".sqlesc($btit_settings["default_language"]).",
+                            style=".sqlesc($btit_settings["default_style"]).",
+                            torrentsperpage=".sqlesc($btit_settings["max_torrents_per_page"])." WHERE id=1") or stderr($language["ERROR"],mysql_error());
 
         unset($values);
         

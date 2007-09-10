@@ -194,6 +194,7 @@ switch ($pageID) {
         break;
 
     case 'history':
+    case 'torrent_history':
         require("$THIS_BASEPATH/torrent_history.php");
         $tpl->set("main_content",set_block($language["MNU_TORRENT"],"center",$historytpl->fetch(load_template("torrent_history.tpl"))));
         $tpl->set("main_title","Index->Torrent->History");
@@ -246,6 +247,7 @@ switch ($pageID) {
         break;
 
     case 'torrent-details':
+    case 'details':
         require("$THIS_BASEPATH/details.php");
         $tpl->set("main_content",set_block($language["TORRENT_DETAIL"],"center",$torrenttpl->fetch(load_template("torrent.details.tpl")),($GLOBALS["usepopup"]?false:true)));
         $tpl->set("main_title","Index->Torrent->Details");
@@ -331,6 +333,7 @@ switch ($pageID) {
     // if popup enabled then we display the page without header and no columns, else full page
     case 'comment':
     case 'torrent-details':
+    case 'torrent_history':
     case 'peers':
         stdfoot(($GLOBALS["usepopup"]?false:true));
         break;

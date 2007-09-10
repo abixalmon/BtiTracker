@@ -74,6 +74,7 @@ if ($CURUSER["uid"]>1 && ($CURUSER["uid"]==$row["uploader"] || $CURUSER["edit_to
     $torrenttpl->set("MOD",TRUE,TRUE);
     $torrent_mod="<br />&nbsp;&nbsp;";
    }
+
 // edit and delete picture/link
 if ($CURUSER["uid"]>1 && ($CURUSER["uid"]==$row["uploader"] || $CURUSER["edit_torrents"]=="yes")) {
       if ($GLOBALS["usepopup"])
@@ -89,6 +90,8 @@ if ($CURUSER["uid"]>1 && ($CURUSER["uid"]==$row["uploader"] || $CURUSER["delete_
       else
         $torrent_mod.="<a href=\"index.php?page=delete&amp;info_hash=".$row["info_hash"]."&amp;returnto=".urlencode("index.php?page=torrents")."\">".image_or_link("$STYLEPATH/images/delete.png","",$language["DELETE"])."</a>";
 }
+
+
 $torrenttpl->set("mod_task",$torrent_mod);
 
 if (!empty($row["comment"]))

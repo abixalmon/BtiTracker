@@ -146,7 +146,7 @@ if (!isset($array["announce"]))
          $internal=true;
          // inserting into xbtt table
          if ($XBTT_USE)
-              do_sqlquery("INSERT INTO xbt_files SET info_hash=0x$hash ON DUPLICATE KEY UPDATE flag=0",true);
+              do_sqlquery("INSERT INTO xbt_files SET info_hash=0x$hash ON DUPLICATE KEY UPDATE flags=0",true);
          $query = "INSERT INTO {$TABLE_PREFIX}files (info_hash, filename, url, info, category, data, size, comment, uploader,anonymous, bin_hash) VALUES (\"$hash\", \"$filename\", \"$url\", \"$info\",0 + $categoria,NOW(), \"$size\", \"$comment\",".$CURUSER["uid"].",'$anonyme',0x$hash)";
       }else
           {
@@ -183,7 +183,7 @@ if (!isset($array["announce"]))
            // failed to move file
              do_sqlquery("DELETE FROM {$TABLE_PREFIX}files WHERE info_hash=\"$hash\"",true);
              if ($XBTT_USE)
-                  do_sqlquery("UPDATE xbt_files SET flag=1 WHERE info_hash=0x$hash",true);
+                  do_sqlquery("UPDATE xbt_files SET flags=1 WHERE info_hash=0x$hash",true);
              stderr($language["ERROR"],$language["ERR_MOVING_TORR"]);
          }
 

@@ -156,26 +156,26 @@ if ($resuploaded && mysql_num_rows($resuploaded)>0)
            $filename=cut_string($rest["filename"],intval($btit_settings["cut_name"]));
            if ($GLOBALS["usepopup"])
            {
-               $uptortpl[$i]["filename"]="<a href=\"javascript:popdetails('index.php?page=details&amp;id=".$rest{"info_hash"}."') title=\"".$language["VIEW_DETAILS"].": ".$rest["filename"]."\">".$filename."</a>";
+               $uptortpl[$i]["filename"]="<a href=\"javascript:popdetails('index.php?page=torrent-details&amp;id=".$rest{"info_hash"}."') title=\"".$language["VIEW_DETAILS"].": ".$rest["filename"]."\">".$filename."</a>";
                $uptortpl[$i]["added"]=date("d/m/Y",$rest["added"]-$offset);
                $uptortpl[$i]["size"]=makesize($rest["size"]);
                $uptortpl[$i]["seedcolor"]=linkcolor($rest["seeds"]);
-               $uptortpl[$i]["seeds"]="<a href=\"javascript:poppeer('peers.php?id=".$rest{"info_hash"}."')\">$rest[seeds]</a>";
+               $uptortpl[$i]["seeds"]="<a href=\"javascript:poppeer('index.php?page=peers&amp;id=".$rest{"info_hash"}."')\">$rest[seeds]</a>";
                $uptortpl[$i]["leechcolor"]=linkcolor($rest["leechers"]);
-               $uptortpl[$i]["leechs"]="<a href=\"javascript:poppeer('peers.php?id=".$rest{"info_hash"}."')\">$rest[leechers]</a>";
+               $uptortpl[$i]["leechs"]="<a href=\"javascript:poppeer('index.php?page=peers&amp;id=".$rest{"info_hash"}."')\">$rest[leechers]</a>";
                if ($rest["finished"]>0)
-                 $uptortpl[$i]["completed"]="<a href=\"javascript:poppeer('torrent_history.php?id=".$rest["info_hash"]."')\">" . $rest["finished"] . "</a>";
+                 $uptortpl[$i]["completed"]="<a href=\"javascript:poppeer('index.php?page=torrent_history&amp;id=".$rest["info_hash"]."')\">" . $rest["finished"] . "</a>";
                else
                  $uptortpl[$i]["completed"]="---";
                $i++;
            }
            else
            {
-               $uptortpl[$i]["filename"]="<a href=\"index.php?page=details&amp;id=".$rest{"info_hash"}." title=\"".$language["VIEW_DETAILS"].": ".$rest["filename"]."\">".$filename."</a>";
+               $uptortpl[$i]["filename"]="<a href=\"index.php?page=torrent-details&amp;id=".$rest{"info_hash"}." title=\"".$language["VIEW_DETAILS"].": ".$rest["filename"]."\">".$filename."</a>";
                $uptortpl[$i]["added"]=date("d/m/Y",$rest["added"]-$offset);
                $uptortpl[$i]["size"]=makesize($rest["size"]);
                $uptortpl[$i]["seedcolor"]=linkcolor($rest["seeds"]);
-               $uptortpl[$i]["seeds"]="<a href=\"peers.php?id=".$rest{"info_hash"}."\">$rest[seeds]</a>";
+               $uptortpl[$i]["seeds"]="<a href=\"index.php?page=peers&amp;id=".$rest{"info_hash"}."\">$rest[seeds]</a>";
                $uptortpl[$i]["leechcolor"]=linkcolor($rest["leechers"]);
                $uptortpl[$i]["leechs"]="<a href=\"index.php?page=peers&amp;id=".$rest{"info_hash"}."\">$rest[leechers]</a>";
               if ($rest["finished"]>0)
@@ -237,7 +237,7 @@ if ($sanq[0]>0)
 
              if ($GLOBALS["usepopup"])
              {
-                 $tortpl[$i]["filename"]="<a href=\"javascript:popdetails('index.php?page=details&amp;id=".$torlist->infohash."') title=\"".$language["VIEW_DETAILS"].": ".$torlist->filename."\">".$filename."</a>";
+                 $tortpl[$i]["filename"]="<a href=\"javascript:popdetails('index.php?page=torrent-details&amp;id=".$torlist->infohash."') title=\"".$language["VIEW_DETAILS"].": ".$torlist->filename."\">".$filename."</a>";
                  $tortpl[$i]["size"]=makesize($torlist->size);
                  $tortpl[$i]["status"]=unesc($torlist->status);
                  $tortpl[$i]["downloaded"]=makesize($torlist->downloaded);
@@ -248,16 +248,16 @@ if ($sanq[0]>0)
                       $peerratio="oo";
                  $tortpl[$i]["peerratio"]=unesc($peerratio);
                  $tortpl[$i]["seedscolor"]=linkcolor($torlist->seeds);
-                 $tortpl[$i]["seeds"]="<a href=\"javascript:poppeer('peers.php?id=".$torlist->infohash."')\">$torlist->seeds</a>";
+                 $tortpl[$i]["seeds"]="<a href=\"javascript:poppeer('index.php?page=peers&amp;id=".$torlist->infohash."')\">$torlist->seeds</a>";
                  $tortpl[$i]["leechcolor"]=linkcolor($torlist->leechers);
-                 $tortpl[$i]["leechs"]="<a href=\"javascript:poppeer('peers.php?id=".$torlist->infohash."')\">$torlist->leechers</a>";
-                 $tortpl[$i]["completed"]="<a href=\"javascript:poppeer('torrent_history.php?id=".$torlist->infohash."')\">".$torlist->finished."</a>";
+                 $tortpl[$i]["leechs"]="<a href=\"javascript:poppeer('index.php?page=peers&amp;id=".$torlist->infohash."')\">$torlist->leechers</a>";
+                 $tortpl[$i]["completed"]="<a href=\"javascript:poppeer('index.php?page=torrent_history.php&amp;id=".$torlist->infohash."')\">".$torlist->finished."</a>";
                  $i++;
                  $userdetailstpl->set("tor",$tortpl);
              }
              else
              {
-                 $tortpl[$i]["filename"]="<a href=\"index.php?page=details&amp;id=".$torlist->infohash." title=\"".$language["VIEW_DETAILS"].": ".$torlist->filename."\">".$filename."</a>";
+                 $tortpl[$i]["filename"]="<a href=\"index.php?page=torrent-details&amp;id=".$torlist->infohash." title=\"".$language["VIEW_DETAILS"].": ".$torlist->filename."\">".$filename."</a>";
                  $tortpl[$i]["size"]=makesize($torlist->size);
                  $tortpl[$i]["status"]=unesc($torlist->status);
                  $tortpl[$i]["downloaded"]=makesize($torlist->downloaded);
@@ -300,7 +300,7 @@ if ($sanq[0]>0)
 
             if ($GLOBALS["usepopup"])
             {
-                $torhistory[$i]["filename"]="<a href=\"javascript:popdetails('index.php?page=details&amp;id=".$torlist->info_hash."') title=\"".$language["VIEW_DETAILS"].": ".$torlist->filename."\">".$filename."</a>";
+                $torhistory[$i]["filename"]="<a href=\"javascript:popdetails('index.php?page=torrent-details&amp;id=".$torlist->info_hash."')\" title=\"".$language["VIEW_DETAILS"].": ".$torlist->filename."\">".$filename."</a>";
                 $torhistory[$i]["size"]=makesize($torlist->size);
                 $torhistory[$i]["agent"]=htmlspecialchars($torlist->agent);
                 $torhistory[$i]["status"]=($torlist->active=='yes'?$language["ACTIVATED"]:'Stopped');
@@ -312,16 +312,16 @@ if ($sanq[0]>0)
                      $peerratio="oo";
                 $torhistory[$i]["ratio"]=unesc($peerratio);
                 $torhistory[$i]["seedscolor"]=linkcolor($torlist->seeds);
-                $torhistory[$i]["seeds"]="<a href=\"javascript:poppeer('peers.php?id=".$torlist->info_hash."')\">$torlist->seeds</a>";
+                $torhistory[$i]["seeds"]="<a href=\"javascript:poppeer('index.php?page=peers&amp;id=".$torlist->info_hash."')\">$torlist->seeds</a>";
                 $torhistory[$i]["leechcolor"]=linkcolor($torlist->leechers);
-                $torhistory[$i]["leechs"]="<a href=\"javascript:poppeer('peers.php?id=".$torlist->info_hash."')\">$torlist->leechers</a>";
-                $torhistory[$i]["completed"]="<a href=\"javascript:poppeer('torrent_history.php?id=".$torlist->info_hash."')\">".$torlist->finished."</a>";
+                $torhistory[$i]["leechs"]="<a href=\"javascript:poppeer('index.php?page=peers&amp;id=".$torlist->info_hash."')\">$torlist->leechers</a>";
+                $torhistory[$i]["completed"]="<a href=\"javascript:poppeer('index.php?page=torrent_history6amp;id=".$torlist->info_hash."')\">".$torlist->finished."</a>";
                 $i++;
                 $userdetailstpl->set("torhistory",$torhistory);
             }
             else
             {
-                $torhistory[$i]["filename"]="<a href=\"index.php?page=details&amp;id=".$torlist->info_hash." title=\"".$language["VIEW_DETAILS"].": ".$torlist->filename."\">".$filename."</a>";
+                $torhistory[$i]["filename"]="<a href=\"index.php?page=torrent-details&amp;id=".$torlist->info_hash."\" title=\"".$language["VIEW_DETAILS"].": ".$torlist->filename."\">".$filename."</a>";
                 $torhistory[$i]["size"]=makesize($torlist->size);
                 $torhistory[$i]["agent"]=htmlspecialchars($torlist->agent);
                 $torhistory[$i]["status"]=($torlist->active=='yes'?$language["ACTIVATED"]:'Stopped');

@@ -290,9 +290,9 @@ if ($count>0) {
        if ($GLOBALS["usepopup"])
          {
          $torrents[$i]["classe_seeds"]=linkcolor($data["seeds"]);
-         $torrents[$i]["seeds"]="<a href=\"javascript:poppeer('peers.php?id=".$data["hash"]."');\" title=\"".$language["PEERS_DETAILS"]."\">" . $data["seeds"] . "</a>";
+         $torrents[$i]["seeds"]="<a href=\"javascript:poppeer('index.php?page=peers&amp;id=".$data["hash"]."');\" title=\"".$language["PEERS_DETAILS"]."\">" . $data["seeds"] . "</a>";
          $torrents[$i]["classe_leechers"]=linkcolor($data["leechers"]);
-         $torrents[$i]["leechers"]="<a href=\"javascript:poppeer('peers.php?id=".$data["hash"]."');\" title=\"".$language["PEERS_DETAILS"]."\">" .$data["leechers"] . "</a>";
+         $torrents[$i]["leechers"]="<a href=\"javascript:poppeer('index.php?page=peers&amp;id=".$data["hash"]."');\" title=\"".$language["PEERS_DETAILS"]."\">" .$data["leechers"] . "</a>";
          if ($data["finished"]>0)
             $torrents[$i]["complete"]="<a href=\"javascript:poppeer('torrent_history.php?id=".$data["hash"]."');\" title=\"History - ".$data["filename"]."\">" . $data["finished"] . "</a>";
          else
