@@ -156,7 +156,7 @@ if ($resuploaded && mysql_num_rows($resuploaded)>0)
            $filename=cut_string($rest["filename"],intval($btit_settings["cut_name"]));
            if ($GLOBALS["usepopup"])
            {
-               $uptortpl[$i]["filename"]="<a href=\"javascript:popdetails('index.php?page=torrent-details&amp;id=".$rest{"info_hash"}."') title=\"".$language["VIEW_DETAILS"].": ".$rest["filename"]."\">".$filename."</a>";
+               $uptortpl[$i]["filename"]="<a href=\"javascript:popdetails('index.php?page=torrent-details&amp;id=".$rest{"info_hash"}."')\" title=\"".$language["VIEW_DETAILS"].": ".$rest["filename"]."\">".$filename."</a>";
                $uptortpl[$i]["added"]=date("d/m/Y",$rest["added"]-$offset);
                $uptortpl[$i]["size"]=makesize($rest["size"]);
                $uptortpl[$i]["seedcolor"]=linkcolor($rest["seeds"]);
@@ -171,7 +171,7 @@ if ($resuploaded && mysql_num_rows($resuploaded)>0)
            }
            else
            {
-               $uptortpl[$i]["filename"]="<a href=\"index.php?page=torrent-details&amp;id=".$rest{"info_hash"}." title=\"".$language["VIEW_DETAILS"].": ".$rest["filename"]."\">".$filename."</a>";
+               $uptortpl[$i]["filename"]="<a href=\"index.php?page=torrent-details&amp;id=".$rest{"info_hash"}."\" title=\"".$language["VIEW_DETAILS"].": ".$rest["filename"]."\">".$filename."</a>";
                $uptortpl[$i]["added"]=date("d/m/Y",$rest["added"]-$offset);
                $uptortpl[$i]["size"]=makesize($rest["size"]);
                $uptortpl[$i]["seedcolor"]=linkcolor($rest["seeds"]);
@@ -237,7 +237,7 @@ if ($sanq[0]>0)
 
              if ($GLOBALS["usepopup"])
              {
-                 $tortpl[$i]["filename"]="<a href=\"javascript:popdetails('index.php?page=torrent-details&amp;id=".$torlist->infohash."') title=\"".$language["VIEW_DETAILS"].": ".$torlist->filename."\">".$filename."</a>";
+                 $tortpl[$i]["filename"]="<a href=\"javascript:popdetails('index.php?page=torrent-details&amp;id=".$torlist->infohash."')\" title=\"".$language["VIEW_DETAILS"].": ".$torlist->filename."\">".$filename."</a>";
                  $tortpl[$i]["size"]=makesize($torlist->size);
                  $tortpl[$i]["status"]=unesc($torlist->status);
                  $tortpl[$i]["downloaded"]=makesize($torlist->downloaded);
@@ -257,7 +257,7 @@ if ($sanq[0]>0)
              }
              else
              {
-                 $tortpl[$i]["filename"]="<a href=\"index.php?page=torrent-details&amp;id=".$torlist->infohash." title=\"".$language["VIEW_DETAILS"].": ".$torlist->filename."\">".$filename."</a>";
+                 $tortpl[$i]["filename"]="<a href=\"index.php?page=torrent-details&amp;id=".$torlist->infohash."\" title=\"".$language["VIEW_DETAILS"].": ".$torlist->filename."\">".$filename."</a>";
                  $tortpl[$i]["size"]=makesize($torlist->size);
                  $tortpl[$i]["status"]=unesc($torlist->status);
                  $tortpl[$i]["downloaded"]=makesize($torlist->downloaded);

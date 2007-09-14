@@ -94,7 +94,7 @@ if (max(0,$CURUSER["WT"])>0)
                 echo "\n\t<td align=\"center\" class=\"".linkcolor($data["seeds"])."\"><a href=\"javascript:poppeer('index.php?page=peers&amp;id=".$data["hash"]."');\" title=\"".$language["PEERS_DETAILS"]."\">" . $data["seeds"] . "</a></td>\n";
                 echo "\n\t<td align=\"center\" class=\"".linkcolor($data["leechers"])."\"><a href=\"javascript:poppeer('index.php?page=peers&amp;id=".$data["hash"]."');\" title=\"".$language["PEERS_DETAILS"]."\">" .$data["leechers"] . "</a></td>\n";
                 if ($data["finished"]>0)
-                   echo "\n\t<td align=\"center\" class=\"lista\"><a href=\"javascript:poppeer('torrent_history.php?id=".$data["hash"]."');\" title=\"History - ".$data["filename"]."\">" . $data["finished"] . "</a></td>";
+                   echo "\n\t<td align=\"center\" class=\"lista\"><a href=\"javascript:poppeer('index.php?page=torrent_history&amp;id=".$data["hash"]."');\" title=\"History - ".$data["filename"]."\">" . $data["finished"] . "</a></td>";
                 else
                     echo "\n\t<td align=\"center\" class=\"lista\">---</td>";
 
@@ -104,7 +104,7 @@ if (max(0,$CURUSER["WT"])>0)
                 echo "\n\t<td align=\"center\" class=\"".linkcolor($data["seeds"])."\"><a href=\"index.php?page=peers&amp;id=".$data["hash"]."\" title=\"".$language["PEERS_DETAILS"]."\">" . $data["seeds"] . "</a></td>\n";
                 echo "\n\t<td align=\"center\" class=\"".linkcolor($data["leechers"])."\"><a href=\"index.php?page=peers&amp;id=".$data["hash"]."\" title=\"".$language["PEERS_DETAILS"]."\">" .$data["leechers"] . "</a></td>\n";
                 if ($data["finished"]>0)
-                   echo "\n\t<td align=\"center\" class=\"lista\"><a href=\"torrent_history.php?id=".$data["hash"]."\" title=\"History - ".$data["filename"]."\">" . $data["finished"] . "</a></td>";
+                   echo "\n\t<td align=\"center\" class=\"lista\"><a href=\"index.php?page=torrent_history&amp;id=".$data["hash"]."\" title=\"History - ".$data["filename"]."\">" . $data["finished"] . "</a></td>";
                 else
                     echo "\n\t<td align=\"center\" class=\"lista\">---</td>";
 

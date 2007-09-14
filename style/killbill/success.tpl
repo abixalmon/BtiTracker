@@ -2,7 +2,7 @@
 <br />
   <table border="1" width="500" cellspacing="0" cellpadding="0" style="border-color:#00C900" >
     <tr>
-       <td style="background-color:#00C900; color:white; font-weight: bold; font-size: 14pt;" valign="bottom" align="center">
+       <td class="success" valign="bottom" align="center">
        <tag:success_title />
        </td>
     </tr>

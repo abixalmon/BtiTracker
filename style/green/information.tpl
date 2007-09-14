@@ -2,7 +2,7 @@
 <br />
   <table border="1" width="500" cellspacing="0" cellpadding="0" style="border-color:#F2F238">
     <tr>
-       <td style="background-color:#F2F238; color:black; font-weight: bold; font-size: 14pt;" valign="bottom" align="center">
+       <td class="information" valign="bottom" align="center">
        <tag:information_title />
        </td>
     </tr>
