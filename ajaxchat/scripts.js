@@ -72,7 +72,7 @@ function handlehHttpReceiveChat() {
 
   if (httpReceiveChat.readyState == 4) {
 
-     results = document.getElementById("outputList");
+     var results = document.getElementById("outputList");
      results.innerHTML = httpReceiveChat.responseText;
 
      setTimeout('receiveChatText();',4000); //executes the next data query in 4 seconds
