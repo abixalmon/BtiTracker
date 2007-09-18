@@ -1,13 +1,13 @@
 <?php
-$language["DELETE_READED"]="Usuñ przeczytane";
-$language["USER_LANGUE"]="Jêzyk";
+$language["DELETE_READED"]="UsuÅ„ przeczytane";
+$language["USER_LANGUE"]="JÄ™zyk";
 $language["USER_STYLE"]="Styl";
-$language["CURRENTLY_PEER"]="Aktualnie seedujesz b±d¼ ¶ci±gasz jakie¶ torrenty.";
-$language["STOP_PEER"]="Musisz zatrzymaæ swojego klienta.";
-$language["USER_PWD_AGAIN"]="Powtórz has³o";
-$language["EMAIL_FAILED"]="Wys³anie emaila zakoñczone niepowodzeniem!";
+$language["CURRENTLY_PEER"]="Aktualnie seedujesz bÄ…dÅº Å›ciÄ…gasz jakieÅ› torrenty.";
+$language["STOP_PEER"]="Musisz zatrzymaÄ‡ swojego klienta.";
+$language["USER_PWD_AGAIN"]="PowtÃ³rz hasÅ‚o";
+$language["EMAIL_FAILED"]="WysÅ‚anie emaila zakoÅ„czone niepowodzeniem!";
 $language["NO_SUBJECT"]="Brak Tematu";
-$language["MUST_ENTER_PASSWORD"]="<br /><font color='#FF0000'><strong>Musisz wpisaæ has³o aby zmieniæ powy¿sze ustawienia.</strong></font>";
-$language["ERR_PASS_WRONG"]="Has³o puste lub nieprawid³owe, nie mo¿na uaktualniæ profilu.";
-$language["MSG_DEL_ALL_PM"]="Je¿eli wybierzesz PM-y, których nie czyta³e¶ nie zostan± one usuniête";
+$language["MUST_ENTER_PASSWORD"]="<br /><font color='#FF0000'><strong>Musisz wpisaÄ‡ hasÅ‚o aby zmieniÄ‡ powyÅ¼sze ustawienia.</strong></font>";
+$language["ERR_PASS_WRONG"]="HasÅ‚o puste lub nieprawidÅ‚owe, nie moÅ¼na uaktualniÄ‡ profilu.";
+$language["MSG_DEL_ALL_PM"]="JeÅ¼eli wybierzesz PM-y, ktÃ³rych nie czytaÅ‚eÅ› nie zostanÄ… one usuniÄ™te";
 ?>

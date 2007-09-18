@@ -1,22 +1,22 @@
 <?php
 $language["ACCOUNT_CREATED"]="Konto utworzone";
 $language["USER_NAME"]="User";
-$language["USER_PWD_AGAIN"]="Powtórz has³o";
-$language["USER_PWD"]="Has³o";
+$language["USER_PWD_AGAIN"]="PowtÃ³rz hasÅ‚o";
+$language["USER_PWD"]="HasÅ‚o";
 $language["USER_STYLE"]="Styl";
-$language["USER_LANGUE"]="Jêzyk";
+$language["USER_LANGUE"]="JÄ™zyk";
 $language["IMAGE_CODE"]="Kod obrazka";
-$language["INSERT_USERNAME"]="Musisz wpisaæ nick!";
-$language["INSERT_PASSWORD"]="Musisz wpisaæ has³o!";
-$language["DIF_PASSWORDS"]="Has³a nie pasuj±!";
-$language["ERR_NO_EMAIL"]="Musisz wprowadziæ prawid³owy adres email";
-$language["USER_EMAIL_AGAIN"]="Powtórz email";
-$language["ERR_NO_EMAIL_AGAIN"]="Powtórz email";
-$language["DIF_EMAIL"]="Adresy email nie pasuj±!";
+$language["INSERT_USERNAME"]="Musisz wpisaÄ‡ nick!";
+$language["INSERT_PASSWORD"]="Musisz wpisaÄ‡ hasÅ‚o!";
+$language["DIF_PASSWORDS"]="HasÅ‚a nie pasujÂ±!";
+$language["ERR_NO_EMAIL"]="Musisz wprowadziÄ‡ prawidÅ‚owy adres email";
+$language["USER_EMAIL_AGAIN"]="PowtÃ³rz email";
+$language["ERR_NO_EMAIL_AGAIN"]="PowtÃ³rz email";
+$language["DIF_EMAIL"]="Adresy email nie pasujÂ±!";
 $language["SECURITY_CODE"]="Odpowiedz na pytanie";
 # Password strength
-$language["WEEK"]="S³abe";
-$language["MEDIUM"]="¦rednie";
+$language["WEEK"]="SÅ‚abe";
+$language["MEDIUM"]="Â¦rednie";
 $language["SAFE"]="Bezpieczne";
 $language["STRONG"]="Mocne #";
 

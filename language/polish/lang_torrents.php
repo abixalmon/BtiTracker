@@ -1,5 +1,5 @@
 <?php
-$language["TORRENT_SEARCH"]="Szukaj torrentów";
+$language["TORRENT_SEARCH"]="Szukaj torrentÃ³w";
 $language["TORRENT_STATUS"]="Status";
 $language["CATEGORY_FULL"]="Kategoria";
 $language["ALL"]="Wszystkie";
@@ -18,19 +18,19 @@ $language["SHORT_S"]="S";
 $language["SHORT_L"]="L";
 $language["SHORT_C"]="C";
 $language["DOWNLOADED"]="Pobrano";
-$language["SPEED"]="Prêdko¶æ";
-$language["AVERAGE"]="¦r.";
-$language["VOTE"]="G³osuj!";
-$language["VOTES_RATING"]="g³osów (ocena";
+$language["SPEED"]="PrÄ™dkoÅ›Ä‡";
+$language["AVERAGE"]="Åšr.";
+$language["VOTE"]="GÅ‚osuj!";
+$language["VOTES_RATING"]="gÅ‚osÃ³w (ocena";
 $language["FIVE_STAR"]="5 gwiazdek";
 $language["FOUR_STAR"]="4 gwiazdki";
 $language["ONE_STAR"]="1 gwiazdka";
 $language["THREE_STAR"]="3 gwiazdki";
 $language["TWO_STAR"]="2 gwiazdki";
-$language["YOU_RATE"]="oceni³e¶ ten torrent na";
-$language["ADD_RATING"]="dodaj ocenê";
+$language["YOU_RATE"]="oceniÅ‚eÅ› ten torrent na";
+$language["ADD_RATING"]="dodaj ocenÄ™";
 $language["RATING"]="Ocena";
-$language["ERR_NO_VOTE"]="Musisz wybraæ warto¶æ aby zag³osowaæ.";
-$language["VOTES"]="G³osów";
-$language["SHOW_HIDE"]="Poka¿/Ukryj pliki";
+$language["ERR_NO_VOTE"]="Musisz wybraÄ‡ wartoÅ›Ä‡ aby zagÅ‚osowaÄ‡.";
+$language["VOTES"]="GÅ‚osÃ³w";
+$language["SHOW_HIDE"]="PokaÅ¼/Ukryj pliki";
 ?>
