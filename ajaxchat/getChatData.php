@@ -24,7 +24,7 @@ header("Content-Type: text/html; charset=$GLOBALS[charset]");
 
 
 # getting the style
-print "<link href='default.css' rel='stylesheet' type='text/css' />";
+print "<link href='ajaxchat/default.css' rel='stylesheet' type='text/css' />";
 
 
 # if no id of the last known message id is set to 0
@@ -37,44 +37,44 @@ getData($lastID);
 function getData($lastID) {
 
   require_once("conn.php"); # getting connection data
-  include("../include/settings.php");	# getting table prefix
+  include("../include/settings.php");   # getting table prefix
   include("../include/offset.php");
 
-	$sql = 	"SELECT * FROM {$TABLE_PREFIX}chat WHERE id > ".$lastID." ORDER BY id DESC LIMIT 10";
-	$conn = getDBConnection(); # establishes the connection to the database
-	$results = mysql_query($sql, $conn);
-	
-	# getting the data array
-	while ($row = mysql_fetch_array($results)) {
-	
+    $sql =  "SELECT * FROM {$TABLE_PREFIX}chat WHERE id > ".$lastID." ORDER BY id DESC LIMIT 10";
+    $conn = getDBConnection(); # establishes the connection to the database
+    $results = mysql_query($sql, $conn);
+    
     # getting the data array
-		$id   = $row[id];
-		$uid  = $row[uid];
-		$time = $row[time];
-		$name = $row[name];
-		$text = $row[text];
-		
-		# if no name is present somehow, $name and $text are set to the strings under
-		# we assume all must be ok, othervise no post will be made by javascript check
-		# if ($name == '') { $name = 'Anonymous'; $text = 'No message'; }
+    while ($row = mysql_fetch_array($results)) {
+    
+    # getting the data array
+        $id   = $row[id];
+        $uid  = $row[uid];
+        $time = $row[time];
+        $name = $row[name];
+        $text = $row[text];
+        
+        # if no name is present somehow, $name and $text are set to the strings under
+        # we assume all must be ok, othervise no post will be made by javascript check
+        # if ($name == '') { $name = 'Anonymous'; $text = 'No message'; }
 
-	  
-	  # we put together our chat using some css		
-	  $chatout = "
-	             <li><span class='name'>".date("d/m/Y H:i:s", $time - $offset)." | <a href=index.php?page=userdetails&id=".$uid.">".$name."</a>:</span></li>
-	             	 	    <div style='text-align:right;
-	 	                  	          margin-top:-13px;
-	                                margin-bottom:0px;
-	                                color: #006699;
-	 	                  '>
-	 	                  # $id</div>
+      
+      # we put together our chat using some css     
+      $chatout = "
+                 <li><span class='name'>".date("d/m/Y H:i:s", $time - $offset)." | <a href=index.php?page=userdetails&id=".$uid.">".$name."</a>:</span></li>
+                            <div style='text-align:right;
+                                      margin-top:-13px;
+                                    margin-bottom:0px;
+                                    color: #006699;
+                          '>
+                          # $id</div>
  
-	             <!-- # chat output -->
-	             <div class='chatoutput'>".format_shout($text)."</div>
-	             ";
+                 <!-- # chat output -->
+                 <div class='chatoutput'>".format_shout($text)."</div>
+                 ";
 
-		 echo $chatout; # echo as known handles arrays very fast...
+         echo $chatout; # echo as known handles arrays very fast...
 
-	}
+    }
 }
 ?>
