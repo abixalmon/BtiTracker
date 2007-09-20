@@ -1,0 +1,502 @@
+/* ######### Start Main Tracker Body ######### */
+body {
+    font-family: tahoma, arial, helvetica, sans-serif;
+    font-size: 8pt;
+    background-color:#000;
+	/*	background:url(images/charlie-brown.gif);*/
+    margin: 9px 13px 0px 11px;
+    padding: 0;
+}
+
+.highlight {
+  background: #F8F81A;
+  color: #FF0000;
+}
+
+/* Standard horizontal rule.. */
+hr {	color: #000;	background-color: transparent; }
+
+/* A quote, perhaps from another post. */
+.quote {	color: #000;	background-color: #FFDD22;	font-family: verdana, arial, helvetica, sans-serif; border: 1px solid #CCCC33; margin: 1px; padding: 1px;	font-size: x-small;	line-height: 1.4em;}
+
+/* A code block - maybe even PHP ;). */
+.code { color: #000; background-color: #FFCC33; font-family: courier new, times new roman, monospace;	font-size: x-small;	line-height: 1.3em;
+/* Put a nice border around it. */
+border: 1px solid #CCCC33; margin: 1px auto 1px auto;	padding: 1px;	width: 99%;
+	/* If IE wrap its contents, Else show scrollbars. */
+white-space: wrap; overflow: auto;
+/* Stop after about 24 lines, and just show a scrollbar. */
+max-height: 24em;}
+
+.btn{
+  background: #DFE6EF;
+  border: 1px solid #4C77B6;
+  color: #000;
+  font-family: Verdana, Helvetica, Sans-Serif;
+  font-size: 11px;
+  padding: 2px;
+  vertical-align: middle;
+  cursor: pointer;
+
+}
+
+.post{
+  border:1px solid #FFFF99;
+  background-color: #FFEE55;
+  padding:0px;
+  margin:1px;
+  color:#000000;
+  text-align:left;
+}
+
+select.drop_pager {
+  background-color: #E0ECF7;
+  font-size: 11px;
+
+}
+
+.pager {
+  background-color: #E0ECF7;
+  border: 1px solid #072A66;
+  padding: 1px 3px 1px 3px;
+}
+
+.pagercurrent {
+  background-color: #7FBDFA;
+  border: 1px solid #072A66;
+  padding: 1px 3px 1px 3px;
+}
+
+.pager a:link,
+.pager a:visited,
+.pagercurrent a:link,
+.pagercurrent a:visited {
+    text-decoration:none;
+}
+
+.pager a:hover,
+.pagercurrent a:hover {
+    text-decoration:underline overline;
+}
+
+#logo {
+	background-color: #000;
+	background-image: url("images/bg_logo.gif");
+	background-repeat: repeat-x;
+  height:150px;
+	width:100%;
+}
+
+#main {
+    background: #000000;
+    width:100%;
+    margin: 10px auto;
+}
+
+#slideIt {background: #000000; align:right; }
+
+#header{
+    background: #000000;
+    width:100%;
+}
+
+#left{
+    float:left;
+    background: #000000;
+    width:170px;
+}
+
+#nocolumn{
+    background: #000000;
+    width:100%;
+}
+
+#central{
+    background: #000000;
+    margin-left: 170px;
+    margin-right: 170px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#leftcolumn{
+    background: #000000;
+    margin-left: 170px;
+    padding-left: 5px;
+}
+
+
+#right{
+    float:right;
+    background: #000000;
+    width:170px;
+}
+#bottom{
+    clear:both;
+    background-color:#000000;
+    width:100%;
+}
+#footer{
+    clear:both;
+		background-image:url(images/bg_logo.gif);
+    background-color:#000;
+		height:100px;
+    width:100%;
+}
+td.footer { overflow:auto; font-size:8pt; color:#FFF600; text-align:center; padding:10px;} 
+td.footer a:link, td.footer a:visited, td.footer a:active { font-size:10pt; color:#FFF600; text-align:center;}
+td.footer a:hover { color:#EE4000; text-decoration:none; /*cursor:auto*/}
+
+div.chat {
+/* Wrap its contents, and show scrollbars. */
+	white-space: wrap;
+	overflow: auto;
+	/*Stop after about 24 lines, and just show a scrollbar.*/ 
+	max-height: 36em;
+  width: 100%;
+  padding: 0px;
+}
+
+
+a:link,a:active,a:visited { color : #000000; text-decoration: none;}
+a:hover        { text-decoration: none; color : #DD6900; }
+
+h1 {
+    font-size: 12pt;
+}
+
+p {
+    font-size: 10pt;
+}
+
+table {
+    border:0px;
+}
+
+table.lista {
+    background-color: #FFFF99;
+    border: 1px #FFEE55 solid;
+}
+
+td.block {
+  background-image:url(images/bg2.gif);
+	height:30px;
+	padding-left: 3px;
+	padding-right: 3px;
+	border-bottom: solid 1px #A19600;
+  color: #000;#FFCC00;
+}
+
+td.blocklist {
+         background: #FFFF99;
+         padding:2px;
+         margin:1px;
+         font-size: 8pt;
+         font-weight: bold;
+         color: #000;
+}
+
+td.lista {
+    background-color:#FFFF99;
+    color: #000;
+    padding:2px;
+    margin:0px;
+		text-align:left;
+    font-size: 8pt;
+		border:solid 1px #EEDB00;
+
+}
+
+td {
+  
+}
+
+td.header {
+     font-weight:bold;
+     color:#000;
+     padding:5px;
+     border: 1px #000 solid;
+		 background-image: url(images/bg4.gif);
+     background-color: #ffe600;
+		 background-repeat:repeat-x;
+     
+}
+
+td.title {
+    font-size: 8pt;
+}
+
+td.navigation {
+    background-color: #000000;
+    font-weight: bold;
+    font-size: 8pt;
+}
+
+form {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.sublink {
+    font-style: italic;
+    font-size: 7pt;
+    font-weight: normal;
+}
+
+a.index {
+    font-weight: bold;
+}
+
+a.biglink {
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+.important {
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+td.red {
+    background-color:#000000;
+		border-bottom: solid 1px #FFFFCC;
+    color: #FF3333;
+}
+
+
+td.yellow {
+    background-color:#000000;
+		border-bottom: solid 1px #FFFFCC;
+    color: #BEC635;
+}
+
+
+td.green {
+    background-color:#000000;
+		border-bottom: solid 1px #FFFFCC;
+    color: #00FF66;
+}
+
+td.progress {
+    padding: 0px;
+    background-image: url(images/backprogress.gif);
+    background-repeat: repeat-x;
+    height: 10px;
+}
+
+td.red a:link {
+    color: #FF3333;
+}
+td.red a:visited {
+    color: #FF3333;
+}
+
+td.yellow a:link {
+    color: #BEC635;
+}
+td.yellow a:visited {
+    color: #BEC635;
+}
+
+td.green a:link {
+    color: #00FF66;
+}
+
+td.green a:visited {
+    color: #00FF66;
+}
+li{
+list-style-position:inside;
+} 
+
+.error { color:black; font-weight: bold; font-size: 14pt; background:url(images/chr.gif); background-repeat: repeat-x;}
+.information { color:black; font-weight: bold; font-size: 14pt; background:url(images/chb.gif); background-repeat: repeat-x;}
+.success { color:black; font-weight: bold; font-size: 14pt; background:url(images/chg.gif); background-repeat: repeat-x;}
+
+/* ######### End Main Tracker Body ######### Start Ajax Poll System ######### */
+img {
+    border:0px;
+}
+
+td.deleted {
+    background-color:#FF95AC;
+    color:#000000;
+}
+
+td.added {
+    background-color:#C1FF83;
+    color:#000000;
+}
+
+td.modified {
+    background-color:#DEDEDE;
+    color:#000000;
+}
+
+#mainContainer {
+    width:100%;
+    margin:0 auto;
+    text-align:left;
+    background-color:#FFF;
+    
+}
+
+#mainContent {
+    padding:0px;
+}
+  
+.clear {
+    clear:both;
+}
+
+.poller {  /* The poller box */
+  
+    width:auto;
+  /*  background-image:url(images/question.gif);
+    background-repeat:no-repeat;
+    background-position: bottom center;*/
+    background-color:#FFFF99;
+		padding-left:7px;
+	/*	height:170px;*/
+		overflow:hidden;
+}
+
+.pollerTitle {  /* Poller title above radio buttons */
+    margin-top:0px;
+    margin-bottom:5px;
+    font-weight:bold;
+    font-size:1em;
+}
+
+.pollerOption {  /* Label for each radio button */
+    margin:0px;
+}
+
+.result_pollerOption {  /* Label for each option above graph - i.e. results */
+    margin:0px;
+    font-size:0.8em;
+}
+
+.result_pollerTitle {  /* Title of poller - when ajax shows the results */
+    margin-top:0px;
+    margin-bottom:5px;
+    font-weight:bold;
+    font-size:1em;
+}
+
+.result_pollGraph img {  /* Don't change this one, it is used to get the left and right image(the corner) positioned correctly */
+    float:left;
+}
+
+.result_pollGraph div {  /* The <div> tag where the percentage result is shown */
+    float:left;
+    height:12px;
+    background-repeat:repeat-x;
+    color:#FFF;
+    font-size:0.9em;
+    line-height:16px;
+}
+
+.result_pollGraph {  /* Graph div - parent of both the corner images and the div displaying percentage votes */  
+    height:12px;
+}
+  
+.poller_waitMessage {  /* Message when Ajax is working getting restults fromt the server */
+    display:none;  
+}  
+
+.result_totalVotes{
+    clear:left;
+    font-size:0.8em;
+    margin-top:10px;
+    font-style:italic;
+    background-color:#E0ECF7;
+}
+
+th {
+    text-align:left;
+}
+.formButton {
+    width:75px;
+}
+/* ######### End Ajax Poll System ######### Start Ajax Chat ######### */
+#chat {
+overflow: auto;
+width: 100%;
+height: 220px;
+padding: 0px;
+}
+
+#chatoutput ul {
+	list-style: none;
+	margin:0px;
+	padding:0px;
+	padding:5px 4px 6px 5px;
+}
+
+div.chatoutput {
+	color:#000;
+	border: 1px #000 solid;
+	background-color: #fff600;
+	padding:5px 0px 3px 10px;
+	margin:0px;
+	line-height: 150%;
+	margin-bottom:2px;
+}
+
+div.loader {
+background-image: url('images/ajaxchat/loading.gif'); 
+background-repeat: no-repeat; 
+background-position:center center; 
+width:32px; 
+height:32px;
+}
+
+#chatoutput ul li {
+}
+
+#chatoutput ul li span.name {
+	display: block;
+	background:url(images/ajaxchat/bubble.png) no-repeat left;
+	padding-left:19px;
+      margin-bottom:1px;
+	font-weight: normal;
+	color: #000;
+}
+
+#chatoutput ul li:hover span.name {
+	background:url(images/ajaxchat/bubblehover.png) no-repeat left;
+}
+
+form {
+	padding:0px;
+	margin:6px;
+}
+
+#chatoutput {
+	text-align: left;
+	margin-right: 0px;
+}
+
+/* swaps edit and delete images on mouse over */
+img.EditSwap {
+background:url(images/ajaxchat/shout_edit_gray.gif) no-repeat bottom;
+}
+img.EditSwap:hover {
+background:url(images/ajaxchat/shout_edit.png) no-repeat bottom; 
+}
+img.DeleteSwap {
+background:url(images/ajaxchat/shout_delete_gray.gif) no-repeat bottom;
+}
+img.DeleteSwap:hover {
+background:url(images/ajaxchat/shout_delete.png) no-repeat bottom; 
+}
+/* end of swaping */
+
+img.form {
+background:url(images/ajaxchat/frame.png) no-repeat;
+}
+img.form:hover {
+background:url(images/ajaxchat/frame_hover.png) no-repeat;
+}
+/* ######### End Ajax Chat ######### */

@@ -951,11 +951,10 @@ CREATE TABLE `{$db_prefix}style` (
 -- 
 
 INSERT INTO `{$db_prefix}style` (`id`, `style`, `style_url`) VALUES
-(1, 'BtitTracker', 'style/btit'),
-(2, 'Green', 'style/green'),
-(3, 'Dark', 'style/dark'),
-(4, 'KillBill', 'style/killbill');
-
+(1, 'xBtit_Default', 'style/xbtit_default'),
+(2, 'Mint Green', 'style/mintgreen'),
+(3, 'Dark Lair', 'style/darklair'),
+(4, 'The Hive', 'style/thehive');
 -- --------------------------------------------------------
 
 -- 

@@ -74,7 +74,7 @@ function load_css($css_name)
   // control if input template name exist in current user's stylepath, else return default
   global $BASEURL, $STYLEPATH, $STYLEURL;
 
-  $DEFAULT_STYLE_URL="$BASEURL/style/btit";
+  $DEFAULT_STYLE_URL="$BASEURL/style/xbtit_default";
 
   if (file_exists("$STYLEPATH/$css_name"))
       return "$STYLEURL/$css_name";
@@ -90,7 +90,7 @@ function load_template($tpl_name)
   // control if input template name exist in current user's stylepath, else return default
   global $THIS_BASEPATH, $STYLEPATH;
 
-  $DEFAULT_STYLE_PATH="$THIS_BASEPATH/style/btit";
+  $DEFAULT_STYLE_PATH="$THIS_BASEPATH/style/xbtit_default";
 
   if (file_exists("$STYLEPATH/$tpl_name"))
       return "$STYLEPATH/$tpl_name";

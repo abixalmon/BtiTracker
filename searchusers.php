@@ -14,9 +14,9 @@ $resheet=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}style where id=".$CURUSER["st
 if (!$resheet)
    {
 
-   $STYLEPATH="$THIS_BASEPATH/style/btit";
-   $STYLEURL="$BASEURL/style/btit";
-   $style="$BASEURL/style/btit/main.css";
+   $STYLEPATH="$THIS_BASEPATH/style/xbtit_default";
+   $STYLEURL="$BASEURL/style/xbtit_default";
+   $style="$BASEURL/style/xbtit_default/main.css";
    }
 else
     {

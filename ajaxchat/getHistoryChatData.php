@@ -100,7 +100,7 @@ header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" );
 header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" ); 
 header( "Cache-Control: no-cache, must-revalidate" ); 
 header( "Pragma: no-cache" );
-header("Content-Type: text/html; charset=$GLOBALS[charset]");
+header("Content-Type: text/html; charset=UTF-8");
 
 
   if (isset($edit)) {
@@ -140,7 +140,7 @@ header("Content-Type: text/html; charset=$GLOBALS[charset]");
                                   margin-bottom:-3.5px;
                                   '>
                                   <a onclick=\"return confirm('". str_replace("'","\'",DELETE_CONFIRM)."')\" href='index.php?page=allshout&amp;nocolumns=1&amp;sid=$sid&amp;delete'>
-                                <img border='0' class='DeleteSwap' src='ajaxchat/images/canvas.gif' alt='' /></a>
+                                <img border='0' class='DeleteSwap' src='images/canvas.gif' alt='' /></a>
 
                             </div>";
                             
@@ -187,7 +187,7 @@ header("Content-Type: text/html; charset=$GLOBALS[charset]");
                       
             &nbsp;                     
             <a href='#smile' onclick=javascript:servOC('20','',''); Hide('Hide'); id='name20'>
-            <img src='ajaxchat/images/smile.gif' border='0' class='form' title='$language[MORE_SMILES]' align='top' alt='' /></a>
+            <img src='images/smile.gif' border='0' class='form' title='$language[MORE_SMILES]' align='top' alt='' /></a>
 
             ";
                                                   
@@ -236,7 +236,7 @@ header("Content-Type: text/html; charset=$GLOBALS[charset]");
 
 # getting the style wc3
 global $tpl;
-$tpl->set("more_css","<link href='ajaxchat/default.css' rel='stylesheet' type='text/css' />");
+/*$tpl->set("more_css","<link href='<? echo $STYLEURL ?>/main.css' rel='stylesheet' type='text/css' />");*/
 
 # if no id of the last known message id is set to 0
 if (!$lastID) { $lastID = 0; } # we treat 0 (zero) as null point, sorry...
@@ -286,9 +286,9 @@ function getData($lastID) {
                              margin-top:-13px;
                              margin-bottom:-3.5px;
                              '>
-                      <a href='index.php?page=allshout&amp;nocolumns=1&amp;sid=$id&amp;edit'><img border='0' class='EditSwap' src='ajaxchat/images/canvas.gif' alt='' /></a>
+                      <a href='index.php?page=allshout&amp;nocolumns=1&amp;sid=$id&amp;edit'><img border='0' class='EditSwap' src='images/canvas.gif' alt='' /></a>
                       <a onclick=\"return confirm('". str_replace("'","\'",DELETE_CONFIRM)."')\" href='index.php?page=allshout&amp;nocolumns=1&amp;sid=$id&amp;delete'>
-                      <img border='0' class='DeleteSwap' src='ajaxchat/images/canvas.gif' alt='' /></a>
+                      <img border='0' class='DeleteSwap' src='images/canvas.gif' alt='' /></a>
                  </div>";
                       
                }
