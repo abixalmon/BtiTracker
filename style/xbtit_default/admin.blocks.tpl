@@ -17,6 +17,14 @@
     <td class="header"><tag:language.BLOCK_USE_CACHE /></td>
     <td class="lista"><input type="checkbox" name="use_cache" <tag:block_cache />/></td>
   </tr>
+  <tr>
+    <td class="header"><tag:language.BLOCK_MINCLASSVIEW /></td>
+    <td class="lista"><tag:combo_min_view /></td>
+  </tr>
+  <tr>
+    <td class="header"><tag:language.BLOCK_MAXCLASSVIEW /></td>
+    <td class="lista"><tag:combo_max_view /></td>
+  </tr>
   </table>
 <else:edit_block>
   <table class="lista" width="100%" border="1">
@@ -36,6 +44,8 @@
               &nbsp;&nbsp;<tag:language.ENABLED />&nbsp;&nbsp;<tag:tops[].check />
               &nbsp;<tag:tops[].combo />
               &nbsp;<tag:tops[].pos />
+              &nbsp;Min.<tag:tops[].combo_min_view />
+              &nbsp;Max.<tag:tops[].combo_max_view />
             </td>
           </tr>
         </table>
@@ -57,6 +67,9 @@
                 &nbsp;&nbsp;<tag:language.ENABLED />&nbsp;&nbsp;<tag:lefts[].check />
                 &nbsp;<tag:lefts[].combo />
                 &nbsp;<tag:lefts[].pos />
+                <br />
+                Min.<tag:lefts[].combo_min_view />
+                &nbsp;Max.<tag:lefts[].combo_max_view />
               </td>
             </tr>
           </table>
@@ -76,6 +89,9 @@
                 &nbsp;&nbsp;<tag:language.ENABLED />&nbsp;&nbsp;<tag:centers[].check />
                 &nbsp;<tag:centers[].combo />
                 &nbsp;<tag:centers[].pos />
+                <br />
+                Min.<tag:centers[].combo_min_view />
+                &nbsp;Max.<tag:centers[].combo_max_view />
               </td>
             </tr>
           </table>
@@ -95,6 +111,9 @@
                 &nbsp;&nbsp;<tag:language.ENABLED />&nbsp;&nbsp;<tag:rights[].check />
                 &nbsp;<tag:rights[].combo />
                 &nbsp;<tag:rights[].pos />
+                <br />
+                Min.<tag:rights[].combo_min_view />
+                &nbsp;Max.<tag:rights[].combo_max_view />
               </td>
             </tr>
           </table>
@@ -116,6 +135,8 @@
               &nbsp;&nbsp;<tag:language.ENABLED />&nbsp;&nbsp;<tag:bottoms[].check />
               &nbsp;<tag:bottoms[].combo />
               &nbsp;<tag:bottoms[].pos />
+              &nbsp;Min.<tag:bottoms[].combo_min_view />
+              &nbsp;Max.<tag:bottoms[].combo_max_view />
             </td>
           </tr>
         </table>
