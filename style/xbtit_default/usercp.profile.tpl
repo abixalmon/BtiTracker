@@ -51,6 +51,12 @@
       <td align="left" class="header"><tag:language.TORRENTS_PER_PAGE />:</td>
       <td align="left" class="lista" colspan="2"><input type="text" size="3" name="torrentsperpage" maxlength="3" value="<tag:profile.torrentsperpage />"/></td>
     </tr>
+    <!-- Password confirmation required to update user record -->
+    <tr>
+        <td align="left" class="header"><tag:language.USER_PWD />: </td>
+        <td align="left" class="lista" colspan="2"><input type="password" size="40" name="passconf" value=""/><tag:language.MUST_ENTER_PASSWORD /></td>
+    </tr>
+    <!-- Password confirmation required to update user record -->
     <tr>
       <td align="center" class="header" colspan="3">
     <table align="center" width="100%" cellspacing="0" cellpadding="0">
