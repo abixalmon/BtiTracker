@@ -20,9 +20,9 @@ load_lang_file();
 echo ("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">");
 echo ("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
 echo ("<head>");
-echo ("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=".isset($install_lang["charset"]) ? $install_lang["charset"] : "ISO-8859-1"."\" />");
+echo ("<meta http-equiv=\"content-type\" content=\"text/html; charset=".(isset($install_lang["charset"])?$install_lang["charset"]:"ISO-8859-1")."\" />");
 echo ("<title>".$GLOBALS["btit_installer"]."&nbsp;".$GLOBALS["current_btit_version"]."</title>");
-echo ("<link rel=\"stylesheet\" href=\"style/xbtit_default/main.css\" type=\"text/css\">");
+echo ("<link rel=\"stylesheet\" href=\"style/xbtit_default/main.css\" type=\"text/css\" />");
 echo ("</head>");
 echo ("<body>");
 echo ("<center><img src=\"style/xbtit_default/images/logo.gif\" alt=\"\" title=\"logo\" border=\"0\" /></center>");
@@ -52,12 +52,12 @@ function load_lang_file()
     if (empty($GLOBALS["find_install_lang"]))
     {
         step ("Installation ERROR!","ERROR!","*");
-        echo ("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transiti   onal.dtd\">");
+        echo ("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">");
         echo ("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
         echo ("<head>");
-        echo ("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />");
+        echo ("<meta http-equiv=\"content-type\" content=\"text/html; charset=ISO-8859-1\" />");
         echo ("<title>".$GLOBALS["btit_installer"]."&nbsp;".$GLOBALS["current_btit_version"]." - Language Error</title>");
-        echo ("<link rel=\"stylesheet\" href=\"style/xbtit_default/main.css\" type=\"text/css\">");
+        echo ("<link rel=\"stylesheet\" href=\"style/xbtit_default/main.css\" type=\"text/css\" />");
         echo ("</head>");
         echo ("<body style=\"font-family: sans-serif;\"><div style=\"width: 600px;\">");
         echo ("<p>A critical language error has occurred.</p>");
@@ -96,13 +96,13 @@ function load_lang_file()
 // Starting page at every step
 function step ($text = '', $stepname = '', $stepnumber = '') {
     ////////// top block  //////////
-    echo ("<p><table class=\"lista\" cellpadding=\"0\" cellspacing=\"0\" width=\"90%\" align=\"center\">");
+    echo ("<div><table class=\"lista\" cellpadding=\"0\" cellspacing=\"0\" width=\"90%\" align=\"center\">");
     echo ("<tr><td class=\"block\" height=\"20px\" style=\"padding: 5px;\">");
     echo ("<center><b>".$text."</b><div align=\"right\">" . $stepname . "&nbsp;(" . $stepnumber . "/5)</div></center>");
-    echo ("</td></tr></table></p>");
+    echo ("</td></tr></table></div>");
     ////////// main block //////////
     echo ("<table class=\"lista\" cellspacing=\"0\" cellpadding=\"10\" width=\"90%\" align=\"center\">");
-    echo ("<tr><td style=\"padding: 10px;\" class=\"lista\"><div align=\"justify\">");
+    echo ("<tr><td style=\"padding: 10px;\" class=\"lista\">");
   }
 
 // check if the installation is not locked
@@ -150,7 +150,7 @@ if ($action == 'welcome')
     echo ("".$install_lang["system_req"]."");
     // changelog
     echo ("<p>".$install_lang["view_log"]."&nbsp;<a href=\"changelog.txt\" target=\"_blank\">".$install_lang["here"]."</a>&nbsp;<b>(now missed, will be included in definitive version)</b></p>");
-    echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["start"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&action=reqcheck'\" /></div>");
+    echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["start"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=reqcheck'\" /></div>");
 }
 
 // requirements check
@@ -209,7 +209,7 @@ else
     if (file_exists(dirname(__FILE__)."/include/settings.php"))
         {
         if (is_writable(dirname(__FILE__)."/include/settings.php"))
-            echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&action=settings'\" /></div>");
+            echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=settings'\" /></div>");
         }
 
 }
@@ -225,7 +225,7 @@ elseif ($action == 'settings') {
     $db_passwd = @ini_get('mysql.default_password');
     $db_name = empty($db_name) ? 'bti-tracker' : $db_name;
     
-    echo ("<form action=\"".$_SERVER['PHP_SELF']."?lang_file=".$_SESSION["install_lang"]."&action=save_mysql\" method=\"post\">");
+    echo ("<form action=\"".$_SERVER['PHP_SELF']."?lang_file=".$_SESSION["install_lang"]."&amp;action=save_mysql\" method=\"post\">");
     echo ("<h2>".$install_lang["mysql_settings"]."</h2><h3>".$install_lang["mysql_settings_info"]."</h3>");
     echo ("<table width=\"100%\" cellpadding=\"4\" cellspacing=\"4\" border=\"0\" style=\"margin-bottom: 2ex;\">");
     echo ("<tr><td width=\"20%\" valign=\"top\">".$install_lang["mysql_settings_server"].":</td><td><input type=\"text\" name=\"db_server\" id=\"db_server_input\" value=\"".$db_server."\" size=\"30\" /></td></tr>");
@@ -260,7 +260,7 @@ if (file_exists(dirname(__FILE__)."/include/settings.php"))
      fclose($fd);
      step ($install_lang["mysqlcheck"],$install_lang["step"]."&nbsp;".$install_lang["mysqlcheck_step"],"2");
      echo ($install_lang["mysql_settings"] . $install_lang["saved"]);
-     echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&action=sql_import'\" /></div>");
+     echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=sql_import'\" /></div>");
      }
   else
     echo ($install_lang["file_not_writeable"]);
@@ -345,7 +345,9 @@ elseif ($action == 'sql_import') {
         if (substr($key, 0, 8) == 'default_')
             $replaces['{$' . $key . '}'] = addslashes($value);
     }
-    $replaces['{$default_reserved_names}'] = strtr($replaces['{$default_reserved_names}'], array('\\\\n' => '\\n'));
+
+    if (isset($replaces['{$default_reserved_names}']))
+       $replaces['{$default_reserved_names}'] = strtr($replaces['{$default_reserved_names}'], array('\\\\n' => '\\n'));
 
     // If the UTF-8 setting was enabled, add it to the table definitions.
     if (isset($_POST['utf8']))
@@ -387,7 +389,7 @@ elseif ($action == 'sql_import') {
         $current_statement = '';
     }
      echo ($install_lang["database_saved"]);
-     echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&action=site_config'\" /></div>");
+     echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=site_config'\" /></div>");
 }
 
 // site config
@@ -404,7 +406,7 @@ elseif ($action == 'site_config') {
     // finding the base path.
     $baseurl = 'http://' . $host . substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/'));
     
-    echo ("<form action=\"".$_SERVER['PHP_SELF']."?lang_file=".$_SESSION["install_lang"]."&action=save_tracker\" method=\"post\">");
+    echo ("<form action=\"".$_SERVER['PHP_SELF']."?lang_file=".$_SESSION["install_lang"]."&amp;action=save_tracker\" method=\"post\">");
     echo ("<h2>".$install_lang["site_config"]."</h2>");
     echo ("<h4>".$install_lang["settingup"]."</h4>");
     echo ("<table width=\"100%\" cellpadding=\"4\" cellspacing=\"4\" border=\"0\" style=\"margin-bottom: 2ex;\">");
@@ -485,7 +487,7 @@ elseif ($action == 'save_tracker') {
     @mysql_query("UPDATE {$TABLE_PREFIX}settings SET `value` = '$forum' WHERE `key` = 'forum'") or mysql_error();
         
     echo ($install_lang["tracker_saved"]);
-    echo ("<div align=\"right\"><input type=\"submit\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&action=owner&forumtype=$forum'\" /></div>");
+    echo ("<div align=\"right\"><input type=\"submit\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=owner&amp;forumtype=$forum'\" /></div>");
 
 }
 
@@ -493,7 +495,7 @@ elseif ($action == 'save_tracker') {
 elseif ($action == 'owner') {
 
     step ($install_lang["create_owner_account"],$install_lang["step"]."&nbsp;".$install_lang["create_owner_account_step"],"5");
-    echo ("<form action=\"".$_SERVER['PHP_SELF']."?lang_file=".$_SESSION["install_lang"]."&action=save_owner\" method=\"post\">");
+    echo ("<form action=\"".$_SERVER['PHP_SELF']."?lang_file=".$_SESSION["install_lang"]."&amp;action=save_owner\" method=\"post\">");
     echo ("<h2>".$install_lang["create_owner_account"]."</h2>");
     echo ("<h4>".$install_lang["create_owner_account_info"]."</h4>");
     echo ("<table width=\"100%\" cellpadding=\"4\" cellspacing=\"4\" border=\"0\" style=\"margin-bottom: 2ex;\">");
@@ -537,7 +539,7 @@ elseif ($action == 'save_owner') {
     }
     function owner_error ($error_lang, $back){
     echo ($error_lang);
-    echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$back."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&action=owner'\" /></div>");
+    echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$back."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=owner'\" /></div>");
     die;
     }
     // getting variables
@@ -629,7 +631,7 @@ elseif ($action == 'save_owner') {
 
     mysql_query("INSERT INTO {$TABLE_PREFIX}users (id, username, password, random, id_level, email, joined, lastconnect, pid, time_offset, smf_fid) VALUES (2, '$username', '" . md5($password) . "', $random, 8, '$email', NOW(), NOW(), '".md5(uniqid(rand(),true))."', 0, $smf_fid)");
     echo ($install_lang["create_owner_account"]."&nbsp;".$install_lang["is_succes"]);
-    echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&action=finished'\" /></div>");
+    echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=finished'\" /></div>");
 }
 
 // finished
@@ -644,9 +646,9 @@ elseif ($action == 'finished') {
     echo ($install_lang["succes_install3"]);
     echo ("<br />");
     echo ("<p>BTITeam</p>");
-    echo ("<div align=\"center\"><a href=\"index.php\" target=\"_self\">".$install_lang["go_to_tracker"]."</a></div>");
+    echo ("<div align=\"center\"><a href=\"index.php\" target=\"_self\">".$install_lang["go_to_tracker"]."</a>");
 }
-echo ("</table>");
+echo ("</td>\n</tr>\n</table>");
 echo ("</body>");
 echo ("</html>");
 ?>

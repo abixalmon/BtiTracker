@@ -18,7 +18,7 @@ switch ($action)
       $lc.="\n<option value=\"\">".$language["SELECT"]."</option>";
       while($file = @readdir($dir))
       {
-        if(is_dir("$THIS_BASEPATH/language/$file") && $file!="." && $file!="..")
+        if(is_dir("$THIS_BASEPATH/language/$file") && $file!="." && $file!=".." && substr($file, 0, 8) != 'install_')
           {
             if (!in_array("language/$file",$newl))
              $lc.="\n<option value=\"$file\">$file</option>";
