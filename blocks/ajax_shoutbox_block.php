@@ -23,7 +23,7 @@ block_begin(SHOUTBOX);
  // modified for w3c validation
  global $tpl;
 
- $tpl->set("more_css","<link href='ajaxchat/default.css' rel='stylesheet' type='text/css' />");
+ /*$tpl->set("more_css","<? echo $STYLEURL ?>/main.css' rel='stylesheet' type='text/css' />");*/
  // modified for w3c validation
 
   print "<script src='ajaxchat/scripts.js' language='JavaScript' type='text/javascript'></script>";
@@ -80,10 +80,10 @@ function smile() {
       <input onclick="sendComment();" type="submit" id="submit" name="submit" value="<?php echo $language["FRM_CONFIRM"]; ?>" />
       &nbsp;
       <a href="javascript: PopMoreSmiles('chatForm','chatbarText');">
-      <img src="ajaxchat/images/smile.gif" border="0" class="form" title="<?php echo $language['MORE_SMILES']; ?>" align="top" alt="" /></a>
+      <img src="images/smile.gif" border="0" class="form" title="<?php echo $language['MORE_SMILES']; ?>" align="top" alt="" /></a>
   
       <a href="javascript: Pophistory()">
-      <img src="ajaxchat/images/quote.gif" border="0" class="form" title="<?php echo $language['HISTORY']; ?>/Moderate" align="top" alt="" /></a>
+      <img src="images/quote.gif" border="0" class="form" title="<?php echo $language['HISTORY']; ?>/Moderate" align="top" alt="" /></a>
 
 <!--      
        &nbsp;&nbsp;

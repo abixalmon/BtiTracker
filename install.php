@@ -25,7 +25,7 @@ echo ("<title>".$GLOBALS["btit_installer"]."&nbsp;".$GLOBALS["current_btit_versi
 echo ("<link rel=\"stylesheet\" href=\"style/xbtit_default/main.css\" type=\"text/css\">");
 echo ("</head>");
 echo ("<body>");
-echo ("<center><img src=\style/xbtit_default/images/logo.gif\"></center>");
+echo ("<center><img src=\"style/xbtit_default/images/logo.gif\" alt=\"\" title=\"logo\" border=\"0\" /></center>");
 // now we can add the different pages for the installer
 
 // Getting wished install language
@@ -141,16 +141,15 @@ if ($action == 'welcome')
     // listing the 777 files
     echo ("".$install_lang["list_chmod"]."");
     echo ("<ul>");
-    echo ("<li>./include/config.php,</li>");
+    echo ("<li>./include/settings.php,</li>");
     echo ("<li>./cache/,</li>");
     echo ("<li>./torrents/,</li>");
     echo ("<li>./badwords.txt,</li>");
-    echo ("<li>./chat.php</li>");
     echo ("</ul>");
 
     echo ("".$install_lang["system_req"]."");
     // changelog
-    echo ("<p>".$install_lang["view_log"]."&nbsp;<a href=\"changelog.txt\" target=\"_blank\">".$install_lang["here"]."</a></p>");
+    echo ("<p>".$install_lang["view_log"]."&nbsp;<a href=\"changelog.txt\" target=\"_blank\">".$install_lang["here"]."</a>&nbsp;<b>(now missed, will be included in definitive version)</b></p>");
     echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["start"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&action=reqcheck'\" /></div>");
 }
 
@@ -188,16 +187,6 @@ if (file_exists(dirname(__FILE__)."/badwords.txt"))
   }
 else
   $badwords=$install_lang["write_file_not_found"];
-// check chat.php
-if (file_exists(dirname(__FILE__)."/chat.php"))
-  {
-  if (is_writable(dirname(__FILE__)."/chat.php"))
-        $chat=$install_lang["write_succes"];
-  else
-        $chat=$install_lang["write_fail"]."&nbsp;&nbsp;&nbsp;".$install_lang["can_continue"];
-  }
-else
-  $chat=$install_lang["write_file_not_found"];
 // check include/settings.php
 if (file_exists(dirname(__FILE__)."/include/settings.php"))
   {
@@ -214,7 +203,6 @@ else
     echo ("<tr><td width=\"20%\" valign=\"top\">".$install_lang["cache_folder"].":</td><td>".$cache."</td></tr>");
     echo ("<tr><td width=\"20%\" valign=\"top\">".$install_lang["torrents_folder"].":</td><td>".$torrents."</td></tr>");
     echo ("<tr><td width=\"20%\" valign=\"top\">".$install_lang["badwords_file"].":</td><td>".$badwords."</td></tr>");
-    echo ("<tr><td width=\"20%\" valign=\"top\">".$install_lang["chat.php"].":</td><td>".$chat."</td></tr>");
     echo ("<tr><td width=\"20%\" valign=\"top\">".$install_lang["settings.php"].":</td><td>".$settings."</td></tr>");
     echo ("</table>");
     // don't continue if this file doesn't exists

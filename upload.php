@@ -116,6 +116,15 @@ if (!isset($array["announce"]))
       $info = ($info);
       $categoria = 0+$_POST["category"];
       $categoria = ($categoria);
+      // category check
+      $rc=do_sqlquery("SELECT id FROM {$TABLE_PREFIX}categories WHERE id=$categoria",true);
+      if (mysql_num_rows($rc)==0)
+         {
+             err_msg($language["ERROR"],$language["WRITE_CATEGORY"]);
+             stdfoot();
+             exit();
+      }
+      mysql_free_result($rs);
       $comment = ($comment);
       $announce=str_replace(array("\r\n","\r","\n"),"",$array["announce"]);
       $anonyme=$_POST["anonymous"];

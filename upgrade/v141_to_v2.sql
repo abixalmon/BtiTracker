@@ -212,3 +212,21 @@ CREATE TABLE `btit_hacks` (
   PRIMARY KEY  (`id`)
 ) TYPE = MYISAM ;
 
+
+TRUNCATE TABLE `btit_style`;
+
+INSERT INTO `btit_style` (`id`, `style`, `style_url`) VALUES
+(1, 'xBtit_Default', 'style/xbtit_default'),
+(2, 'Mint Green', 'style/mintgreen'),
+(3, 'Dark Lair', 'style/darklair'),
+(4, 'The Hive', 'style/thehive');
+
+
+CREATE TABLE `btit_chat` (
+  `id` mediumint(9) NOT NULL auto_increment,
+  `uid` mediumint(9) NOT NULL,
+  `time` int(10) NOT NULL default '0',
+  `name` tinytext NOT NULL,
+  `text` text NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM;
