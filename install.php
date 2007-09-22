@@ -405,6 +405,7 @@ elseif ($action == 'site_config') {
     $host = empty($_SERVER['HTTP_HOST']) ? $_SERVER['SERVER_NAME'] . (empty($_SERVER['SERVER_PORT']) || $_SERVER['SERVER_PORT'] == '80' ? '' : ':' . $_SERVER['SERVER_PORT']) : $_SERVER['HTTP_HOST'];
     // finding the base path.
     $baseurl = 'http://' . $host . substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/'));
+    $smf_lang=str_replace("\\", "/", dirname(__FILE__))."/smf/Themes/default/languages/Errors.english.php";
     
     echo ("<form action=\"".$_SERVER['PHP_SELF']."?lang_file=".$_SESSION["install_lang"]."&amp;action=save_tracker\" method=\"post\">");
     echo ("<h2>".$install_lang["site_config"]."</h2>");
@@ -435,7 +436,7 @@ elseif ($action == 'site_config') {
     echo ("</select>");
     echo ("&nbsp;&nbsp;&nbsp;<input type='text' name='externalforum' size='30' maxlength='200' value='')></td></tr>");
     echo ("</table>");
-    echo ("<p><table border='0' width='100%' align='left' bgcolor='#FFFFCC'><tr><td>".$install_lang["smf_download"]."</td></tr></table></p>");
+    echo ("<p><table border='0' width='100%' align='left' bgcolor='#FFFFCC'><tr><td>" . $install_lang["smf_download_a"] . $smf_lang . $install_lang["smf_download_b"] . "</td></tr></table></p>");
     echo ("<p>&nbsp;</p>");
     echo ($install_lang["more_settings"]);
     echo ("<div align=\"right\"><input type=\"submit\" value=\"". $install_lang["next"]."\" /></div></form>");
@@ -466,6 +467,8 @@ elseif ($action == 'save_tracker') {
     
     if($forum=="smf")
     {
+        $smf_lang=str_replace("\\", "/", dirname(__FILE__))."/smf/Themes/default/languages/Errors.english.php";
+        
         // Lets check the main SMF Settings file is present
         if (!file_exists(dirname(__FILE__)."/smf/Settings.php"))
             die($install_lang["smf_err_1"]);
@@ -475,7 +478,11 @@ elseif ($action == 'save_tracker') {
         
         $smf=mysql_query("SELECT memberName FROM `smf_members` WHERE `ID_MEMBER`=1");
         if(mysql_num_rows($smf)==0)
-            die($install_lang["smf_err_2"]);        
+            die($install_lang["smf_err_2"]);
+        
+        // Now lets check if the SMF English Language file is writable
+        if(!is_writable($smf_lang))
+            die($install_lang["smf_err_3a"] . $smf_lang . $install_lang["smf_err_3b"]);
     }
     
     @mysql_query("ALTER TABLE {$TABLE_PREFIX}users CHANGE `language` `language` TINYINT( 4 ) NOT NULL DEFAULT '$default_lang'") or mysql_error();
