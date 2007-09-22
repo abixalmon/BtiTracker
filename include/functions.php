@@ -3,10 +3,10 @@
 $tracker_version="2.0 Private Beta";
 
 // CHECK FOR INSTALLATION FOLDER WITHOUT INSTALL.ME
-if (file_exists("install.php"))
-{
-  $err_msg_install=("<div align=\"center\" style=\"color:red; font-size:12pt; font-weight: bold;\">SECURITY WARNING: Delete install.php!</div>");
-}
+if (file_exists("install.php") && $_COOKIE["uid"]==2)
+     $err_msg_install=("<div align=\"center\" style=\"color:red; font-size:12pt; font-weight: bold;\">SECURITY WARNING: Delete install.php!</div>");
+else
+     $err_msg_install="";
 
 error_reporting(E_ALL ^ E_NOTICE);
 
