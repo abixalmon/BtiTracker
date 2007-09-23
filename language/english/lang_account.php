@@ -15,7 +15,7 @@ $language["ERR_NO_EMAIL_AGAIN"]="Repeat email";
 $language["DIF_EMAIL"]="The emails don't match!";
 $language["SECURITY_CODE"]="Answer the question";
 # Password strength
-$language["WEEK"]="Week";
+$language["WEEK"]="Weak";
 $language["MEDIUM"]="Medium";
 $language["SAFE"]="Safe";
 $language["STRONG"]="Strong #";
