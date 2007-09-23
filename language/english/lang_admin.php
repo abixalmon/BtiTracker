@@ -67,7 +67,7 @@ $language["SETTING_SEEDS_PID"]="Max num. of seeds with same PID";
 $language["SETTING_LEECHERS_PID"]="Max num. of leechers with same PID";
 $language["SETTING_VALIDATION"]="Validation Mode";
 $language["SETTING_CAPTCHA"]="Secure Registration (use ImageCode, GD+Freetype libraries needed)";
-$language["SETTING_FORUM"]="Forum link (can be: forum link or internal/empty or none)";
+$language["SETTING_FORUM"]="Forum link, can be:<br /><li><font color='#FF0000'>internal</font> or empty (no value) for internal forum</li><li><font color='#FF0000'>smf</font> for integrated <a target='_new' href='http://www.simplemachines.org'>Simple Machines Forum</a></li><li>Your own forum solution (Specify url in the box)</li>";
 $language["BLOCKS_SETTING"]="Index/Blocks page settings";
 $language["SETTING_CLOCK"]="Clock type";
 $language["SETTING_NUM_NEWS"]="Limit for Latest News block (numeric)";
@@ -200,7 +200,7 @@ $language["SEARCH_DIFF_CHANGE_GROUP"]="Change User Group";
 // PRUNE TORRENTS
 $language["PRUNE_TORRENTS_PRUNED"]="Pruned torrents";
 $language["PRUNE_TORRENTS"]="Prune torrents";
-$language["PRUNE_TORRENTS_INFO"]="Imput the number of days which the torrents are to be considered as \"dead\"";
+$language["PRUNE_TORRENTS_INFO"]="Input the number of days which the torrents are to be considered as \"dead\"";
 $language["LEECHERS"]="leecher(s)";
 $language["SEEDS"]="seed(s)";
 // DBUTILS
