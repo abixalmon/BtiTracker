@@ -67,7 +67,7 @@ $language["SETTING_SEEDS_PID"]="Max. liczba seedów z tym samym PID";
 $language["SETTING_LEECHERS_PID"]="Max. liczba leecherów z tym samym PID";
 $language["SETTING_VALIDATION"]="Zatwierdzanie kont";
 $language["SETTING_CAPTCHA"]="Bezpieczna rejestracja (używa ImageCode, potrzebne biblioteki GD+Freetype)";
-$language["SETTING_FORUM"]="Link do Forum (może być: link do forum lub wbudowane/puste lub nic)";
+$language["SETTING_FORUM"]="Link do Forum, może być:<br /><li><font color='#FF0000'>internal</font> lub puste (brak wartości) dla wbudowanego forum</li><li><font color='#FF0000'>smf</font> dla zintegrowanego <a target='_new' href='http://www.simplemachines.org'>Simple Machines Forum</a></li><li>Twoje własne forum (pełny adres do twojego forum)</li>";
 $language["BLOCKS_SETTING"]="Strona Główna/Bloki ustawienia";
 $language["SETTING_CLOCK"]="Typ Zegara";
 $language["SETTING_NUM_NEWS"]="Limit dla bloku Najnowsze Newsy (numerycznie)";
