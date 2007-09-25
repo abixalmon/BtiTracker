@@ -45,11 +45,11 @@ while ($row = mysql_fetch_array($res))
     if ($rowuser && $rowuser[1]>1)
       {
       if ($GLOBALS["usepopup"]){
-       $peers[$i]["USER_NAME"]="<a href=\"javascript: windowunder('index.php?page=userdetails&amp;id=$rowuser[1]')\">".unesc($rowuser[0])."</a>";
-           $peers[$i]["PM"]="<a href=\"javascript: windowunder('index.php?page=usercp&amp;do=pm&action=edit&uid=$CURUSER[uid]&what=new&to=".urlencode(unesc($rowuser[0]))."')\">".image_or_link("$STYLEPATH/images/pm.png","","PM")."</a>";
+       $peers[$i]["USERNAME"]="<a href=\"javascript: windowunder('index.php?page=userdetails&amp;id=$rowuser[1]')\">".unesc($rowuser[0])."</a>";
+       $peers[$i]["PM"]="<a href=\"javascript: windowunder('index.php?page=usercp&amp;do=pm&action=edit&uid=$CURUSER[uid]&what=new&to=".urlencode(unesc($rowuser[0]))."')\">".image_or_link("$STYLEPATH/images/pm.png","","PM")."</a>";
   }    else {
-        $peers[$i]["USER_NAME"]="<a href=\"index.php?page=userdetails&amp;id=$rowuser[1]\">".unesc($rowuser[0])."</a>".
-           $peers[$i]["PM"]="<a href=\"index.php?page=usercp&amp;do=pm&action=edit&uid=$CURUSER[uid]&what=new&to=".urlencode(unesc($rowuser[0]))."\">".image_or_link("$STYLEPATH/images/pm.png","","PM")."</a>"; }
+        $peers[$i]["USERNAME"]="<a href=\"index.php?page=userdetails&amp;id=$rowuser[1]\">".unesc($rowuser[0])."</a>";
+        $peers[$i]["PM"]="<a href=\"index.php?page=usercp&amp;do=pm&action=edit&uid=$CURUSER[uid]&what=new&to=".urlencode(unesc($rowuser[0]))."\">".image_or_link("$STYLEPATH/images/pm.png","","PM")."</a>"; }
       }
     else
        $peers[$i]["USER_NAME"]=="<language.GUEST />";
