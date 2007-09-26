@@ -40,8 +40,16 @@ function convert() {
       <td align="left" class="lista" rowspan="3"><div align="center"><tag:profile.avatar /></div></td>
     </tr>
     <tr>
+      <td align="left" class="header"><tag:language.USER_EMAIL /></td>
+      <td align="left" class="lista"><input type="text" size="30" name="email" maxlength="30" value="<tag:profile.email />"/></td>
+    </tr>
+    <tr>
       <td align="left" class="header"><tag:language.AVATAR_URL /></td>
       <td align="left" class="lista"><input type="text" size="40" name="avatar" maxlength="100" value="<tag:profile.avatar_field />"/></td>
+    </tr>
+    <tr>
+      <td align="left" class="header"><tag:language.USER_LEVEL />:</td>
+      <td align="left" class="lista"><select name="level"><tag:rank_combo /></select></td>
     </tr>
     <tr>
       <td align="left" class="header"><tag:language.USER_LANGUE />:</td>

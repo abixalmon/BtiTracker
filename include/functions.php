@@ -929,6 +929,23 @@ function timezone_list()
     return $ret;
 }
 
+function rank_list()
+         {
+
+         global $TABLE_PREFIX;
+
+         $ret = array();
+         $res = do_sqlquery("SELECT * FROM {$TABLE_PREFIX}users_level ORDER BY id_level");
+
+         while ($row = mysql_fetch_assoc($res))
+             $ret[] = $row;
+
+         unset($row);
+         mysql_free_result($res);
+
+         return $ret;
+}
+
 function stdfoot($normalpage=true, $update=true, $adminpage=false) {
 
     global $STYLEPATH, $tpl;

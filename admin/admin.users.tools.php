@@ -65,7 +65,22 @@ switch ($action)
           {
           $profile=array();
           $profile["username"]=unesc($curu[0]["username"]);
+          $profile["email"]=unesc($curu[0]["email"]);
           $profile["avatar_field"]=unesc($curu[0]["avatar"]);
+          //rank list
+          $rres=rank_list();
+          $ranktpl="";
+          foreach($rres as $rank)
+            {
+               $ranktpl.="\n<option ";
+               if ($rank["id"]==$curu[0]["id_level"])
+                    $ranktpl.="selected=\"selected\" ";
+               $ranktpl.="value=\"".$rank["level"]."\">".unesc($rank["level"])."</option>";
+          }
+          unset($rres);
+
+          $admintpl->set("rank_combo",$ranktpl);
+
           //language list
           $lres=language_list();
           $langtpl="";
@@ -144,22 +159,6 @@ switch ($action)
           $profile["ratio"]=($curu[0]["downloaded"]>0?$curu[0]["uploaded"]/$curu[0]["downloaded"]:"");
           $profile["frm_action"]="index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=users&amp;action=save&amp;uid=$uid";
 
-          $select="<select name=\"level\">";
-          $res=mysql_query("SELECT id, level FROM {$TABLE_PREFIX}users_level WHERE id_level<=".$CURUSER["id_level"]." ORDER BY id_level");
-          while($row=mysql_fetch_assoc($res))
-          {
-              $select.="<option value='".unesc($row["level"])."'";
-              if (unesc($curu[0]["id_level"])==unesc($row["id"]))
-                 $select.="selected=\"selected\"";
-              $select.=">".unesc($row["level"])."</option>\n";
-          }
-          $select.="</select>";
-          $profile["drop_userlevel"]=$select;
-
-
-          unset($select);
-          unset($curu);
-
           $admintpl->set("profile",$profile);
           $admintpl->set("edit_user",true,true);
           $admintpl->set("language",$language);
@@ -177,6 +176,7 @@ switch ($action)
          $idlangue=intval(0+$_POST["language"]);
          $idstyle=intval(0+$_POST["style"]);
          $idflag=intval(0+$_POST["flag"]);
+         $email=AddSlashes($_POST["email"]);
          $avatar=unesc($_POST["avatar"]);
 
          // new level of the user
@@ -216,6 +216,7 @@ switch ($action)
          }
 
          $set[]="time_offset=".sqlesc(intval($_POST["timezone"]));
+         $set[]="email='$email'";
          $set[]="avatar=".sqlesc(htmlspecialchars($avatar));
          $set[]="topicsperpage=".intval(0+$_POST["topicsperpage"]);
          $set[]="postsperpage=".intval(0+$_POST["postsperpage"]);
