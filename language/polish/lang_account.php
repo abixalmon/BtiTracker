@@ -18,6 +18,6 @@ $language["SECURITY_CODE"]="Odpowiedz na pytanie";
 $language["WEEK"]="Słabe";
 $language["MEDIUM"]="¦rednie";
 $language["SAFE"]="Bezpieczne";
-$language["STRONG"]="Mocne #";
+$language["STRONG"]="Mocne";
 
 ?>
