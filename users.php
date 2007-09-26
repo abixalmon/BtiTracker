@@ -61,12 +61,12 @@ else
          if ($addparams!="")
             $addparams.="&amp;";
 
-         $scriptname=htmlspecialchars($_SERVER["PHP_SELF"]);
+         $scriptname = htmlspecialchars($_SERVER["PHP_SELF"]."?page=users");
 
          $res=do_sqlquery("select COUNT(*) FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id>1 $where") or die(mysql_error());
          $row = mysql_fetch_row($res);
          $count = $row[0];
-         list($pagertop, $pagerbottom, $limit) = pager(20, $count,  "users.php?".$addparams."order=$order&amp;by=$by&amp;");
+         list($pagertop, $pagerbottom, $limit) = pager(20, $count,  $scriptname."&amp;" . $addparams.(strlen($addparam)>0?"&amp;":"")."order=$order&amp;by=$by&amp;");
 
         if ($by=="ASC")
             $mark="&nbsp;&uarr;";
@@ -92,12 +92,12 @@ while($row=mysql_fetch_array($res))
           
 $userstpl->set("users_search_select", $select);
 $userstpl->set("users_pagertop", $pagertop);
-$userstpl->set("users_sort_username", "<a href=\"$scriptname?$addparams"."order=username&amp;by=".($order=="username" && $by=="ASC"?"DESC":"ASC")."\">".$language["USER_NAME"]."</a>".($order=="username"?$mark:""));
-$userstpl->set("users_sort_userlevel", "<a href=\"$scriptname?$addparams"."order=level&amp;by=".($order=="level" && $by=="ASC"?"DESC":"ASC")."\">".$language["USER_LEVEL"]."</a>".($order=="level"?$mark:""));
-$userstpl->set("users_sort_joined", "<a href=\"$scriptname?$addparams"."order=joined&amp;by=".($order=="joined" && $by=="ASC"?"DESC":"ASC")."\">".$language["USER_JOINED"]."</a>".($order=="joined"?$mark:""));
-$userstpl->set("users_sort_lastaccess", "<a href=\"$scriptname?$addparams"."order=lastconnect&amp;by=".($order=="lastconnect" && $by=="ASC"?"DESC":"ASC")."\">".$language["USER_LASTACCESS"]."</a>".($order=="lastconnect"?$mark:""));
-$userstpl->set("users_sort_country", "<a href=\"$scriptname?$addparams"."order=flag&amp;by=".($order=="flag" && $by=="ASC"?"DESC":"ASC")."\">".$language["USER_COUNTRY"]."</a>".($order=="flag"?$mark:""));
-$userstpl->set("users_sort_ratio", "<a href=\"$scriptname?$addparams"."order=ratio&amp;by=".($order=="ratio" && $by=="ASC"?"DESC":"ASC")."\">".$language["RATIO"]."</a>".($order=="ratio"?$mark:""));
+$userstpl->set("users_sort_username", "<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=username&amp;by=".($order=="username" && $by=="ASC"?"DESC":"ASC")."\">".$language["USER_NAME"]."</a>".($order=="username"?$mark:""));
+$userstpl->set("users_sort_userlevel", "<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=level&amp;by=".($order=="level" && $by=="ASC"?"DESC":"ASC")."\">".$language["USER_LEVEL"]."</a>".($order=="level"?$mark:""));
+$userstpl->set("users_sort_joined", "<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=joined&amp;by=".($order=="joined" && $by=="ASC"?"DESC":"ASC")."\">".$language["USER_JOINED"]."</a>".($order=="joined"?$mark:""));
+$userstpl->set("users_sort_lastaccess", "<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=lastconnect&amp;by=".($order=="lastconnect" && $by=="ASC"?"DESC":"ASC")."\">".$language["USER_LASTACCESS"]."</a>".($order=="lastconnect"?$mark:""));
+$userstpl->set("users_sort_country", "<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=flag&amp;by=".($order=="flag" && $by=="ASC"?"DESC":"ASC")."\">".$language["USER_COUNTRY"]."</a>".($order=="flag"?$mark:""));
+$userstpl->set("users_sort_ratio", "<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=ratio&amp;by=".($order=="ratio" && $by=="ASC"?"DESC":"ASC")."\">".$language["RATIO"]."</a>".($order=="ratio"?$mark:""));
 
 if ($CURUSER["uid"]>1)
   $userstpl->set("users_pm", $language["USERS_PM"]);
