@@ -88,7 +88,7 @@ require(load_language("lang_main.php"));
 
 
 $tpl=new bTemplate();
-$tpl->set("main_title","Index");
+$tpl->set("main_title",$btit_settings["name"]." .::. "."Index");
 $tpl->set("main_charset",$GLOBALS["charset"]);
 $tpl->set("main_css","$style_css");
 
@@ -144,7 +144,7 @@ switch ($pageID) {
 
     case 'admin':
         require("$THIS_BASEPATH/admin/admin.index.php");
-        $tpl->set("main_title","Index->Admin");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Admin");
         // the main_content for current template is setting within admin/index.php
         break;
 
@@ -152,7 +152,7 @@ switch ($pageID) {
     case 'allshout':
         ob_start();
         require("$THIS_BASEPATH/ajaxchat/getHistoryChatData.php");
-        $tpl->set("main_title","Index->Shout History");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Shout History");
         $out=ob_get_contents();
         ob_end_clean();
         $tpl->set("main_content",set_block($language["SHOUTBOX"]." ".$language["HISTORY"],"left",$out));
@@ -167,68 +167,68 @@ switch ($pageID) {
     case 'comment':
         require("$THIS_BASEPATH/comment.php");
         $tpl->set("main_content",set_block($language["COMMENTS"],"center",$tpl_comment->fetch(load_template("comment.tpl")),false));
-        $tpl->set("main_title","Index->Torrent->Comment");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Torrent->Comment");
         break;
 
     case 'delete':
         require("$THIS_BASEPATH/delete.php");
         $tpl->set("main_content",set_block($language["DELETE_TORRENT"],"center",$torrenttpl->fetch(load_template("torrent.delete.tpl"))));
-        $tpl->set("main_title","Index->Torrent->Delete");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Torrent->Delete");
         break;
 
     case 'edit':
         require("$THIS_BASEPATH/edit.php");
         $tpl->set("main_content",set_block($language["EDIT_TORRENT"],"center",$torrenttpl->fetch(load_template("torrent.edit.tpl"))));
-        $tpl->set("main_title","Index->Torrent->Edit");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Torrent->Edit");
         break;
 
     case 'extra-stats':
         require("$THIS_BASEPATH/extra-stats.php");
         $tpl->set("main_content",set_block($language["MNU_STATS"],"center",$out));
-        $tpl->set("main_title","Index->Statistics");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Statistics");
         break;
 
     case 'forum':
         require("$THIS_BASEPATH/forum/forum.index.php");
-        $tpl->set("main_title","Index->Forum");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Forum");
         break;
 
     case 'history':
     case 'torrent_history':
         require("$THIS_BASEPATH/torrent_history.php");
         $tpl->set("main_content",set_block($language["MNU_TORRENT"],"center",$historytpl->fetch(load_template("torrent_history.tpl"))));
-        $tpl->set("main_title","Index->Torrent->History");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Torrent->History");
         break;
 
     case 'login':
         require("$THIS_BASEPATH/login.php");
         $tpl->set("main_content",set_block($language["LOGIN"],"center",$logintpl->fetch(load_template("login.tpl"))));
-        $tpl->set("main_title","Index->Login");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Login");
         break;
 
     case 'moresmiles':
         require("$THIS_BASEPATH/moresmiles.php");
         $tpl->set("main_content",set_block($language["MORE_SMILES"],"center",$moresmiles_tpl->fetch(load_template("moresmiles.tpl"))));
-        $tpl->set("main_title","More Smilies");
+        $tpl->set("main_title",$btit_settings["name"]." "."More Smilies");
         break;
 
    case 'news':
         require("$THIS_BASEPATH/news.php");
         $tpl->set("main_content",set_block($language["MANAGE_NEWS"],"center",$newstpl->fetch(load_template("news.tpl"))));
-        $tpl->set("main_title","Index->News");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->News");
         break;
 
     case 'peers':
         require("$THIS_BASEPATH/peers.php");
         $tpl->set("main_content",set_block($language["MNU_TORRENT"],"center",$peerstpl->fetch(load_template("peers.tpl"))));
-        $tpl->set("main_title","Index->Torrent->Peers");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Torrent->Peers");
         break;
 
 
     case 'recover':
         require("$THIS_BASEPATH/recover.php");
         $tpl->set("main_content",set_block($language["RECOVER_PWD"],"center",$recovertpl->fetch(load_template("recover.tpl"))));
-        $tpl->set("main_title","Index->Recover");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Recover");
         break;
 
     case 'account':
@@ -236,52 +236,52 @@ switch ($pageID) {
         require("$THIS_BASEPATH/account.php");
         $tpl->set("more_css","<link rel=\"stylesheet\" type=\"text/css\" href=\"$BASEURL/jscript/passwdcheck.css\" />");
         $tpl->set("main_content",set_block($language["ACCOUNT_CREATE"],"center",$tpl_account->fetch(load_template("account.tpl"))));
-        $tpl->set("main_title","Index->Signup");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Signup");
         break;
 
 
     case 'torrents':
         require("$THIS_BASEPATH/torrents.php");
         $tpl->set("main_content",set_block($language["MNU_TORRENT"],"center",$torrenttpl->fetch(load_template("torrent.list.tpl"))));
-        $tpl->set("main_title","Index->Torrents");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Torrents");
         break;
 
     case 'torrent-details':
     case 'details':
         require("$THIS_BASEPATH/details.php");
         $tpl->set("main_content",set_block($language["TORRENT_DETAIL"],"center",$torrenttpl->fetch(load_template("torrent.details.tpl")),($GLOBALS["usepopup"]?false:true)));
-        $tpl->set("main_title","Index->Torrent->Details");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Torrent->Details");
         break;
 
     case 'users':
         require("$THIS_BASEPATH/users.php");
         $tpl->set("main_content",set_block($language["MEMBERS_LIST"],"center",$userstpl->fetch(load_template("users.tpl"))));
-        $tpl->set("main_title","Index->Users");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Users");
         break;
 
 
     case 'usercp':
         require("$THIS_BASEPATH/user/usercp.index.php");
         // the main_content for current template is setting within users/index.php
-        $tpl->set("main_title","Index->My Panel");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->My Panel");
         break;
 
     case 'upload':
         require("$THIS_BASEPATH/upload.php");
         $tpl->set("main_content",set_block($language["MNU_UPLOAD"],"center",$uploadtpl->fetch(load_template("$tplfile.tpl"))));
-        $tpl->set("main_title","Index->Torrent->Upload");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Torrent->Upload");
         break;
 
     case 'userdetails':
         require("$THIS_BASEPATH/userdetails.php");
         $tpl->set("main_content",set_block($language["USER_DETAILS"],"center",$userdetailtpl->fetch(load_template("userdetails.tpl"))));
-        $tpl->set("main_title","Index->Users->Details");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Users->Details");
         break;
 
     case 'viewnews':
         require("$THIS_BASEPATH/viewnews.php");
         $tpl->set("main_content",set_block($language["LAST_NEWS"],"center",$viewnewstpl->fetch(load_template("viewnews.tpl"))));
-        $tpl->set("main_title","Index->News");
+        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->News");
         break;
 
     

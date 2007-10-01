@@ -10,8 +10,23 @@ global $CURUSER;
 <?php
 $style=style_list();
 $langue=language_list();
-$resuser=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}users WHERE id=".$CURUSER["uid"]);
-$rowuser= mysql_fetch_array($resuser);
+
+if ($XBTT_USE)
+   {
+    $udownloaded="u.downloaded+IFNULL(x.downloaded,0)";
+    $uuploaded="u.uploaded+IFNULL(x.uploaded,0)";
+    $utables="{$TABLE_PREFIX}users u LEFT JOIN xbt_users x ON x.uid=u.id";
+   }
+else
+    {
+    $udownloaded="u.downloaded";
+    $uuploaded="u.uploaded";
+    $utables="{$TABLE_PREFIX}users u";
+    }
+
+
+$resuser=do_sqlquery("SELECT $udownloaded as downloaded, $uuploaded as uploaded FROM $utables WHERE u.id=".$CURUSER["uid"]);
+$rowuser= mysql_fetch_assoc($resuser);
 //print("<td class=lista align=center>".WELCOME_BACK." ".$CURUSER['username']." (<a href=logout.php>".LOGOUT."</a>)</td>\n");
 print("<td class=\"lista\" align=\"center\">".$language["USER_LEVEL"].": ".$CURUSER["level"]."</td>\n");
 print("<td class=\"green\" align=\"center\">&uarr;&nbsp;".makesize($rowuser['uploaded']));

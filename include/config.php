@@ -57,62 +57,62 @@ function apply_default_settings()
 
     global $btit_settings;
 
-    if (!isset($btit_settings["max_announce"]) || $btit_settings["max_announce"]=="") $btit_settings["max_announce"]=1800;
-    if (!isset($btit_settings["min_announce"]) || $btit_settings["min_announce"]=="") $btit_settings["min_announce"]=300;
-    if (!isset($btit_settings["max_peers_per_announce"]) || $btit_settings["max_peers_per_announce"]=="") $btit_settings["max_peers_per_announce"]=50;
-    if (!isset($btit_settings["dynamic"]) || $btit_settings["dynamic"]=="") $btit_settings["dynamic"]=false;
-    if (!isset($btit_settings["nat"]) || $btit_settings["nat"]=="") $btit_settings["nat"]=false;
-    if (!isset($btit_settings["persist"]) || $btit_settings["persist"]=="") $btit_settings["persist"]=false;
-    if (!isset($btit_settings["allow_override_ip"]) || $btit_settings["allow_override_ip"]=="") $btit_settings["allow_override_ip"]=false;
-    if (!isset($btit_settings["countbyte"]) || $btit_settings["countbyte"]=="") $btit_settings["countbyte"]=true;
-    if (!isset($btit_settings["peercaching"]) || $btit_settings["peercaching"]=="") $btit_settings["peercaching"]=true;
-    if (!isset($btit_settings["maxpid_seeds"]) || $btit_settings["maxpid_seeds"]=="") $btit_settings["maxpid_seeds"]=3;
-    if (!isset($btit_settings["maxpid_leech"]) || $btit_settings["maxpid_leech"]=="") $btit_settings["maxpid_leech"]=2;
-    if (!isset($btit_settings["name"]) || $btit_settings["name"]=="") $btit_settings["name"]="BtiTracker Test Site";
-    if (!isset($btit_settings["url"]) || $btit_settings["url"]=="") $btit_settings["url"]="http://localhost";
-    if (!isset($btit_settings["announce"]) || $btit_settings["announce"]=="") $btit_settings["announce"]=serialize(array("http://localhost/announce.php"));
-    if (!isset($btit_settings["email"]) || $btit_settings["email"]=="") $btit_settings["email"]="tracker@localhost";
-    if (!isset($btit_settings["torrentdir"]) || $btit_settings["torrentdir"]=="") $btit_settings["torrentdir"]="torrents";
-    if (!isset($btit_settings["validation"]) || $btit_settings["validation"]=="") $btit_settings["validation"]="user";
+    if (!array_key_exists("max_announce",$btit_settings) || $btit_settings["max_announce"]=="") $btit_settings["max_announce"]=1800;
+    if (!array_key_exists("min_announce",$btit_settings) || $btit_settings["min_announce"]=="") $btit_settings["min_announce"]=300;
+    if (!array_key_exists("max_peers_per_announce",$btit_settings) || $btit_settings["max_peers_per_announce"]=="") $btit_settings["max_peers_per_announce"]=50;
+    if (!array_key_exists("dynamic",$btit_settings) || $btit_settings["dynamic"]=="") $btit_settings["dynamic"]=false;
+    if (!array_key_exists("nat",$btit_settings) || $btit_settings["nat"]=="") $btit_settings["nat"]=false;
+    if (!array_key_exists("persist",$btit_settings) || $btit_settings["persist"]=="") $btit_settings["persist"]=false;
+    if (!array_key_exists("allow_override_ip",$btit_settings) || $btit_settings["allow_override_ip"]=="") $btit_settings["allow_override_ip"]=false;
+    if (!array_key_exists("countbyte",$btit_settings) || $btit_settings["countbyte"]=="") $btit_settings["countbyte"]=true;
+    if (!array_key_exists("peercaching",$btit_settings) || $btit_settings["peercaching"]=="") $btit_settings["peercaching"]=true;
+    if (!array_key_exists("maxpid_seeds",$btit_settings) || $btit_settings["maxpid_seeds"]=="") $btit_settings["maxpid_seeds"]=3;
+    if (!array_key_exists("maxpid_leech",$btit_settings) || $btit_settings["maxpid_leech"]=="") $btit_settings["maxpid_leech"]=2;
+    if (!array_key_exists("name",$btit_settings) || $btit_settings["name"]=="") $btit_settings["name"]="BtiTracker Test Site";
+    if (!array_key_exists("url",$btit_settings) || $btit_settings["url"]=="") $btit_settings["url"]="http://localhost";
+    if (!array_key_exists("announce",$btit_settings) || $btit_settings["announce"]=="") $btit_settings["announce"]=serialize(array("http://localhost/announce.php"));
+    if (!array_key_exists("email",$btit_settings) || $btit_settings["email"]=="") $btit_settings["email"]="tracker@localhost";
+    if (!array_key_exists("torrentdir",$btit_settings) || $btit_settings["torrentdir"]=="") $btit_settings["torrentdir"]="torrents";
+    if (!array_key_exists("validation",$btit_settings) || $btit_settings["validation"]=="") $btit_settings["validation"]="user";
 
-    if (!isset($btit_settings["imagecode"]) || $btit_settings["imagecode"]=="") $btit_settings["imagecode"]=true;
-    if (!isset($btit_settings["sanity_update"]) || $btit_settings["sanity_update"]=="") $btit_settings["sanity_update"]=300;
-    if (!isset($btit_settings["external_update"]) || $btit_settings["external_update"]=="") $btit_settings["external_update"]=0;
-    if (!isset($btit_settings["forum"]) || $btit_settings["forum"]=="") $btit_settings["forum"]="";
-    if (!isset($btit_settings["external"]) || $btit_settings["external"]=="") $btit_settings["external"]=true;
-    if (!isset($btit_settings["gzip"]) || $btit_settings["gzip"]=="") $btit_settings["gzip"]=true;
-    if (!isset($btit_settings["debug"]) || $btit_settings["debug"]=="") $btit_settings["debug"]=true;
-    if (!isset($btit_settings["disable_dht"]) || $btit_settings["disable_dht"]=="") $btit_settings["disable_dht"]=false;
-    if (!isset($btit_settings["livestat"]) || $btit_settings["livestat"]=="") $btit_settings["livestat"]=true;
-    if (!isset($btit_settings["logactive"]) || $btit_settings["logactive"]=="") $btit_settings["logactive"]=true;
-    if (!isset($btit_settings["loghistory"]) || $btit_settings["loghistory"]=="") $btit_settings["loghistory"]=false;
+    if (!array_key_exists("imagecode",$btit_settings) || $btit_settings["imagecode"]=="") $btit_settings["imagecode"]=true;
+    if (!array_key_exists("sanity_update",$btit_settings) || $btit_settings["sanity_update"]=="") $btit_settings["sanity_update"]=300;
+    if (!array_key_exists("external_update",$btit_settings) || $btit_settings["external_update"]=="") $btit_settings["external_update"]=0;
+    if (!array_key_exists("forum",$btit_settings) || $btit_settings["forum"]=="") $btit_settings["forum"]="";
+    if (!array_key_exists("external",$btit_settings) || $btit_settings["external"]=="") $btit_settings["external"]=true;
+    if (!array_key_exists("gzip",$btit_settings) || $btit_settings["gzip"]=="") $btit_settings["gzip"]=true;
+    if (!array_key_exists("debug",$btit_settings) || $btit_settings["debug"]=="") $btit_settings["debug"]=true;
+    if (!array_key_exists("disable_dht",$btit_settings) || $btit_settings["disable_dht"]=="") $btit_settings["disable_dht"]=false;
+    if (!array_key_exists("livestat",$btit_settings) || $btit_settings["livestat"]=="") $btit_settings["livestat"]=true;
+    if (!array_key_exists("logactive",$btit_settings) || $btit_settings["logactive"]=="") $btit_settings["logactive"]=true;
+    if (!array_key_exists("loghistory",$btit_settings) || $btit_settings["loghistory"]=="") $btit_settings["loghistory"]=false;
 
-    if (!isset($btit_settings["default_language"]) || $btit_settings["default_language"]=="") $btit_settings["default_language"]=1;
-    if (!isset($btit_settings["default_charset"]) || $btit_settings["default_charset"]=="") $btit_settings["default_charset"]="ISO-8859-1";
-    if (!isset($btit_settings["default_style"]) || $btit_settings["default_style"]=="") $btit_settings["default_style"]=1;
-    if (!isset($btit_settings["max_users"]) || $btit_settings["max_users"]=="") $btit_settings["max_users"]=0;
-    if (!isset($btit_settings["max_torrents_per_page"]) || $btit_settings["max_torrents_per_page"]=="") $btit_settings["max_torrents_per_page"]=15;
-    if (!isset($btit_settings["p_announce"]) || $btit_settings["p_announce"]=="") $btit_settings["p_announce"]=true;
-    if (!isset($btit_settings["p_scrape"]) || $btit_settings["p_scrape"]=="") $btit_settings["p_scrape"]=false;
-    if (!isset($btit_settings["show_uploader"]) || $btit_settings["show_uploader"]=="") $btit_settings["show_uploader"]=true;
-    if (!isset($btit_settings["newslimit"]) || $btit_settings["newslimit"]=="") $btit_settings["newslimit"]=3;
-    if (!isset($btit_settings["forumlimit"]) || $btit_settings["forumlimit"]=="") $btit_settings["forumlimit"]=5;
-    if (!isset($btit_settings["last10limit"]) || $btit_settings["last10limit"]=="") $btit_settings["last10limit"]=5;
-    if (!isset($btit_settings["mostpoplimit"]) || $btit_settings["mostpoplimit"]=="") $btit_settings["mostpoplimit"]=5;
-    if (!isset($btit_settings["clocktype"]) || $btit_settings["clocktype"]=="") $btit_settings["clocktype"]=true;
-    if (!isset($btit_settings["usepopup"]) || $btit_settings["usepopup"]=="") $btit_settings["usepopup"]=false;
-    if (!isset($btit_settings["xbtt_use"]) || $btit_settings["xbtt_use"]=="") $btit_settings["xbtt_use"]=false;
-    if (!isset($btit_settings["xbtt_url"]) || $btit_settings["xbtt_url"]=="") $btit_settings["xbtt_url"]="";
-    if (!isset($btit_settings["cache_duration"]) || $btit_settings["cache_duration"]=="") $btit_settings["cache_duration"]=0;
-    if (!isset($btit_settings["mail_type"]) || $btit_settings["mail_type"]=="") $btit_settings["mail_type"]="php";
+    if (!array_key_exists("default_language",$btit_settings) || $btit_settings["default_language"]=="") $btit_settings["default_language"]=1;
+    if (!array_key_exists("default_charset",$btit_settings) || $btit_settings["default_charset"]=="") $btit_settings["default_charset"]="ISO-8859-1";
+    if (!array_key_exists("default_style",$btit_settings) || $btit_settings["default_style"]=="") $btit_settings["default_style"]=1;
+    if (!array_key_exists("max_users",$btit_settings) || $btit_settings["max_users"]=="") $btit_settings["max_users"]=0;
+    if (!array_key_exists("max_torrents_per_page",$btit_settings) || $btit_settings["max_torrents_per_page"]=="") $btit_settings["max_torrents_per_page"]=15;
+    if (!array_key_exists("p_announce",$btit_settings) || $btit_settings["p_announce"]=="") $btit_settings["p_announce"]=true;
+    if (!array_key_exists("p_scrape",$btit_settings) || $btit_settings["p_scrape"]=="") $btit_settings["p_scrape"]=false;
+    if (!array_key_exists("show_uploader",$btit_settings) || $btit_settings["show_uploader"]=="") $btit_settings["show_uploader"]=true;
+    if (!array_key_exists("newslimit",$btit_settings) || $btit_settings["newslimit"]=="") $btit_settings["newslimit"]=3;
+    if (!array_key_exists("forumlimit",$btit_settings) || $btit_settings["forumlimit"]=="") $btit_settings["forumlimit"]=5;
+    if (!array_key_exists("last10limit",$btit_settings) || $btit_settings["last10limit"]=="") $btit_settings["last10limit"]=5;
+    if (!array_key_exists("mostpoplimit",$btit_settings) || $btit_settings["mostpoplimit"]=="") $btit_settings["mostpoplimit"]=5;
+    if (!array_key_exists("clocktype",$btit_settings) || $btit_settings["clocktype"]=="") $btit_settings["clocktype"]=true;
+    if (!array_key_exists("usepopup",$btit_settings) || $btit_settings["usepopup"]=="") $btit_settings["usepopup"]=false;
+    if (!array_key_exists("xbtt_use",$btit_settings) || $btit_settings["xbtt_use"]=="") $btit_settings["xbtt_use"]=false;
+    if (!array_key_exists("xbtt_url",$btit_settings) || $btit_settings["xbtt_url"]=="") $btit_settings["xbtt_url"]="";
+    if (!array_key_exists("cache_duration",$btit_settings) || $btit_settings["cache_duration"]=="") $btit_settings["cache_duration"]=0;
+    if (!array_key_exists("mail_type",$btit_settings) || $btit_settings["mail_type"]=="") $btit_settings["mail_type"]="php";
 
-    if (!isset($btit_settings["ajax_poller"]) || $btit_settings["ajax_poller"]=="") $btit_settings["ajax_poller"]=true;
+    if (!array_key_exists("ajax_poller",$btit_settings) || $btit_settings["ajax_poller"]=="") $btit_settings["ajax_poller"]=true;
 
 }
 
-apply_default_settings();
-
 $btit_settings=get_cached_config("SELECT `key`,`value` FROM {$TABLE_PREFIX}settings",$reload_cfg_interval);
+
+apply_default_settings();
 
 
 
@@ -226,7 +226,7 @@ $GLOBALS["block_mostpoplimit"] =$btit_settings["mostpoplimit"];
 $GLOBALS["clocktype"] = $btit_settings["clocktype"];
 $GLOBALS["usepopup"] = $btit_settings["usepopup"];
 // Is xbtt used as backend?
-$XBTT_USE = $btit_settings["xbtt_use"];
+$XBTT_USE = true;//$btit_settings["xbtt_use"];
 // If used as backend, then we should have the "xbt url"
 $XBTT_URL = $btit_settings["xbtt_url"];
 // this is the interval between which the cache must be updated (if 0 cache is disable)

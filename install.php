@@ -9,9 +9,9 @@ if (!in_array($action, $allowed_actions))
 define("BTIT_INSTALL", TRUE);
 
 // getting globals
-$GLOBALS["btit-tracker"]         = "BTI-Tracker";
+$GLOBALS["btit-tracker"]         = "XBTI-Tracker";
 $GLOBALS["current_btit_version"] = "v2.0 (Private Beta)";
-$GLOBALS["btit_installer"]       = "BTI-Tracker Installer ::";
+$GLOBALS["btit_installer"]       = "XBTI-Tracker Installer ::";
 
 // getting needed files
 load_lang_file();
@@ -92,6 +92,40 @@ function load_lang_file()
     require_once(dirname(__FILE__) . '/language/install_lang/' . $_SESSION["install_lang"]);
 }
 
+function language_list()
+         {
+
+         global $TABLE_PREFIX;
+
+         $ret = array();
+         $res = do_sqlquery("SELECT * FROM {$TABLE_PREFIX}language ORDER BY language");
+
+         while ($row = mysql_fetch_assoc($res))
+             $ret[] = $row;
+
+         unset($row);
+         mysql_free_result($res);
+
+         return $ret;
+}
+
+function style_list()
+         {
+
+         global $TABLE_PREFIX;
+
+         $ret = array();
+         $res = do_sqlquery("SELECT * FROM {$TABLE_PREFIX}style ORDER BY id");
+
+         while ($row = mysql_fetch_assoc($res))
+             $ret[] = $row;
+
+         unset($row);
+         mysql_free_result($res);
+
+         return $ret;
+}
+
 //starting functions for the install
 // Starting page at every step
 function step ($text = '', $stepname = '', $stepnumber = '') {
@@ -141,10 +175,10 @@ if ($action == 'welcome')
     // listing the 777 files
     echo ("".$install_lang["list_chmod"]."");
     echo ("<ul>");
-    echo ("<li>./include/settings.php,</li>");
-    echo ("<li>./cache/,</li>");
-    echo ("<li>./torrents/,</li>");
-    echo ("<li>./badwords.txt,</li>");
+    echo ("<li>./include/settings.php</li>");
+    echo ("<li>./cache/</li>");
+    echo ("<li>./torrents/</li>");
+    echo ("<li>./badwords.txt</li>");
     echo ("</ul>");
 
     echo ("".$install_lang["system_req"]."");
@@ -197,6 +231,11 @@ if (file_exists(dirname(__FILE__)."/include/settings.php"))
   }
 else
   $settings=$install_lang["write_file_not_found"]."&nbsp;".$install_lang["not_continue_settings2"];
+
+if ((bool)@ini_get('allow_url_fopen')==false)
+   $allow_url_fopen=$install_lang["allow_url_fopen_ON"];
+else
+   $allow_url_fopen=$install_lang["allow_url_fopen_OFF"]."&nbsp;&nbsp;&nbsp;".$install_lang["can_continue"];
   
     echo ("<h2>".$install_lang["requirements_check"]."</h2>");
     echo ("<table width=\"100%\" cellpadding=\"4\" cellspacing=\"4\" border=\"0\" style=\"margin-bottom: 2ex;\">");
@@ -204,6 +243,7 @@ else
     echo ("<tr><td width=\"20%\" valign=\"top\">".$install_lang["torrents_folder"].":</td><td>".$torrents."</td></tr>");
     echo ("<tr><td width=\"20%\" valign=\"top\">".$install_lang["badwords_file"].":</td><td>".$badwords."</td></tr>");
     echo ("<tr><td width=\"20%\" valign=\"top\">".$install_lang["settings.php"].":</td><td>".$settings."</td></tr>");
+    echo ("<tr><td width=\"20%\" valign=\"top\">".$install_lang["allow_url_fopen"].":</td><td>".$allow_url_fopen."</td></tr>");
     echo ("</table>");
     // don't continue if this file doesn't exists
     if (file_exists(dirname(__FILE__)."/include/settings.php"))
@@ -223,7 +263,7 @@ elseif ($action == 'settings') {
     $db_user = isset($_POST['ftp_username']) ? $_POST['ftp_username'] : @ini_get('mysql.default_user');
     $db_name = isset($_POST['ftp_username']) ? $_POST['ftp_username'] : @ini_get('mysql.default_user');
     $db_passwd = @ini_get('mysql.default_password');
-    $db_name = empty($db_name) ? 'bti-tracker' : $db_name;
+    $db_name = empty($db_name) ? 'xbti-tracker' : $db_name;
     
     echo ("<form action=\"".$_SERVER['PHP_SELF']."?lang_file=".$_SESSION["install_lang"]."&amp;action=save_mysql\" method=\"post\">");
     echo ("<h2>".$install_lang["mysql_settings"]."</h2><h3>".$install_lang["mysql_settings_info"]."</h3>");
@@ -414,14 +454,17 @@ elseif ($action == 'site_config') {
     echo ("<tr><td width=\"20%\" valign=\"top\">".$install_lang["sitename"].":</td><td><input type=\"text\" name=\"sitename\" id=\"sitename_input\" value=\"".$install_lang["sitename_input"]."\" size=\"50\" /></td></tr>");
     echo ("<tr><td valign=\"top\">".$install_lang["siteurl"].":</td><td><input type=\"text\" name=\"siteurl\" id=\"siteurl_input\" value=\"".$baseurl."\" size=\"50\" /><br /><div style=\"font-size: smaller; margin-bottom: 2ex;\">".$install_lang["siteurl_info"]."</div></td></tr>");
     echo ("<tr><td>".$install_lang["default_lang"].":</td><td><select name=\"language\">");
-    echo ("<option value=\"1\" selected=\"selected\">English</option>");
-    echo ("<option value=\"2\">Dutch</option>");
-    echo ("<option value=\"3\">Polish</option>");
+
+    $lres=language_list();
+    foreach ($lres as $l)
+            echo ("<option value=\"".$l["id"]."\" selected=\"selected\">".StripSlashes($l["language"])."</option>");
+
     echo ("</select></td>");
     echo ("<tr><td>".$install_lang["default_style"].":</td><td><select name=\"style\">");
-    echo ("<option value=\"1\" selected=\"selected\">Base</option>");
-//  echo ("<option value=\"2\">Dutch</option>");
-//  echo ("<option value=\"3\">Polish</option>");
+
+    $sres=style_list();
+    foreach ($sres as $s)
+            echo ("<option value=\"".$s["id"]."\" selected=\"selected\">".StripSlashes($s["style"])."</option>");
     echo ("</select></td>");
     echo ("<tr><td>".$install_lang["validation"].":</td><td><select name=\"validation\">");
     echo ("<option value=\"none\">none</option>");
@@ -476,7 +519,7 @@ elseif ($action == 'save_tracker') {
         // Now to check they've actually installed it by checking the database
         require (dirname(__FILE__)."/smf/Settings.php");
         
-        $smf=mysql_query("SELECT memberName FROM `smf_members` WHERE `ID_MEMBER`=1");
+        $smf=mysql_query("SELECT memberName FROM `{$db_prefix}members` WHERE `ID_MEMBER`=1");
         if(mysql_num_rows($smf)==0)
             die($install_lang["smf_err_2"]);
         
@@ -528,26 +571,29 @@ elseif ($action == 'save_owner') {
     @mysql_select_db($database);
     
     function validemail($email) {
-    return preg_match('/^[\w.-]+@([\w.-]+\.)+[a-z]{2,6}$/is', $email);
+             return preg_match('/^[\w.-]+@([\w.-]+\.)+[a-z]{2,6}$/is', $email);
     }
+
     function safe_email($email) {   
-    $email = str_replace("<","",$email); 
-    $email = str_replace(">","",$email); 
-    $email = str_replace("\'","",$email); 
-    $email = str_replace('\"',"",$email); 
-    $email = str_replace("\\\\","",$email); 
-    return $email; 
+             $email = str_replace("<","",$email); 
+             $email = str_replace(">","",$email); 
+             $email = str_replace("\'","",$email); 
+             $email = str_replace('\"',"",$email); 
+             $email = str_replace("\\\\","",$email); 
+             return $email;
     }
+
     function check_email ($email) {
-    if(ereg("^([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$", $email)) 
-        return true;
-    else
-        return false;
+             if(ereg("^([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$", $email)) 
+                 return true;
+             else
+                 return false;
     }
+
     function owner_error ($error_lang, $back){
-    echo ($error_lang);
-    echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$back."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=owner'\" /></div>");
-    die;
+             echo ($error_lang);
+             echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$back."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=owner'\" /></div>");
+             die;
     }
     // getting variables
     $username = $_POST["username"];

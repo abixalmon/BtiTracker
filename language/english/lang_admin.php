@@ -32,7 +32,7 @@ $language["XBTT_URL"]="Xbtt base url (like http://localhost:2710)";
 $language["GENERAL_SETTINGS"]="General settings";
 $language["TRACKER_NAME"]="Site's Name";
 $language["TRACKER_BASEURL"]="Base Tracker's URL (without last /)";
-$language["TRACKER_ANNOUNCE"]="Tracker's Announce URLS (one url per row)";
+$language["TRACKER_ANNOUNCE"]="Tracker's Announce URLS (one url per row)".($XBTT_USE?"<br />\n<span style=\"color:#FF0000; font-weight: bold;\">Check your announce urls twice, you've enable XBTT backend...</span>":"");
 $language["TRACKER_EMAIL"]="Tracker's/owner email";
 $language["TORRENT_FOLDER"]="Torrent's folder";
 $language["ALLOW_EXTERNAL"]="Allow External torrents";

@@ -32,7 +32,7 @@ var voteLeftImage = 'images/poll_left.gif';
 var voteRightImage = 'images/poll_right.gif';
 var voteCenterImage = 'images/poll_middle.gif';
 
-var graphMaxWidth = 120; // It will actually be a little wider than this because of the rounded image at the left and right
+var graphMaxWidth = 100; // It will actually be a little wider than this because of the rounded image at the left and right
 var graphMinWidth = 15; // Minimum size of graph
 var pollScrollSpeed = 10  // Lower = faster
 var useCookiesToRememberCastedVotes = true; // Use cookie to remember casted votes
