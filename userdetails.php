@@ -203,7 +203,7 @@ else
       $anq=do_sqlquery("SELECT count(*) FROM {$TABLE_PREFIX}peers p INNER JOIN {$TABLE_PREFIX}files f ON f.info_hash = p.infohash WHERE p.ip='".($row["cip"])."'",true);
   }
 $sanq=mysql_fetch_row($anq);
-
+// active torrents
 if ($sanq[0]>0)
    {
    $userdetailtpl->set("RESULTS_1",true,true);
@@ -253,7 +253,7 @@ if ($sanq[0]>0)
                  $tortpl[$i]["leechs"]="<a href=\"javascript:poppeer('index.php?page=peers&amp;id=".$torlist->infohash."')\">$torlist->leechers</a>";
                  $tortpl[$i]["completed"]="<a href=\"javascript:poppeer('index.php?page=torrent_history.php&amp;id=".$torlist->infohash."')\">".$torlist->finished."</a>";
                  $i++;
-                 $userdetailtpl->set("tor",$tortpl);
+                 $userdetailtpl->set("tortpl",$tortpl);
              }
              else
              {
@@ -273,7 +273,7 @@ if ($sanq[0]>0)
                  $tortpl[$i]["leechs"]="<a href=\"index.php?page=peers&amp;id=".$torlist->infohash."\">$torlist->leechers</a>";
                  $tortpl[$i]["completed"]="<a href=\"index.php?page=torrent_history&amp;id=".$torlist->infohash."\">".$torlist->finished."</a>";
                  $i++;
-                 $userdetailtpl->set("tor",$tortpl);
+                 $userdetailtpl->set("tortpl",$tortpl);
             }
          }
         }
