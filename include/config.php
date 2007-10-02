@@ -226,7 +226,7 @@ $GLOBALS["block_mostpoplimit"] =$btit_settings["mostpoplimit"];
 $GLOBALS["clocktype"] = $btit_settings["clocktype"];
 $GLOBALS["usepopup"] = $btit_settings["usepopup"];
 // Is xbtt used as backend?
-$XBTT_USE = true;//$btit_settings["xbtt_use"];
+$XBTT_USE = $btit_settings["xbtt_use"];
 // If used as backend, then we should have the "xbt url"
 $XBTT_URL = $btit_settings["xbtt_url"];
 // this is the interval between which the cache must be updated (if 0 cache is disable)
