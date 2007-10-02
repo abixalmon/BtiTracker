@@ -124,7 +124,7 @@ if (!isset($array["announce"]))
              stdfoot();
              exit();
       }
-      mysql_free_result($rs);
+      @mysql_free_result($rs);
       $comment = ($comment);
       $announce=str_replace(array("\r\n","\r","\n"),"",$array["announce"]);
       $anonyme=$_POST["anonymous"];

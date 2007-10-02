@@ -70,7 +70,7 @@ switch($action)
             if ($_GET["mode"]=='new')
               do_sqlquery("INSERT INTO {$TABLE_PREFIX}style (style, style_url) VALUES (".sqlesc($_POST["style_name"]).",".sqlesc("style/".$_POST["style_url"]).")",true);
             else
-              do_sqlquery("UPDATE {$TABLE_PREFIX}style SET style='".sqlesc($_POST["style_name"])."',style_url='".sqlesc("style/".$_POST["style_url"])."' WHERE id=".max(0,$_GET["id"]),true);
+              do_sqlquery("UPDATE {$TABLE_PREFIX}style SET style=".sqlesc($_POST["style_name"]).",style_url=".sqlesc("style/".$_POST["style_url"])." WHERE id=".max(0,$_GET["id"]),true);
           }
         else
             stderr($language["ERROR"],$language["ALL_FIELDS_REQUIRED"]);

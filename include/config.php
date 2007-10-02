@@ -32,7 +32,7 @@ function get_cached_config($qrystr, $cachetime=0)
         elseif (is_numeric($mz["value"]))
             $return[$mz["key"]]= max(0,$mz["value"]);
         else
-            $return[$mz["key"]]= unesc($mz["value"]);
+            $return[$mz["key"]]= StripSlashes($mz["value"]);
        }
   unset($mz);
   mysql_free_result($mr);

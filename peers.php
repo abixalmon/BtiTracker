@@ -1,14 +1,14 @@
 <?php
 $i=0;
 dbconn();
-$scriptname = htmlspecialchars($_SERVER["PHP_SELF"]."?page=peers&id=$_GET[id]");
+$scriptname = htmlspecialchars($_SERVER["PHP_SELF"]."?page=peers&amp;id=$_GET[id]");
 $addparam = "";
 $id = AddSlashes($_GET["id"]);
 if (!isset($id) || !$id)
     die("Error ID");
 
 
-$res = do_sqlquery("SELECT * FROM {$TABLE_PREFIX}files WHERE info_hash='$id'") or die(mysql_error());
+$res = do_sqlquery("SELECT size FROM {$TABLE_PREFIX}files WHERE info_hash='$id'") or die(mysql_error());
 if ($res) {
    $row=mysql_fetch_array($res);
    if ($row) {
@@ -46,10 +46,10 @@ while ($row = mysql_fetch_array($res))
       {
       if ($GLOBALS["usepopup"]){
        $peers[$i]["USERNAME"]="<a href=\"javascript: windowunder('index.php?page=userdetails&amp;id=$rowuser[1]')\">".unesc($rowuser[0])."</a>";
-       $peers[$i]["PM"]="<a href=\"javascript: windowunder('index.php?page=usercp&amp;do=pm&action=edit&uid=$CURUSER[uid]&what=new&to=".urlencode(unesc($rowuser[0]))."')\">".image_or_link("$STYLEPATH/images/pm.png","","PM")."</a>";
+       $peers[$i]["PM"]="<a href=\"javascript: windowunder('index.php?page=usercp&amp;do=pm&amp;action=edit&amp;uid=$CURUSER[uid]&amp;what=new&amp;to=".urlencode(unesc($rowuser[0]))."')\">".image_or_link("$STYLEPATH/images/pm.png","","PM")."</a>";
   }    else {
         $peers[$i]["USERNAME"]="<a href=\"index.php?page=userdetails&amp;id=$rowuser[1]\">".unesc($rowuser[0])."</a>";
-        $peers[$i]["PM"]="<a href=\"index.php?page=usercp&amp;do=pm&action=edit&uid=$CURUSER[uid]&what=new&to=".urlencode(unesc($rowuser[0]))."\">".image_or_link("$STYLEPATH/images/pm.png","","PM")."</a>"; }
+        $peers[$i]["PM"]="<a href=\"index.php?page=usercp&amp;do=pm&amp;action=edit&amp;uid=$CURUSER[uid]&amp;what=new&amp;to=".urlencode(unesc($rowuser[0]))."\">".image_or_link("$STYLEPATH/images/pm.png","","PM")."</a>"; }
       }
     else
        $peers[$i]["USER_NAME"]=="<language.GUEST />";
@@ -64,8 +64,8 @@ while ($row = mysql_fetch_array($res))
 if (!$XBTT_USE)
   $peers[$i]["PORT"]=$row["port"];
   $stat=floor((($tsize - $row["bytes"]) / $tsize) *100);
-  $progress="<table width=\"100\" cellspacing=\"0\" cellpadding=\"0\"><tr><td class=\"progress\" align=left>";
-  $progress.="<img height=\"10\" width=\"".number_format($stat,0)."\" src=\"$STYLEPATH/images/progress.jpg\"></td></tr></table>";
+  $progress="<table width=\"100\" cellspacing=\"0\" cellpadding=\"0\"><tr><td class=\"progress\" align=\"left\">";
+  $progress.="<img height=\"10\" width=\"".number_format($stat,0)."\" src=\"$STYLEURL/images/progress.jpg\" alt=\"\" /></td></tr></table>";
 $peers[$i]["PROGRESS"]=$stat."%<br />" . $progress;
 
 $peers[$i]["STATUS"]=$row["status"];
@@ -95,7 +95,7 @@ else
 if ($GLOBALS["usepopup"])
     $peerstpl->set("BACK2","<br /><br /><center><a href=\"javascript:window.close()\"><tag:language.CLOSE /></a></center>");
 else
-   $peerstpl->set("BACK2", "</div><br /><br /><center><a href=\"javascript: history.go(-1);\"><tag:language.BACK /></a>");
+   $peerstpl->set("BACK2", "<br /><br /><center><a href=\"javascript: history.go(-1);\"><tag:language.BACK /></a></center>");
 $peerstpl->set("XBTT",$XBTT_USE,TRUE);
 $peerstpl->set("XBTT2",$XBTT_USE,TRUE);
 $peerstpl->set("peers",$peers);

@@ -1,7 +1,53 @@
 <?php
 
+ignore_user_abort(1);
 
+$GLOBALS["peer_id"] = "";
+$summaryupdate = array();
 
+$BASEPATH=dirname(__FILE__);
+require("$BASEPATH/include/config.php");
+require("$BASEPATH/include/common.php");
+
+error_reporting(E_ALL ^ E_NOTICE);
+
+// check if we are using standard php tracker or xbtt backend
+// if using xbbt we will make a redirect to xbtt announce using
+// informations given in config + pid if private
+// thank you petr1fied for the code.
+if ($XBTT_USE)
+{
+
+    function implode_with_keys($glue, $array) {
+           $output = array();
+           foreach( $array as $key => $item )
+                   $output[] = $key . "=" . $item;
+
+           return implode($glue, $output);
+    }
+
+    if (isset ($_GET["pid"])) {
+       $pid = $_GET["pid"];
+       $pid  = substr($pid , 0,strpos($pid , "?"));
+       unset($_GET["pid"]);
+    } else
+       $pid = "";
+
+    $query_string=implode_with_keys("&", $_GET);
+
+    if ($pid!="") // private announce
+    {
+       header("Location: $XBTT_URL/$pid/announce?" . $query_string);
+    }
+    else // public
+    {
+    header("Location: $XBTT_URL/announce?" . $query_string);
+    }
+
+  exit;
+}
+
+// not using xbtt, let us go ;)
 
 // Schedules an update to the table. It gets so much traffic
 // that we do all our changes at once.
@@ -23,54 +69,6 @@ function summaryAdd($column, $value, $abs = false)
     }
 }
 
-ignore_user_abort(1);
-
-$GLOBALS["peer_id"] = "";
-$summaryupdate = array();
-
-$BASEPATH=dirname(__FILE__);
-require("$BASEPATH/include/config.php");
-require("$BASEPATH/include/common.php");
-
-error_reporting(0);
-
-// check if we are using standard php tracker or xbtt backend
-// if using xbbt we will make a redirect to xbtt announce using
-// informations given in config + pid if private
-// thank you petr1fied for the code.
-if ($XBTT_USE)
-{
-
-    function implode_with_keys($glue, $array) {
-           $output = array();
-           foreach( $array as $key => $item )
-                   $output[] = $key . "=" . $item;
-
-           return implode($glue, $output);
-    }
-
-    if (isset ($_GET["pid"])) {
-       $pid = $_GET["pid"];
-       unset($_GET["pid"]);
-    } else
-       $pid = "";
-
-    $query_string=implode_with_keys("&", $_GET);
-
-    if ($pid!="") // private announce
-    {
-       header("Location: $XBTT_URL/$pid/announce?" . $query_string);
-    }
-    else // public
-    {
-    header("Location: $XBTT_URL/announce?" . $query_string);
-    }
-
-  exit;
-}
-
-// not using xbtt, let us go ;)
-
 
 // connect to db
 if ($GLOBALS["persist"])
@@ -78,7 +76,7 @@ if ($GLOBALS["persist"])
 else
     $conres=mysql_connect($dbhost, $dbuser, $dbpass) or show_error("Tracker errore - mysql_connect: " . mysql_error());
 
-    mysql_select_db($database) or show_error("Tracker errore - $database - ".mysql_error());
+    mysql_select_db($database) or show_error("Tracker error - $database - ".mysql_error());
 
 // connection is done ok
 
@@ -153,11 +151,11 @@ if (!isset($_GET["port"]) || !isset($_GET["downloaded"]) || !isset($_GET["upload
     show_error("Invalid information received from BitTorrent client");
 
 $port = $_GET["port"];
-$ip = mysql_escape_string(str_replace("::ffff:", "", $_SERVER["REMOTE_ADDR"]));
+$ip = getip();
 $downloaded = (float)($_GET["downloaded"]);
 $uploaded = (float)($_GET["uploaded"]);
-$left = $_GET["left"];
-$pid = AddSlashes($pid);
+$left = (float)($_GET["left"]);
+$pid = AddSlashes(StripSlashes($pid));
 
 // if private announce turned on and PID empty string or not send by client
 if (($pid=="" || !$pid) && $PRIVATE_ANNOUNCE)
@@ -171,16 +169,20 @@ if ($PRIVATE_ANNOUNCE) {
      show_error("Invalid PID (private announce): $pid. Please redownload torrent from $BASEURL.");
   else
       {
-      $rowpid=mysql_fetch_array($respid);
+      $rowpid=mysql_fetch_assoc($respid);
       if ($rowpid["can_download"]!="yes" && $PRIVATE_ANNOUNCE)
          show_error("Sorry your level ($rowpid[level]) is not allowed to download from $BASEURL.");
       //waittime
       elseif ($rowpid["WT"]>0) {
         $wait=0;
-        if (intval($rowpid['downloaded'])>0) $ratio=number_format($rowpid['uploaded']/$rowpid['downloaded'],2);
-        else $ratio=0.0;
-        $res2 =mysql_query("SELECT UNIX_TIMESTAMP(data) as data, uploader FROM {$TABLE_PREFIX}files WHERE info_hash='".$info_hash."'");
-        $added=mysql_fetch_array($res2);
+        if (intval($rowpid['downloaded'])>0)
+           $ratio=number_format($rowpid['uploaded']/$rowpid['downloaded'],2);
+        else
+            $ratio=0.0;
+        $res2 =mysql_query("SELECT UNIX_TIMESTAMP(data) as data, uploader FROM {$TABLE_PREFIX}files WHERE external='no' AND info_hash='".$info_hash."'");
+        if (mysql_num_rows($res2)==0)
+           show_error("Torrent is not authorized for use on this tracker.");
+        $added=mysql_fetch_assoc($res2);
         $vz = $added["data"];
         $timer = floor((time() - $vz) / 3600);
         if($ratio<1.0 && $rowpid['id']!=$added["uploader"]){
@@ -195,9 +197,9 @@ if ($PRIVATE_ANNOUNCE) {
 } else {
 // PID turned off
    $respid = mysql_query("SELECT u.*, level, can_download, WT FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul on u.id_level=ul.id WHERE u.cip='$ip' LIMIT 1");
-  if (!$respid || mysql_num_rows($respid)!=1)
+   if (!$respid || mysql_num_rows($respid)!=1)
      // maybe it's guest with new query I must found at least guest user
-    $respid = mysql_query("SELECT u.*, level, can_download, WT FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul on u.id_level=ul.id WHERE u.id_level=1 LIMIT 1");
+    $respid = mysql_query("SELECT u.*, level, can_download, WT FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul on u.id_level=ul.id WHERE u.id=1 LIMIT 1");
     if (!$respid || mysql_num_rows($respid)!=1)
       {
         // do nothing but tracker is misconfigured!!!
@@ -205,16 +207,21 @@ if ($PRIVATE_ANNOUNCE) {
       }
     else
       {
-      $rowpid=mysql_fetch_array($respid);
+      $rowpid=mysql_fetch_assoc($respid);
       if ($rowpid["can_download"]!="yes")
          show_error("Sorry your level ($rowpid[level]) is not allowed to download from $BASEURL.");
       //waittime
       elseif ($rowpid["WT"]>0) {
         $wait=0;
-        if (intval($rowpid['downloaded'])>0) $ratio=number_format($rowpid['uploaded']/$rowpid['downloaded'],2);
-        else $ratio=0.0;
-        $res2 =mysql_query("SELECT UNIX_TIMESTAMP(data) as data, uploader FROM {$TABLE_PREFIX}files WHERE info_hash='".$info_hash."'");
-        $added=mysql_fetch_array($res2);
+        if (intval($rowpid['downloaded'])>0)
+           $ratio=number_format($rowpid['uploaded']/$rowpid['downloaded'],2);
+        else
+            $ratio=0.0;
+        $res2 =mysql_query("SELECT UNIX_TIMESTAMP(data) as data, uploader FROM {$TABLE_PREFIX}files WHERE external='no' AND info_hash='".$info_hash."'");
+        if (mysql_num_rows($res2)==0)
+           show_error("Torrent is not authorized for use on this tracker.");
+
+        $added=mysql_fetch_assoc($res2);
         $vz = $added["data"];
         $timer = floor((time() - $vz) / 3600);
         if($ratio<1.0 && $rowpid['id']!=$added["uploader"]){
@@ -258,19 +265,11 @@ if (!is_numeric($port) || !is_numeric($downloaded) || !is_numeric($uploaded) || 
 // Upgrade holdover: check for unset directives
 if (!isset($GLOBALS["countbytes"]))
     $GLOBALS["countbytes"] = true;
-if (!isset($GLOBALS["peercaching"]))
-    $GLOBALS["peercaching"] = false;
-
 
 
 /* Returns true if the user is firewalled, NAT'd, or whatever.
  * The original tracker had its --nat_check parameter, so
  * here is my version.
- *
- * This code has proven itself to be sufficiently correct,
- * but will consume system resources when a lot of httpd processes
- * are lingering around trying to connect to remote hosts.
- * Consider disabling it under higher loads.
  */
 function isFireWalled($hash, $peerid, $ip, $port)
 {
@@ -286,37 +285,7 @@ function isFireWalled($hash, $peerid, $ip, $port)
     if (!$fd)
         return true;
 
-    stream_set_timeout($fd, 5, 0);
-    fwrite($fd, chr(strlen($protocol_name)).$protocol_name.hex2bin("0000000000000000").
-        hex2bin($hash));
-
-    $data = fread($fd, strlen($protocol_name)+1+20+20+8); // ideally...
-
     fclose($fd);
-    $offset = 0;
-
-    // First byte: strlen($protocol_name), then the protocol string itself
-    if (ord($data[$offset]) != strlen($protocol_name))
-        return true;
-
-    $offset++;
-    if (substr($data, $offset, strlen($protocol_name)) != $protocol_name)
-        return true;
-
-    $offset += strlen($protocol_name);
-    // 8 bytes reserved, ignore
-    $offset += 8;
-
-    // Download ID (hash)
-    if (substr($data, $offset, 20) != hex2bin($hash))
-        return true;
-
-    $offset+=20;
-
-    // Peer ID
-    if (substr($data, $offset, 20) != hex2bin($peerid))
-        return true;
-
     return false;
 }
 
@@ -330,7 +299,7 @@ function getPeerInfo($user, $hash)
     // If "trackerid" is set, let's try that
     if (isset($GLOBALS["trackerid"]))
     {
-        $query = "SELECT peer_id,bytes,ip,port,status,lastupdate,sequence FROM {$TABLE_PREFIX}peers WHERE sequence=${GLOBALS["trackerid"]} AND infohash=\"$hash\"";
+        $query = "SELECT peer_id,bytes,ip,port,status,lastupdate,sequence FROM {$TABLE_PREFIX}peers WHERE sequence=\"".$GLOBALS["trackerid"]."\" AND infohash=\"$hash\"";
         $results = mysql_query($query) or show_error("Tracker error: invalid torrent");
         $data = mysql_fetch_assoc($results);
         if (!$data || $data["peer_id"] != $user)
@@ -339,7 +308,6 @@ function getPeerInfo($user, $hash)
             $query = "SELECT peer_id,bytes,ip,port,status,lastupdate,sequence from {$TABLE_PREFIX}peers where peer_id=\"$user\" AND infohash=\"$hash\"";
             $results = mysql_query($query) or showError("Tracker error: invalid torrent");
             $data = mysql_fetch_assoc($results);
-            $GLOBALS["trackerid"] = $data["sequence"];
         }
     }
     else
@@ -347,12 +315,12 @@ function getPeerInfo($user, $hash)
         $query = "SELECT peer_id,bytes,ip,port,status,lastupdate,sequence from {$TABLE_PREFIX}peers where peer_id=\"$user\" AND infohash=\"$hash\"";
         $results = mysql_query($query) or showError("Tracker error: invalid torrent");
         $data = mysql_fetch_assoc($results);
-        $GLOBALS["trackerid"] = $data["sequence"];
     }
 
     if (!($data))
         return false;
 
+    $GLOBALS["trackerid"] = $data["sequence"];
     return $data;
 }
 
@@ -372,7 +340,8 @@ function start($info_hash, $ip, $port, $peer_id, $left, $downloaded=0, $uploaded
 
         $ip = mysql_escape_string($_GET["ip"]);
     }
-    else $ip = getip();
+    else
+        $ip = getip();
 
     $ip = mysql_escape_string($ip);
     $agent = mysql_escape_string($_SERVER["HTTP_USER_AGENT"]);
@@ -433,7 +402,7 @@ function start($info_hash, $ip, $port, $peer_id, $left, $downloaded=0, $uploaded
     }
     $GLOBALS["trackerid"] = mysql_insert_id();
 
-    @mysql_query("UPDATE {$TABLE_PREFIX}peers SET sequence=\"${GLOBALS["trackerid"]}\", compact=\"$compact\", with_peerid=\"$peerid\", without_peerid=\"$no_peerid\" WHERE peer_id=\"$peer_id\" AND infohash=\"$info_hash\"");
+    @mysql_query("UPDATE {$TABLE_PREFIX}peers SET sequence=\"".$GLOBALS["trackerid"]."\", compact=\"$compact\", with_peerid=\"$peerid\", without_peerid=\"$no_peerid\" WHERE peer_id=\"$peer_id\" AND infohash=\"$info_hash\"");
 
     if ($left == 0)
     {
@@ -453,125 +422,20 @@ function start($info_hash, $ip, $port, $peer_id, $left, $downloaded=0, $uploaded
 if (!isset($GLOBALS["maxseeds"])) $GLOBALS["maxseeds"]=2;
 if (!isset($GLOBALS["maxleech"])) $GLOBALS["maxleech"]=2;
 
-//
-// Returns true if the torrent exists.
-// Currently checks by locating the row in "summary"
-// Always returns true if $dynamic_torrents=="1" unless an error occured
-function verifyTorrent($hash)
-{
-
-  global $TABLE_PREFIX;
-
-    // only for internal tracked torrent!
-    $query = "SELECT COUNT(*) FROM {$TABLE_PREFIX}files WHERE external='no' AND info_hash=\"$hash\"";
-    $results = mysql_query($query);
-
-    $res = mysql_result($results,0,0);
-
-    if ($res == 1)
-        return true;
-
-    if ($GLOBALS["dynamic_torrents"])
-        return makeTorrent($hash);
-
-    return false;
-}
-
-
-// Slight redesign of loadPeers
-function getRandomPeers($hash, $where="")
-{
-
-  global $TABLE_PREFIX;
-
-
-    // Don't want to send a bad "num peers" for new seeds
-
-    $where="WHERE infohash=\"$hash\"";
-
-    if ($GLOBALS["NAT"])
-        $results = mysql_query("SELECT COUNT(*) FROM {$TABLE_PREFIX}peers WHERE natuser = 'N' AND infohash=\"$hash\"");
-    else
-        $results = mysql_query("SELECT COUNT(*) FROM {$TABLE_PREFIX}peers WHERE infohash=\"$hash\"");
-
-    $peercount = mysql_result($results, 0,0);
-
-    // ORDER BY RAND() is expensive. Don't do it when the load gets too high
-    if ($peercount < 500)
-        $query = "SELECT ".((isset($_GET["no_peer_id"]) && $_GET["no_peer_id"] == 1) ? "" : "peer_id,")."ip, port, status FROM {$TABLE_PREFIX}peers ".$where." ORDER BY RAND() LIMIT ${GLOBALS['maxpeers']}";
-    else
-        $query = "SELECT ".((isset($_GET["no_peer_id"]) && $_GET["no_peer_id"] == 1) ? "" : "peer_id,")."ip, port, status FROM {$TABLE_PREFIX}peers ".$where." LIMIT ".@mt_rand(0, $peercount - $GLOBALS["maxpeers"]).", ${GLOBALS['maxpeers']}";
-
-    $results = mysql_query($query);
-    if (!$results)
-        return false;
-
-    $peerno = 0;
-    while ($return[] = mysql_fetch_assoc($results))
-        $peerno++;
-
-    array_pop ($return);
-    mysql_free_result($results);
-    $return['size'] = $peerno;
-
-    return $return;
-}
-
-// Transmits the actual data to the peer. No other output is permitted if
-// this function is called, as that would break BEncoding.
-// I don't use the bencode library, so watch out! If you add data,
-// rules such as dictionary sorting are enforced by the remote side.
-function sendPeerList($peers)
-{
-    echo "d";
-    echo "8:intervali".$GLOBALS["report_interval"]."e";
-    if (isset($GLOBALS["min_interval"]))
-        echo "12:min intervali".$GLOBALS["min_interval"]."e";
-    echo "5:peers";
-    $size=$peers["size"];
-    if (isset($_GET["compact"]) && $_GET["compact"] == '1')
-    {
-        $p = '';
-        for ($i=0; $i < $size; $i++)
-            $p .= str_pad(pack("Nn", ip2long($peers[$i]['ip']), $peers[$i]['port']), 6);
-        echo strlen($p).':'.$p;
-    }
-    else // no_peer_id or no feature supported
-    {
-        echo 'l';
-        for ($i=0; $i < $size; $i++)
-        {
-            echo "d2:ip".strlen($peers[$i]["ip"]).":".$peers[$i]["ip"];
-            if (isset($peers[$i]["peer_id"]))
-                echo "7:peer id20:".hex2bin($peers[$i]["peer_id"]);
-            echo "4:port".$peers[$i]["port"]."ee";
-        }
-        echo "e";
-    }
-    if (isset($GLOBALS["trackerid"]))
-    {
-        // Now it gets annoying. trackerid is a string
-        echo "10:tracker id".strlen($GLOBALS["trackerid"]).":".$GLOBALS["trackerid"];
-    }
-    echo "e";
-}
-
-// Faster pass-through version of getRandompeers => sendPeerList
-// It's the only way to use cache tables. In fact, it only uses it.
+// send random peers to client (direct print)
 function sendRandomPeers($info_hash)
 {
 
   global $TABLE_PREFIX;
 
 
-    if (isset($_GET["compact"]) && $_GET["compact"] == '1')
-        $column = "compact";
-    else if (isset($_GET["no_peer_id"]) && $_GET["no_peer_id"] == '1')
-        $column = "without_peerid";
-    else
-        $column = "with_peerid";
 
-    $query = "SELECT $column FROM {$TABLE_PREFIX}peers WHERE infohash=\"$info_hash\" ORDER BY RAND() LIMIT ".$GLOBALS["maxpeers"];
+    if ($GLOBALS["NAT"])
+        $where="WHERE infohash=\"$hash\" AND natuser = 'N'";
+    else
+        $where="WHERE infohash=\"$hash\"";
+
+    $query = "SELECT ".((isset($_GET["no_peer_id"]) && $_GET["no_peer_id"] == 1) ? "" : "peer_id,")."ip, port, status FROM {$TABLE_PREFIX}peers ".$where." ORDER BY RAND() LIMIT ".$GLOBALS["maxpeers"];
 
     echo "d";
     echo "8:intervali".$GLOBALS["report_interval"]."e";
@@ -579,14 +443,15 @@ function sendRandomPeers($info_hash)
         echo "12:min intervali".$GLOBALS["min_interval"]."e";
     echo "5:peers";
 
-    $result = mysql_query($query);
-    if ($column == "compact")
-    {
+    $result = @mysql_query($query);
+
+    if (isset($_GET["compact"]) && $_GET["compact"] == '1')
+      {
         echo (mysql_num_rows($result) * 6) . ":";
         while ($row = mysql_fetch_row($result))
             echo str_pad($row[0], 6); //echo $row[0];
     }
-    else
+    else // no_peer_id or no feature supported
     {
         echo "l";
         while ($row = mysql_fetch_row($result))
@@ -657,7 +522,7 @@ function collectBytes($peer, $hash, $left, $downloaded=0, $uploaded=0, $pid="")
         return;
     }
     $diff = bcsub($peer["bytes"], $left);
-    quickQuery("UPDATE {$TABLE_PREFIX}peers set " . (($diff != 0) ? "bytes=\"$left\"," : ""). " lastupdate=UNIX_TIMESTAMP(), downloaded=$downloaded, uploaded=$uploaded, pid=\"$pid\" where infohash=\"$hash\" AND " . (isset($GLOBALS["trackerid"]) ? "sequence=\"${GLOBALS["trackerid"]}\"" : "peer_id=\"$peerid\""));
+    quickQuery("UPDATE {$TABLE_PREFIX}peers set " . (($diff != 0) ? "bytes=\"$left\"," : ""). " lastupdate=UNIX_TIMESTAMP(), downloaded=$downloaded, uploaded=$uploaded, pid=\"$pid\" where infohash=\"$hash\" AND " . (isset($GLOBALS["trackerid"]) ? "sequence=\"".$GLOBALS["trackerid"]."\"" : "peer_id=\"$peerid\""));
 
     // Anti-negative clause
     if (((float)$diff) > 0)
@@ -692,7 +557,7 @@ function runSpeed($info_hash, $delta)
 
 
 
-// select how many users with same
+// select how many users with same pid or ip
 $results = mysql_query("SELECT status, count(status) FROM {$TABLE_PREFIX}peers WHERE ".($PRIVATE_ANNOUNCE?"pid=\"$pid\"":"ip=\"$ip\"")." AND infohash=\"$info_hash\" AND peer_id<>\"$peer_id\" GROUP BY status") or show_error("Tracker error: invalid torrent");
 $status = array();
 
@@ -708,6 +573,9 @@ if ($status["seeder"]>=$GLOBALS["maxseeds"] || $status["leecher"]>=$GLOBALS["max
    show_error("Sorry max peers reached! Redownload torrent from $BASEURL");
 // end select
 
+unset($status);
+mysql_free_result($results);
+
 // UPDATE users ratio down/up for every event on every announce
 // only with the difference between stored down/up and sended by client
 if ($LIVESTATS)
@@ -715,7 +583,7 @@ if ($LIVESTATS)
      $resstat=mysql_query("SELECT uploaded, downloaded FROM {$TABLE_PREFIX}peers WHERE peer_id=\"$peer_id\" AND infohash=\"$info_hash\"");
      if ($resstat && mysql_num_rows($resstat)>0)
          {
-         $livestat=mysql_fetch_array($resstat);
+         $livestat=mysql_fetch_assoc($resstat);
          // only if uploaded/downloaded are >= stored data in peer list
          if ($uploaded>=$livestat["uploaded"])
                $newup=($uploaded-$livestat["uploaded"]);
@@ -737,7 +605,7 @@ if ($LIVESTATS)
           // if found at least one user should be 1
           if ($resu && mysql_num_rows($resu)==1)
             {
-              $curuid=mysql_fetch_array($resu);
+              $curuid=mysql_fetch_assoc($resu);
               quickQuery("UPDATE {$TABLE_PREFIX}history set uploaded=IFNULL(uploaded,0)+$newup, downloaded=IFNULL(downloaded,0)+$newdown WHERE uid=".$curuid["id"]." AND infohash='$info_hash'");
             }
           mysql_free_result($resu);
@@ -751,17 +619,10 @@ switch ($event)
 {
     // client sent start
     case "started":
-       verifyTorrent($info_hash) or show_error("Torrent is not authorized for use on this tracker.");
 
        $start = start($info_hash, $ip, $port, $peer_id, $left, $downloaded, $uploaded, $pid);
 
-       if ($GLOBALS["peercaching"])
-           sendRandomPeers($info_hash);
-       else
-       {
-           $peers = getRandomPeers($info_hash, "");
-           sendPeerList($peers);
-       }
+       sendRandomPeers($info_hash);
 
        // begin history
        if ($LOG_HISTORY)
@@ -770,7 +631,7 @@ switch ($event)
           // if found at least one user should be 1
           if ($resu && mysql_num_rows($resu)==1)
             {
-              $curuid=mysql_fetch_array($resu);
+              $curuid=mysql_fetch_assoc($resu);
               quickQuery("UPDATE {$TABLE_PREFIX}history set active='yes',agent='".getagent($agent,$peer_id)."' WHERE uid=".$curuid["id"]." AND infohash='$info_hash'");
               // record is not present, create it (only if not seeder: original seeder don't exist in history table, other already exists)
               if (mysql_affected_rows()==0 && $left>0)
@@ -784,18 +645,9 @@ switch ($event)
     // client sent stop
     case "stopped":
 
-       verifyTorrent($info_hash) or show_error("Torrent is not authorized for use on this tracker.");
        killPeer($peer_id, $info_hash, $left);
 
-       // I don't know why, but the real tracker returns peers on event=stopped
-       // but I'll just send an empty list. On the other hand,
-       // TheSHADOW asked for this.
-       if (isset($_GET["tracker"]))
-           $peers = getRandomPeers($info_hash);
-       else
-           $peers = array("size" => 0);
-
-       sendPeerList($peers);
+       sendRandomPeers($info_hash);
 
        // update user uploaded/downloaded
        if (!$LIVESTATS)
@@ -808,7 +660,7 @@ switch ($event)
           // if found at least one user should be 1
           if ($resu && mysql_num_rows($resu)==1)
             {
-              $curuid=mysql_fetch_array($resu);
+              $curuid=mysql_fetch_assoc($resu);
               quickQuery("UPDATE {$TABLE_PREFIX}history set active='no',".($LIVESTATS?"":" uploaded=IFNULL(uploaded,0)+$uploaded, downloaded=IFNULL(downloaded,0)+$downloaded,")." agent='".getagent($agent,$peer_id)."' WHERE uid=".$curuid["id"]." AND infohash='$info_hash'");
             }
           mysql_free_result($resu);
@@ -818,29 +670,29 @@ switch ($event)
 
     // client sent complete
     case "completed":
-        verifyTorrent($info_hash) or show_error("Torrent is not authorized for use on this tracker.");
+
         $peer_exists = getPeerInfo($peer_id, $info_hash);
 
         if (!is_array($peer_exists))
             start($info_hash, $ip, $port, $peer_id, $left, $downloaded, $uploaded, $pid);
         else
         {
-            quickQuery("UPDATE {$TABLE_PREFIX}peers SET bytes=0, status=\"seeder\" WHERE sequence=\"${GLOBALS["trackerid"]}\" AND infohash=\"$info_hash\"");
+            quickQuery("UPDATE {$TABLE_PREFIX}peers SET bytes=0, status=\"seeder\", lastupdate=UNIX_TIMESTAMP(), downloaded=$downloaded, uploaded=$uploaded, pid=\"$pid\" WHERE sequence=\"".$GLOBALS["trackerid"]."\" AND infohash=\"$info_hash\"");
 
             // Race check
             if (mysql_affected_rows() == 1)
-            {
+              {
                 summaryAdd("leechers", -1);
                 summaryAdd("seeds", 1);
                 summaryAdd("finished", 1);
                 summaryAdd("lastcycle", "UNIX_TIMESTAMP()", true);
             }
+            else
+              collectBytes($peer_exists, $info_hash, $left, $downloaded, $uploaded, $pid);
         }
-        collectBytes($peer_exists, $info_hash, $left, $downloaded, $uploaded, $pid);
 
-        $peers=getRandomPeers($info_hash);
 
-        sendPeerList($peers);
+        sendRandomPeers($info_hash);
 
         // begin history
         if ($LOG_HISTORY)
@@ -849,7 +701,7 @@ switch ($event)
            // if found at least one user should be 1
            if ($resu && mysql_num_rows($resu)==1)
              {
-               $curuid=mysql_fetch_array($resu);
+               $curuid=mysql_fetch_assoc($resu);
                // if user has already completed this torrent, mysql will give error because of unique index (uid+infohash)
                // upload/download will be updated on stop event...
                // record should already exist (created on stated event)
@@ -866,7 +718,7 @@ switch ($event)
 
     // client sent no event
     case "":
-        verifyTorrent($info_hash) or show_error("Torrent is not authorized for use on this tracker.");
+
         $peer_exists = getPeerInfo($peer_id, $info_hash);
         $where = "WHERE natuser='N'";
 
@@ -875,7 +727,7 @@ switch ($event)
 
         if ($peer_exists["bytes"] != 0 && $left == 0)
         {
-            quickQuery("UPDATE {$TABLE_PREFIX}peers SET bytes=0, status=\"seeder\" WHERE sequence=\"${GLOBALS["trackerid"]}\" AND infohash=\"$info_hash\"");
+            quickQuery("UPDATE {$TABLE_PREFIX}peers SET bytes=0, status=\"seeder\", lastupdate=UNIX_TIMESTAMP(), downloaded=$downloaded, uploaded=$uploaded, pid=\"$pid\" WHERE sequence=\"".$GLOBALS["trackerid"]."\" AND infohash=\"$info_hash\"");
             if (mysql_affected_rows() == 1)
             {
                 summaryAdd("leechers", -1);
@@ -883,22 +735,18 @@ switch ($event)
                 summaryAdd("finished", 1);
                 summaryAdd("lastcycle", "UNIX_TIMESTAMP()", true);
             }
+            else
+              collectBytes($peer_exists, $info_hash, $left, $downloaded, $uploaded, $pid);
         }
-        collectBytes($peer_exists, $info_hash, $left, $downloaded, $uploaded, $pid);
 
-    if ($GLOBALS["peercaching"])
-        sendRandomPeers($info_hash);
-    else
-    {
-        $peers = getRandomPeers($info_hash, "");
-        sendPeerList($peers);
-    }
+
+       sendRandomPeers($info_hash);
 
     break;
 
     // not valid event
     default:
-        show_error("Invalid event= from client.");
+        show_error("Invalid event from client.");
 
 }
 
@@ -908,7 +756,7 @@ if ($GLOBALS["countbytes"])
     // Once every minute or so, we run the speed update checker.
     $query = @mysql_query("SELECT UNIX_TIMESTAMP() - lastSpeedCycle FROM {$TABLE_PREFIX}files WHERE info_hash=\"$info_hash\"");
     $results = mysql_fetch_row($query);
-    if ($results[0] >= 60)
+    if ($results[0] >= 120)
        @runSpeed($info_hash, $results[0]);
 }
 
@@ -919,7 +767,7 @@ if (!empty($summaryupdate))
     $stuff = "";
     foreach ($summaryupdate as $column => $value)
     {
-        $stuff .= ', '.$column. ($value[1] ? "=" : "=$column+") . $value[0];
+        $stuff .= ', '.$column. ($value[1] ? "=".$value[0] : "=IF($column+" . $value[0]."<0,0,$column+".$value[0].")");
     }
     mysql_query("UPDATE {$TABLE_PREFIX}files SET ".substr($stuff, 1)." WHERE info_hash=\"$info_hash\"");
 }

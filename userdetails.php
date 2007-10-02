@@ -190,7 +190,7 @@ if ($resuploaded && mysql_num_rows($resuploaded)>0)
    }
 else
    {
-   $userdetailstpl->set("RESULTS",false,true);
+   $userdetailtpl->set("RESULTS",false,true);
    }
 
 if ($XBTT_USE)
@@ -253,7 +253,7 @@ if ($sanq[0]>0)
                  $tortpl[$i]["leechs"]="<a href=\"javascript:poppeer('index.php?page=peers&amp;id=".$torlist->infohash."')\">$torlist->leechers</a>";
                  $tortpl[$i]["completed"]="<a href=\"javascript:poppeer('index.php?page=torrent_history.php&amp;id=".$torlist->infohash."')\">".$torlist->finished."</a>";
                  $i++;
-                 $userdetailstpl->set("tor",$tortpl);
+                 $userdetailtpl->set("tor",$tortpl);
              }
              else
              {
@@ -273,7 +273,7 @@ if ($sanq[0]>0)
                  $tortpl[$i]["leechs"]="<a href=\"index.php?page=peers&amp;id=".$torlist->infohash."\">$torlist->leechers</a>";
                  $tortpl[$i]["completed"]="<a href=\"index.php?page=torrent_history&amp;id=".$torlist->infohash."\">".$torlist->finished."</a>";
                  $i++;
-                 $userdetailstpl->set("tor",$tortpl);
+                 $userdetailtpl->set("tor",$tortpl);
             }
          }
         }
@@ -317,7 +317,7 @@ if ($sanq[0]>0)
                 $torhistory[$i]["leechs"]="<a href=\"javascript:poppeer('index.php?page=peers&amp;id=".$torlist->info_hash."')\">$torlist->leechers</a>";
                 $torhistory[$i]["completed"]="<a href=\"javascript:poppeer('index.php?page=torrent_history6amp;id=".$torlist->info_hash."')\">".$torlist->finished."</a>";
                 $i++;
-                $userdetailstpl->set("torhistory",$torhistory);
+                $userdetailtpl->set("torhistory",$torhistory);
             }
             else
             {
@@ -338,7 +338,7 @@ if ($sanq[0]>0)
                 $torhistory[$i]["leechs"]="<a href=\"index.php?page=peers&amp;id=".$torlist->info_hash."\">$torlist->leechers</a>";
                 $torhistory[$i]["completed"]="<a href=\"index.php?page=torrent_history&amp;id=".$torlist->info_hash."\">".$torlist->finished."</a>";
                 $i++;
-                $userdetailstpl->set("torhistory",$torhistory);
+                $userdetailtpl->set("torhistory",$torhistory);
             }
         }
    } else $userdetailtpl->set("RESULTS_2",false,true);

@@ -128,8 +128,8 @@
     <tr>
       <td class="header"><tag:language.SETTING_MAX_PEERS /></td>
       <td class="lista"><input type="text" name="maxpeers" value="<tag:config.max_peers_per_announce />" size="10" /></td>
-      <td class="header"><tag:language.SETTING_DYNAMIC /></td>
-      <td class="lista"><input type="checkbox" name="dynamic" value="dynamic"  <tag:config.dynamic />/></td>
+      <td class="header"><tag:language.CACHE_SITE /></td>
+      <td class="lista"><input type="text" name="cache_duration" value="<tag:config.cache_duration />" size="10" /></td>
     </tr>
     <tr>
       <td class="header"><tag:language.SETTING_NAT_CHECK /></td>
@@ -154,12 +154,6 @@
       <td class="lista"><input type="text" name="maxseeds" value="<tag:config.maxpid_seeds />" size="10" /></td>
       <td class="header"><tag:language.SETTING_LEECHERS_PID /></td>
       <td class="lista"><input type="text" name="maxleech" value="<tag:config.maxpid_leech />" size="10" /></td>
-    </tr>
-    <tr>
-      <td class="header"><tag:language.SETTING_PEER_CACHING /></td>
-      <td class="lista"><input type="checkbox" name="peercaching" value="peercaching"  <tag:config.peercaching />/></td>
-      <td class="header"><tag:language.CACHE_SITE /></td>
-      <td class="lista"><input type="text" name="cache_duration" value="<tag:config.cache_duration />" size="10" /></td>
     </tr>
     <tr>
       <td class="header"><tag:language.SETTING_CUT_LONG_NAME /></td>
