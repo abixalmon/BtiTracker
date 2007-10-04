@@ -2,12 +2,6 @@
 
 $tracker_version="2.0 Private Beta";
 
-// CHECK FOR INSTALLATION FOLDER WITHOUT INSTALL.ME
-if (file_exists("install.php") && $_COOKIE["uid"]==2)
-     $err_msg_install=("<div align=\"center\" style=\"color:red; font-size:12pt; font-weight: bold;\">SECURITY WARNING: Delete install.php!</div>");
-else
-     $err_msg_install="";
-
 error_reporting(E_ALL ^ E_NOTICE);
 
 
@@ -242,7 +236,7 @@ function hash_pad($hash) {
 
 function userlogin() {
 
-    global $CURUSER, $TABLE_PREFIX;
+    global $CURUSER, $TABLE_PREFIX, $err_msg_install;
     unset($GLOBALS["CURUSER"]);
 
 
@@ -287,6 +281,13 @@ function userlogin() {
 
     if ($id>1)
        do_sqlquery("UPDATE {$TABLE_PREFIX}users SET lip=".$nip.", cip='".AddSlashes($ip)."' WHERE id = $id");
+
+    // CHECK FOR INSTALLATION FOLDER WITHOUT INSTALL.ME
+    if (file_exists("install.php") && $row["id_level"]==8) // only owner level
+         $err_msg_install=("<div align=\"center\" style=\"color:red; font-size:12pt; font-weight: bold;\">SECURITY WARNING: Delete install.php!</div>");
+    else
+         $err_msg_install="";
+
 
     $GLOBALS["CURUSER"] = $row;
     unset($row);

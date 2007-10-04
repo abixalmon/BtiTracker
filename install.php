@@ -98,7 +98,7 @@ function language_list()
          global $TABLE_PREFIX;
 
          $ret = array();
-         $res = do_sqlquery("SELECT * FROM {$TABLE_PREFIX}language ORDER BY language");
+         $res = mysql_query("SELECT * FROM {$TABLE_PREFIX}language ORDER BY language");
 
          while ($row = mysql_fetch_assoc($res))
              $ret[] = $row;
@@ -115,7 +115,7 @@ function style_list()
          global $TABLE_PREFIX;
 
          $ret = array();
-         $res = do_sqlquery("SELECT * FROM {$TABLE_PREFIX}style ORDER BY id");
+         $res = mysql_query("SELECT * FROM {$TABLE_PREFIX}style ORDER BY id");
 
          while ($row = mysql_fetch_assoc($res))
              $ret[] = $row;
@@ -232,18 +232,18 @@ if (file_exists(dirname(__FILE__)."/include/settings.php"))
 else
   $settings=$install_lang["write_file_not_found"]."&nbsp;".$install_lang["not_continue_settings2"];
 
-if ((bool)@ini_get('allow_url_fopen')==false)
+if ((bool)ini_get('allow_url_fopen')===true)
    $allow_url_fopen=$install_lang["allow_url_fopen_ON"];
 else
    $allow_url_fopen=$install_lang["allow_url_fopen_OFF"]."&nbsp;&nbsp;&nbsp;".$install_lang["can_continue"];
   
     echo ("<h2>".$install_lang["requirements_check"]."</h2>");
     echo ("<table width=\"100%\" cellpadding=\"4\" cellspacing=\"4\" border=\"0\" style=\"margin-bottom: 2ex;\">");
-    echo ("<tr><td width=\"20%\" valign=\"top\">".$install_lang["cache_folder"].":</td><td>".$cache."</td></tr>");
-    echo ("<tr><td width=\"20%\" valign=\"top\">".$install_lang["torrents_folder"].":</td><td>".$torrents."</td></tr>");
-    echo ("<tr><td width=\"20%\" valign=\"top\">".$install_lang["badwords_file"].":</td><td>".$badwords."</td></tr>");
-    echo ("<tr><td width=\"20%\" valign=\"top\">".$install_lang["settings.php"].":</td><td>".$settings."</td></tr>");
-    echo ("<tr><td width=\"20%\" valign=\"top\">".$install_lang["allow_url_fopen"].":</td><td>".$allow_url_fopen."</td></tr>");
+    echo ("<tr><td width=\"40%\" valign=\"top\">".$install_lang["cache_folder"].":</td><td>".$cache."</td></tr>");
+    echo ("<tr><td width=\"40%\" valign=\"top\">".$install_lang["torrents_folder"].":</td><td>".$torrents."</td></tr>");
+    echo ("<tr><td width=\"40%\" valign=\"top\">".$install_lang["badwords_file"].":</td><td>".$badwords."</td></tr>");
+    echo ("<tr><td width=\"40%\" valign=\"top\">".$install_lang["settings.php"].":</td><td>".$settings."</td></tr>");
+    echo ("<tr><td width=\"40%\" valign=\"top\">".$install_lang["allow_url_fopen"].":</td><td>".$allow_url_fopen."</td></tr>");
     echo ("</table>");
     // don't continue if this file doesn't exists
     if (file_exists(dirname(__FILE__)."/include/settings.php"))
@@ -438,6 +438,7 @@ elseif ($action == 'site_config') {
 
     // getting started
     require (dirname(__FILE__)."/include/settings.php");
+
     mysql_connect($dbhost, $dbuser, $dbpass);
     mysql_select_db($database);
     
@@ -457,14 +458,14 @@ elseif ($action == 'site_config') {
 
     $lres=language_list();
     foreach ($lres as $l)
-            echo ("<option value=\"".$l["id"]."\" selected=\"selected\">".StripSlashes($l["language"])."</option>");
+            echo ("<option value=\"".$l["id"]."\">".StripSlashes($l["language"])."</option>");
 
     echo ("</select></td>");
     echo ("<tr><td>".$install_lang["default_style"].":</td><td><select name=\"style\">");
 
     $sres=style_list();
     foreach ($sres as $s)
-            echo ("<option value=\"".$s["id"]."\" selected=\"selected\">".StripSlashes($s["style"])."</option>");
+            echo ("<option value=\"".$s["id"]."\">".StripSlashes($s["style"])."</option>");
     echo ("</select></td>");
     echo ("<tr><td>".$install_lang["validation"].":</td><td><select name=\"validation\">");
     echo ("<option value=\"none\">none</option>");
