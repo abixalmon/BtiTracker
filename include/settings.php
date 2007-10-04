@@ -3,7 +3,7 @@
 $dbhost = "localhost";
 $dbuser = "test";
 $dbpass = "test";
-$database = "prefix";
-$TABLE_PREFIX = "btit_";
+$database = "xbtit";
+$TABLE_PREFIX = "xbtit_";
 
 ?>

@@ -78,8 +78,8 @@ function forum_pager($rpp, $count, $href, $opts = array()) {
     }
 
     $mp = $pages;// - 1;
-    $begin=($pages>4?($page>=$pages-2?$pages-2:$page):1);
-    $end=($pages>$begin+2?$begin+2:$pages);
+    $begin=($page > 3?($page<$pages-2?$page-2:$pages-2):1);
+    $end=($pages>$begin+2?($begin+2<$pages?$begin+2:$pages):$pages);
     if ($page > 1)
       {
         $pager .= "\n&nbsp;<span class=\"pager\"><a href=\"{$href}$pagename=1\">&nbsp;&laquo;</a></span>";
@@ -87,7 +87,6 @@ function forum_pager($rpp, $count, $href, $opts = array()) {
     }
 //    else
 //        $pager .= "\n<span class=\"pager\">&lt;&nbsp;</span>";
-
 
     if ($count) {
         for ($i = $begin; $i <= $end; $i++) {

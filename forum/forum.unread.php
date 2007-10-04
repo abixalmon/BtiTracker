@@ -84,7 +84,9 @@ if ($numtopics > 0)
       $topicpic = ($locked ? ($new ? "lockednew" : "locked") : $topicarr["img"]);
 
       $subject = ($sticky ? $language["STICKY"].": " : "") . "<a href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=$topicid\"><b>" .
-      htmlspecialchars(unesc($topicarr["subject"])) . "</b></a>$topicpages";
+      htmlspecialchars(unesc($topicarr["subject"])) .
+      "&nbsp;<a href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=$topicid&amp;msg=new#new\">".image_or_link("$STYLEPATH/images/new.gif","",$language["NEW"])."</a>".
+      "</b></a>$topicpages";
 
       $topics[$i]["view"]=number_format($topic_views);
       $topics[$i]["replies"]=intval($topicarr["num_posts"]) - 1;

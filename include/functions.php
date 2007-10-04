@@ -408,14 +408,14 @@ function pager($rpp, $count, $href, $opts = array()) {
     global $language;
 
     if($rpp!=0) $pages = ceil($count / $rpp);
-    else $pages=0;
+    else $pages=1;
 
     if (!isset($opts["lastpagedefault"]))
-        $pagedefault = 0;
+        $pagedefault = 1;
     else {
         $pagedefault = floor(($count - 1) / $rpp);
-        if ($pagedefault < 0)
-            $pagedefault = 0;
+        if ($pagedefault < 1)
+            $pagedefault = 1;
     }
 
     $pagename="pages";
@@ -424,12 +424,12 @@ function pager($rpp, $count, $href, $opts = array()) {
       {
        $pagename=$opts["pagename"];
        if (isset($_GET[$opts["pagename"]]))
-          $page = max(0 ,$_GET[$opts["pagename"]]);
+          $page = max(1 ,intval($_GET[$opts["pagename"]]));
        else
           $page = $pagedefault;
       }
     elseif (isset($_GET["pages"])) {
-        $page = 0 + $_GET["pages"];
+        $page = max(1,intval(0 + $_GET["pages"]));
         if ($page < 0)
             $page = $pagedefault;
     }
@@ -438,65 +438,57 @@ function pager($rpp, $count, $href, $opts = array()) {
 
     $pager = "";
 
-    $mp = $pages - 1;
-    $as = "<b>&lt;&lt;&nbsp;".$language["PREVIOUS"]."</b>";
-    if ($page >= 1) {
-        $pager .= "<a href=\"{$href}$pagename=" . ($page - 1) . "\">";
-        $pager .= $as;
-        $pager .= "</a>";
+    if ($pages>1)
+      {
+        $pager.="\n<select class=\"drop_pager\" name=\"pages\" onchange=\"location=document.change_page.pages.options[document.change_page.pages.selectedIndex].value\" size=\"1\">";
+        for ($i = 1; $i<=$pages;$i++)
+            $pager.="\n<option ".($i==$page?"selected=\"selected\"":"")."value=\"$href$pagename=$i\">$i</option>";
+        $pager.="\n</select>";
     }
-    else
-        $pager .= $as;
 
-    $pager .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-
-    $as = "<b>".$language["NEXT"]."&nbsp;&gt;&gt;</b>";
-
-    if ($page < $mp && $mp >= 0) {
-        $pager .= "<a href=\"{$href}$pagename=" . ($page + 1) . "\">";
-        $pager .= $as;
-        $pager .= "</a>";
+    $mp = $pages;// - 1;
+    $begin=($page > 3?($page<$pages-2?$page-2:$pages-2):1);
+    $end=($pages>$begin+2?($begin+2<$pages?$begin+2:$pages):$pages);
+    if ($page > 1)
+      {
+        $pager .= "\n&nbsp;<span class=\"pager\"><a href=\"{$href}$pagename=1\">&nbsp;&laquo;</a></span>";
+        $pager .= "\n<span class=\"pager\"><a href=\"{$href}$pagename=".($page-1)."\">&lt;&nbsp;</a></span>";
     }
-    else
-        $pager .= $as;
+//    else
+//        $pager .= "\n<span class=\"pager\">&lt;&nbsp;</span>";
 
     if ($count) {
-        $pagerarr = array();
-        $dotted = 0;
-        $dotspace = 3;
-        $dotend = $pages - $dotspace;
-        $curdotend = $page - $dotspace;
-        $curdotstart = $page + $dotspace;
-        for ($i = 0; $i < $pages; $i++) {
-            if (($i >= $dotspace && $i <= $curdotend) || ($i >= $curdotstart && $i < $dotend)) {
-                if (!$dotted)
-                    $pagerarr[] = "...";
-                $dotted = 1;
-                continue;
-            }
-            $dotted = 0;
-            $start = $i * $rpp + 1;
-            $end = $start + $rpp - 1;
-            if ($end > $count)
-                $end = $count;
-
-            $text = "$start&nbsp;-&nbsp;$end";
+        for ($i = $begin; $i <= $end; $i++) {
             if ($i != $page)
-                $pagerarr[] = "<a href=\"{$href}$pagename=$i\">$text</a>";
+                $pager .= "\n&nbsp;<span class=\"pager\"><a href=\"{$href}$pagename=$i\">$i</a></span>";
             else
-                $pagerarr[] = "<b>$text</b>";
+                $pager .= "\n&nbsp;<span class=\"pagercurrent\"><b>$i</b></span>";
         }
 
-        $pagerstr = join(" | ", $pagerarr);
-        $pagertop = "<div>$pager<br />$pagerstr</div>\n";
-        $pagerbottom = "<div>$pagerstr<br />$pager</div>\n";
+
+        if ($page < $mp && $mp >= 1)
+         {
+            $pager .= "\n&nbsp;<span class=\"pager\"><a href=\"{$href}$pagename=".($page+1)."\">&nbsp;&gt;</a></span>";
+            $pager .= "\n&nbsp;<span class=\"pager\"><a href=\"{$href}$pagename=$pages\">&nbsp;&raquo;</a></span>";
+        }
+//        else
+//            $pager .= "\n&nbsp;<span class=\"pager\">&nbsp;&gt;</span>";
+
+        $pagertop = "$pager\n";
+        $pagerbottom = "$pager\n";
     }
     else {
-        $pagertop = "<div>$pager</div>\n";
+        $pagertop = "$pager\n";
         $pagerbottom = $pagertop;
     }
 
-    $start = $page * $rpp;
+    $start = ($page-1) * $rpp;
+    if ($pages<2)
+        {
+        // only 1 page??? don't need pager ;)
+        $pagertop="";
+        $pagerbottom="";
+    }
     return array($pagertop, $pagerbottom, "LIMIT $start,$rpp");
 
 }

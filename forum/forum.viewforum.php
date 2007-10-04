@@ -118,7 +118,7 @@ if ($numtopics > 0)
 
       $subject = ($sticky ? $language["STICKY"].": " : "") . "<a href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=$topicid\"><b>" .
       htmlspecialchars(unesc($topicarr["subject"])) . "</b></a>".
-      ($new?"<a href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=$topicid&amp;msg=new#new\">".image_or_link("$STYLEPATH/images/new.gif","",$language["NEW"])."</a>":"")."$topicpages";
+      ($new?"&nbsp;<a href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=$topicid&amp;msg=new#new\">".image_or_link("$STYLEPATH/images/new.gif","",$language["NEW"])."</a>":"")."$topicpages";
 
       $topics[$i]["view"]=number_format($topic_views);
       $topics[$i]["replies"]=intval($topicarr["num_posts"]) - 1;
