@@ -8,8 +8,7 @@ dbconn();
 
 if (!$CURUSER || $CURUSER["can_download"]=="no")
    {
-       standardheader('Download');
-       err_msg(ERROR,NOT_AUTH_DOWNLOAD);
+       stderr(ERROR,NOT_AUTH_DOWNLOAD);
        die();
    }
 if(ini_get('zlib.output_compression'))
@@ -20,9 +19,7 @@ $filepath=$TORRENTSDIR."/".$infohash . ".btf";
 
 if (!is_file($filepath) || !is_readable($filepath))
    {
-       standardheader('Download');
-       err_msg(ERROR,CANT_FIND_TORRENT);
-       stdfoot();
+       stderr(ERROR,CANT_FIND_TORRENT);
        die();
     }
 
