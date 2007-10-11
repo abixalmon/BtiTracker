@@ -86,11 +86,15 @@ $install_lang["go_to_tracker"]          = "Przejdź do swojego trackera";
 $install_lang["forum_type"]             = "Rodzaj forum";
 $install_lang["forum_internal"]         = "Wewnętrzne XBTI-Tracker Forum";
 $install_lang["forum_smf"]              = "Simple Machines Forum";
-$install_lang["forum_other"]            = "Unintegrated External Forum - Enter url here -->";
+$install_lang["forum_other"]            = "Niezintegrowane zewnętrzne forum - Wpisz adres tutaj -->";
 $install_lang["smf_download_a"]         = "<strong>Jeżeli wybierasz Simple Machines Forum:</strong><br /><br/ >Proszę ściągnąć najnowszą wersję Simple Machines Forum <a target='_new' href='http://www.simplemachines.org/download/'>stąd</a> i wysłać zawartość archiwum do folderu \"smf\" i <a target='_new' href='smf/install.php'>kliknąć tutaj</a> aby je zainstalować.*<br /><strong>(Proszę użyć tych samych danych uwierzytelniających do bazy których używasz do instalacji trackera.)<br /><br /><font color='#FF0000'>Gdy zainstalujesz</font></strong> proszę zmienić CHMOD angielskiego pliku językowego SMF (<strong>";
 $install_lang["smf_download_b"]         = "</strong>) na 777 i kliknij <strong>Następny</strong> aby kontynuować instalację XBTI-Tracker.<br /><br /><strong>* Oba linki otworzą się w nowych oknach/zakładkach aby zapobiec wyłączeniu instalatora XBTI-Tracker.</strong></p>";
 $install_lang["smf_err_1"]              = "Nie można znaleźć Simple Machines Forum w folderze \"smf\", proszę zainstalować forum zanim przejdziesz do następnego kroku.<br /><br />Kliknij <a href=\"javascript: history.go(-1);\">tutaj</a> aby powrócić do poprzedniej strony.";
 $install_lang["smf_err_2"]              = "Nie można znaleźć Simple Machines Forum w bazie danych, proszę zainstalować forum zanim przejdziesz do następnego kroku.<br /><br />Kliknij <a href=\"javascript: history.go(-1);\">tutaj</a> aby powrócić do poprzedniej strony.";
 $install_lang["smf_err_3a"]             = "Nie można zapisywać do angielskiego pliku językowego SMF English (<strong>";
 $install_lang["smf_err_3b"]             = "</strong>) proszę zmienić CHMOD na 777 przed kontynuacją instalacji.<br /><br />Kliknij <a href=\"javascript: history.go(-1);\">tutaj</a> aby wrócić do poprzedniej strony.";
+$install_lang["allow_url_fopen"]        = "wartość w php.ini dla \"allow_url_fopen\" (najlepsze będzie ON)";
+$install_lang["allow_url_fopen_ON"]        = "<span style=\"color:#00FF00; font-weight: bold;\">ON</span>";
+$install_lang["allow_url_fopen_OFF"]        = "<span style=\"color:#FF0000; font-weight: bold;\">OFF</span>";
+
 ?>

@@ -32,7 +32,7 @@ $language["XBTT_URL"]="Xbtt bazowy url (np. http://localhost:2710)";
 $language["GENERAL_SETTINGS"]="Ustawienia główne";
 $language["TRACKER_NAME"]="Nazwa strony";
 $language["TRACKER_BASEURL"]="Bazowy adres URL Tracker'a (bez końcowego /)";
-$language["TRACKER_ANNOUNCE"]="Announce URL'e Tracker'a (jeden na wiersz)";
+$language["TRACKER_ANNOUNCE"]="Announce URL'e Tracker'a (jeden na wiersz)".($XBTT_USE?"<br />\n<span style=\"color:#FF0000; font-weight: bold;\">Sprawdź adresy announce dwa razy, jeżeli włączyłeś XBTT...</span>":"");
 $language["TRACKER_EMAIL"]="Email Tracker'a/właściciela";
 $language["TORRENT_FOLDER"]="Folder torrentów";
 $language["ALLOW_EXTERNAL"]="Zewnętrzne torrenty";
