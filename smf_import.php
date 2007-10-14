@@ -479,7 +479,7 @@ print("<script LANGUAGE=\"javascript\">window.location.href='".$_SERVER["PHP_SEL
 elseif($act=="completed")
 {
     // Lock import file from future use
-   // @mysql_query("UPDATE {$TABLE_PREFIX}users SET random=54345 WHERE id=1");
+    @mysql_query("UPDATE {$TABLE_PREFIX}users SET random=54345 WHERE id=1");
     echo $lang[32] . $lang[33];
 }
 
