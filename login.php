@@ -42,7 +42,6 @@ if (isset($_POST["uid"]) && isset($_POST["pwd"]))
         $language=$language2;
         $smf_pass = sha1(strtolower($user) . $pwd);
     }
-  
     $res = do_sqlquery("SELECT u.id, u.random, u.password".(($GLOBALS["FORUMLINK"]=="smf") ? ", u.smf_fid, s.passwd, s.passwordSalt" : "")." FROM {$TABLE_PREFIX}users u ".(($GLOBALS["FORUMLINK"]=="smf") ? "LEFT JOIN {$db_prefix}members s ON u.smf_fid=s.ID_MEMBER" : "" )." WHERE u.username ='".AddSlashes($user)."'")
         or die(mysql_error());
     $row = mysql_fetch_array($res);
@@ -67,6 +66,12 @@ if (isset($_POST["uid"]) && isset($_POST["pwd"]))
         logincookie($row["id"],md5($row["random"].$row["password"].$row["random"]));
         if ($GLOBALS["FORUMLINK"]=="smf" && $smf_pass==$row["passwd"])
             set_smf_cookie($row["smf_fid"], $row["passwd"], $row["passwordSalt"]);
+        elseif ($GLOBALS["FORUMLINK"]=="smf" && $row["password"]==$row["passwd"])
+        {
+            $salt=substr(md5(rand()), 0, 4);
+            @mysql_query("UPDATE {$db_prefix}members SET passwd='$smf_pass', passwordSalt='$salt' WHERE ID_MEMBER=".$row["smf_fid"]);
+            set_smf_cookie($row["smf_fid"], $smf_pass, $salt);
+        }
         if (isset($_GET["returnto"]))
            $url=urldecode($_GET["returnto"]);
         else

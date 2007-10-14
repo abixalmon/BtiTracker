@@ -665,7 +665,7 @@ elseif ($action == 'save_owner') {
     // finding the base path.
     $baseurl = 'http://' . $host . substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/'));
     
-    $txt['registration_disabled'] = 'Sorry, registration via SMF is disabled. Registration for this forum must be done via the Tracker <a href='.$baseurl.'/index.php?page=signup>Here</a>.<br /><br />If you already have a tracker account please <a target=_self href=index.php?action=login>login here</a> with the same credentials.';
+    $txt['registration_disabled'] = 'Sorry, registration via SMF is disabled. Registration for this forum must be done via the Tracker <a target="_self" href="'.$baseurl.'/index.php?page=signup">Here</a>.<br /><br />If you already have a tracker account please <a target="_self" href="index.php?action=login">login here</a> with the same credentials.';
 
     $fd=fopen($smf_lang, "w");
 
