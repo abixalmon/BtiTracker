@@ -79,8 +79,21 @@ $install_lang["tracker_saved"]          = "De instelling zijn opgeslagen.";
 $install_lang["finished"]               = "Afronding van Installatie";
 $install_lang["finished_step"]          = "Afronden";
 $install_lang["succes_install1"]        = "De installatie is gelukt!";
-$install_lang["succes_install2"]        = "<p>U heeft met succes ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." geïnstalleerd op uw tracker.</p><p>Wij adviseren u de installatie te vergrendelen. Dit kunt u doen door <b>install.unlock</b> te veranderen naar <b>install.lock</b> of dit <b>install.php</b> bestand te verwijderen.</p>";
+$install_lang["succes_install2a"]       = "<p>U heeft met succes ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." ge&iuml;nstalleerd op uw tracker.</p><p>De installatie is met succes vergrendelt tegen hergebruik maar wij adviseren u om <b>install.php</b> te verwijderen voor de zekerheid.</p>";
+$install_lang["succes_install2b"]        = "<p>U heeft met succes ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." geïnstalleerd op uw tracker.</p><p>Wij adviseren u de installatie te vergrendelen. Dit kunt u doen door <b>install.unlock</b> te veranderen naar <b>install.lock</b> of dit <b>install.php</b> bestand te verwijderen.</p>";
 $install_lang["succes_install3"]        = "<p>Wij van BTITeam wensen u veel plezier bij het gebruik van dit product en hopen u nog eens te zien op ons <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forum</a>.</p>";
 $install_lang["go_to_tracker"]          = "Ga naar uw tracker";
-
+$install_lang["forum_type"]             = "Forum Type";
+$install_lang["forum_internal"]         = "XBTI-Tracker Intern Forum";
+$install_lang["forum_smf"]              = "Simple Machines Forum";
+$install_lang["forum_other"]            = "Niet ge&iuml;ntegreerd Extern Forum - Plaats de link hier -->";
+$install_lang["smf_download_a"]         = "<strong>Wanneer u Simple Machines Forum gebruikt:</strong><br /><br/ >Download a.u.b. de laatste versie van Simple Machines Forum <a target='_new' href='http://www.simplemachines.org/download/'>hier</a> en upload naar de \"smf\" folder en <a target='_new' href='smf/install.php'>klik hier</a> om vervolgens te installeren.<br />*<strong>(Gebruik alstublieft dezefde database kwalificaties zoals u deze gebruikt heeft in de installatie).<br /><br /><font color='#FF0000'>Eenmaal ge&iuml;nstalleerd</font></strong> CHMOD de engelse SMF taalbestand<br />(<strong>";
+$install_lang["smf_download_b"]         = "</strong>)<br />naar 777 en klik op <strong>Volgende</strong> om verder te gaan met de XBTI-Tracker installatie.<br /><br /><strong>* Allebei de linken worden geopend in een nieuw window/tab om verlies van data tegen te gaan tijdens de XBTI-Tracker installatie.</strong></p>";
+$install_lang["smf_err_1"]              = "Kan Simple Machines Forum in de \"smf\" folder is niet vinden, installeer dit eerst voordat u verdergaat.<br /><br />Klik <a href=\"javascript: history.go(-1);\">hier</a> om terug te gaan.";
+$install_lang["smf_err_2"]              = "Kan Simple Machines Forum niet vinden in de database, installeer dit eerst voordat u verdergaat.<br /><br />Klik <a href=\"javascript: history.go(-1);\">hier</a> om terug te gaan.";
+$install_lang["smf_err_3a"]             = "Mislukt om te schrijven naar het engelse SMF taalbestand (<strong>";
+$install_lang["smf_err_3b"]             = "</strong>) CHMOD dit eerst voordat u verdergaat.<br /><br />Klik <a href=\"javascript: history.go(-1);\">hier</a> om terug te gaan.";
+$install_lang["allow_url_fopen"]		= "php.ini waarde voor \"allow_url_fopen\" (beste is ON)";
+$install_lang["allow_url_fopen_ON"]		= "<span style=\"color:#00FF00; font-weight: bold;\">ON</span>";
+$install_lang["allow_url_fopen_OFF"]	= "<span style=\"color:#FF0000; font-weight: bold;\">OFF</span>";
 ?>

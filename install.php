@@ -479,10 +479,10 @@ elseif ($action == 'site_config') {
     echo ("<option value=\"3\">".$install_lang["forum_other"]."</option>");
     echo ("</select>");
     echo ("&nbsp;&nbsp;&nbsp;<input type='text' name='externalforum' size='30' maxlength='200' value='')></td></tr>");
-    echo ("</table>");
+    echo ("<tr><td colspan=\"2\">");
     echo ("<p><table border='0' width='100%' align='left' bgcolor='#FFFFCC'><tr><td>" . $install_lang["smf_download_a"] . $smf_lang . $install_lang["smf_download_b"] . "</td></tr></table></p>");
-    echo ("<p>&nbsp;</p>");
-    echo ($install_lang["more_settings"]);
+    echo ("</td></tr>");
+    echo ("<tr><td colspan=\"2\">".$install_lang["more_settings"]."</td></tr></table>");
     echo ("<div align=\"right\"><input type=\"submit\" value=\"". $install_lang["next"]."\" /></div></form>");
     
 }
