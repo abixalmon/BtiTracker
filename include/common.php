@@ -143,9 +143,12 @@ function write_cached_version($page, $content="")
   // write cache file
   if(@is_writable($cache_dir))
     {
-      $fp=fopen($cache_file,"w");
-      @fputs($fp,$content);
-      @fclose($fp);
+      $fp=@fopen($cache_file,"w");
+      if ($fp)
+        {
+        @fputs($fp,$content);
+        @fclose($fp);
+      }
   }
   ob_end_flush();
 

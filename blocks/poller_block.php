@@ -10,7 +10,7 @@ if ($GLOBALS["ajax_poller"])
       print("<a name=\"poll\" />");
       block_begin(LATEST_POLL);
   ?>
-  <table border="0" cellspacing="0" cellpadding="10" width="100%"><tr><td class="lista" align="center">
+  <table border="0" class="block" cellspacing="0" cellpadding="0" width="100%"><tr><td align="center">
   <form action="<?php echo $_SERVER['PHP_SELF']; ?>" onsubmit="return false" method="post" name="poller">
   <div id="mainContainer">
       <div id="mainContent">
@@ -21,7 +21,7 @@ if ($GLOBALS["ajax_poller"])
     ?>
     <!-- START OF POLLER -->
     <div class="poller">
-      <div class="poller_question" id="poller_question<?php echo $pollerId; ?>">
+      <div class="poller_question" style="padding-left:5px; padding-right:5px;" id="poller_question<?php echo $pollerId; ?>">
       <?php      
       // Retreving poll from database
       $res = mysql_query("select * from {$TABLE_PREFIX}poller where ID='$pollerId'");
@@ -41,7 +41,7 @@ if ($GLOBALS["ajax_poller"])
       <div class="poller_waitMessage" id="poller_waitMessage<?php echo $pollerId; ?>" align="center">
         <br /><br /><br /><br /><table border="0" cellspacing="0" cellpadding="4"><tr><td align="center" style="background-image: url('images/ajax-loader.gif'); background-repeat: no-repeat; background-position:center center; width:16px; height:16px;"></td><td align="left"><?php echo FETCHING_RESULTS; ?></td></tr></table><br /><br /><br /><br /><br />
       </div>
-      <div class="poller_results" id="poller_results<?php echo $pollerId; ?>">
+      <div class="poller_results" style="padding-left:5px; padding-right:5px;" id="poller_results<?php echo $pollerId; ?>">
       <!-- This div will be filled from Ajax, so leave it empty --></div><br />
     </div>
     <!-- END OF POLLER -->

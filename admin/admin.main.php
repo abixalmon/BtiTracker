@@ -1,6 +1,7 @@
 <?php
 
 $btit_url_rss="http://www.btiteam.org/smf/index.php?type=rss;action=.xml;board=83;sa=news";
+$btit_url_last="http://www.btiteam.org/last_version.txt";
 
 if (!defined("IN_BTIT"))
       die("non direct access!");
@@ -82,7 +83,30 @@ if (file_exists("badwords.txt"))
 else
   $admin["badwords_ok"]=("<br />\nCensored worls file (badwords.txt) <span style=\"color:#FF0000; font-weight: bold;\">NOT FOUND!</span><br />\n");
 
-$admin["infos"]=("<br />\n<table border=\"0\">\n");
+
+// check last version on btiteam.org site
+$btit_last=get_remote_file($btit_url_last);
+$current_version=explode(" ", strtolower($tracker_version)); // array('2.0.0','beta','2')
+$last_version=explode("/",strtolower($btit_last));  // array('2.0.0','beta','2')
+
+$your_version="";
+
+// make further control only if differents
+if ((implode(" ",$current_version)!=implode(" ",$last_version)))
+  {
+  $your_version.="<table width=\"100%\"><tr><td align=\"right\">Installed version:</td><td align=\"left\">".implode(" ",$current_version)."</td></tr>\n";
+  $your_version.="<tr><td align=\"right\">Current version:</td><td align=\"left\">".implode(" ",$last_version)."</td></tr>\n";
+  $your_version.="<tr><td colspan=\"2\" align=\"center\">Get Last Version <a href=\"http://www.btiteam.org\" target=\"_blank\">here</a>!</td></tr>\n</table>";
+}
+else
+  {
+  $your_version.="You have the latest xBtit version installed.";
+}
+
+if (!empty($your_version))
+   $admin["xbtit_version"]=$your_version."<br />\n";
+
+$admin["infos"].=("<br />\n<table border=\"0\">\n");
 $admin["infos"].=("<tr><td>Server's OS:</td><td>".php_uname()."</td></tr>");
 $admin["infos"].=("<tr><td>PHP version:</td><td>".phpversion()."</td></tr>");
 

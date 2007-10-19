@@ -2,9 +2,9 @@
 body {
     font-family: tahoma, arial, helvetica, sans-serif;
     font-size: 8pt;
-    background-color:#000;
-	/*	background:url(images/charlie-brown.gif);*/
-    margin: 9px 13px 0px 11px;
+    background:#000;
+	  color:#FFFF99;
+    margin: 10px 12px 20px 8px;
     padding: 0;
 }
 
@@ -29,8 +29,8 @@ white-space: wrap; overflow: auto;
 max-height: 24em;}
 
 .btn{
-  background: #DFE6EF;
-  border: 1px solid #4C77B6;
+  background: #FECC00;
+  border: 1px solid #EEDB00;
   color: #000;
   font-family: Verdana, Helvetica, Sans-Serif;
   font-size: 11px;
@@ -42,28 +42,44 @@ max-height: 24em;}
 
 .post{
   border:1px solid #FFFF99;
-  background-color: #FFEE55;
+  background: #FFEE55;
   padding:0px;
   margin:1px;
   color:#000000;
+  line-height: 1.4em;
   text-align:left;
+  white-space:wrap;
+	overflow: auto;
+}
+
+img {
+  border:0px;
+	overflow: auto;
+	max-height: 100%;
+	max-width: 100%;
+}
+
+textarea {
+	display:block;
+	overflow: auto;
+	line-height: 1.4em;
 }
 
 select.drop_pager {
-  background-color: #E0ECF7;
+  background: #000;
   font-size: 11px;
 
 }
 
 .pager {
-  background-color: #E0ECF7;
-  border: 1px solid #072A66;
+  background: #000;
+  border: 1px solid #EEDB00;
   padding: 1px 3px 1px 3px;
 }
 
 .pagercurrent {
-  background-color: #7FBDFA;
-  border: 1px solid #072A66;
+  background: #000;
+  border: 1px solid #EEDB00;
   padding: 1px 3px 1px 3px;
 }
 
@@ -76,7 +92,7 @@ select.drop_pager {
 
 .pager a:hover,
 .pagercurrent a:hover {
-    text-decoration:underline overline;
+    text-decoration:none;
 }
 
 #logo {
@@ -86,7 +102,12 @@ select.drop_pager {
   height:150px;
 	width:100%;
 }
-
+.tracker_logo {
+  background: url("images/logo.gif") no-repeat; 
+	align:center; 
+	height:150px; 
+	width:750px;
+}
 #main {
     background: #000000;
     width:100%;
@@ -99,48 +120,11 @@ select.drop_pager {
     background: #000000;
     width:100%;
 }
-
-#left{
-    float:left;
-    background: #000000;
-    width:170px;
-}
-
-#nocolumn{
-    background: #000000;
-    width:100%;
-}
-
-#central{
-    background: #000000;
-    margin-left: 170px;
-    margin-right: 170px;
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-#leftcolumn{
-    background: #000000;
-    margin-left: 170px;
-    padding-left: 5px;
-}
-
-
-#right{
-    float:right;
-    background: #000000;
-    width:170px;
-}
-#bottom{
-    clear:both;
-    background-color:#000000;
-    width:100%;
-}
+#nocolumns { width:100%; align:center; }
 #footer{
-    clear:both;
 		background-image:url(images/bg_logo.gif);
     background-color:#000;
-		height:100px;
+		height:150px;
     width:100%;
 }
 td.footer { overflow:auto; font-size:8pt; color:#FFF600; text-align:center; padding:10px;} 
@@ -158,8 +142,8 @@ div.chat {
 }
 
 
-a:link,a:active,a:visited { color : #000000; text-decoration: none;}
-a:hover        { text-decoration: none; color : #DD6900; }
+a:link,a:active,a:visited { color : #fecc00; text-decoration: none;}
+a:hover        { text-decoration:none; color : #DD6900; }
 
 h1 {
     font-size: 12pt;
@@ -174,8 +158,8 @@ table {
 }
 
 table.lista {
-    background-color: #FFFF99;
-    border: 1px #FFEE55 solid;
+    background: url('images/poller.png'); background-repeat:repeat-x; background-color:#000;
+  /*  border: 1px #FFEE55 solid;*/
 }
 
 td.block {
@@ -183,22 +167,24 @@ td.block {
 	height:30px;
 	padding-left: 3px;
 	padding-right: 3px;
-	border-bottom: solid 1px #A19600;
+	border-left: solid 1px #FFEE55;
+	border-right: 1px #FFEE55 solid;
+	border-bottom: solid 1px #FFEE55;
   color: #000;#FFCC00;
 }
 
 td.blocklist {
-         background: #FFFF99;
+         background: #000;
          padding:2px;
          margin:1px;
          font-size: 8pt;
          font-weight: bold;
-         color: #000;
+         color: #fff;
 }
-
+.user {background:#000;}
 td.lista {
-    background-color:#FFFF99;
-    color: #000;
+    background:#000;
+    color: #fef600;
     padding:2px;
     margin:0px;
 		text-align:left;
@@ -210,16 +196,16 @@ td.lista {
 td {
   
 }
-
+td.header a:link, td.header a:visited, td.header a:active { font-size:8pt; color:#000; text-align:center;}
+td.header a:hover { color:#EE4000; text-decoration:none; /*cursor:auto*/}
 td.header {
      font-weight:bold;
      color:#000;
      padding:5px;
      border: 1px #000 solid;
-		 background-image: url(images/bg4.gif);
+		 background-image: url(images/bg3.gif);
      background-color: #ffe600;
 		 background-repeat:repeat-x;
-     
 }
 
 td.title {
@@ -259,21 +245,26 @@ a.biglink {
 
 td.red {
     background-color:#000000;
-		border-bottom: solid 1px #FFFFCC;
+		border-top: 1px #FFEE55 solid;
+		border-bottom: solid 1px #FFEE55;
     color: #FF3333;
 }
 
 
 td.yellow {
     background-color:#000000;
-		border-bottom: solid 1px #FFFFCC;
+		border-top: 1px #FFEE55 solid;
+		border-right: 1px #FFEE55 solid;
+		border-bottom: solid 1px #FFEE55;
     color: #BEC635;
 }
 
 
 td.green {
     background-color:#000000;
-		border-bottom: solid 1px #FFFFCC;
+		border-top: 1px #FFEE55 solid;
+		border-left: 1px #FFEE55 solid;
+		border-bottom: solid 1px #FFEE55;
     color: #00FF66;
 }
 
@@ -314,9 +305,6 @@ list-style-position:inside;
 .success { color:black; font-weight: bold; font-size: 14pt; background:url(images/chg.gif); background-repeat: repeat-x;}
 
 /* ######### End Main Tracker Body ######### Start Ajax Poll System ######### */
-img {
-    border:0px;
-}
 
 td.deleted {
     background-color:#FF95AC;
@@ -335,9 +323,8 @@ td.modified {
 
 #mainContainer {
     width:100%;
-    margin:0 auto;
+    overflow:auto;
     text-align:left;
-    background-color:#FFF;
     
 }
 
@@ -351,14 +338,9 @@ td.modified {
 
 .poller {  /* The poller box */
   
-    width:auto;
-  /*  background-image:url(images/question.gif);
-    background-repeat:no-repeat;
-    background-position: bottom center;*/
-    background-color:#FFFF99;
-		padding-left:7px;
-	/*	height:170px;*/
-		overflow:hidden;
+    width:100%;
+    background-image: url(images/poller.png);
+		overflow:hidden; color:#FFFF99; font-weight:bold;
 }
 
 .pollerTitle {  /* Poller title above radio buttons */
@@ -410,7 +392,7 @@ td.modified {
     font-size:0.8em;
     margin-top:10px;
     font-style:italic;
-    background-color:#E0ECF7;
+    background:transparent;
 }
 
 th {
@@ -436,8 +418,8 @@ padding: 0px;
 
 div.chatoutput {
 	color:#000;
-	border: 1px #000 solid;
-	background-color: #fff600;
+	border: 1px #feee55 solid;
+	background-image: url(images/bg3.gif);
 	padding:5px 0px 3px 10px;
 	margin:0px;
 	line-height: 150%;
@@ -458,14 +440,15 @@ height:32px;
 #chatoutput ul li span.name {
 	display: block;
 	background:url(images/ajaxchat/bubble.png) no-repeat left;
+	background-color: #000;
 	padding-left:19px;
       margin-bottom:1px;
 	font-weight: normal;
-	color: #000;
+	color: #ffe600;
 }
 
 #chatoutput ul li:hover span.name {
-	background:url(images/ajaxchat/bubblehover.png) no-repeat left;
+	background:url(images/ajaxchat/bubblehover.png) no-repeat left; background-color: #000;
 }
 
 form {

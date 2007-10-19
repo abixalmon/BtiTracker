@@ -67,11 +67,11 @@ function popusers(url)
 </if:MSG_LIST>
 <if:MSG_EDIT>
 <form method="post" name="edit" action="<tag:pmedit.frm_action />">
-  <table class="lista" align="center" cellpadding="2">
+  <table width="100%" class="lista" align="center" cellpadding="2">
 <if:PREVIEW>
     <tr>
       <td colspan="2">
-        <table border="0" cellspacing="2" cellpadding="0" width="100%" class="lista">
+        <table border="0" cellspacing="2" cellpadding="0" width="90%" class="lista">
           <tr>
             <td class="block" align="center"><b><tag:language.FRM_PREVIEW /></b></td>
           </tr>
@@ -90,18 +90,18 @@ function popusers(url)
 </if:PREVIEW>
     <tr>
       <td class="header" align="left"><tag:language.RECEIVER />:</td>
-      <td class="header" align="left"><input type="text" name="receiver" value="<tag:pmedit.receiver />" size="40" maxlength="40" <tag:pmedit.readonly /> />&nbsp;&nbsp;<tag:pmedit.searchuser /></td>
+      <td class="header" align="left"><input type="text" name="receiver" value="<tag:pmedit.receiver />" size="35" maxlength="40" <tag:pmedit.readonly /> />&nbsp;&nbsp;<tag:pmedit.searchuser /></td>
     </tr>
     <tr>
       <td class="header" align="left"><tag:language.SUBJECT />:</td>
-      <td class="header" align="left"><input type="text" name="subject" value="<tag:pmedit.subject />" size="40" maxlength="40" /></td>
+      <td class="header" align="left"><input type="text" name="subject" value="<tag:pmedit.subject />" size="35" maxlength="40" /></td>
     </tr>
     <tr>
       <td class="lista" colspan="2"><tag:pmedit.bbcode /></td>
     </tr>
     <tr>
       <td colspan="2" class="lista">
-    <table align="center" width="100%" cellspacing="0" cellpadding="0">
+    <table align="center" width="60%" cellspacing="0" cellpadding="0">
       <tr>
         <td align="center"><input type="submit" name="confirm" value="<tag:language.FRM_CONFIRM />" /></td>
         <td align="center"><input type="submit" name="confirm" value="<tag:language.FRM_PREVIEW />" /></td>

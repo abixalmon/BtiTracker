@@ -7,7 +7,7 @@
   <tr>
     <td align="center" valign="middle">
       <form name="change_page" method="post" action="index.php">
-        <table width="90%">
+        <table width="100%">
           <tr>
             <td align="left" valign="middle"><tag:forum_pager /></td>
             <td align="right" valign="middle">
@@ -23,7 +23,7 @@
   <tr>
     <td align="center" valign="middle">
     <loop:posts>
-      <table class="lista" width="90%">
+      <table class="lista" width="100%">
         <!-- Message header (with delete/quote/edit) if authorized) -->
         <tr>
           <td align="left" class="header" colspan="2">
@@ -62,7 +62,7 @@
             </table>
           </td>
           <!-- post -->
-          <td class="post" valign="top" style="padding:10px"><tag:posts[].body /></td>
+          <td class="post" width="100%" valign="top" style="padding:10px"><tag:posts[].body /></td>
         </tr>
         <tr>
           <td align="right" class="header" colspan="2"><a href="#top"><tag:posts[].top /></a></td>
@@ -74,7 +74,7 @@
   </tr>
   <tr>
     <td align="center" valign="middle">
-      <table width="90%">
+      <table width="100%">
         <tr>
           <td align="left" valign="middle"><tag:topic_locked /></td>
           <td align="right" valign="middle">
@@ -108,12 +108,12 @@ function windowunder(link)
 }
 </script>
 <br />
-<div align="left" style="width:90%">
+<div align="left" style="width:98%">
 <span class="pager"><a name="expand" href="#expand" onclick="javascript:ShowHide('moderator','modoption');"><tag:language.MOD_OPTION /></a></span>
 </div>
 <div id="moderator" style="display:none">
 <br />
-<table align="center" width="90%" class="lista">
+<table align="center" width="98%" class="lista">
 <!-- moderators parts... -->
 <tr>
 <td align="left" class="lista"><tag:language.STICKY /></td>

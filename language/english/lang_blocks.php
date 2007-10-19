@@ -6,6 +6,7 @@ $language["BLOCK_CLOCK"]="Clock";
 $language["BLOCK_FORUM"]="Forum";
 $language["BLOCK_LASTMEMBER"]="Last Member";
 $language["BLOCK_ONLINE"]="Online";
+$language["BLOCK_ONTODAY"]="On Today";
 $language["BLOCK_SHOUTBOX"]="Shout Box";
 $language["BLOCK_TOPTORRENTS"]="Top Torrents";
 $language["BLOCK_LASTTORRENTS"]="Last Upload";

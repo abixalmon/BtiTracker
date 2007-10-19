@@ -96,15 +96,15 @@ $tpl->set("main_css","$style_css");
 require_once("$THIS_BASEPATH/include/blocks.php");
 
 
-
 $morescript="
   <script type=\"text/javascript\" src=\"$BASEURL/jscript/ajax.js\"></script>\n
   <script type=\"text/javascript\" src=\"$BASEURL/jscript/ajax-poller.js\"></script>\n
   <script type=\"text/javascript\" src=\"$BASEURL/jscript/animatedcollapse.js\"></script>\n
+    <script type=\"text/javascript\" src=\"$BASEURL/jscript/DV.js\"></script>\n
   <script language=\"Javascript\" type=\"text/javascript\">
 
   <!--
-
+    
   var newwindow;
   function popdetails(url)
   {
@@ -117,23 +117,24 @@ $morescript="
     newwindow=window.open(url,'poppeers','height=400,width=650,resizable=yes,scrollbars=yes');
     if (window.focus) {newwindow.focus()}
   }
-
+    
   // -->
   </script>";
 
-$logo="<div align=\"center\" style=\"margin-top:0px;\"><img src=\"$STYLEURL/images/logo.gif\" border=\"0\" alt=\"\" /></div>";
-$slideIt="<span style=\"align:right;\"><a href=\"javascript:collapse2.slideit()\"><img src=\"$STYLEURL/images/slide.png\" border=\"0\" alt=\"\" /></a></span>";
+$logo.="<div></div>";
+$slideIt="<span style=\"align:left;\"><a href=\"javascript:collapse2.slideit()\"><img src=\"$STYLEURL/images/slide.png\" border=\"0\" alt=\"\" /></a></span>";
 $header.="<div>".main_menu()."</div>";
 
 
 $tpl->set("main_jscript",$morescript);
-if (!$no_columns && $pageID1='admin') {
+if (!$no_columns && $pageID!='admin' && $pageID!='forum' && $pageID!='torrents') {
   $tpl->set("main_left",side_menu());
   $tpl->set("main_right",right_menu());
 }
-$tpl->set("tracker_logo",$logo);
 
-$tpl->set("main_slideIt",$slideIt);
+$tpl->set("main_logo","$logo");
+
+$tpl->set("main_slideIt","$slideIt");
 
 $tpl->set("main_header",$header.$err_msg_install);
 
@@ -147,7 +148,18 @@ switch ($pageID) {
         $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Admin");
         // the main_content for current template is setting within admin/index.php
         break;
+                
+    case 'forum':
+        require("$THIS_BASEPATH/forum/forum.index.php");
+        $tpl->set("main_title","Index->Forum");
+        break;
 
+    case 'torrents':
+        require("$THIS_BASEPATH/torrents.php");
+        $tpl->set("main_content",set_block($language["MNU_TORRENT"],"center",$torrenttpl->fetch(load_template("torrent.list.tpl"))));
+        $tpl->set("main_title","Index->Torrents");
+        break;
+                
 // shouthistory
     case 'allshout':
         ob_start();
@@ -186,11 +198,6 @@ switch ($pageID) {
         require("$THIS_BASEPATH/extra-stats.php");
         $tpl->set("main_content",set_block($language["MNU_STATS"],"center",$out));
         $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Statistics");
-        break;
-
-    case 'forum':
-        require("$THIS_BASEPATH/forum/forum.index.php");
-        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Forum");
         break;
 
     case 'history':
@@ -237,13 +244,6 @@ switch ($pageID) {
         $tpl->set("more_css","<link rel=\"stylesheet\" type=\"text/css\" href=\"$BASEURL/jscript/passwdcheck.css\" />");
         $tpl->set("main_content",set_block($language["ACCOUNT_CREATE"],"center",$tpl_account->fetch(load_template("account.tpl"))));
         $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Signup");
-        break;
-
-
-    case 'torrents':
-        require("$THIS_BASEPATH/torrents.php");
-        $tpl->set("main_content",set_block($language["MNU_TORRENT"],"center",$torrenttpl->fetch(load_template("torrent.list.tpl"))));
-        $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Torrents");
         break;
 
     case 'torrent-details':
@@ -329,6 +329,12 @@ switch ($pageID) {
     case 'admin':
         stdfoot(false,false,true);
         break;
+            
+        // for torrents and forums pages we will display page with header and no columns (for full view)
+        case 'torrents':
+        case 'forum':
+        stdfoot(false,false,false,true,true);
+        break;      
 
     // if popup enabled then we display the page without header and no columns, else full page
     case 'comment':

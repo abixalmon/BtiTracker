@@ -38,7 +38,7 @@
   <tr>
     <td align="center">
     <loop:posts>
-      <table class="lista" width="90%">
+      <table class="lista" width="100%">
         <tr>
           <td class="post" align="center" width="150">
           <!-- poster infos -->
@@ -63,7 +63,7 @@
             </table>
           </td>
           <!-- post -->
-          <td class="post" valign="top" style="padding:10px"><tag:posts[].body /></td>
+          <td class="post" width="100%" valign="top" style="padding:10px"><tag:posts[].body /></td>
         </tr>
         <tr>
           <td align="right" class="header" colspan="2"><a href="#top"><tag:posts[].top /></a></td>

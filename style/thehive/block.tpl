@@ -1,5 +1,5 @@
 <br />
-<table bgcolor="#FFFF99" cellpadding="0" cellspacing="0" <tag:block_width /> align="center">
+<table bgcolor="#000" class="lista" border="0" style="border:1px solid #FFEE55;" cellpadding="0" cellspacing="0" <tag:block_width /> align="center">
   <tr>
     <td class="block" align="center" height="20px"><b><tag:block_title /></b></td>
   </tr>

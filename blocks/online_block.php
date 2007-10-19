@@ -25,7 +25,7 @@ else
 
      }
 
-     print("<tr><td class=\"block\" align=\"center\">".$language["GROUP"]."</td><td class=\"block\" align=\"center\">".$language["NUMBER_SHORT"]."</td></tr>\n");
+     print("<tr><td class=\"header\" align=\"center\" width=\"85%\">".$language["GROUP"]."</td><td class=\"header\" align=\"center\" width=\"15%\">".$language["NUMBER_SHORT"]."</td></tr>\n");
 
      foreach($group as $gname=>$gnumber)
         {

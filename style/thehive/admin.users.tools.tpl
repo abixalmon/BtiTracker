@@ -56,11 +56,7 @@ function convert() {
       <td align="left" class="lista"><select name="language"><tag:language_combo /></select></td>
     </tr>
     <tr>
-      <td align="left" class="header"><tag:language.USER_LEVEL /></td>
-      <td align="left" class="lista" colspan="2"><tag:profile.drop_userlevel /></td>
-    </tr>
-    <tr>
-      <td align="left" class="header"><tag:language.DOWNLOADED />/<tag:language.UPLOADED />:</td>
+      <td align="left" class="header"><tag:language.UPLOADED />/<tag:language.DOWNLOADED />:</td>
       <td align="left" class="lista" colspan="2">
         <input type="text" size="15" name="downloaded" maxlength="10" onkeyup="convert()" value="<tag:profile.downloaded />"/>
         &nbsp;&nbsp;/&nbsp;&nbsp;<input type="text" size="15" name="uploaded" onkeyup="convert()" maxlength="10" value="<tag:profile.uploaded />"/>

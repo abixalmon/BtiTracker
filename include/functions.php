@@ -134,9 +134,9 @@ function print_version()
   GLOBAL $time_start, $gzip, $PRINT_DEBUG,$tracker_version,$num_queries;
 
   $time_end=get_microtime();
-  $version=("<p align=\"center\">");
+  $version=("<br /><br /><p align=center valign=middle>");
   if ($PRINT_DEBUG)
-  $version.=("<a href=\"#\">Back To Top</a><br />[&nbsp;&nbsp;<u>XBtit Styles Designed By: </u><a href=\"http://global-bttracker.no-ip.org/forum/\" target=\"_blank\">TreetopClimber</a>&nbsp;&nbsp;]&nbsp;[&nbsp;&nbsp;<u>BtiTracker ($tracker_version) By: </u><a href=\"http://www.btiteam.org/\" target=\"_blank\">Btiteam</a>&nbsp;&nbsp;]<br />[Queries: $num_queries] - [ Script Execution time: ".number_format(($time_end-$time_start),4)." sec. ] - [ GZIP: $gzip ]</p><br />");
+  $version.=("<a href=\"#\">Back To Top</a><br />[&nbsp;&nbsp;<u>XBtit Styles Designed By: </u><a href=\"http://global-bttracker.no-ip.org/forum/\" target=\"_blank\">TreetopClimber</a>&nbsp;&nbsp;]&nbsp;[&nbsp;&nbsp;<u>BtiTracker ($tracker_version) By: </u><a href=\"http://www.btiteam.org/\" target=\"_blank\">Btiteam</a>&nbsp;&nbsp;]<br />[Queries: $num_queries] - [ Script Execution time: ".number_format(($time_end-$time_start),4)." sec. ] - [ GZIP: $gzip ]</p>");
 
   return $version;
 
@@ -167,7 +167,9 @@ function check_online($session_id, $location)
         mysql_query("INSERT INTO {$TABLE_PREFIX}online SET session_id='$session_id', user_name=$uname, user_group=$ugroup, prefixcolor=$prefix, suffixcolor=$suffix, user_id=$uid, user_ip='$ip', location=$location, lastaction=UNIX_TIMESTAMP()");
 
 
-    $timeout=time()-(60*5); // 5 minutes
+  //  $timeout=time()-(60*5); // 5 minutes
+  //    $timeout=time()-(60*3); // 3 minutes
+        $timeout=time()-(60*1); // 1 minute
     @mysql_query("UPDATE {$TABLE_PREFIX}users SET lastconnect=NOW() WHERE id IN (SELECT user_id FROM {$TABLE_PREFIX}online ol WHERE ol.lastaction<$timeout AND ol.user_id>1)");
     @mysql_query("DELETE FROM {$TABLE_PREFIX}online WHERE lastaction<$timeout");
 
@@ -663,8 +665,8 @@ function rank_list()
 
          return $ret;
 }
-
-function stdfoot($normalpage=true, $update=true, $adminpage=false) {
+            
+function stdfoot($normalpage=true, $update=true, $adminpage=false, $torrentspage=false, $forumpage=false) {
 
     global $STYLEPATH, $tpl;
     $tpl->set("main_footer",bottom_menu()."<br />\n");
@@ -672,16 +674,19 @@ function stdfoot($normalpage=true, $update=true, $adminpage=false) {
 
     if ($normalpage)
         echo $tpl->fetch(load_template("main.tpl"));
-    elseif ($adminpage)
+        elseif ($adminpage)
         echo $tpl->fetch(load_template("main.left_column.tpl"));
-    else
-        echo $tpl->fetch(load_template("main.no_header_1_column.tpl"));
+        elseif ($torrentspage)
+            echo $tpl->fetch(load_template("main.no_columns.tpl"));
+        elseif ($forumpage)
+            echo $tpl->fetch(load_template("main.no_columns.tpl"));
+        else
+        echo $tpl->fetch(load_template("main.no_header_1_column.tpl")); 
 
     ob_end_flush();
 
     if ($update)
         register_shutdown_function("updatedata");
-
 }
 
 function linkcolor($num) {
@@ -1011,14 +1016,14 @@ $tbbcode="<table width=\"100%\" cellpadding=\"1\" cellspacing=\"1\">";
 global $smilies, $STYLEPATH, $language;
 $count=0;
 reset($smilies);
-while ((list($code, $url) = each($smilies)) && $count<20) {
-   if ($count % 4==0)
+while ((list($code, $url) = each($smilies)) && $count<16) {
+   if ($count % 0==1)
       $tbbcode.="<tr>";
       
      $tbbcode.="\n<td><a href=\"javascript: SmileIT('".str_replace("'","\'",$code)."',document.forms.$form.$name);\"><img border=\"0\" src=\"images/smilies/$url\" alt=\"$url\" /></a></td>";
       $count++;
 
-   if ($count % 4==0)
+   if ($count % 0==1)
       $tbbcode.="</tr>";
 }
 $tbbcode.="</table>";

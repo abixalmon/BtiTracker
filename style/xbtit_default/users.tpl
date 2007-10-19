@@ -38,15 +38,15 @@
       <else:no_users>
         <loop:users>
           <tr>
-            <td class="lista" align="center"><tag:users[].username /></td>
-            <td class="lista" align="center"><tag:users[].userlevel /></td>
-            <td class="lista" align="center"><tag:users[].joined /></td>
-            <td class="lista" align="center"><tag:users[].lastconnect /></td>
-            <td class="lista" align="center"><tag:users[].flag /></td>
-            <td class="lista" align="center"><tag:users[].ratio /></td>
-            <td class="lista" align="center"><tag:users[].pm /></td>
-            <td class="lista" align="center"><tag:users[].edit /></td>
-            <td class="lista" align="center"><tag:users[].delete /></td>
+            <td class="lista" align="center" style="padding-left:10px;"><tag:users[].username /></td>
+            <td class="lista" align="center" style="text-align: center;"><tag:users[].userlevel /></td>
+            <td class="lista" align="center" style="text-align: center;"><tag:users[].joined /></td>
+            <td class="lista" align="center" style="text-align: center;"><tag:users[].lastconnect /></td>
+            <td class="lista" align="center" style="text-align: center;"><tag:users[].flag /></td>
+            <td class="lista" align="center" style="text-align: center;"><tag:users[].ratio /></td>
+            <td class="lista" align="center" style="text-align: center;"><tag:users[].pm /></td>
+            <td class="lista" align="center" style="text-align: center;"><tag:users[].edit /></td>
+            <td class="lista" align="center" style="text-align: center;"><tag:users[].delete /></td>
           </tr>
         </loop:users>
       </if:no_users>

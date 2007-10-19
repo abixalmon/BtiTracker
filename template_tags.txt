@@ -11,6 +11,7 @@ main_css
 main_left
 main_content
 main_right
+main_slideIt
 
 BLOCK.TPL
 ---------

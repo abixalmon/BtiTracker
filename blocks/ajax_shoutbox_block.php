@@ -19,12 +19,8 @@ block_begin(SHOUTBOX);
     {
     require_once("include/smilies.php");
   if (!isset($CURUSER)) global $CURUSER;
- //<link href='ajaxchat/default.css' rel='stylesheet' type='text/css' />
- // modified for w3c validation
- global $tpl;
 
- /*$tpl->set("more_css","<? echo $STYLEURL ?>/main.css' rel='stylesheet' type='text/css' />");*/
- // modified for w3c validation
+ global $tpl;
 
   print "<script src='ajaxchat/scripts.js' language='JavaScript' type='text/javascript'></script>";
 
@@ -35,7 +31,7 @@ function smile() {
   global $smilies, $count;
   reset($smilies);
 
-  while ((list($code, $url) = each($smilies)) && $count<20) {
+  while ((list($code, $url) = each($smilies)) && $count<16) {
         print("\n<td><a href=\"javascript: SmileIT('".str_replace("'","\'",$code)."')\">
                <img border=\"0\" src=\"images/smilies/$url\" alt=\"$code\" /></a></td>");
                
@@ -76,7 +72,7 @@ function smile() {
     
       <input type="hidden" name="name" id="name" value="<?php echo $CURUSER["username"] ?>" />
       <input type="hidden" name="uid" id="uid" value="<?php echo $CURUSER["uid"] ?>" />
-      <input type="text" size="55" maxlength="500" name="chatbarText" id="chatbarText" onblur="checkStatus('');" onfocus="checkStatus('active');" /> 
+      <input type="text" size="45" maxlength="500" name="chatbarText" id="chatbarText" onblur="checkStatus('');" onfocus="checkStatus('active');" /> 
       <input onclick="sendComment();" type="submit" id="submit" name="submit" value="<?php echo $language["FRM_CONFIRM"]; ?>" />
       &nbsp;
       <a href="javascript: PopMoreSmiles('chatForm','chatbarText');">

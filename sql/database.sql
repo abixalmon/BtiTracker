@@ -56,24 +56,25 @@ CREATE TABLE `{$db_prefix}blocks` (
 -- 
 
 INSERT INTO `{$db_prefix}blocks` (`blockid`, `content`, `position`, `sortid`, `status`, `title`, `cache`, `minclassview`, `maxclassview`) VALUES 
-(1, 'menu', 'l', 1, 1, 'BLOCK_MENU', 'no', 1, 8),
-(2, 'clock', 'l', 3, 1, 'BLOCK_CLOCK', 'no', 1, 8),
-(3, 'forum', 'r', 4, 1, 'BLOCK_FORUM', 'no', 1, 8),
-(4, 'lastmember', 'r', 3, 1, 'BLOCK_LASTMEMBER', 'no', 3, 8),
-(6, 'trackerinfo', 'l', 2, 1, 'BLOCK_INFO', 'no', 1, 8),
-(7, 'user', 'r', 3, 1, 'BLOCK_USER', 'no', 3, 8),
-(8, 'online', 'r', 2, 1, 'BLOCK_ONLINE', 'no', 3, 8),
+(1, 'menu', 'r', 5, 1, 'BLOCK_MENU', 'no', 3, 8),
+(2, 'clock', 'r', 2, 1, 'BLOCK_CLOCK', 'no', 3, 8),
+(3, 'forum', 'l', 2, 1, 'BLOCK_FORUM', 'no', 3, 8),
+(4, 'lastmember', 'l', 1, 1, 'BLOCK_LASTMEMBER', 'no', 3, 8),
+(6, 'trackerinfo', 'l', 6, 1, 'BLOCK_INFO', 'no', 3, 8),
+(7, 'user', 'r', 4, 1, 'BLOCK_USER', 'no', 3, 8),
+(8, 'online', 'b', 0, 1, 'BLOCK_ONLINE', 'no', 3, 8),
 (10, 'toptorrents', 'c', 5, 1, 'BLOCK_TOPTORRENTS', 'no', 3, 8),
 (11, 'lasttorrents', 'c', 4, 1, 'BLOCK_LASTTORRENTS', 'no', 3, 8),
-(12, 'news', 'c', 3, 1, 'BLOCK_NEWS', 'no', 1, 8),
-(13, 'mainmenu', 't', 2, 1, 'BLOCK_MENU', 'no', 1, 8),
+(12, 'news', 'c', 1, 1, 'BLOCK_NEWS', 'no', 1, 8),
+(13, 'mainmenu', 't', 1, 1, 'BLOCK_MENU', 'no', 1, 8),
 (14, 'maintrackertoolbar', 't', 2, 1, 'BLOCK_MAINTRACKERTOOLBAR', 'no', 3, 8),
-(15, 'mainusertoolbar', 't', 3, 1, 'BLOCK_MAINUSERTOOLBAR', 'no', 1, 8),
+(15, 'mainusertoolbar', 't', 2, 1, 'BLOCK_MAINUSERTOOLBAR', 'no', 3, 8),
 (16, 'serverload', 'c', 8, 0, 'BLOCK_SERVERLOAD', 'no', 8, 8),
-(17, 'poller', 'r', 4, 1, 'BLOCK_POLL', 'no', 3, 8),
-(18, 'seedwanted', 'c', 2, 1, 'BLOCK_SEEDWANTED', 'no', 3, 8),
-(19, 'paypal', 'r', 1, 1, 'BLOCK_PAYPAL', 'no', 1, 8),
-(20, 'ajax_shoutbox', 'c', 1, 1, 'BLOCK_SHOUTBOX', 'no', 3, 8);
+(17, 'poller', 'l', 3, 1, 'BLOCK_POLL', 'no', 3, 8),
+(18, 'seedwanted', 'c', 3, 1, 'BLOCK_SEEDWANTED', 'no', 3, 8),
+(19, 'paypal', 'r', 1, 1, 'BLOCK_PAYPAL', 'no', 3, 8),
+(20, 'ajax_shoutbox', 'c', 2, 1, 'BLOCK_SHOUTBOX', 'no', 3, 8),
+
 
 -- --------------------------------------------------------
 
@@ -105,7 +106,7 @@ INSERT INTO `{$db_prefix}categories` (`id`, `name`, `sub`, `sort_index`, `image`
 (8, 'Apps Linux', 0, 1020, 'linux.png'),
 (9, 'Apps Mac', 0, 1030, 'mac.png'),
 (11, 'DVD-R', 1, 0, 'movies.png'),
-(12, 'Mvcd', 1, 23333, 'film.jpg'),
+(12, 'Mvcd', 1, 2030, 'film.jpg'),
 (13, 'Adult', 0, 6969, 'adult.png');
 
 -- --------------------------------------------------------
@@ -414,6 +415,7 @@ INSERT INTO `{$db_prefix}countries` (`id`, `name`, `flagpic`, `domain`) VALUES
 (243, 'Iraq', 'iq.png', 'IQ'),
 (244, 'Iran, Islamic Republic of', 'ir.png', 'IR');
 
+
 -- --------------------------------------------------------
 
 -- 
@@ -633,6 +635,8 @@ CREATE TABLE `{$db_prefix}news` (
 -- Dumping data for table `{$db_prefix}news`
 -- 
 
+INSERT INTO `{$db_prefix}news` (`id`, `news`, `user_id`, `date`, `title`) VALUES 
+(1, 0x496620796f752063616e20726561642074686973207468656e20796f75722073657420757020776173206120737563636573732e0d0a596f752077696c6c2077616e7420746f2064656c657465207468697320706f73742e200d0a546563686e6963616c20737570706f72742063616e20626520666f756e64206f6e2074686520786274697420666f72756d73205b75726c5d687474703a2f2f7777772e6274697465616d2e6f72672f736d662f5b2f75726c5d, 2, '2007-10-18 13:51:43', 'Welcome ;)');
 
 -- --------------------------------------------------------
 
@@ -1158,5 +1162,5 @@ INSERT INTO `{$db_prefix}users_level` (`id`, `id_level`, `level`, `view_torrents
 (4, 4, 'Uploader', 'yes', 'no', 'no', 'yes', 'no', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'yes', 'no', 'no', 'uploader', 'no', 'no', '', '', 0),
 (5, 5, 'V.I.P.', 'yes', 'no', 'no', 'yes', 'no', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'yes', 'no', 'no', 'vip', 'no', 'no', '', '', 0),
 (6, 6, 'Moderator', 'yes', 'yes', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'moderator', 'no', 'no', '<span style=\\''color: #428D67\\''>', '</span>', 0),
-(7, 7, 'Administrator', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'admin', 'no', 'no', '<span style=\\''color:#FF8000\\''>', '</span>', 0),
-(8, 8, 'Owner', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'owner', 'no', 'yes', '', '', 0);
+(7, 7, 'Administrator', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'admin', 'no', 'yes', '<span style=\\''color:#FF8000\\''>', '</span>', 0),
+(8, 8, 'Owner', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'owner', 'no', 'yes', '<span style=\\''color:#EE4000\\''>', '</span>', 0);

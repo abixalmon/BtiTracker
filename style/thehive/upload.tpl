@@ -1,7 +1,7 @@
 <center><tag:language.INSERT_DATA /><br /><br /><tag:language.ANNOUNCE_URL /><br /><b><tag:upload.announces /></b><br /></center>
 <form name="upload" method="post" action="index.php?page=upload" enctype="multipart/form-data">
 <input type="hidden" name="user_id" size="50" value="" />
-  <table class="lista" >
+  <table class="lista" border="0" width="96%" cellspacing="1" cellpadding="2">
     <tr>
       <td class="header"><tag:language.TORRENT_FILE /></td>
       <td class="lista" align="left"><input type="file" name="torrent" /></td>

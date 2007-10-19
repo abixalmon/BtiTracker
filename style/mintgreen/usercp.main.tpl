@@ -82,14 +82,14 @@ function popusers(url)
 <if:RESULTS>
 <loop:uptor>
   <tr>
-    <td class="lista"><tag:uptor[].filename /></td>
-    <td class="lista" align="center"><tag:uptor[].added /></td>
-    <td class="lista" align="center"><tag:uptor[].size /></td>
-    <td class="<tag:uptor[].seedcolor />" align="center"><tag:uptor[].seeds /></td>
-    <td class="<tag:uptor[].leechcolor />" align="center"><tag:uptor[].leechers /></td>
-    <td class="lista" align="center"><tag:uptor[].completed /></td>
-    <td class="lista" align="center"><a href="<tag:uptor[].editlink />"><tag:uptor[].editimg /></a></td>
-    <td class="lista" align="center"><a href="<tag:uptor[].dellink />"><tag:uptor[].delimg /></a></td>
+    <td class="lista" style="padding-left:10px;"><tag:uptor[].filename /></td>
+    <td class="lista" align="center" style="text-align: center;"><tag:uptor[].added /></td>
+    <td class="lista" align="center" style="text-align: center;"><tag:uptor[].size /></td>
+    <td class="<tag:uptor[].seedcolor />" align="center" style="text-align: center;"><tag:uptor[].seeds /></td>
+    <td class="<tag:uptor[].leechcolor />" align="center" style="text-align: center;"><tag:uptor[].leechers /></td>
+    <td class="lista" align="center" style="text-align: center;"><tag:uptor[].completed /></td>
+    <td class="lista" align="center" style="text-align: center;"><a href="<tag:uptor[].editlink />"><tag:uptor[].editimg /></a></td>
+    <td class="lista" align="center" style="text-align: center;"><a href="<tag:uptor[].dellink />"><tag:uptor[].delimg /></a></td>
   </tr>
 </loop:uptor>
 <else:RESULTS>

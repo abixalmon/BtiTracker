@@ -9,17 +9,44 @@
   </head>
   <body>
     <div id="main">
-      <if:HDR>
+      <div id="logo">
+		   <table width="750" align="center" cellpadding="0" cellspacing="0" border="0" >
+			<tr><td class="tracker_logo" valign="top"></td></tr>
+			</table></div>
+		<div id="slideIt">
+		     <tag:main_slideIt />
       <div id="header">
-            <tag:main_header />
-      </div>
-      </if>
-      <div id="nocolumn">
-            <tag:main_content />
-      </div>
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+			<tr>
+<td valign="top" width="5" background="style/thehive/images/index_r6_c1_md1.png" rowspan="2"><img src="style/thehive/images/index_r6_c1_md1.png" /></td>
+			<td valign="top"><tag:main_header /></td>
+<td valign="top" width="5" background="style/thehive/images/index_r6_c1_md1.png" rowspan="2"><img src="style/thehive/images/index_r6_c1_md1.png" /></td>
+			</tr></table>
+      </div></div>
+<script type="text/javascript">
+//Syntax: var uniquevar=new animatedcollapse("DIV_id", animatetime_milisec, enablepersist(true/fase), [initialstate] )
+var collapse2=new animatedcollapse("header", 800, false, "block")
+</script>
+
+ <div id="bodyarea" style="padding: 1ex 0ex 1ex 0ex;">
+<div id="nocolumns">      
+<table border="0" align="center" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+<td valign="top" width="5" background="style/thehive/images/index_r6_c1_md1.png" rowspan="2"><img src="style/thehive/images/index_r6_c1_md1.png" /></td>
+    <td valign="top"><tag:main_content /></td>
+<td valign="top" width="5" background="style/thehive/images/index_r6_c1_md1.png" rowspan="2"><img src="style/thehive/images/index_r6_c1_md1.png" /></td>
+    </tr></table>
+      <br />
+			  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+			<tr>
+<td valign="top" width="5" background="style/thehive/images/index_r6_c1_md1.png" rowspan="2"><img src="style/thehive/images/index_r6_c1_md1.png" /></td>
+			<td valign="top"><tag:main_footer /></td>
+<td valign="top" width="5" background="style/thehive/images/index_r6_c1_md1.png" rowspan="2"><img src="style/thehive/images/index_r6_c1_md1.png" /></td>
+			</tr></table>
+				<br /></div></div>
       <div id="footer">
-          <tag:main_footer />
+          <tag:btit_version />
       </div>
-    </div>
+		</div>
   </body>
 </html>

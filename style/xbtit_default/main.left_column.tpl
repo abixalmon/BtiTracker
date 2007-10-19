@@ -10,8 +10,9 @@
   <body>
     <div id="main">
       <div id="logo">
-		   <tag:tracker_logo />
-			 </div>
+		   <table width="750" align="center" cellpadding="0" cellspacing="0" border="0" >
+			<tr><td class="tracker_logo" valign="top"></td></tr>
+			</table></div>
 		<div id="slideIt">
 		     <tag:main_slideIt />
       <div id="header">
@@ -21,19 +22,26 @@
 //Syntax: var uniquevar=new animatedcollapse("DIV_id", animatetime_milisec, enablepersist(true/fase), [initialstate] )
 var collapse2=new animatedcollapse("header", 800, false, "block")
 </script>
-      <div id="bodyarea" style="padding: 1ex 2ex 2ex 2ex;">
-      <div id="left">
-            <tag:main_left />
-      </div>
-      <div id="leftcolumn">
-              <tag:main_content />
-      </div></div><br />
-      <div id="bottom">
-			    <tag:main_footer />
-				</div><br />
+
+ <div id="bodyarea" style="padding: 1ex 0ex 0ex 0ex;">
+      
+<table border="0" align="center" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+<td valign="top" width="5" background="style/xbtit_default/images/index_r6_c1_md1.png" rowspan="2"><img src="style/xbtit_default/images/index_r6_c1_md1.png" /></td>
+    <td valign="top" width="160"><tag:main_left /></td>
+<td valign="top" width="10" background="style/xbtit_default/images/index_r6_c1_md.png" rowspan="2"><img src="style/xbtit_default/images/index_r6_c1_md1.png" /></td>
+    <td valign="top"><tag:main_content /></td>
+<td valign="top" width="5" background="style/xbtit_default/images/index_r6_c1_md1.png" rowspan="2"><img src="style/xbtit_default/images/index_r6_c1_md1.png" /></td>
+    </tr></table>
+      <br />
+      
+			  <table width="100%" cellpadding="0" cellspacing="0" border="0" >
+			<tr><td valign="top"><tag:main_footer /></td></tr>
+			</table>
+				<br />
       <div id="footer">
           <tag:btit_version />
-      </div><br />
+      </div></div><br />
 		</div>
   </body>
 </html>

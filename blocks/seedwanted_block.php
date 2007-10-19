@@ -72,46 +72,46 @@ else
 
                 echo "</td>";
                 if ($GLOBALS["usepopup"])
-                     echo "\t<td width=60% class=\"lista\"><a href=\"javascript:popdetails('index.php?page=torrent-details&amp;id=" . $data['hash'] . "');\" title=\"" . $language["VIEW_DETAILS"] . ": " . $data["filename"] . "\">" . $data["filename"] . "</a></td>";
+                     echo "\t<td width=60% class=\"lista\" style=\"padding-left:10px;\"><a href=\"javascript:popdetails('details.php?id=" . $data['hash'] . "');\" title=\"" . $language["VIEW_DETAILS"] . ": " . $data["filename"] . "\">" . $data["filename"] . "</a></td>";
                 else
-                     echo "\t<TD align=\"left\" class=\"lista\"><A HREF=\"index.php?page=torrent-details&amp;id=".$data["hash"]."\" title=\"".$language["VIEW_DETAILS"].": ".$data["filename"]."\">".$data["filename"]."</A></td>";
-                echo "\t<td align=\"center\" class=\"lista\"><a href=\"index.php?page=torrents&category=$data[catid]\">" . image_or_link( ($data["image"] == "" ? "" : "$STYLEPATH/images/categories/" . $data["image"]), "", $data["cname"]) . "</td>";
+                     echo "\t<TD align=\"left\" class=\"lista\" style=\"padding-left:10px;\"><A HREF=\"details.php?id=".$data["hash"]."\" title=\"".$language["VIEW_DETAILS"].": ".$data["filename"]."\">".$data["filename"]."</A></td>";
+                echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\"><a href=\"index.php?page=torrents&category=$data[catid]\">" . image_or_link( ($data["image"] == "" ? "" : "images/categories/" . $data["image"]), "", $data["cname"]) . "</td>";
                 if (max(0,$CURUSER["WT"])>0)
-                echo "\t<td align=\"center\" class=\"lista\">".$wait." h</td>";
+                echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\">".$wait." h</td>";
                 include("include/offset.php");
-                echo "\t<td nowrap=\"nowrap\" class=\"lista\" align='center'>" . date("d/m/Y", $data["added"]-$offset) . "</td>";
-                echo "\t<td nowrap=\"nowrap\" align=\"center\" class=\"lista\">" . makesize($data["size"]) . "</td>";
+                echo "\t<td nowrap=\"nowrap\" class=\"lista\" align=\"center\" style=\"text-align: center;\">" . date("d/m/Y", $data["added"]-$offset) . "</td>";
+                echo "\t<td nowrap=\"nowrap\" align=\"center\" class=\"lista\" style=\"text-align: center;\">" . makesize($data["size"]) . "</td>";
 
                 if ($data["external"]=="no")
                 {
                     if ($GLOBALS["usepopup"])
                     {
-                        echo "\t<td align=\"center\" class=\"".linkcolor($data["seeds"])."\"><a href=\"javascript:poppeer('index.php?page=peers&amp;id=".$data["hash"]."');\" title=\"".$language["PEERS_DETAILS"]."\">" . $data["seeds"] . "</a></td>\n";
-                        echo "\t<td align=\"center\" class=\"".linkcolor($data["leechers"])."\"><a href=\"javascript:poppeer('index.php?page=peers&amp;id=".$data["hash"]."');\" title=\"".$language["PEERS_DETAILS"]."\">" .$data["leechers"] . "</a></td>\n";
+                        echo "\t<td align=\"center\" class=\"".linkcolor($data["seeds"])."\" style=\"text-align: center;\"><a href=\"javascript:poppeer('peers.php?id=".$data["hash"]."');\" title=\"".$language["PEERS_DETAILS"]."\">" . $data["seeds"] . "</a></td>\n";
+                        echo "\t<td align=\"center\" class=\"".linkcolor($data["leechers"])."\" style=\"text-align: center;\"><a href=\"javascript:poppeer('peers.php?id=".$data["hash"]."');\" title=\"".$language["PEERS_DETAILS"]."\">" .$data["leechers"] . "</a></td>\n";
                         if ($data["finished"]>0)
-                            echo "\t<td align=\"center\" class=\"lista\"><a href=\"javascript:poppeer('index.php?page=torrent_history&amp;id=".$data["hash"]."');\" title=\"History - ".$data["filename"]."\">" . $data["finished"] . "</a></td>";
+                            echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\"><a href=\"javascript:poppeer('torrent_history.php?id=".$data["hash"]."');\" title=\"History - ".$data["filename"]."\">" . $data["finished"] . "</a></td>";
                         else
-                            echo "\t<td align=\"center\" class=\"lista\">---</td>";
+                            echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\">---</td>";
                     }
                     else
                     {
-                        echo "\t<td align=\"center\" class=\"".linkcolor($data["seeds"])."\"><a href=\"index.php?page=peers&amp;id=".$data["hash"]."\" title=\"".$language["PEERS_DETAILS"]."\">" . $data["seeds"] . "</a></td>\n";
-                        echo "\t<td align=\"center\" class=\"".linkcolor($data["leechers"])."\"><a href=\"index.php?page=peers&amp;id=".$data["hash"]."\" title=\"".$language["PEERS_DETAILS"]."\">" .$data["leechers"] . "</a></td>\n";
+                        echo "\t<td align=\"center\" class=\"".linkcolor($data["seeds"])."\" style=\"text-align: center;\"><a href=\"peers.php?id=".$data["hash"]."\" title=\"".$language["PEERS_DETAILS"]."\">" . $data["seeds"] . "</a></td>\n";
+                        echo "\t<td align=\"center\" class=\"".linkcolor($data["leechers"])."\" style=\"text-align: center;\"><a href=\"peers.php?id=".$data["hash"]."\" title=\"".$language["PEERS_DETAILS"]."\">" .$data["leechers"] . "</a></td>\n";
                         if ($data["finished"]>0)
-                            echo "\t<td align=\"center\" class=\"lista\"><a href=\"index.php?page=torrent_history&amp;id=".$data["hash"]."\" title=\"History - ".$data["filename"]."\">" . $data["finished"] . "</a></td>";
+                            echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\"><a href=\"torrent_history.php?id=".$data["hash"]."\" title=\"History - ".$data["filename"]."\">" . $data["finished"] . "</a></td>";
                         else
-                            echo "\t<td align=\"center\" class=\"lista\">---</td>";
+                            echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\">---</td>";
                     }
                 }
                 else
                 {
                     // linkcolor
-                    echo "\t<td align=\"center\" class=\"".linkcolor($data["seeds"])."\">" . $data["seeds"] . "</td>";
-                    echo "\t<td align=\"center\" class=\"".linkcolor($data["leechers"])."\">" .$data["leechers"] . "</td>";
+                    echo "\t<td align=\"center\" class=\"".linkcolor($data["seeds"])."\" style=\"text-align: center;\">" . $data["seeds"] . "</td>";
+                    echo "\t<td align=\"center\" class=\"".linkcolor($data["leechers"])."\" style=\"text-align: center;\">" .$data["leechers"] . "</td>";
                     if ($data["finished"]>0)
-                        echo "\t<td align=\"center\" class=\"lista\">" . $data["finished"] . "</td>";
+                        echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\">" . $data["finished"] . "</td>";
                     else
-                    echo "\t<td align=\"center\" class=\"lista\">---</td>";
+                    echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\">---</td>";
                 }
                 echo "</tr>\n";
                 }
@@ -119,7 +119,7 @@ else
        }
        else
        {
-         echo "<tr><td class=\"lista\" colspan=\"9\" align=\"center\">" . $language["NO_TORRENTS"]  . "</td></tr>";
+         echo "<tr><td class=\"lista\" colspan=\"9\" align=\"center\" style=\"text-align: center;\">" . $language["NO_TORRENTS"]  . "</td></tr>";
        }
 
        print("</table>");
@@ -127,6 +127,6 @@ else
        block_end();
     }
     else
-      echo "<div align=\"center\">".$language["NO_TORRENTS"]."</div>";
+      echo "<table class=\"lista\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" align=\"center\"><tr><td><div align=\"center\" style=\"text-align: center;\">".$language["NO_TORRENTS"]."</div></td></tr></table>";
 } // end if user can view
 ?>

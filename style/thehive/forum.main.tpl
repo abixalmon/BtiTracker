@@ -1,22 +1,22 @@
-<table class="lista" border="1" width="100%" cellspacing="0" cellpadding="5" style="border-color: #FFFFFF;">
+<table class="lista" border="0" width="100%" cellspacing="1" cellpadding="4">
   <tr>
     <td class="header" align="center" width="2%">&nbsp;</td>
     <td class="header" align="center"><tag:language.FORUM /></td>
-    <td class="header" align="center" width="10%" ><tag:language.TOPICS /></td>
-    <td class="header" align="center" width="10%" ><tag:language.POSTS /></td>
-    <td class="header" align="center" width="15%" ><tag:language.LASTPOST /></td>
+    <td class="header" align="center" style="text-align:center;" width="30" ><tag:language.TOPICS /></td>
+    <td class="header" align="center" style="text-align:center;" width="30" ><tag:language.POSTS /></td>
+    <td class="header" align="center" width="20%" ><tag:language.LASTPOST /></td>
   </tr>
   <if:NO_FORUMS>
   <tr>
-    <td class="lista" colspan="5" align="center"><tag:language.NO_FORUMS /></td>
+    <td class="lista" colspan="7" align="center"><tag:language.NO_FORUMS /></td>
   </tr>
   <else:NO_FORUMS>
   <loop:forums>
   <tr>
     <td class="lista"><tag:forums[].status /></td>
     <td class="lista"><tag:forums[].name /><tag:forums[].subforums /></td>
-    <td class="lista" align="center"><tag:forums[].topics /></td>
-    <td class="lista" align="center"><tag:forums[].posts /></td>
+    <td class="lista" style="text-align:center;" align="center"><tag:forums[].topics /></td>
+    <td class="lista" style="text-align:center;" align="center"><tag:forums[].posts /></td>
     <td class="lista" align="center"><tag:forums[].lastpost /></td>
   </tr>
 

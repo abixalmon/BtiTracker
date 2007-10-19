@@ -2,8 +2,8 @@
 body {
     font-family: tahoma, arial, helvetica, sans-serif;
     font-size: 8pt;
-    background-color: #FAFCFE;
-    margin: 9px 13px 0px 9px;
+    background: #FAFCFE;
+    margin: 10px 12px 20px 8px;
     padding: 0;
 }
 
@@ -64,7 +64,23 @@ body {
   padding:0px;
   margin:1px;
   color:#000000;
+  line-height: 1.4em;
   text-align:left;
+  white-space:wrap;
+	overflow: auto;
+}
+
+img {
+  border:0px;
+	overflow: auto;
+	max-height: 100%;
+	max-width: 100%;
+}
+
+textarea {
+	display:block;
+	overflow: auto;
+	line-height: 1.4em;
 }
 
 select.drop_pager {
@@ -94,7 +110,7 @@ select.drop_pager {
 
 .pager a:hover,
 .pagercurrent a:hover {
-    text-decoration:underline overline;
+    text-decoration:none;
 }
 
 #main {
@@ -108,79 +124,44 @@ select.drop_pager {
     margin: 10px auto;
 }
 #logo {
-	background-color: #DDE5EB;
-	background-image: url("images/logo_bg.gif");
+	background: url("images/logo_bg.gif");
 	background-repeat: repeat-x;
   border-top: solid 1px #FFFFFF;
+	height:150px;
 	width:100%;
 }
+.tracker_logo {
+  background: url("images/lo-go.jpg") no-repeat; 
+	align:center; 
+	height:150px; 
+	width:750px;
+}
 
-#slideIt {background-color: #DDE5EB; align:right; }
+#slideIt {background-color: #D7E0E7; align:left; }
 
 #header{
-  background-color: #DDE5EB;
+  background: #D7E0E7;
 	width:100%;
 }
-
-#left{
-    float:left;
-    background: #DDE5EB;
-    width:160px;
-}
-
-#nocolumn{
-    background: #DDE5EB;
-    width:100%;
-}
-
-#central{
-    background: #DDE5EB;
-		vertical-align:top;
-    margin-left: 170px;
-    margin-right: 170px;
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-#leftcolumn{
-    background: #DDE5EB;
-    margin-left: 170px;
-    padding-left: 5px;
-}
-
-
-#right{
-    float:right;
-    background: #DDE5EB;
-    width:160px;
-}
-
-#bottom{
-    clear:both;
-    background-color:#DDE5EB;
-    width:100%;
-}
-
+#nocolumns { width:100%; align:center; }
 #footer{
-    clear:both;
     background: #DDE5EB;
-    height:50px;
+    height:100px;
     width:100%;
 }
 
 div.chat {
 /* Wrap its contents, and show scrollbars. */
-	white-space: nowrap;
+	white-space: wrap;
 	overflow: auto;
-	/*Stop after about 24 lines, and just show a scrollbar.*/ 
 	max-height: 30em;
   width: 100%;
   padding: 0px;
 }
 
 
-a:link,a:active,a:visited { color : #006699; text-decoration: underline;}
-a:hover        { text-decoration: overline; color : #DD6900; }
+a:link,a:active,a:visited { color: #006699; text-decoration:none;}
+a:hover        { text-decoration:none; color: #EE4000; }
 
 h1 {
     font-size: 12pt;
@@ -193,7 +174,7 @@ p {
 table {
     border:0px;
 }
-
+table.tool { border-bottom: solid 1px #CFDBE5; }
 table.lista {
     background: #A1BFD9;
     border: 1px solid #ADADAD;
@@ -216,16 +197,16 @@ td.blocklist {
          font-weight: bold;
          color: #000;
 }
-
+.user {background: #A1BFD9;}
 td.lista {
     background:#ECEDF3;
     color : #000;
 		padding:2px;
     margin:0px;
     font-size: 8pt;
-   /* text-align:left;*/
-		border-left:solid 1px #cfdbe5;
-		border-right:solid 1px #cfdbe5;
+    text-align:left;
+		border-left:solid 1px #CFDBE5;
+		border-right:solid 1px #CFDBE5;
 }
 
 td {
@@ -332,9 +313,6 @@ list-style-position:inside;
 .success { color:black; font-weight: bold; font-size: 14pt; background:url(images/chg.gif); background-repeat: repeat-x;}
 
 /* ######### End Main Tracker Body ######### Start Ajax Poll System ######### */
-img {
-    border:0px;
-}
 
 td.deleted {
     background-color:#FF95AC;
@@ -353,7 +331,7 @@ td.modified {
 
 #mainContainer {
     width:100%;
-    margin:0 auto;
+    overflow:auto;
     text-align:left;
     background-color:#DDE5EB;
     
@@ -370,12 +348,8 @@ td.modified {
 
 .poller {  /* The poller box */
   
-    width:auto;
- /*   background-image:url(images/question.gif);
-    background-repeat:no-repeat;
-    background-position: bottom center;*/
-    background-color:#A1BFD9;
-		padding-left:7px;
+    width:100%;
+    background:#DDE6EF;
 		overflow:hidden;
 }
 
@@ -428,7 +402,7 @@ td.modified {
     font-size:0.8em;
     margin-top:10px;
     font-style:italic;
-    background-color:#F6F6F6;
+    background:transparent;
 }
 
 th {

@@ -18,7 +18,7 @@ function windowunder(link)
 }
 </script>
     <div align="center">
-      <table class="lista" border="0" cellspacing="5" cellpadding="5">
+      <table width="100%" class="lista" border="0" cellspacing="5" cellpadding="5">
         <tr>
           <td align="right" class="header"><tag:language.FILE />
           <if:MOD>
@@ -109,7 +109,7 @@ function windowunder(link)
       <a name="comments" />
       <br />
       <br />
-      <table width="95%" class="lista">
+      <table width="100%" class="lista">
         <if:INSERT_COMMENT>
         <tr>
           <td align="center" colspan="3">

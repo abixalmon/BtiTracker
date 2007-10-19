@@ -16,7 +16,7 @@ else
       $latestuser = "<a href=\"index.php?page=userdetails&amp;id=" . $a["id"] . "\">" . $a["username"] . "</a>";
      else
      $latestuser = $a['username'];
-     echo " <div align=\"center\">".$language["WELCOME_LASTUSER"]."<br /><b>$latestuser</b>!</div>\n";
+     echo " <div align=center><table border=0 align=center cellpadding=0 cellspacing=0 width=100%><tr><td class=blocklist align=center>".$language["WELCOME_LASTUSER"]."<br /><b>$latestuser</b>!</td></tr></table></div>\n";
      }
      block_end("");
 

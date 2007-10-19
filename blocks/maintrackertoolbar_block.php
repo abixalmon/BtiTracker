@@ -57,16 +57,16 @@ else
    $upld=0+$row["upld"];
    $traffic=makesize($dled+$upld);
 ?>
-<table class="lista" cellpadding="2" cellspacing="0" width="100%">
+<table class="tool" cellpadding="2" cellspacing="0" width="100%">
 <tr>
-<td class="lista" align="center"><?php echo $language["BLOCK_INFO"]; ?>:</td>
-<td class="lista" align="center"><?php echo $language["MEMBERS"]; ?>:</td><td align="right"><?php echo $users; ?></td>
-<td class="lista" align="center"><?php echo $language["TORRENTS"]; ?>:</td><td align="right"><?php echo $torrents; ?></td>
-<td class="lista" align="center"><?php echo $language["SEEDERS"]; ?>:</td><td align="right"><?php echo $seeds; ?></td>
-<td class="lista" align="center"><?php echo $language["LEECHERS"]; ?>:</td><td align="right"><?php echo $leechers; ?></td>
-<td class="lista" align="center"><?php echo $language["PEERS"]; ?>:</td><td align="right"><?php echo $peers; ?></td>
-<td class="lista" align="center"><?php echo $language["SEEDERS"]."/".$language["LEECHERS"]; ?>:</td><td align="right"><?php echo $percent."%"; ?></td>
-<td class="lista" align="center"><?php echo $language["TRAFFIC"]; ?>:</td><td align="right"><?php echo $traffic; ?></td>
+<td class="lista" style="text-align:center;" align="center"><?php echo $language["BLOCK_INFO"]; ?>:</td>
+<td class="lista" style="text-align:center;" align="center"><?php echo $language["MEMBERS"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $users; ?></td>
+<td class="lista" style="text-align:center;" align="center"><?php echo $language["TORRENTS"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $torrents; ?></td>
+<td class="lista" style="text-align:center;" align="center"><?php echo $language["SEEDERS"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $seeds; ?></td>
+<td class="lista" style="text-align:center;" align="center"><?php echo $language["LEECHERS"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $leechers; ?></td>
+<td class="lista" style="text-align:center;" align="center"><?php echo $language["PEERS"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $peers; ?></td>
+<td class="lista" style="text-align:center;" align="center"><?php echo $language["SEEDERS"]."/".$language["LEECHERS"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $percent."%"; ?></td>
+<td class="lista" style="text-align:center;" align="center"><?php echo $language["TRAFFIC"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $traffic; ?></td>
 </tr></table>
 <?php
 } // end if user can view

@@ -1,12 +1,12 @@
-
-    <table class="lista" width="100%" cellspacing="0">
-    <tr>
+<table cellpadding="0" cellspacing="0" width="100%">
+  <tr>
 <?php
 
    global $CURUSER;
 
 if (!$CURUSER)
    {
+
        // anonymous=guest
    print("<td class=\"header\" align=\"center\">".$language["WELCOME"]." ".$language["GUEST"]."\n");
    print("<a href=\"login.php\">(".$language["LOGIN"].")</a></td>");
@@ -41,9 +41,10 @@ if ($CURUSER["view_forum"]=="yes")
    if ($GLOBALS["FORUMLINK"]=="" || $GLOBALS["FORUMLINK"]=="internal")
       print("<td class=\"header\" align=\"center\"><a href=\"index.php?page=forum\">".$language["MNU_FORUM"]."</a></td>\n");
    else
-       print("<td class=\"header\" align=\"center\"><a href=\"".$GLOBALS["FORUMLINK"]."\" target=\"_blank\">".$language["MNU_FORUM"]."</a></td>\n");
+       print("<td class=\"header\" align=\"center\"><a href=\"".$GLOBALS["FORUMLINK"]."\">".$language["MNU_FORUM"]."</a></td>\n");
     }
-
+ 
 ?>
-   </tr>
+  </tr>
    </table>
+	 

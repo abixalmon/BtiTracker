@@ -2,8 +2,8 @@
 body {
     font-family: tahoma, arial, helvetica, sans-serif;
     font-size: 8pt;
-    background-image: url('images/bkk.gif');
-    margin: 9px 13px 0px 11px;
+    background: url('images/bkk.gif');
+    margin: 10px 12px 20px 8px;
     padding: 0;
 }
 
@@ -49,8 +49,8 @@ body {
 }
 
 .btn{
-  background: #DFE6EF;
-  border: 1px solid #4C77B6;
+  background: #BBDAC8;
+  border: 1px solid #076D06;
   color: #000;
   font-family: Verdana, Helvetica, Sans-Serif;
   font-size: 11px;
@@ -61,29 +61,45 @@ body {
 }
 
 .post{
-  border:1px solid #4E7FCD;
-  background-color: #E8EFF7;
+  border:1px solid #076D06;
+  background: #DEEDE5;
   padding:0px;
   margin:1px;
   color:#000000;
+  line-height: 1.4em;
   text-align:left;
+  white-space:wrap;
+	overflow: auto;
+}
+
+img {
+  border:0px;
+	overflow: auto;
+	max-height: 100%;
+	max-width: 100%;
+}
+
+textarea {
+	display:block;
+	overflow: auto;
+	line-height: 1.4em;
 }
 
 select.drop_pager {
-  background-color: #E0ECF7;
+  background-color: #BBDAC8;
   font-size: 11px;
 
 }
 
 .pager {
-  background-color: #E0ECF7;
-  border: 1px solid #072A66;
+  background: #BBDAC8;
+  border: 1px solid #076D06;
   padding: 1px 3px 1px 3px;
 }
 
 .pagercurrent {
-  background-color: #7FBDFA;
-  border: 1px solid #072A66;
+  background: #BBDAC8;
+  border: 1px solid #076D06;
   padding: 1px 3px 1px 3px;
 }
 
@@ -96,18 +112,24 @@ select.drop_pager {
 
 .pager a:hover,
 .pagercurrent a:hover {
-    text-decoration:underline overline;
-}
-
-#tracker_logo {
-	background:transparent;
-	width:100%;
+    text-decoration:none;
 }
 
 #main {
     background:transparent;
     width:100%;
     margin: 10px auto;
+}
+#logo {
+	background:transparent;
+	height:101px;
+	width:100%;
+}
+.tracker_logo {
+  background: url("images/logo.gif") no-repeat; 
+	align:center; 
+	height:101px; 
+	width:600px;
 }
 
 #slideIt {background:transparent; align:right;}
@@ -117,49 +139,12 @@ select.drop_pager {
     width:100%;
 }
 
-#left{
-    float:left;
-    background:transparent;
-    width:170px;
-}
-
-#nocolumn{
-    background:transparent;
-    width:100%;
-}
-
-#central{
-    background:transparent;
-    margin-left: 170px;
-    margin-right: 170px;
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-#leftcolumn{
-    background:transparent;
-    margin-left: 170px;
-    padding-left: 5px;
-}
-
-
-#right{
-    float:right;
-    background:transparent;
-    width:170px;
-}
-
-#bottom{
-    clear:both;
-    background:transparent;
-    width:100%;
-}
+#nocolumns { width:100%; align:center; }
 
 #footer{
-    clear:both;
     background:transparent;
 		color:#025082;
-    height:50px;
+    height:150px;
     width:100%;
 }
 
@@ -167,7 +152,6 @@ div.chat {
 /* Wrap its contents, and show scrollbars. */
 	white-space: wrap;
 	overflow: auto;
-	/*Stop after about 24 lines, and just show a scrollbar.*/ 
 	max-height: 36em;
   width: 100%;
   padding: 0px;
@@ -175,7 +159,7 @@ div.chat {
 
 
 a:link,a:active,a:visited { color: #000000; }
-a:hover        { text-decoration: underline; color: #365d81; }
+a:hover        { text-decoration:none; color: #365d81; }
 
 h1 {
     font-size: 12pt;
@@ -188,15 +172,15 @@ p {
 table {
     border:0px;
 }
+table.tool { border-bottom: solid 1px #076D06; }
 
 table.lista {
-    background-color: #DEEDE5;
-    border: 1px #3F7A7A solid;
+    background: #DEEDE5;
+    border: 1px #3F7A7A solid; width:100%;
 }
 
 td.block {
   background-image:url(images/lite-green.gif);
-	background-color: #DEEDE5;
 	height:25px;
 	padding-left: 3px;
 	padding-right: 3px;
@@ -212,7 +196,7 @@ td.blocklist {
   font-weight: bold;
   color: #000;
 }
-
+.user {background:#DEEDE5;}
 td.lista {
 	  background:#DEEDE5;
 		border:solid 1px #BBDAC8;
@@ -327,9 +311,6 @@ list-style-position:inside;
 .success { color:black; font-weight: bold; font-size: 14pt; background:url(images/chg.gif); background-repeat: repeat-x;}
 
 /* ######### End Main Tracker Body ######### Start Ajax Poll System ######### */
-img {
-    border:0px;
-}
 
 td.deleted {
     background-color:#FF95AC;
@@ -348,9 +329,9 @@ td.modified {
 
 #mainContainer {
     width:100%;
-    margin:0 auto;
+    overflow:auto;
     text-align:left;
-    background-color:#FFF;
+    background:#BBDAC8;
     
 }
 
@@ -364,14 +345,9 @@ td.modified {
 
 .poller {  /* The poller box */
   
-    width:auto;
-  /*  background-image:url(images/question.gif);
-    background-repeat:no-repeat;
-    background-position: bottom center;*/
+    width:100%;
     background-color:#BBDAC8;
-		padding-left:7px;
-	/*	height:170px;*/
-		overflow:hidden;
+		overflow:hidden; color:#000; font-weight:bold;
 }
 
 .pollerTitle {  /* Poller title above radio buttons */
@@ -423,7 +399,7 @@ td.modified {
     font-size:0.8em;
     margin-top:10px;
     font-style:italic;
-    background-color:#BBDAC8;
+    background:transparent;
 }
 
 th {

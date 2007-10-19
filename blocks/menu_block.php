@@ -2,7 +2,7 @@
 global $CURUSER;
 
    block_begin(BLOCK_MENU);
-
+   //print("<tr><td class=\"lista\" align=\"center\">\n");
    print("<table class=\"lista\" width=\"100%\" cellspacing=\"0\">\n<tr><td class=\"blocklist\" align=\"center\"><a href=\"index.php\">".$language["MNU_INDEX"]."</a></td></tr>\n");
 
    if ($CURUSER["view_torrents"]=="yes")
@@ -21,7 +21,7 @@ global $CURUSER;
         if ($GLOBALS["FORUMLINK"]=="" || $GLOBALS["FORUMLINK"]=="internal")
            print("<tr><td class=\"blocklist\" align=\"center\"><a href=\"index.php?page=forum\">".$language["MNU_FORUM"]."</a></td></tr>\n");
         else
-            print("<tr><td class=\"blocklist\" align=\"center\"><a href=\"".$GLOBALS["FORUMLINK"]."\" target=\"_blank\">".$language["MNU_FORUM"]."</a></td></tr>\n");
+            print("<tr><td class=\"blocklist\" align=\"center\"><a href=\"".$GLOBALS["FORUMLINK"]."\">".$language["MNU_FORUM"]."</a></td></tr>\n");
       }
    if ($CURUSER["uid"]==1 || !$CURUSER)
       print("<tr><td class=\"blocklist\" align=\"center\"><a href=\"index.php?page=login\">".$language["LOGIN"]."</a></td></tr>\n</table>\n");
