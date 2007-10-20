@@ -6,6 +6,7 @@ $language["BLOCK_CLOCK"]="Klok";
 $language["BLOCK_FORUM"]="Forum";
 $language["BLOCK_LASTMEMBER"]="Laatste lid";
 $language["BLOCK_ONLINE"]="Online";
+$language["BLOCK_ONTODAY"]="Vandaag Aanwezig";
 $language["BLOCK_SHOUTBOX"]="Shout Box";
 $language["BLOCK_TOPTORRENTS"]="Top Torrents";
 $language["BLOCK_LASTTORRENTS"]="Laatste Torrents";
