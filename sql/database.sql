@@ -73,7 +73,7 @@ INSERT INTO `{$db_prefix}blocks` (`blockid`, `content`, `position`, `sortid`, `s
 (17, 'poller', 'l', 3, 1, 'BLOCK_POLL', 'no', 3, 8),
 (18, 'seedwanted', 'c', 3, 1, 'BLOCK_SEEDWANTED', 'no', 3, 8),
 (19, 'paypal', 'r', 1, 1, 'BLOCK_PAYPAL', 'no', 3, 8),
-(20, 'ajax_shoutbox', 'c', 2, 1, 'BLOCK_SHOUTBOX', 'no', 3, 8),
+(20, 'ajax_shoutbox', 'c', 2, 1, 'BLOCK_SHOUTBOX', 'no', 3, 8);
 
 
 -- --------------------------------------------------------
@@ -958,7 +958,8 @@ INSERT INTO `{$db_prefix}style` (`id`, `style`, `style_url`) VALUES
 (1, 'xBtit_Default', 'style/xbtit_default'),
 (2, 'Mint Green', 'style/mintgreen'),
 (3, 'Dark Lair', 'style/darklair'),
-(4, 'The Hive', 'style/thehive');
+(4, 'The Hive', 'style/thehive'),
+(5, 'Frosted', 'style/frosted');
 -- --------------------------------------------------------
 
 -- 
