@@ -25,7 +25,11 @@ echo ("<title>".$GLOBALS["btit_installer"]."&nbsp;".$GLOBALS["current_btit_versi
 echo ("<link rel=\"stylesheet\" href=\"style/xbtit_default/main.css\" type=\"text/css\" />");
 echo ("</head>");
 echo ("<body>");
-echo ("<center><img src=\"style/xbtit_default/images/logo.gif\" alt=\"\" title=\"logo\" border=\"0\" /></center>");
+echo ("<div id=\"main\" />");
+echo ("<center><div id=\"logo\" />");
+echo ("<table width=\"750\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" />");
+echo ("<tr><td class=\"tracker_logo\" valign=\"top\"></td></tr>");
+echo ("</table></div></center>");
 // now we can add the different pages for the installer
 
 // Getting wished install language
@@ -299,7 +303,7 @@ if (file_exists(dirname(__FILE__)."/include/settings.php"))
      fwrite($fd,$foutput);
      fclose($fd);
      step ($install_lang["mysqlcheck"],$install_lang["step"]."&nbsp;".$install_lang["mysqlcheck_step"],"2");
-     echo ($install_lang["mysql_settings"] . $install_lang["saved"]);
+     echo ($install_lang["mysql_settings"]."&nbsp;".$install_lang["saved"]);
      echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=sql_import'\" /></div>");
      }
   else
@@ -665,7 +669,7 @@ elseif ($action == 'save_owner') {
     // finding the base path.
     $baseurl = 'http://' . $host . substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/'));
     
-    $txt['registration_disabled'] = 'Sorry, registration via SMF is disabled. Registration for this forum must be done via the Tracker <a target="_self" href="'.$baseurl.'/index.php?page=signup">Here</a>.<br /><br />If you already have a tracker account please <a target="_self" href="index.php?action=login">login here</a> with the same credentials.';
+    $txt['registration_disabled'] = 'Sorry, registration via SMF is disabled. Registration for this forum must be done via the Tracker <a href='.$baseurl.'/index.php?page=signup>Here</a>.<br /><br />If you already have a tracker account please <a href=index.php?action=login>login here</a> with the same credentials.';
 
     $fd=fopen($smf_lang, "w");
 
@@ -703,6 +707,7 @@ elseif ($action == 'finished') {
     echo ("<div align=\"center\"><a href=\"index.php\" target=\"_self\">".$install_lang["go_to_tracker"]."</a>");
 }
 echo ("</td>\n</tr>\n</table>");
+echo ("</div>");
 echo ("</body>");
 echo ("</html>");
 ?>

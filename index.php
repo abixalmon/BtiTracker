@@ -333,7 +333,7 @@ switch ($pageID) {
         // for torrents and forums pages we will display page with header and no columns (for full view)
         case 'torrents':
         case 'forum':
-        stdfoot(false,false,false,true,true);
+        stdfoot(false,true,false,true,true);
         break;      
 
     // if popup enabled then we display the page without header and no columns, else full page
