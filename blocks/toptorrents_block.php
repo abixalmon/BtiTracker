@@ -19,18 +19,19 @@ else
      $row = do_sqlquery($sql,true);
   ?>
   <table cellpadding="4" cellspacing="1" width="100%">
-  <tr>
-    <td colspan="2" align="center" class="header">&nbsp;<?php echo $language["TORRENT_FILE"]; ?>&nbsp;</td>
-    <td align="center" class="header">&nbsp;<?php echo $language["CATEGORY"]; ?>&nbsp;</td>
+  <tr colspan="2">
+	  <td align="center" width="20" class="header">&nbsp;<?php echo $language["DOWN"]; ?>&nbsp;</td>
+    <td align="center" width="55%" class="header">&nbsp;<?php echo $language["TORRENT_FILE"]; ?>&nbsp;</td>
+    <td align="center" width="45" class="header">&nbsp;<?php echo $language["CATEGORY"]; ?>&nbsp;</td>
 <?php
 if (max(0,$CURUSER["WT"])>0)
-    print("<td align=\"center\" class=\"header\">&nbsp".$language["WT"]."&nbsp;</td>");
+    print("<td align=\"center\" width=\"20\" class=\"header\">&nbsp".$language["WT"]."&nbsp;</td>");
 ?>
-    <td align="center" class="header">&nbsp;<?php echo $language["ADDED"]; ?>&nbsp;</td>
-    <td align="center" class="header">&nbsp;<?php echo $language["SIZE"]; ?>&nbsp;</td>
-    <td align="center" class="header">&nbsp;<?php echo $language["SHORT_S"]; ?>&nbsp;</td>
-    <td align="center" class="header">&nbsp;<?php echo $language["SHORT_L"]; ?>&nbsp;</td>
-    <td align="center" class="header">&nbsp;<?php echo $language["SHORT_C"]; ?>&nbsp;</td>
+    <td align="center" width="85" class="header">&nbsp;<?php echo $language["ADDED"]; ?>&nbsp;</td>
+    <td align="center" width="60" class="header">&nbsp;<?php echo $language["SIZE"]; ?>&nbsp;</td>
+    <td align="center" width="30" class="header">&nbsp;<?php echo $language["SHORT_S"]; ?>&nbsp;</td>
+    <td align="center" width="30" class="header">&nbsp;<?php echo $language["SHORT_L"]; ?>&nbsp;</td>
+    <td align="center" width="40" class="header">&nbsp;<?php echo $language["SHORT_C"]; ?>&nbsp;</td>
   </tr>
   <?php
 
@@ -42,22 +43,19 @@ if (max(0,$CURUSER["WT"])>0)
 
           if ( strlen($data["hash"]) > 0 )
           {
-             echo "\t<td align=\"center\" class=\"lista\" nowrap=\"nowrap\" style=\"text-align: center;\">";
-
-      echo "<a href=\"download.php?id=".$data["hash"]."&amp;f=" . rawurlencode($data["filename"]) . ".torrent\"><img src='images/torrent.gif' border='0' alt='".$language["DOWNLOAD_TORRENT"]."' title='".$language["DOWNLOAD_TORRENT"] ."' /></a>";
-
-
-     echo "</td>";
+      echo "\n\t<td align=\"center\" class=\"lista\" width=\"20\" style=\"text-align: center;\">";
+      echo "<a href=\"download.php?id=".$data["hash"]."&amp;f=" . rawurlencode($data["filename"]) . ".torrent\"><img src='images/torrent.gif' border='0' alt='".$language["DOWNLOAD_TORRENT"]."' title='".$language["DOWNLOAD_TORRENT"]."' /></a>";
+      echo "</td>";
 
      $data["filename"]=unesc($data["filename"]);
      $filename=cut_string($data["filename"],intval($btit_settings["cut_name"]));
 
      if ($GLOBALS["usepopup"])
-        echo "\t<td width=\"60%\" class=\"lista\" style=\"padding-left:10px;\"><a href=\"javascript:popdetails('index.php?page=torrent-details&amp;id=" . $data['hash'] . "');\" title=\"" . $language["VIEW_DETAILS"] . ": " . $data["filename"] . "\">" . $filename . "</a>".($data["external"]=="no"?"":" (<span style=\"color:red\">EXT</span>)")."</td>";
+        echo "\t<td width=\"55%\" class=\"lista\" style=\"padding-left:10px;\"><a href=\"javascript:popdetails('index.php?page=torrent-details&amp;id=" . $data['hash'] . "');\" title=\"" . $language["VIEW_DETAILS"] . ": " . $data["filename"] . "\">" . $filename . "</a>".($data["external"]=="no"?"":" (<span style=\"color:red\">EXT</span>)")."</td>";
      else
-        echo "\t<td width=\"60%\" class=\"lista\" style=\"padding-left:10px;\"><a href=\"index.php?page=torrent-details&amp;id=" . $data['hash'] . "\" title=\"" . $language["VIEW_DETAILS"] . ": " . $data["filename"] . "\">" . $filename . "</a>".($data["external"]=="no"?"":" (<span style=\"color:red\">EXT</span>)")."</td>";
+        echo "\t<td width=\"55%\" class=\"lista\" style=\"padding-left:10px;\"><a href=\"index.php?page=torrent-details&amp;id=" . $data['hash'] . "\" title=\"" . $language["VIEW_DETAILS"] . ": " . $data["filename"] . "\">" . $filename . "</a>".($data["external"]=="no"?"":" (<span style=\"color:red\">EXT</span>)")."</td>";
 
-     echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\"><a href=\"index.php?page=torrents&amp;category=$data[catid]\">" . image_or_link( ($data["image"] == "" ? "" : "$STYLEPATH/images/categories/" . $data["image"]), "", $data["cname"]) . "</a></td>";
+     echo "\t<td align=\"center\" class=\"lista\" width=\"45\" style=\"text-align: center;\"><a href=\"index.php?page=torrents&amp;category=$data[catid]\">" . image_or_link( ($data["image"] == "" ? "" : "$STYLEPATH/images/categories/" . $data["image"]), "", $data["cname"]) . "</a></td>";
 
     //waitingtime
     // only if current user is limited by WT
@@ -78,13 +76,13 @@ if (max(0,$CURUSER["WT"])>0)
           $wait -=$timer;
           if ($wait<=0)$wait=0;
 
-           echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\">".$wait." h</td>";
+           echo "\t<td align=\"center\" width=\"20\" class=\"lista\" style=\"text-align: center;\">".$wait." h</td>";
 
     }
     //end waitingtime
            include("include/offset.php");
-           echo "\t<td nowrap=\"nowrap\" class=\"lista\" align=\"center\" style=\"text-align: center;\">" . date("d/m/Y", $data["added"]-$offset) . "</td>";
-           echo "\t<td nowrap=\"nowrap\" class=\"lista\" align=\"center\" style=\"text-align: center;\">" . makesize($data["size"]) . "</td>";
+           echo "\t<td nowrap=\"nowrap\" class=\"lista\" align=\"center\" width=\"85\" style=\"text-align: center;\">" . date("d/m/Y", $data["added"]-$offset) . "</td>";
+           echo "\t<td nowrap=\"nowrap\" class=\"lista\" align=\"center\" width=\"60\" style=\"text-align: center;\">" . makesize($data["size"]) . "</td>";
 
            if ( $data["external"] == "no" )
             {
@@ -112,10 +110,10 @@ if (max(0,$CURUSER["WT"])>0)
             else
              {
                // linkcolor
-               echo "\t<td align=\"center\" class=\"".linkcolor($data["seeds"])."\" style=\"text-align: center;\">" . $data["seeds"] . "</td>";
-               echo "\t<td align=\"center\" class=\"".linkcolor($data["leechers"])."\" style=\"text-align: center;\">" .$data["leechers"] . "</td>";
+               echo "\t<td align=\"center\" width=\"30\" class=\"".linkcolor($data["seeds"])."\" style=\"text-align: center;\">" . $data["seeds"] . "</td>";
+               echo "\t<td align=\"center\" width=\"30\" class=\"".linkcolor($data["leechers"])."\" style=\"text-align: center;\">" .$data["leechers"] . "</td>";
                if ($data["finished"]>0)
-                  echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\">" . $data["finished"] . "</td>";
+                  echo "\t<td align=\"center\" width=\"40\" class=\"lista\" style=\"text-align: center;\">" . $data["finished"] . "</td>";
                else
                    echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\">---</td>";
 
