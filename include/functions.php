@@ -1016,17 +1016,12 @@ $tbbcode="<table width=\"100%\" cellpadding=\"1\" cellspacing=\"1\">";
 global $smilies, $STYLEPATH, $language;
 $count=0;
 reset($smilies);
+$tbbcode.="<tr>";
 while ((list($code, $url) = each($smilies)) && $count<16) {
-   if ($count % 0==1)
-      $tbbcode.="<tr>";
-      
-     $tbbcode.="\n<td><a href=\"javascript: SmileIT('".str_replace("'","\'",$code)."',document.forms.$form.$name);\"><img border=\"0\" src=\"images/smilies/$url\" alt=\"$url\" /></a></td>";
+      $tbbcode.="\n<td><a href=\"javascript: SmileIT('".str_replace("'","\'",$code)."',document.forms.$form.$name);\"><img border=\"0\" src=\"images/smilies/$url\" alt=\"$url\" /></a></td>";
       $count++;
-
-   if ($count % 0==1)
-      $tbbcode.="</tr>";
 }
-$tbbcode.="</table>";
+$tbbcode.="\n</tr>\n</table>";
 $tpl_bbcode->set("smilies_table",$tbbcode);
 $tpl_bbcode->set("language",$language);
 return $tpl_bbcode->fetch(load_template("txtbbcode.tpl"));
