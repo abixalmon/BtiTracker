@@ -12,9 +12,9 @@
     <div id="bodyarea" style="padding: 1ex 0ex 0ex 0ex;">  
 <table border="0" align="center" cellpadding="0" cellspacing="0" width="100%">
     <tr>
-<td valign="top" width="5" background="style/darlair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darlair/images/index_r6_c1_md1.png" /></td>
+<td valign="top" width="5" background="style/darklair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darklair/images/index_r6_c1_md1.png" /></td>
     <td valign="top"><tag:main_content /></td>
-<td valign="top" width="5" background="style/darlair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darlair/images/index_r6_c1_md1.png" /></td>	
+<td valign="top" width="5" background="style/darklair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darklair/images/index_r6_c1_md1.png" /></td>	
       </tr>
     </table>
       </div>

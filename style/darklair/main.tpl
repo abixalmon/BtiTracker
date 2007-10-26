@@ -18,9 +18,9 @@
       <div id="header">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
 			<tr>
-<td valign="top" width="5" background="style/darlair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darlair/images/index_r6_c1_md1.png" /></td>
+<td valign="top" width="5" background="style/darklair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darklair/images/index_r6_c1_md1.png" /></td>
 			<td valign="top"><tag:main_header /></td>
-<td valign="top" width="5" background="style/darlair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darlair/images/index_r6_c1_md1.png" /></td>
+<td valign="top" width="5" background="style/darklair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darklair/images/index_r6_c1_md1.png" /></td>
 			</tr></table>
       </div></div>			
 <script type="text/javascript">
@@ -30,21 +30,21 @@ var collapse2=new animatedcollapse("header", 800, false, "block")
     <div id="bodyarea" style="padding: 1ex 0ex 0ex 0ex;">  
 <table border="0" align="center" cellpadding="0" cellspacing="0" width="100%">
     <tr>
-<td valign="top" width="5" background="style/darlair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darlair/images/index_r6_c1_md1.png" /></td>
+<td valign="top" width="5" background="style/darklair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darklair/images/index_r6_c1_md1.png" /></td>
     <td valign="top" width="150"><tag:main_left /></td>
-<td valign="top" width="5" background="style/darlair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darlair/images/index_r6_c1_md1.png" /></td>
+<td valign="top" width="5" background="style/darklair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darklair/images/index_r6_c1_md1.png" /></td>
     <td valign="top"><tag:main_content /></td>
-<td valign="top" width="5" background="style/darlair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darlair/images/index_r6_c1_md1.png" /></td>
+<td valign="top" width="5" background="style/darklair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darklair/images/index_r6_c1_md1.png" /></td>
     <td valign="top" width="150"><tag:main_right /></td>
-<td valign="top" width="5" background="style/darlair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darlair/images/index_r6_c1_md1.png" /></td>	
+<td valign="top" width="5" background="style/darklair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darklair/images/index_r6_c1_md1.png" /></td>	
     </tr>
   </table>
       <br />      
 			  <table width="100%" cellpadding="0" cellspacing="0" border="0">
 			<tr>
-<td valign="top" width="5" background="style/darlair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darlair/images/index_r6_c1_md1.png" /></td>
+<td valign="top" width="5" background="style/darklair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darklair/images/index_r6_c1_md1.png" /></td>
 			<td valign="top"><tag:main_footer /></td>
-<td valign="top" width="5" background="style/darlair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darlair/images/index_r6_c1_md1.png" /></td>
+<td valign="top" width="5" background="style/darklair/images/index_r6_c1_md1.png" rowspan="2"><img src="style/darklair/images/index_r6_c1_md1.png" /></td>
 			</tr></table>
 				<br /></div>
       <div id="footer">

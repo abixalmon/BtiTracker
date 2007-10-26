@@ -19,7 +19,7 @@ body {
   font-size: 11px;
   padding: 2px;
   vertical-align: middle;
-/*	text-align:left;*/
+/*  text-align:left;*/
   cursor: pointer;
 
 }
@@ -33,20 +33,20 @@ body {
   line-height: 1.4em;
   text-align:left;
   white-space:wrap;
-	overflow: auto;
+    overflow: auto;
 }
 
 img {
   border:0px;
-	overflow: auto;
-	max-height: 100%;
-	max-width: 100%;
+    overflow: auto;
+    max-height: 100%;
+    max-width: 54em;
 }
 
 textarea {
-	display:block;
-	overflow: auto;
-	line-height: 1.4em;
+    display:block;
+    overflow: auto;
+    line-height: 1.4em;
 }
 
 select.drop_pager {
@@ -82,21 +82,21 @@ select.drop_pager {
 #main {
     background: #F1F4FA;
     width:100%;
-		border: 1px #BFD3EE solid;
+        border: 1px #BFD3EE solid;
     margin: 10px auto;
 }
 
 #logo {
   background:url('images/logo-bg.gif');
-	background-repeat:repeat-x;
-	height:103;
-	width:100%;
+    background-repeat:repeat-x;
+    height:103;
+    width:100%;
 }
 .tracker_logo {
   background: url("images/logo.gif") no-repeat; 
-	align:center; 
-	height:103px; 
-	width:750px;
+    align:center; 
+    height:103px; 
+    width:750px;
 }
 #slideIt {background-color: #FCFCFC; align:right; }
 
@@ -107,16 +107,16 @@ select.drop_pager {
 #nocolumns { width:100%; align:center; }
 #footer{
   background:url('images/footer-bg.gif');
-	background-repeat:repeat-x;
-	height:103px;
+    background-repeat:repeat-x;
+    height:103px;
   width:100%;
 }
 
 div.chat {
 /* Wrap its contents, and show scrollbars. */
-	white-space: wrap;
-	overflow: auto;
-	max-height: 36em;
+    white-space: wrap;
+    overflow: auto;
+    max-height: 36em;
   width: 100%;
   padding: 0px;
 }
@@ -139,17 +139,17 @@ table {
 table.tool { border-bottom: solid 1px #BFD3EE; }
 table.lista {
    background: url('images/poller.png');
-	 background-color:#FEFEFE; 
-	 background-repeat:repeat-x;
+     background-color:#FEFEFE; 
+     background-repeat:repeat-x;
    border: 1px silver solid;
 }
 
 td.block {
   background-image:url(images/blokbg.jpg);
-	height:25px;
-	padding-left: 3px;
-	padding-right: 3px;
-	border-bottom: solid 1px #BFD3EE;
+    height:25px;
+    padding-left: 3px;
+    padding-right: 3px;
+    border-bottom: solid 1px #BFD3EE;
   color: #3A4F6C;
 }
 
@@ -164,12 +164,12 @@ td.blocklist {
 .user {background:#F1F4FA;}
 td.lista {
     background-color:#F1F4FA;
-		border-left:solid 1px #BFD3EE;
-		border-right:solid 1px #BFD3EE;
+        border-left:solid 1px #BFD3EE;
+        border-right:solid 1px #BFD3EE;
     color : #006699;
     padding:2px;
     margin:0px;
-		text-align:left;
+        text-align:left;
     font-size: 8pt;
 }
 
@@ -181,10 +181,10 @@ td.header {
      font-weight:bold;
      color:#025082;
      padding:5px;
-		 border: 1px #BFD3EE solid;
+         border: 1px #BFD3EE solid;
      background-image: url(images/header_back.gif);
      background-color: #F1F4FA;#9FBCE3;
-		 background-repeat:repeat-x;
+         background-repeat:repeat-x;
      
 }
 
@@ -313,7 +313,7 @@ td.modified {
   
     width:100%;
     background: url('images/poller.png'); background-repeat:repeat-x; background-color:#FFF;
-		overflow:hidden; color:#000; font-weight:bold;
+        overflow:hidden; color:#000; font-weight:bold;
 }
 
 .pollerTitle {  /* Poller title above radio buttons */
@@ -364,7 +364,7 @@ td.modified {
     clear:left;
     font-size:0.8em;
     margin-top:20px;
-		vertical-align:bottom;
+        vertical-align:bottom;
     font-style:italic;
     background:transparent;
 }
@@ -385,20 +385,20 @@ padding: 0px;
 }
 
 #chatoutput ul {
-	list-style: none;
-	margin:0px;
-	padding:0px;
-	padding:5px 4px 6px 5px;
+    list-style: none;
+    margin:0px;
+    padding:0px;
+    padding:5px 4px 6px 5px;
 }
 
 div.chatoutput {
-	background:#F1F4FA;
-	padding:5px 0px 3px 10px;
-	/* font-weight: bold; */
-	margin:0px;
-	color:#3A4F6C;
-	line-height: 150%;
-	margin-bottom:2px;
+    background:#F1F4FA;
+    padding:5px 0px 3px 10px;
+    /* font-weight: bold; */
+    margin:0px;
+    color:#3A4F6C;
+    line-height: 150%;
+    margin-bottom:2px;
 }
 
 div.loader {
@@ -413,26 +413,26 @@ height:32px;
 }
 
 #chatoutput ul li span.name {
-	display: block;
-	background:url(images/ajaxchat/bubble.png) no-repeat left;
-	padding-left:19px;
+    display: block;
+    background:url(images/ajaxchat/bubble.png) no-repeat left;
+    padding-left:19px;
   margin-bottom:1px;
-	font-weight: normal;
-	color: #006699;
+    font-weight: normal;
+    color: #006699;
 }
 
 #chatoutput ul li:hover span.name {
-	background:url(images/ajaxchat/bubblehover.png) no-repeat left;
+    background:url(images/ajaxchat/bubblehover.png) no-repeat left;
 }
 
 form {
-	padding:0px;
-	margin:6px;
+    padding:0px;
+    margin:6px;
 }
 
 #chatoutput {
-	text-align: left;
-	margin-right: 0px;
+    text-align: left;
+    margin-right: 0px;
 }
 
 /* swaps edit and delete images on mouse over */
