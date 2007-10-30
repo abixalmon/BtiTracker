@@ -547,7 +547,8 @@ INSERT INTO `{$db_prefix}language` (`id`, `language`, `language_url`) VALUES
 (1, 'English', 'language/english'),
 (2, 'Romanian', 'language/romanian'),
 (3, 'Polish', 'language/polish'),
-(4, 'Serbocroatian', 'language/serbocroatian');
+(4, 'Serbocroatian', 'language/serbocroatian'),
+(5, 'Dutch', 'language/dutch');
 
 -- --------------------------------------------------------
 
