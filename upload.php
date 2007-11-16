@@ -194,7 +194,8 @@ if (!isset($array["announce"]))
                   do_sqlquery("UPDATE xbt_files SET flags=1 WHERE info_hash=0x$hash",true);
              stderr($language["ERROR"],$language["ERR_MOVING_TORR"]);
          }
-
+         // try to chmod new moved file, on some server chmod without this could result 600, seems to be php bug
+         @chmod($TORRENTSDIR . "/" . $hash . ".btf",0766);
 //         if ($announce!=$BASEURL."/announce.php")
         if (!in_array($announce,$TRACKER_ANNOUNCEURLS))
             {
