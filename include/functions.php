@@ -719,6 +719,19 @@ function format_quote($text)
 return $string;
 }
 
+function parse_image($image) {
+    $image = str_replace( "%20", "%20", $image );
+    $maxheight = 500;
+    $maxwidth = 500;
+    $img_info = getimagesize($image);
+    $alt = "Click on image for full size view.";
+
+    if ($img_info[0] >  $maxwidth)
+        return "<font size=\"1\"><b>$alt</b></font>\n<a href='$image' target='_blank'><img width='$maxwidth' height='$maxheight' src='$image' border='0' alt='$alt' /></a><br />";
+    
+    return "<img src='$image' border='0'/>";
+}
+
 
 function format_comment($text, $strip_html = true)
 {
@@ -758,12 +771,11 @@ function format_comment($text, $strip_html = true)
     $s = preg_replace("#\[U\](.*?)\[/U\]#si", "<u>\\1</u>", $s);
 
     // [img]http://www/image.gif[/img]
-    $s = preg_replace("/\[img\](http:\/\/[^\s'\"<>]+(\.gif|\.jpg|\.png))\[\/img\]/i", "<img border=\"0\" src=\"\\1\">", $s);
-    //$s = preg_replace("/\[IMG\](http:\/\/[^\s'\"<>]+(\.gif|\.jpg|\.png))\[\/IMG\]/", "<img border=0 src=\"\\1\">", $s);
+    $s = preg_replace("#\[img\](https?://([^<>\"']+?))\[/img\]#esi", "parse_image('\\1')", $s);
 
     // [img=http://www/image.gif]
-    $s = preg_replace("/\[img=(http:\/\/[^\s'\"<>]+(\.gif|\.jpg|\.png))\]/i", "<img border=\"0\" src=\"\\1\">", $s);
-    //$s = preg_replace("/\[IMG=(http:\/\/[^\s'\"<>]+(\.gif|\.jpg|\.png))\]/", "<img border=0 src=\"\\1\">", $s);
+    $s = preg_replace("#\[img=(https?://([^<>\"']+?))\]#esi", "parse_image('\\1')", $s);
+
 
     // [color=blue]Text[/color]
     $s = preg_replace(
