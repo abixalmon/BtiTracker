@@ -1,16 +1,19 @@
 <?php
-require_once("include/functions.php");
-require_once("include/config.php");
-require_once ("include/BDecode.php");
-require_once ("include/BEncode.php");
+
+$THIS_BASEPATH=dirname(__FILE__);
+
+require_once("$THIS_BASEPATH/include/functions.php");
+require_once ("$THIS_BASEPATH/include/BDecode.php");
+require_once ("$THIS_BASEPATH/include/BEncode.php");
 
 dbconn();
 
 if (!$CURUSER || $CURUSER["can_download"]=="no")
    {
-       stderr(ERROR,NOT_AUTH_DOWNLOAD);
-       die();
+       require(load_language("lang_main.php"));
+       die($language["NOT_AUTH_DOWNLOAD"]);
    }
+
 if(ini_get('zlib.output_compression'))
   ini_set('zlib.output_compression','Off');
 
@@ -19,8 +22,9 @@ $filepath=$TORRENTSDIR."/".$infohash . ".btf";
 
 if (!is_file($filepath) || !is_readable($filepath))
    {
-       stderr(ERROR,CANT_FIND_TORRENT);
-       die();
+
+       require(load_language("lang_main.php"));
+       die($language["CANT_FIND_TORRENT"]);
     }
 
 $f=urldecode($_GET["f"]);

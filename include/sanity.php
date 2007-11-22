@@ -11,7 +11,7 @@ function do_sanity() {
          {
              list($hash, $seeders, $leechers, $bytes, $filename) = $row;
 
-         $timeout=time()-intval($GLOBALS["report_interval"]);
+         $timeout=time()-(intval($GLOBALS["report_interval"]*2));
 
          // for testing purpose -- begin
          $resupd=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}peers where lastupdate < ".$timeout ." AND infohash='$hash'");
