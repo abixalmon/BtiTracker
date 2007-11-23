@@ -431,11 +431,11 @@ function sendRandomPeers($info_hash)
 
 
     if ($GLOBALS["NAT"])
-        $where="WHERE infohash=\"$hash\" AND natuser = 'N'";
+        $where="WHERE infohash=\"$info_hash\" AND natuser = 'N'";
     else
-        $where="WHERE infohash=\"$hash\"";
+        $where="WHERE infohash=\"$info_hash\"";
 
-    $query = "SELECT ".((isset($_GET["no_peer_id"]) && $_GET["no_peer_id"] == 1) ? "" : "peer_id,")."ip, port, status FROM {$TABLE_PREFIX}peers ".$where." ORDER BY RAND() LIMIT ".$GLOBALS["maxpeers"];
+    $query = "SELECT ".((isset($_GET["no_peer_id"]) && $_GET["no_peer_id"] == 1) ? "" : "peer_id,")."ip, port FROM {$TABLE_PREFIX}peers ".$where." ORDER BY RAND() LIMIT ".$GLOBALS["maxpeers"];
 
     echo "d";
     echo "8:intervali".$GLOBALS["report_interval"]."e";
@@ -447,15 +447,21 @@ function sendRandomPeers($info_hash)
 
     if (isset($_GET["compact"]) && $_GET["compact"] == '1')
       {
-        echo (mysql_num_rows($result) * 6) . ":";
-        while ($row = mysql_fetch_row($result))
-            echo str_pad($row[0], 6); //echo $row[0];
+        $p='';
+        while ($row = mysql_fetch_assoc($result))
+            $p .= str_pad(pack("Nn", ip2long($row["ip"]), $row["port"]), 6);
+        echo strlen($p).':'.$p;
     }
     else // no_peer_id or no feature supported
     {
-        echo "l";
-        while ($row = mysql_fetch_row($result))
-            echo "d".$row[0]."e";
+        echo 'l';
+        while ($row = mysql_fetch_assoc($result))
+        {
+            echo "d2:ip".strlen($row["ip"]).":".$row["ip"];
+            if (isset($row["peer_id"]))
+                echo "7:peer id20:".hex2bin($row["peer_id"]);
+            echo "4:port".strlen($row["port"]).":".$row["port"]."ee";
+        }
         echo "e";
     }
     if (isset($GLOBALS["trackerid"]))
