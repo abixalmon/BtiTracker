@@ -144,9 +144,9 @@ while ($row = mysql_fetch_row($query))
     $namemap[$row[0]] = $row[1];
 
 if ($usehash)
-    $query = mysql_query("SELECT f.info_hash, f.seeds, f.leechers, f.finished FROM {$TABLE_PREFIX}files WHERE external='no' AND info_hash IN $info_hash") or show_error("Database error. Cannot complete request.");
+    $query = mysql_query("SELECT f.info_hash, f.seeds, f.leechers, f.finished FROM {$TABLE_PREFIX}files f WHERE external='no' AND info_hash IN $info_hash") or show_error("Database error. Cannot complete request.");
 else
-    $query = mysql_query("SELECT f.info_hash, f.seeds, f.leechers, f.finished FROM {$TABLE_PREFIX}files WHERE external='no' ORDER BY info_hash") or show_error("Database error. Cannot complete request.");
+    $query = mysql_query("SELECT f.info_hash, f.seeds, f.leechers, f.finished FROM {$TABLE_PREFIX}files f WHERE external='no' ORDER BY info_hash") or show_error("Database error. Cannot complete request.");
 
 
 $result="d5:filesd";
