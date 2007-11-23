@@ -110,8 +110,8 @@ function BBTag(opentag, closetag, textarea)
         <td align="left"><input type="button" class="btn" name="img" value="Img" onclick="javascript: BBTag('[img]','[/img]',document.forms.<tag:form_name />.<tag:object_name />)" /></td>
         </tr></table>
         <table width="50%" cellpadding="0" cellspacing="1" align="left">
-				<tr colspan="2">
-				<td align="left"><select onchange="BBTag('[size=' + this.options[this.selectedIndex].value.toLowerCase() + ']','[/size]', document.forms.<tag:form_name />.<tag:object_name />); this.selectedIndex = 0;" size="1" style="background-color:#DEDEDE;" name="fontchange">
+                <tr colspan="2">
+                <td align="left"><select onchange="BBTag('[size=' + this.options[this.selectedIndex].value.toLowerCase() + ']','[/size]', document.forms.<tag:form_name />.<tag:object_name />); this.selectedIndex = 0;" size="1" style="background-color:#DEDEDE;" name="fontchange">
               <option value="" selected="selected">Font Size</option>
               <option value="1">xx-small</option>
               <option value="2">x-small</option>
@@ -121,7 +121,7 @@ function BBTag(opentag, closetag, textarea)
               <option value="6">x-large</option>
               <option value="7">xx-large</option>
               </select></td>
-				 <td align="left" style="text-align:left;"><select onchange="BBTag('[color=' + this.options[this.selectedIndex].value.toLowerCase() + ']','[/color]', document.forms.<tag:form_name />.<tag:object_name />); this.selectedIndex = 0;" size="1" style="background-color:#DEDEDE;" name="fontchange">
+                 <td align="left" style="text-align:left;"><select onchange="BBTag('[color=' + this.options[this.selectedIndex].value.toLowerCase() + ']','[/color]', document.forms.<tag:form_name />.<tag:object_name />); this.selectedIndex = 0;" size="1" style="background-color:#DEDEDE;" name="fontchange">
               <option value="" selected="selected">Change Color</option>
               <option value="Black" style="color:black">Black</option>
               <option value="Red" style="color:red">Red</option>
@@ -144,7 +144,7 @@ function BBTag(opentag, closetag, textarea)
     </tr>
     <tr>
       <td>
-      <textarea name="<tag:object_name />" rows="10" cols="40" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onchange="storeCaret(this);"><tag:content /></textarea>
+      <textarea name="<tag:object_name />" rows="10" style="width:100%" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onchange="storeCaret(this);"><tag:content /></textarea>
       </td>
     </tr>
     <tr>
