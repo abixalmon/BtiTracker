@@ -738,6 +738,8 @@ switch ($event)
             else
               collectBytes($peer_exists, $info_hash, $left, $downloaded, $uploaded, $pid);
         }
+        else
+          collectBytes($peer_exists, $info_hash, $left, $downloaded, $uploaded, $pid);
 
 
        sendRandomPeers($info_hash);

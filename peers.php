@@ -52,7 +52,7 @@ while ($row = mysql_fetch_array($res))
         $peers[$i]["PM"]="<a href=\"index.php?page=usercp&amp;do=pm&amp;action=edit&amp;uid=$CURUSER[uid]&amp;what=new&amp;to=".urlencode(unesc($rowuser[0]))."\">".image_or_link("$STYLEPATH/images/pm.png","","PM")."</a>"; }
       }
     else
-       $peers[$i]["USER_NAME"]=="<language.GUEST />";
+       $peers[$i]["USERNAME"]=="<language.GUEST />";
     }
   if ($row["flagpic"]!="" && $row["flagpic"]!="unknown.gif")
     $peers[$i]["FLAG"]="<img src=\"images/flag/".$row["flagpic"]."\" alt=\"".unesc($row["name"])."\" />";
