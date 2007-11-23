@@ -373,7 +373,7 @@ function start($info_hash, $ip, $port, $peer_id, $left, $downloaded=0, $uploaded
 
 
 
-    $compact = mysql_escape_string(pack('Nn', ip2long($ip), $port));
+    $compact = mysql_escape_string(str_pad(pack('Nn', ip2long($ip), $port),6));
     $peerid = mysql_escape_string('2:ip' . strlen($ip) . ':' . $ip . '7:peer id20:' . hex2bin($peer_id) . "4:porti{$port}e");
     $no_peerid = mysql_escape_string('2:ip' . strlen($ip) . ':' . $ip . "4:porti{$port}e");
 
@@ -460,7 +460,7 @@ function sendRandomPeers($info_hash)
             echo "d2:ip".strlen($row["ip"]).":".$row["ip"];
             if (isset($row["peer_id"]))
                 echo "7:peer id20:".hex2bin($row["peer_id"]);
-            echo "4:port".strlen($row["port"]).":".$row["port"]."ee";
+            echo "4:porti".$row["port"]."ee";
         }
         echo "e";
     }
