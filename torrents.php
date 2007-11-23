@@ -306,7 +306,7 @@ if ($count>0) {
          $torrents[$i]["classe_leechers"]=linkcolor($data["leechers"]);
          $torrents[$i]["leechers"]="<a href=\"index.php?page=peers&amp;id=".$data["hash"]."\" title=\"".$language["PEERS_DETAILS"]."\">" .$data["leechers"] . "</a>";
          if ($data["finished"]>0)
-            $torrents[$i]["complete"]="<a href=\"index.php?page=torrent_history&amp;?id=".$data["hash"]."\" title=\"History - ".$data["filename"]."\">" . $data["finished"] . "</a>";
+            $torrents[$i]["complete"]="<a href=\"index.php?page=torrent_history&amp;id=".$data["hash"]."\" title=\"History - ".$data["filename"]."\">" . $data["finished"] . "</a>";
          else
              $torrents[$i]["complete"]="---";
          }
