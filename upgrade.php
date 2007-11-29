@@ -1,17 +1,23 @@
 <?php
-$dbfile="database.sql";
+
+$dbfile="upgrade/v141_to_v2.sql";
+
 // declaration of variables
 $INSTALLPATH = dirname(__FILE__);
 $action = isset($_POST['action']) ? $_POST['action'] : (isset($_GET['action']) ? $_GET['action'] : 'welcome');
-$allowed_actions = array('save_owner','welcome','reqcheck','settings','sql_import','save_mysql','owner','site_config', 'save_tracker','finished');
+$allowed_actions = array('welcome','reqcheck','settings','sql_import','save_mysql','finished');
 if (!in_array($action, $allowed_actions))
     $action = 'welcome';
 define("BTIT_INSTALL", TRUE);
 
+if (isset($_SERVER['PHP_SELF']))
+   $_SERVER['PHP_SELF']=htmlspecialchars($_SERVER['PHP_SELF']);
+$cur_script=$_SERVER['PHP_SELF'];
+
 // getting globals
 $GLOBALS["btit-tracker"]         = "XBTI-Tracker";
 $GLOBALS["current_btit_version"] = "v2.0 (Private Beta)";
-$GLOBALS["btit_installer"]       = "XBTI-Tracker Installer ::";
+$GLOBALS["btit_installer"]       = "XBTI-Tracker Upgrade ::";
 
 // getting needed files
 load_lang_file();
@@ -155,6 +161,7 @@ if (file_exists(dirname(__FILE__)."/install.lock"))
 if ($action == 'welcome')
 {
     step ($install_lang["welcome_header"],$install_lang["step"]."&nbsp;".$install_lang["welcome_header"],"*");
+    echo ("<p align=\"center\" style=\"color: red\">REMEMBER TO BACKUP FIRST!!!</p>");
     echo ("<p align=\"center\">".$install_lang["welcome"]."</p>");
     
     // Show a language selection...
@@ -188,7 +195,7 @@ if ($action == 'welcome')
     echo ("".$install_lang["system_req"]."");
     // changelog
     echo ("<p>".$install_lang["view_log"]."&nbsp;<a href=\"changelog.txt\" target=\"_blank\">".$install_lang["here"]."</a>&nbsp;<b>(now missed, will be included in definitive version)</b></p>");
-    echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["start"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=reqcheck'\" /></div>");
+    echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["start"]."\" onclick=\"javascript:document.location.href='$cur_script?lang_file=".$_SESSION["install_lang"]."&amp;action=reqcheck'\" /></div>");
 }
 
 // requirements check
@@ -253,7 +260,7 @@ else
     if (file_exists(dirname(__FILE__)."/include/settings.php"))
         {
         if (is_writable(dirname(__FILE__)."/include/settings.php"))
-            echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=settings'\" /></div>");
+            echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='$cur_script?lang_file=".$_SESSION["install_lang"]."&amp;action=settings'\" /></div>");
         }
 
 }
@@ -282,7 +289,7 @@ elseif ($action == 'settings') {
 // saving the database connection data
 elseif ($action == 'save_mysql'){
 
-if (empty($_POST["db_server"]) || empty($_POST["db_user"]) || empty($_POST["db_passwd"]) || empty($_POST["db_name"]) || empty($_POST["db_prefix"])){
+if (empty($_POST["db_server"]) || empty($_POST["db_user"]) || empty($_POST["db_passwd"]) || empty($_POST["db_name"])){
     step ($install_lang["mysqlcheck"],$install_lang["step"]."&nbsp;".$install_lang["mysqlcheck_step"],"2");
     echo ($install_lang["no_leave_blank"]);
     die;
@@ -304,7 +311,7 @@ if (file_exists(dirname(__FILE__)."/include/settings.php"))
      fclose($fd);
      step ($install_lang["mysqlcheck"],$install_lang["step"]."&nbsp;".$install_lang["mysqlcheck_step"],"2");
      echo ($install_lang["mysql_settings"]."&nbsp;".$install_lang["saved"]);
-     echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=sql_import'\" /></div>");
+     echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='$cur_script?lang_file=".$_SESSION["install_lang"]."&amp;action=sql_import'\" /></div>");
      }
   else
     echo ($install_lang["file_not_writeable"]);
@@ -382,7 +389,7 @@ elseif ($action == 'sql_import') {
     }
 
     $replaces = array(
-        '{$db_prefix}' => $TABLE_PREFIX,
+        'btit_' => $TABLE_PREFIX,
     );
     foreach ($install_lang as $key => $value)
     {
@@ -398,8 +405,8 @@ elseif ($action == 'sql_import') {
         $replaces[') TYPE=MyISAM;'] = ') TYPE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;';
 
     // Read in the SQL.  Turn this on and that off... internationalize... etc.
-    $sql_lines = explode("\n", strtr(implode(' ', file(dirname(__FILE__) . '/sql/database.sql')), $replaces));
-
+    $sql_lines = explode("\n", strtr(implode(' ', file(dirname(__FILE__) . '/upgrade/v141_to_v2.sql')), $replaces));
+die($sql_lines);
     // Execute the SQL.
     $current_statement = '';
     $failures = array();
@@ -432,276 +439,20 @@ elseif ($action == 'sql_import') {
 
         $current_statement = '';
     }
-     echo ($install_lang["database_saved"]);
-     echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=site_config'\" /></div>");
-}
-
-// site config
-elseif ($action == 'site_config') {
-    step ($install_lang["site_config"],$install_lang["step"]."&nbsp;".$install_lang["site_config_step"],"4");
-
-    // getting started
-    require (dirname(__FILE__)."/include/settings.php");
-
-    mysql_connect($dbhost, $dbuser, $dbpass);
-    mysql_select_db($database);
-    
-    // finding the host
-    $host = empty($_SERVER['HTTP_HOST']) ? $_SERVER['SERVER_NAME'] . (empty($_SERVER['SERVER_PORT']) || $_SERVER['SERVER_PORT'] == '80' ? '' : ':' . $_SERVER['SERVER_PORT']) : $_SERVER['HTTP_HOST'];
-    // finding the base path.
-    $baseurl = 'http://' . $host . substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/'));
-    $smf_lang=str_replace("\\", "/", dirname(__FILE__))."/smf/Themes/default/languages/Errors.english.php";
-    
-    echo ("<form action=\"".$_SERVER['PHP_SELF']."?lang_file=".$_SESSION["install_lang"]."&amp;action=save_tracker\" method=\"post\">");
-    echo ("<h2>".$install_lang["site_config"]."</h2>");
-    echo ("<h4>".$install_lang["settingup"]."</h4>");
-    echo ("<table width=\"100%\" cellpadding=\"4\" cellspacing=\"4\" border=\"0\" style=\"margin-bottom: 2ex;\">");
-    echo ("<tr><td width=\"20%\" valign=\"top\">".$install_lang["sitename"].":</td><td><input type=\"text\" name=\"sitename\" id=\"sitename_input\" value=\"".$install_lang["sitename_input"]."\" size=\"50\" /></td></tr>");
-    echo ("<tr><td valign=\"top\">".$install_lang["siteurl"].":</td><td><input type=\"text\" name=\"siteurl\" id=\"siteurl_input\" value=\"".$baseurl."\" size=\"50\" /><br /><div style=\"font-size: smaller; margin-bottom: 2ex;\">".$install_lang["siteurl_info"]."</div></td></tr>");
-    echo ("<tr><td>".$install_lang["default_lang"].":</td><td><select name=\"language\">");
-
-    $lres=language_list();
-    foreach ($lres as $l)
-            echo ("<option value=\"".$l["id"]."\">".StripSlashes($l["language"])."</option>");
-
-    echo ("</select></td>");
-    echo ("<tr><td>".$install_lang["default_style"].":</td><td><select name=\"style\">");
-
-    $sres=style_list();
-    foreach ($sres as $s)
-            echo ("<option value=\"".$s["id"]."\">".StripSlashes($s["style"])."</option>");
-    echo ("</select></td>");
-    echo ("<tr><td>".$install_lang["validation"].":</td><td><select name=\"validation\">");
-    echo ("<option value=\"none\">none</option>");
-    echo ("<option value=\"user\" selected=\"selected\">user</option>");
-    echo ("<option value=\"admin\">admin</option>");
-    echo ("</select></td>");
-    echo ("<tr><td>".$install_lang["torrents_dir"]."</td><td><input type=\"text\" name=\"torrentdir\" size=\"30\" value=\"torrents\"></td></tr>");
-    echo ("<tr><td>".$install_lang["forum_type"].":</td><td><select name=\"forumtype\">");
-    echo ("<option value=\"1\" selected=\"selected\">".$install_lang["forum_internal"]."</option>");
-    echo ("<option value=\"2\">".$install_lang["forum_smf"]."</option>");
-    echo ("<option value=\"3\">".$install_lang["forum_other"]."</option>");
-    echo ("</select>");
-    echo ("&nbsp;&nbsp;&nbsp;<input type='text' name='externalforum' size='30' maxlength='200' value='')></td></tr>");
-    echo ("<tr><td colspan=\"2\">");
-    echo ("<p><table border='0' width='100%' align='left' bgcolor='#FFFFCC'><tr><td>" . $install_lang["smf_download_a"] . $smf_lang . $install_lang["smf_download_b"] . "</td></tr></table></p>");
-    echo ("</td></tr>");
-    echo ("<tr><td colspan=\"2\">".$install_lang["more_settings"]."</td></tr></table>");
-    echo ("<div align=\"right\"><input type=\"submit\" value=\"". $install_lang["next"]."\" /></div></form>");
-    
-}
-
-// saving the site data
-elseif ($action == 'save_tracker') {
-    step ($install_lang["site_config"],$install_lang["step"]."&nbsp;".$install_lang["site_config_step"],"4");   
-
-    // getting variables
-    $default_lang = $_POST["language"];
-    $default_style = $_POST["style"];
-    $baseurl = $_POST["siteurl"];
-    $sitename = $_POST["sitename"];
-    $torrentdir = $_POST["torrentdir"];
-    $val_mode = $_POST["validation"];
-    $forum_type = intval($_POST["forumtype"]);
-    if($forum_type==1) $forum="";
-    elseif($forum_type==2) $forum="smf";
-    elseif($forum_type==3) $forum=mysql_escape_string($_POST["externalforum"]);
-
-    // getting started
-    require (dirname(__FILE__)."/include/settings.php");
-
-    @mysql_connect($dbhost, $dbuser, $dbpass);
-    @mysql_select_db($database);
-    
-    if($forum=="smf")
-    {
-        $smf_lang=str_replace("\\", "/", dirname(__FILE__))."/smf/Themes/default/languages/Errors.english.php";
-        
-        // Lets check the main SMF Settings file is present
-        if (!file_exists(dirname(__FILE__)."/smf/Settings.php"))
-            die($install_lang["smf_err_1"]);
-
-        // Now to check they've actually installed it by checking the database
-        require (dirname(__FILE__)."/smf/Settings.php");
-        
-        $smf=mysql_query("SELECT memberName FROM `{$db_prefix}members` WHERE `ID_MEMBER`=1");
-        if(mysql_num_rows($smf)==0)
-            die($install_lang["smf_err_2"]);
-        
-        // Now lets check if the SMF English Language file is writable
-        if(!is_writable($smf_lang))
-            die($install_lang["smf_err_3a"] . $smf_lang . $install_lang["smf_err_3b"]);
-    }
-    
-    @mysql_query("ALTER TABLE {$TABLE_PREFIX}users CHANGE `language` `language` TINYINT( 4 ) NOT NULL DEFAULT '$default_lang'") or mysql_error();
-    @mysql_query("ALTER TABLE {$TABLE_PREFIX}users CHANGE `style` `style` TINYINT( 4 ) NOT NULL DEFAULT '$default_style'") or mysql_error();
-    @mysql_query("UPDATE {$TABLE_PREFIX}settings SET `value` = '$baseurl' WHERE `key` = 'url'") or mysql_error();
-    @mysql_query("UPDATE {$TABLE_PREFIX}settings SET `value` = '$sitename' WHERE `key` = 'name'") or mysql_error();
-    @mysql_query("UPDATE {$TABLE_PREFIX}settings SET `value` = '$torrentdir' WHERE `key` = 'torrentdir'") or mysql_error();
-    @mysql_query("UPDATE {$TABLE_PREFIX}settings SET `value` = '$val_mode' WHERE `key` = 'validation'") or mysql_error();
-    @mysql_query("UPDATE {$TABLE_PREFIX}settings SET `value` = '$forum' WHERE `key` = 'forum'") or mysql_error();
-        
-    echo ($install_lang["tracker_saved"]);
-    echo ("<div align=\"right\"><input type=\"submit\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=owner&amp;forumtype=$forum'\" /></div>");
-
-}
-
-// creating owner account
-elseif ($action == 'owner') {
-
-    step ($install_lang["create_owner_account"],$install_lang["step"]."&nbsp;".$install_lang["create_owner_account_step"],"5");
-    echo ("<form action=\"".$_SERVER['PHP_SELF']."?lang_file=".$_SESSION["install_lang"]."&amp;action=save_owner\" method=\"post\">");
-    echo ("<h2>".$install_lang["create_owner_account"]."</h2>");
-    echo ("<h4>".$install_lang["create_owner_account_info"]."</h4>");
-    echo ("<table width=\"100%\" cellpadding=\"4\" cellspacing=\"4\" border=\"0\" style=\"margin-bottom: 2ex;\">");
-    echo ("<tr><td valign=\"top\">".$install_lang["username"].":</td><td><input type=\"text\" name=\"username\" size=\"30\" /></td></tr>");
-    echo ("<tr><td valign=\"top\">".$install_lang["password"].":</td><td><input type=\"password\" name=\"password\" size=\"30\" /></td></tr>");
-    echo ("<tr><td valign=\"top\">".$install_lang["password2"].":</td><td><input type=\"password\" name=\"password2\" size=\"30\" /></td></tr>");
-    echo ("<tr><td valign=\"top\">".$install_lang["email"].":</td><td><input type=\"text\" name=\"email\" value=\"email@yourhost.com\" size=\"30\" /></td></tr>");
-    echo ("<tr><td valign=\"top\">".$install_lang["email2"].":</td><td><input type=\"text\" name=\"email2\" value=\"email@yourhost.com\" size=\"30\" /></td></tr>");
-    echo ("<input type=\"hidden\" name=\"forumtype\" value=\"".$_GET["forumtype"]."\"/>");
-    echo ("</table><div align=\"right\"><input type=\"submit\" value=\"". $install_lang["next"]."\" /></div></form>");
-}
-
-// saving owner account
-elseif ($action == 'save_owner') {
- 
-    $forum=$_POST["forumtype"];
-    step ($install_lang["create_owner_account"],$install_lang["step"]."&nbsp;".$install_lang["create_owner_account_step"],"5");
-    
-    // getting started
-    require (dirname(__FILE__)."/include/settings.php");
-
-    @mysql_connect($dbhost, $dbuser, $dbpass);
-    @mysql_select_db($database);
-    
-    function validemail($email) {
-             return preg_match('/^[\w.-]+@([\w.-]+\.)+[a-z]{2,6}$/is', $email);
-    }
-
-    function safe_email($email) {   
-             $email = str_replace("<","",$email); 
-             $email = str_replace(">","",$email); 
-             $email = str_replace("\'","",$email); 
-             $email = str_replace('\"',"",$email); 
-             $email = str_replace("\\\\","",$email); 
-             return $email;
-    }
-
-    function check_email ($email) {
-             if(ereg("^([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$", $email)) 
-                 return true;
-             else
-                 return false;
-    }
-
-    function owner_error ($error_lang, $back){
-             echo ($error_lang);
-             echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$back."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=owner'\" /></div>");
-             die;
-    }
-    // getting variables
-    $username = $_POST["username"];
-    $password = mysql_escape_string($_POST["password"]);
-    $password_repeat = mysql_escape_string($_POST["password2"]);
-    $email = $_POST["email"];
-    $email_repeat = $_POST["email2"];
-    $email = htmlspecialchars(trim($email));
-    $email_repeat = htmlspecialchars(trim($email_repeat));
-    $email = safe_email($email);
-    
-    // Create Random number
-    $floor = 100000;
-    $ceiling = 999999;
-    srand((double)microtime()*1000000);
-    $random = rand($floor, $ceiling);
-
-    if (empty($username) || empty($password) || empty($password_repeat) || empty($email) || empty($email_repeat)){
-    owner_error($install_lang["no_leave_blank"], $install_lang["back"]);
-    }
-    if (!validemail($email)){
-    owner_error($install_lang["not_valid_email"], $install_lang["back"]);
-    }
-    if (!check_email($email)){
-    owner_error($install_lang["not_valid_email"], $install_lang["back"]);
-    }
-    if ($password == $username){
-    owner_error($install_lang["pass_not_same_username"], $install_lang["back"]);
-    }
-    if ($email != $email_repeat){
-    owner_error($install_lang["email_not_same"], $install_lang["back"]);
-    }
-    if ($password != $password_repeat){
-    owner_error($install_lang["pass_not_same"], $install_lang["back"]);
-    }
-
-    $smf_fid=0;
-
-    if($forum=="smf")
-    {
-        require (dirname(__FILE__)."/smf/Settings.php");
-
-        $filename=dirname(__FILE__) . '/sql/smf.sql';
-        $fd=fopen($filename, "r");
-        $sql=fread($fd, filesize($filename));
-
-        $sql_lines=str_replace("{\$db_prefix}", $db_prefix, explode(";", $sql));
-
-        foreach($sql_lines as $v)
-        {
-            @mysql_query($v);
-        }
-
-        $smfpass = array(sha1(strtolower($username) . $password), substr(md5(rand()), 0, 4));
-
-
-   @mysql_query("INSERT INTO {$db_prefix}members (ID_MEMBER, memberName, dateRegistered, ID_GROUP, realName, passwd, emailAddress, memberIP, memberIP2, is_activated, passwordSalt) VALUES (2 ,'$username', UNIX_TIMESTAMP(), 18, '$username', '$smfpass[0]', '$email', '".$_SERVER["REMOTE_ADDR"]."', '".$_SERVER["REMOTE_ADDR"]."', 1, '$smfpass[1]')");
-    @mysql_query("UPDATE `{$db_prefix}settings` SET `value` = 2 WHERE `variable` = 'latestMember'");
-    @mysql_query("UPDATE `{$db_prefix}settings` SET `value` = '$username' WHERE `variable` = 'latestRealName'");
-    @mysql_query("UPDATE `{$db_prefix}settings` SET `value` = UNIX_TIMESTAMP() WHERE `variable` = 'memberlist_updated'");
-    
-    $smf_lang="smf/Themes/default/languages/Errors.english.php";
-
-    require_once($smf_lang);
-    
-    // finding the host
-    $host = empty($_SERVER['HTTP_HOST']) ? $_SERVER['SERVER_NAME'] . (empty($_SERVER['SERVER_PORT']) || $_SERVER['SERVER_PORT'] == '80' ? '' : ':' . $_SERVER['SERVER_PORT']) : $_SERVER['HTTP_HOST'];
-    // finding the base path.
-    $baseurl = 'http://' . $host . substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/'));
-    
-    $txt['registration_disabled'] = "Sorry, registration via SMF is disabled. Registration for this forum must be done via the Tracker <a href=\"$baseurl/index.php?page=signup\">Here</a>.<br /><br />If you already have a tracker account please <a href=\"$baseurl/index.php?action=login\">login here</a> with the same credentials.";
-
-    $fd=fopen($smf_lang, "w");
-
-    $foutput="<?php\n\n";
-
-    foreach($txt as $k => $v)
-    {
-        $foutput.="\$txt['$k']   =   '".str_replace("'", "\\'", $v)."';\n";
-    }
-    $foutput.="\n?>";
-
-    fwrite($fd,$foutput);
-    fclose($fd);
-
-    $smf_fid=2;
-    }
-
-    mysql_query("INSERT INTO {$TABLE_PREFIX}users (id, username, password, random, id_level, email, joined, lastconnect, pid, time_offset, smf_fid) VALUES (2, '$username', '" . md5($password) . "', $random, 8, '$email', NOW(), NOW(), '".md5(uniqid(rand(),true))."', 0, $smf_fid)");
-    echo ($install_lang["create_owner_account"]."&nbsp;".$install_lang["is_succes"]);
-    echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=finished'\" /></div>");
+     echo (str_replace("database.sql",$dbfile,$install_lang["database_saved"]));
+     echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='$cur_script?lang_file=".$_SESSION["install_lang"]."&amp;action=finished'\" /></div>");
 }
 
 // finished
 elseif ($action == 'finished') {
     step ($install_lang["finished"],$install_lang["step"]."&nbsp;".$install_lang["finished_step"],"*");
-    echo ("<h2>".$install_lang["succes_install1"]."</h2>");
-    if(!rename("install.unlock", "install.lock"))
-        echo ($install_lang["succes_install2b"]);
+    echo ("<h2>".$install_lang["succes_upgrade1"]."</h2>");
+    if(!@rename("install.unlock", "install.lock"))
+        echo ($install_lang["succes_upgrade2b"]);
     else
-        echo ($install_lang["succes_install2a"]);
+        echo ($install_lang["succes_upgrade2a"]);
     echo ("<br /><br />");
-    echo ($install_lang["succes_install3"]);
+    echo ($install_lang["succes_upgrade3"]);
     echo ("<br />");
     echo ("<p>BTITeam</p>");
     echo ("<div align=\"center\"><a href=\"index.php\" target=\"_self\">".$install_lang["go_to_tracker"]."</a>");

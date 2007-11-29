@@ -6,7 +6,6 @@
 <table width="100%" align="center">
   <tr>
     <td align="center" valign="middle">
-      <form name="change_page" method="post" action="index.php">
         <table width="100%">
           <tr>
             <td align="left" valign="middle"><tag:forum_pager /></td>
@@ -17,7 +16,6 @@
             </td>
           </tr>
         </table>
-      </form>
     </td>
   </tr>
   <tr>

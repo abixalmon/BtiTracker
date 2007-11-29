@@ -120,9 +120,10 @@ $userdetailtpl -> set("userdetail_local_time", (date("d/m/Y H:i:s",time()-$offse
 $userdetailtpl -> set("userdetail_downloaded", (makesize($row["downloaded"])));
 $userdetailtpl -> set("userdetail_uploaded", (makesize($row["uploaded"])));
 $userdetailtpl -> set("userdetail_ratio", ($ratio));
+$userdetailtpl-> set("userdetail_forum_internal", ( $GLOBALS["FORUMLINK"] == '' || $GLOBALS["FORUMLINK"] == 'internal' || $GLOBALS["FORUMLINK"] == 'smf'), TRUE);
+
 // Only show if forum is internal
 if ( $GLOBALS["FORUMLINK"] == '' || $GLOBALS["FORUMLINK"] == 'internal' )
-$userdetailtpl-> set("userdetail_forum_internal", ( $GLOBALS["FORUMLINK"] == '' || $GLOBALS["FORUMLINK"] == 'internal' ), TRUE);
    {
    $sql = do_sqlquery("SELECT count(*) FROM {$TABLE_PREFIX}posts p INNER JOIN {$TABLE_PREFIX}users u ON p.userid = u.id WHERE u.id = " . $id);
    $ssql=mysql_fetch_row($sql);
@@ -131,6 +132,18 @@ $userdetailtpl-> set("userdetail_forum_internal", ( $GLOBALS["FORUMLINK"] == '' 
    $memberdays = max(1, round( ( time() - $row['joined'] ) / 86400 ));
    $posts_per_day = number_format(round($posts / $memberdays,2),2);
    $userdetailtpl-> set("userdetail_forum_posts", $posts . " &nbsp; [" . sprintf($language["POSTS_PER_DAY"], $posts_per_day) . "]");
+}
+elseif ($GLOBALS["FORUMLINK"]=="smf")
+   {
+   $language2=$language;
+   require($THIS_BASEPATH.'/smf/Settings.php');
+   global $db_prefix;
+   $forum=mysql_fetch_assoc(mysql_query("SELECT dateRegistered, posts FROM {$db_prefix}members WHERE ID_MEMBER=".$CURUSER["smf_fid"]));
+   $memberdays = max(1, round( ( time() - $forum["dateRegistered"] ) / 86400 ));
+   $posts_per_day = number_format(round($forum["posts"] / $memberdays,2),2);
+   $language=$language2;
+   $userdetailtpl-> set("userdetail_forum_posts", $forum["posts"] . " &nbsp; [" . sprintf($language["POSTS_PER_DAY"], $posts_per_day) . "]");
+   unset($forum);
 }
 
 $resuploaded = do_sqlquery("SELECT count(*) FROM {$TABLE_PREFIX}files f WHERE uploader=$id AND f.anonymous = \"false\" ORDER BY data DESC");

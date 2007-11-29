@@ -262,19 +262,19 @@ function userlogin() {
     if (!$id)
        $id=1;
 
-    $res = do_sqlquery("SELECT u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = $id",true);
+    $res = do_sqlquery("SELECT u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = $id",true);
     $row = mysql_fetch_array($res);
     if (!$row)
        {
        $id=1;
-       $res = do_sqlquery("SELECT u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1");
+       $res = do_sqlquery("SELECT u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1");
        $row = mysql_fetch_array($res);
        }
     if (!isset($_COOKIE["pass"])) $_COOKIE["pass"] = "";
     if (($_COOKIE["pass"] != md5($row["random"].$row["password"].$row["random"])) && $id != 1)
        {
        $id=1;
-       $res = do_sqlquery("SELECT u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1");
+       $res = do_sqlquery("SELECT u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1");
        $row = mysql_fetch_array($res);
        }
 
@@ -442,7 +442,7 @@ function pager($rpp, $count, $href, $opts = array()) {
 
     if ($pages>1)
       {
-        $pager.="\n<select class=\"drop_pager\" name=\"pages\" onchange=\"location=document.change_page.pages.options[document.change_page.pages.selectedIndex].value\" size=\"1\">";
+        $pager.="\n<form name=\"change_page\" method=\"post\" action=\"index.php\">\n<select class=\"drop_pager\" name=\"pages\" onchange=\"location=document.change_page.pages.options[document.change_page.pages.selectedIndex].value\" size=\"1\">";
         for ($i = 1; $i<=$pages;$i++)
             $pager.="\n<option ".($i==$page?"selected=\"selected\"":"")."value=\"$href$pagename=$i\">$i</option>";
         $pager.="\n</select>";
@@ -476,12 +476,12 @@ function pager($rpp, $count, $href, $opts = array()) {
 //        else
 //            $pager .= "\n&nbsp;<span class=\"pager\">&nbsp;&gt;</span>";
 
-        $pagertop = "$pager\n";
-        $pagerbottom = "$pager\n";
+        $pagertop = "$pager\n</form>";
+        $pagerbottom = str_replace("change_page","change_page1",$pager)."\n</form>";
     }
     else {
-        $pagertop = "$pager\n";
-        $pagerbottom = $pagertop;
+        $pagertop = "$pager\n</form>";
+        $pagerbottom = str_replace("change_page","change_page1",$pagertop)."\n</form>";
     }
 
     $start = ($page-1) * $rpp;
@@ -1498,8 +1498,8 @@ function set_smf_cookie($id, $passhash, $salt)
 global $THIS_BASEPATH;
 
 $language2=$language;
-require($THIS_BASEPATH.'/smf/Settings.php');
 require($THIS_BASEPATH.'/smf/SSI.php');
+require($THIS_BASEPATH.'/smf/Settings.php');
 require($THIS_BASEPATH.'/smf/Sources/Subs-Auth.php');
 $language=$language2;
 

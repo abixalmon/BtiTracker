@@ -96,4 +96,8 @@ $install_lang["smf_err_3b"]             = "</strong>) please CHMOD to 777 before
 $install_lang["allow_url_fopen"]        = "php.ini value for \"allow_url_fopen\" (best is ON)";
 $install_lang["allow_url_fopen_ON"]        = "<span style=\"color:#00FF00; font-weight: bold;\">ON</span>";
 $install_lang["allow_url_fopen_OFF"]        = "<span style=\"color:#FF0000; font-weight: bold;\">OFF</span>";
+$install_lang["succes_upgrade1"]        = "The upgrade is completed!";
+$install_lang["succes_upgrade2a"]       = "<p>You succesfully upgraded ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." on your tracker.</p><p>The upgrade has been successfully locked to prevent being used again but we advise you to also delete <b>upgrade.php+install.php</b> for extra protection.</p>";
+$install_lang["succes_upgrade2b"]       = "<p>You succesfully upgraded ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." on your tracker.</p><p>We advise you to lock the installation. You can do this by changing <b>install.unlock</b> to <b>install.lock</b> or to delete this <b>upgrade.php+install.php</b> file.</p>";
+$install_lang["succes_upgrade3"]        = "<p>We of BTITeam hope you enjoy use of this product and that we will see you again on our <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forum</a>.</p>";
 ?>

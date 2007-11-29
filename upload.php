@@ -58,15 +58,15 @@ if (isset($_FILES["torrent"]))
       }
 
 if (isset($_POST["filename"]))
-   $filename=htmlspecialchars($_POST["filename"]);
+   $filename = mysql_escape_string(htmlspecialchars($_POST["filename"]));
 else
-    $filename = AddSlashes(htmlspecialchars($_FILES["torrent"]["name"]));
+    $filename = mysql_escape_string(htmlspecialchars($_FILES["torrent"]["name"]));
 
 if (isset($hash) && $hash) $url = $TORRENTSDIR . "/" . $hash . ".btf";
 else $url = 0;
 
 if (isset($_POST["info"]) && $_POST["info"]!="")
-   $comment = AddSlashes($_POST["info"]);
+   $comment = mysql_escape_string(htmlspecialchars($_POST["info"]));
 else { // description is now required (same as for edit.php)
 //    $comment = "";
         err_msg($language["ERROR"],$language["EMPTY_DESCRIPTION"]);
@@ -76,11 +76,11 @@ else { // description is now required (same as for edit.php)
 
 // filename not writen by user, we get info directly from torrent.
 if (strlen($filename) == 0 && isset($array["info"]["name"]))
-   $filename = AddSlashes(htmlspecialchars($array["info"]["name"]));
+   $filename = mysql_escape_string(htmlspecialchars($array["info"]["name"]));
 
 // description not writen by user, we get info directly from torrent.
 if (isset($array["comment"]))
-   $info = AddSlashes($array["comment"]);
+   $info = mysql_escape_string(htmlspecialchars($array["comment"]));
 else
     $info = "";
 
@@ -111,11 +111,10 @@ if (!isset($array["announce"]))
      exit();
 }
 
-      $filename = ($filename);
-      $url = ($url);
-      $info = ($info);
-      $categoria = 0+$_POST["category"];
-      $categoria = ($categoria);
+      $categoria = intval(0+$_POST["category"]);
+      $anonyme=sqlesc($_POST["anonymous"]);
+      $curuid=intval($CURUSER["uid"]);
+
       // category check
       $rc=do_sqlquery("SELECT id FROM {$TABLE_PREFIX}categories WHERE id=$categoria",true);
       if (mysql_num_rows($rc)==0)
@@ -125,9 +124,8 @@ if (!isset($array["announce"]))
              exit();
       }
       @mysql_free_result($rs);
-      $comment = ($comment);
+
       $announce=str_replace(array("\r\n","\r","\n"),"",$array["announce"]);
-      $anonyme=$_POST["anonymous"];
 
       if ($categoria==0)
          {
@@ -156,7 +154,7 @@ if (!isset($array["announce"]))
          // inserting into xbtt table
          if ($XBTT_USE)
               do_sqlquery("INSERT INTO xbt_files SET info_hash=0x$hash ON DUPLICATE KEY UPDATE flags=0",true);
-         $query = "INSERT INTO {$TABLE_PREFIX}files (info_hash, filename, url, info, category, data, size, comment, uploader,anonymous, bin_hash) VALUES (\"$hash\", \"$filename\", \"$url\", \"$info\",0 + $categoria,NOW(), \"$size\", \"$comment\",".$CURUSER["uid"].",'$anonyme',0x$hash)";
+         $query = "INSERT INTO {$TABLE_PREFIX}files (info_hash, filename, url, info, category, data, size, comment, uploader,anonymous, bin_hash) VALUES (\"$hash\", \"$filename\", \"$url\", \"$info\",0 + $categoria,NOW(), \"$size\", \"$comment\",$curuid,$anonyme,0x$hash)";
       }else
           {
           // maybe we find our announce in announce list??
@@ -176,10 +174,10 @@ if (!isset($array["announce"]))
                 {
                 // ok, we found our announce, so it's internal and we will set our announce as main
                    $array["announce"]=$TRACKER_ANNOUNCEURLS[0];
-                   $query = "INSERT INTO {$TABLE_PREFIX}files (info_hash, filename, url, info, category, data, size, comment, uploader,anonymous, bin_hash) VALUES (\"$hash\", \"$filename\", \"$url\", \"$info\",0 + $categoria,NOW(), \"$size\", \"$comment\",".$CURUSER["uid"].",'$anonyme',0x$hash)";
+                   $query = "INSERT INTO {$TABLE_PREFIX}files (info_hash, filename, url, info, category, data, size, comment, uploader,anonymous, bin_hash) VALUES (\"$hash\", \"$filename\", \"$url\", \"$info\",0 + $categoria,NOW(), \"$size\", \"$comment\",$curuid,$anonyme,0x$hash)";
                 }
               else
-                  $query = "INSERT INTO {$TABLE_PREFIX}files (info_hash, filename, url, info, category, data, size, comment,external,announce_url, uploader,anonymous, bin_hash) VALUES (\"$hash\", \"$filename\", \"$url\", \"$info\",0 + $categoria,NOW(), \"$size\", \"$comment\",\"yes\",\"$announce\",".$CURUSER["uid"].",'$anonyme',0x$hash)";
+                  $query = "INSERT INTO {$TABLE_PREFIX}files (info_hash, filename, url, info, category, data, size, comment,external,announce_url, uploader,anonymous, bin_hash) VALUES (\"$hash\", \"$filename\", \"$url\", \"$info\",0 + $categoria,NOW(), \"$size\", \"$comment\",\"yes\",\"$announce\",$curuid,$anonyme,0x$hash)";
         }
       //echo $query;
       $status = do_sqlquery($query,true); //makeTorrent($hash, true);
