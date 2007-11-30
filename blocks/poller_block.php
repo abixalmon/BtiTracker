@@ -39,7 +39,7 @@ if ($GLOBALS["ajax_poller"])
 
       </div>
       <div class="poller_waitMessage" id="poller_waitMessage<?php echo $pollerId; ?>" align="center">
-        <br /><br /><br /><br /><table border="0" cellspacing="0" cellpadding="4"><tr><td align="center" style="background-image: url('images/ajax-loader.gif'); background-repeat: no-repeat; background-position:center center; width:16px; height:16px;"></td><td align="left"><?php echo FETCHING_RESULTS; ?></td></tr></table><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><table border="0" cellspacing="0" cellpadding="4"><tr><td align="center" style="background-image: url('images/ajax-loader.gif'); background-repeat: no-repeat; background-position:center center; width:16px; height:16px;"></td><td align="left"><?php echo $language["FETCHING_RESULTS"]; ?></td></tr></table><br /><br /><br /><br /><br />
       </div>
       <div class="poller_results" style="padding-left:5px; padding-right:5px;" id="poller_results<?php echo $pollerId; ?>">
       <!-- This div will be filled from Ajax, so leave it empty --></div><br />

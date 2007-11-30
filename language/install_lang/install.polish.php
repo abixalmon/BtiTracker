@@ -96,5 +96,8 @@ $install_lang["smf_err_3b"]             = "</strong>) proszę zmienić CHMOD na 
 $install_lang["allow_url_fopen"]        = "wartość w php.ini dla \"allow_url_fopen\" (najlepsze będzie ON)";
 $install_lang["allow_url_fopen_ON"]        = "<span style=\"color:#00FF00; font-weight: bold;\">ON</span>";
 $install_lang["allow_url_fopen_OFF"]        = "<span style=\"color:#FF0000; font-weight: bold;\">OFF</span>";
-
+$install_lang["succes_upgrade1"]        = "Uaktualnienie zakończone!";
+$install_lang["succes_upgrade2a"]       = "<p>Właśnie uaktualniłeś ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." na twoim trackerze.</p><p>Uaktualnienie zostało zablokowane aby zapobiec ponownemu jego wykonaniu ale radzimy usunąć także <b>upgrade.php+install.php</b> dla dodatkowej ochrony.</p>";
+$install_lang["succes_upgrade2b"]       = "<p>Właśnie uaktualniłeś ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." na twoim trackerze.</p><p>Radzimy zablokować instalację. Możesz to zrobić zamieniając rozszerzenie <b>install.unlock</b> na <b>install.lock</b> lub usunąć te pliki <b>upgrade.php+install.php</b> .</p>";
+$install_lang["succes_upgrade3"]        = "<p>My z BTITeam mamy nadzieje, że będziesz zadowolony z używania tego produktu i zobaczymy się ponownie na naszym <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forum</a>.</p>";
 ?>

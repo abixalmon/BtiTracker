@@ -381,7 +381,7 @@ $language["UCP_NOTE_1"]="Tutaj możesz kontrolować swoją skrzynkę odbiorczą,
 $language["UCP_NOTE_2"]="Kontrolować i modyfikować ustawienia konta, etc...";
 $language["UNAUTH_IP"]="Nieautoryzowany adres IP.";
 $language["UNKNOWN"]="nieznany";
-$language["UPDATE"]="Aktalizacja";
+$language["UPDATE"]="Aktualizacja";
 $language["UPFAILED"]="Upload zakończony niepowodzeniem";
 $language["UPLOAD_IMAGE"]="Upload obrazka";
 $language["UPLOAD_LANGUAGE_FILE"]="Wyślij plik językowy";
@@ -422,4 +422,7 @@ $language["X_TIMES"]="razy";
 $language["YES"]="Tak";
 $language["LAST_IP"]="Ostatnie IP";
 $language["FIRST_UNREAD"]="Przejdź do pierwszego nieczytanego postu";
+$language["MODULE_UNACTIVE"]="Wymagany moduł jest nieaktywny!";
+$language["MODULE_NOT_PRESENT"]="Wymagany moduł nie istnieje!";
+$language["MODULE_LOAD_ERROR"]="Wymagany moduł wydaje się być zły!";
 ?>
