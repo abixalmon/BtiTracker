@@ -10,29 +10,31 @@ CREATE TABLE `btit_blocks` (
   `status` tinyint(3) unsigned default NULL,
   `title` varchar(40) NOT NULL,
   `cache` enum('yes','no') NOT NULL,
+  `minclassview` int(11) NOT NULL default '0',
+  `maxclassview` int(11) NOT NULL default '8',
   PRIMARY KEY  (`blockid`),
   KEY `position` (`position`)
 ) ENGINE=MyISAM;
 
-
-INSERT INTO `btit_blocks` VALUES (1, 'menu', 'l', 1, 1, 'BLOCK_MENU','yes');
-INSERT INTO `btit_blocks` VALUES (2, 'clock', 'l', 3, 1, 'BLOCK_CLOCK','no');
-INSERT INTO `btit_blocks` VALUES (3, 'forum', 'r', 4, 1, 'BLOCK_FORUM','yes');
-INSERT INTO `btit_blocks` VALUES (4, 'lastmember', 'r', 3, 1, 'BLOCK_LASTMEMBER','yes');
-INSERT INTO `btit_blocks` VALUES (6, 'trackerinfo', 'l', 2, 1, 'BLOCK_INFO','yes');
-INSERT INTO `btit_blocks` VALUES (7, 'user', 'r', 3, 1, 'BLOCK_USER','yes');
-INSERT INTO `btit_blocks` VALUES (8, 'online', 'r', 2, 1, 'BLOCK_ONLINE','no');
-INSERT INTO `btit_blocks` VALUES (9, 'shoutbox', 'c', 1, 1, 'BLOCK_SHOUTBOX','no');
-INSERT INTO `btit_blocks` VALUES (10, 'toptorrents', 'c', 5, 1, 'BLOCK_TOPTORRENTS','yes');
-INSERT INTO `btit_blocks` VALUES (11, 'lasttorrents', 'c', 4, 1, 'BLOCK_LASTTORRENTS','yes');
-INSERT INTO `btit_blocks` VALUES (12, 'news', 'c', 3, 1, 'BLOCK_NEWS','yes');
-INSERT INTO `btit_blocks` VALUES (13, 'mainmenu', 't', 2, 1, 'BLOCK_MENU','yes');
-INSERT INTO `btit_blocks` VALUES (14, 'maintrackertoolbar', 't', 2, 1, 'BLOCK_MAINTRACKERTOOLBAR','yes');
-INSERT INTO `btit_blocks` VALUES (15, 'mainusertoolbar', 't', 3, 1, 'BLOCK_MAINUSERTOOLBAR','no');
-INSERT INTO `btit_blocks` VALUES (16, 'serverload', 'c', 8, 0, 'BLOCK_SERVERLOAD','yes');
-INSERT INTO `btit_blocks` VALUES (17, 'poller', 'r', 4, 1, 'BLOCK_POLL','no');
-INSERT INTO `btit_blocks` VALUES (18, 'seedwanted', 'c', 2, 1, 'BLOCK_SEEDWANTED','yes');
-INSERT INTO `btit_blocks` VALUES (19, 'paypal', 'r', 1, 1, 'BLOCK_PAYPAL','yes');
+INSERT INTO `btit_blocks` (`blockid`, `content`, `position`, `sortid`, `status`, `title`, `cache`, `minclassview`, `maxclassview`) VALUES
+(1, 'menu', 'r', 5, 1, 'BLOCK_MENU', 'no', 3, 8),
+(2, 'clock', 'r', 2, 1, 'BLOCK_CLOCK', 'no', 3, 8),
+(3, 'forum', 'l', 2, 1, 'BLOCK_FORUM', 'no', 3, 8),
+(4, 'lastmember', 'l', 1, 1, 'BLOCK_LASTMEMBER', 'no', 3, 8),
+(6, 'trackerinfo', 'l', 6, 1, 'BLOCK_INFO', 'no', 3, 8),
+(7, 'user', 'r', 4, 1, 'BLOCK_USER', 'no', 3, 8),
+(8, 'online', 'b', 0, 1, 'BLOCK_ONLINE', 'no', 3, 8),
+(10, 'toptorrents', 'c', 5, 1, 'BLOCK_TOPTORRENTS', 'no', 3, 8),
+(11, 'lasttorrents', 'c', 4, 1, 'BLOCK_LASTTORRENTS', 'no', 3, 8),
+(12, 'news', 'c', 1, 1, 'BLOCK_NEWS', 'no', 1, 8),
+(13, 'mainmenu', 't', 1, 1, 'BLOCK_MENU', 'no', 1, 8),
+(14, 'maintrackertoolbar', 't', 2, 1, 'BLOCK_MAINTRACKERTOOLBAR', 'no', 3, 8),
+(15, 'mainusertoolbar', 't', 2, 1, 'BLOCK_MAINUSERTOOLBAR', 'no', 3, 8),
+(16, 'serverload', 'c', 8, 0, 'BLOCK_SERVERLOAD', 'no', 8, 8),
+(17, 'poller', 'l', 3, 1, 'BLOCK_POLL', 'no', 3, 8),
+(18, 'seedwanted', 'c', 3, 1, 'BLOCK_SEEDWANTED', 'no', 3, 8),
+(19, 'paypal', 'r', 1, 1, 'BLOCK_PAYPAL', 'no', 3, 8),
+(20, 'ajax_shoutbox', 'c', 2, 1, 'BLOCK_SHOUTBOX', 'no', 3, 8);
 
 --- new chat table (shoutbox)
 
@@ -251,7 +253,7 @@ INSERT INTO `btit_style` (`id`, `style`, `style_url`) VALUES
 (4, 'The Hive', 'style/thehive');
 
 
-ALTER TABLE `btit_users_level`
+ALTER TABLE `btit_users`
 ADD `smf_fid` int(10) NOT NULL default '0';
 
 ALTER TABLE `btit_users_level`
