@@ -406,7 +406,7 @@ elseif ($action == 'sql_import') {
 
     // Read in the SQL.  Turn this on and that off... internationalize... etc.
     $sql_lines = explode("\n", strtr(implode(' ', file(dirname(__FILE__) . '/upgrade/v141_to_v2.sql')), $replaces));
-die($sql_lines);
+
     // Execute the SQL.
     $current_statement = '';
     $failures = array();
