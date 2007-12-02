@@ -1497,11 +1497,8 @@ function set_smf_cookie($id, $passhash, $salt)
 
 global $THIS_BASEPATH;
 
-$language2=$language;
 require($THIS_BASEPATH.'/smf/SSI.php');
-require($THIS_BASEPATH.'/smf/Settings.php');
 require($THIS_BASEPATH.'/smf/Sources/Subs-Auth.php');
-$language=$language2;
 
 setLoginCookie(189216000, $id, sha1($passhash . $salt));
 

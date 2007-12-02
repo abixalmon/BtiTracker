@@ -1,5 +1,5 @@
 <?php
-global $CURUSER, $user,$USERLANG;
+global $CURUSER, $user, $USERLANG, $FORUMLINK, $db_prefix;
 
 require_once(load_language("lang_account.php"));
 
@@ -27,7 +27,10 @@ require_once(load_language("lang_account.php"));
 						 print("<tr><td class=\"user\" align=\"center\">\n");
              print("\n<form name=\"jump\" method=\"post\" action=\"index.php\">\n<table class=\"poller\" width=\"100%\" cellspacing=\"0\">\n<tr><td align=\"center\">".$language["USER_NAME"].":  " .unesc($CURUSER["username"])."</td></tr>\n");
              print("<tr><td align=\"center\">".$language["USER_LEVEL"].": ".$CURUSER["level"]."</td></tr>\n");
-             $resmail=do_sqlquery("SELECT COUNT(*) FROM {$TABLE_PREFIX}messages WHERE readed='no' AND receiver=$CURUSER[uid]");
+             if($FORUMLINK=="smf")
+                 $resmail=do_sqlquery("SELECT unreadMessages FROM {$db_prefix}members WHERE ID_MEMBER=".$CURUSER["smf_fid"]);
+             else
+                 $resmail=do_sqlquery("SELECT COUNT(*) FROM {$TABLE_PREFIX}messages WHERE readed='no' AND receiver=$CURUSER[uid]");
              if ($resmail && mysql_num_rows($resmail)>0)
                 {
                  $mail=mysql_fetch_row($resmail);

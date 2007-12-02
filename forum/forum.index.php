@@ -55,6 +55,14 @@ if ($btit_settings["forum"]=="smf")
           <iframe id=\"forum_ifrm\" onload=\"autoResize('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php?action=$action\" width=\"98%\"></iframe>
           </div>";
       }
+     elseif (substr($action, 0, 2)=="pm")
+       {
+       $smf_content.="
+          <div align=\"center\">
+          <iframe id=\"forum_ifrm\" onload=\"autoResize('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php?action=$action\" width=\"98%\"></iframe>
+          </div>";
+      }
+      
      else
        {
        $smf_content.="

@@ -53,13 +53,9 @@
         }
         elseif ($GLOBALS["FORUMLINK"]=="smf")
            {
-           $language2=$language;
-           require($THIS_BASEPATH.'/smf/Settings.php');
-           global $db_prefix;
            $forum=mysql_fetch_assoc(mysql_query("SELECT dateRegistered, posts FROM {$db_prefix}members WHERE ID_MEMBER=".$CURUSER["smf_fid"]));
            $memberdays = max(1, round( ( time() - $forum["dateRegistered"] ) / 86400 ));
            $posts_per_day = number_format(round($forum["posts"] / $memberdays,2),2);
-           $language=$language2;
            $usercptpl->set("INTERNAL_FORUM",true,true);
            $usercptpl->set("posts",$forum["posts"]."&nbsp;[" . sprintf($language["POSTS_PER_DAY"], $posts_per_day) . "]");
            unset($forum);

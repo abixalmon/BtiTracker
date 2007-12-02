@@ -137,9 +137,6 @@ if ($random!=$arr["random"])
 
     if($GLOBALS["FORUMLINK"]=="smf")
     {
-        $language2=$language;     
-        require(dirname(__FILE__)."/smf/Settings.php");
-        $language=$language2;
         $passhash=smf_passgen($arr["username"], $newpassword);
         do_sqlquery("UPDATE {$db_prefix}members SET passwd='$passhash[0]', passwordSalt='$passhash[1]' WHERE ID_MEMBER=".$arr["smf_fid"]);
     }

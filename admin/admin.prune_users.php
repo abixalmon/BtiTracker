@@ -28,9 +28,6 @@ if ($action=="prune")
      
      if($GLOBALS["FORUMLINK"]=="smf")
      {
-         $basedir=substr(str_replace("\\", "/", dirname(__FILE__)), 0, strrpos(str_replace("\\", "/", dirname(__FILE__)), '/'));
-         require_once($basedir."/smf/Settings.php");
-        
          $smf_fid=array();
          foreach($_POST["smf_fid"] AS $v)
          {

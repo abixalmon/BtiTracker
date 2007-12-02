@@ -31,8 +31,6 @@ switch ($action)
                     
                 if($GLOBALS["FORUMLINK"]=="smf")
                 {
-                    $basedir=substr(str_replace("\\", "/", dirname(__FILE__)), 0, strrpos(str_replace("\\", "/", dirname(__FILE__)), '/'));
-                    require_once($basedir."/smf/Settings.php");
                     $passhash=smf_passgen($CURUSER["username"], $_POST["new_pwd"]);
                     do_sqlquery("UPDATE {$db_prefix}members SET passwd='$passhash[0]', passwordSalt='$passhash[1]' WHERE ID_MEMBER=".$arr["smf_fid"]) or die(mysql_error());
                 }

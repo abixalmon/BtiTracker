@@ -531,6 +531,26 @@ elseif ($action == 'save_tracker') {
         // Now lets check if the SMF English Language file is writable
         if(!is_writable($smf_lang))
             die($install_lang["smf_err_3a"] . $smf_lang . $install_lang["smf_err_3b"]);
+
+        $filename=dirname(__FILE__)."/include/settings.php";
+        if (file_exists($filename))
+        {
+            if (is_writable($filename))
+            {
+                $filesize=filesize($filename);
+                $fd = fopen($filename, "w");
+                $contents ="<?php\n\n";
+                $contents.="\$dbhost = \"$dbhost\";\n";
+                $contents.="\$dbuser = \"$dbuser\";\n";
+                $contents.="\$dbpass = \"$dbpass\";\n";
+                $contents.="\$database = \"$database\";\n";
+                $contents.= "\$TABLE_PREFIX = \"$TABLE_PREFIX\";\n";
+                $contents.= "\$db_prefix = \"$db_prefix\";\n";
+                $contents.= "\n?>";
+                fwrite($fd,$contents);
+                fclose($fd);
+            }
+        }
     }
     
     @mysql_query("ALTER TABLE {$TABLE_PREFIX}users CHANGE `language` `language` TINYINT( 4 ) NOT NULL DEFAULT '$default_lang'") or mysql_error();

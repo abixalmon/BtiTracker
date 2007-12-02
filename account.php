@@ -50,21 +50,17 @@ if ($act=="signup" && $MAX_USERS!=0 && $numusers>=$MAX_USERS)
 }
 
 if ($act=="confirm") {
+
+      global $FORUMLINK, $db_prefix;
+
       $random=intval($_GET["confirm"]);
       $random2=rand(10000, 60000);
-      $res=do_sqlquery("UPDATE {$TABLE_PREFIX}users SET id_level=3".(($GLOBALS["FORUMLINK"]=="smf") ? ", random=$random2" : "")." WHERE id_level=2 AND random=$random",true);
+      $res=do_sqlquery("UPDATE {$TABLE_PREFIX}users SET id_level=3".(($FORUMLINK=="smf") ? ", random=$random2" : "")." WHERE id_level=2 AND random=$random",true);
       if (!$res)
          die("ERROR: " . mysql_error() . "\n");
       else {
-          if($GLOBALS["FORUMLINK"]=="smf")
-          {
-              $language2=$language;
-              require(dirname(__FILE__)."/smf/Settings.php");
-              $language=$language2;
-              $res=do_sqlquery("SELECT smf_fid AS fid FROM {$TABLE_PREFIX}users WHERE id_level=3 AND random=$random2");
-              $smf=mysql_fetch_assoc($res);
-              do_sqlquery("UPDATE {$db_prefix}members SET ID_GROUP=13 WHERE ID_MEMBER=".$smf["fid"]);  
-          }
+          if($FORUMLINK=="smf")
+              do_sqlquery("UPDATE {$db_prefix}members SET ID_GROUP=13 WHERE ID_MEMBER=".$CURUSER["smf_fid"]);  
           success_msg($language["ACCOUNT_CREATED"],$language["ACCOUNT_CONGRATULATIONS"]);
           stdfoot();
           exit;
@@ -284,7 +280,7 @@ elseif ($action!="mod")
 
 function aggiungiutente() {
 
-global $SITENAME,$SITEEMAIL,$BASEURL,$VALIDATION,$USERLANG,$USE_IMAGECODE, $TABLE_PREFIX, $XBTT_USE, $language,$THIS_BASEPATH;
+global $SITENAME,$SITEEMAIL,$BASEURL,$VALIDATION,$USERLANG,$USE_IMAGECODE, $TABLE_PREFIX, $XBTT_USE, $language,$THIS_BASEPATH, $FORUMLINK, $db_prefix;
 
 $utente=mysql_escape_string($_POST["user"]);
 $pwd=mysql_escape_string($_POST["pwd"]);
@@ -426,11 +422,8 @@ do_sqlquery("INSERT INTO {$TABLE_PREFIX}users (username, password, random, id_le
 
 $newuid=mysql_insert_id();
 
-if ($GLOBALS["FORUMLINK"]=="smf")
+if ($FORUMLINK=="smf")
 {
-    $language2=$language;
-    require(dirname(__FILE__)."/smf/Settings.php");
-    $language=$language2;
     $smfpass=smf_passgen($utente, $pwd);
     $flevel=$idlevel+10;
 

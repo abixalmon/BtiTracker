@@ -5,10 +5,15 @@ $usercptpl->set("MSG_EDIT",false,true);
 $usercptpl->set("MSG_MENU",false,true);
 $usercptpl->set("PREVIEW",false,true);
 
+global $FORUMLINK, $db_prefix;
+
 switch ($action)
 {
     case 'post':
-           $res=do_sqlquery("SELECT id FROM {$TABLE_PREFIX}users WHERE username=".sqlesc($_POST["receiver"]));
+           if($FORUMLINK=="smf")
+               $res=do_sqlquery("SELECT smf_fid AS id FROM {$TABLE_PREFIX}users WHERE username=".sqlesc($_POST["receiver"]));
+           else
+               $res=do_sqlquery("SELECT id FROM {$TABLE_PREFIX}users WHERE username=".sqlesc($_POST["receiver"]));
            if (!$res || mysql_num_rows($res)==0)
          {
                err_msg($language["ERROR"],$language["ERR_USER_NOT_FOUND"]);
@@ -54,7 +59,15 @@ switch ($action)
              $send=$CURUSER["uid"];
              if ($subject=="''")
                 $subject="'no subject'";
-             do_sqlquery("INSERT INTO {$TABLE_PREFIX}messages (sender, receiver, added, subject, msg) VALUES ($send,$rec,UNIX_TIMESTAMP(),$subject,$msg)") or die(mysql_error());
+             if($FORUMLINK=="smf")
+             {
+                 do_sqlquery("INSERT INTO {$db_prefix}personal_messages (ID_MEMBER_FROM, fromName, msgtime, subject, body) VALUES (".$CURUSER["smf_fid"].", '".$CURUSER["username"]."', UNIX_TIMESTAMP(), $subject, $msg)");
+                 $pm_id=mysql_insert_id();
+                 do_sqlquery("INSERT INTO {$db_prefix}pm_recipients (ID_PM, ID_MEMBER) VALUES ($pm_id, $rec)");
+                 do_sqlquery("UPDATE {$db_prefix}members SET instantMessages=instantMessages+1, unreadMessages=unreadMessages+1 WHERE ID_MEMBER=$rec");
+             }
+             else
+                 do_sqlquery("INSERT INTO {$TABLE_PREFIX}messages (sender, receiver, added, subject, msg) VALUES ($send,$rec,UNIX_TIMESTAMP(),$subject,$msg)") or die(mysql_error());
              redirect("index.php?page=usercp&uid=".$uid."&do=pm&action=list");
              exit();
            }
@@ -62,6 +75,8 @@ switch ($action)
     break;
 
     case 'deleteall':
+        if($FORUMLINK=="smf")
+            redirect("index.php?page=forum&action=pm".(($_GET["type"]=="out")?";f=outbox":""));
         // MODIFIED DELETE ALL VERSION BY gAnDo
             if (isset($_GET["type"]))
                 $what=$_GET["type"];
@@ -71,12 +86,14 @@ switch ($action)
                 exit;
                 }
            foreach($_POST["msg"] as $selected=>$msg)
-                  do_sqlquery("DELETE FROM {$TABLE_PREFIX}messages WHERE id='".$msg."' AND readed='yes'");
+                   do_sqlquery("DELETE FROM {$TABLE_PREFIX}messages WHERE id='".$msg."' AND readed='yes'");
            redirect("index.php?page=usercp&uid=".$uid."&do=pm&action=list&what=".($what=="in"?"inbox":"outbox"));
            exit();
     break;
 
     case 'delete':
+            if($FORUMLINK=="smf")
+                redirect("index.php?page=forum&action=pm".(($_GET["type"]=="out")?";f=outbox":""));
             $id=intval($_GET["id"]);
             do_sqlquery("DELETE FROM {$TABLE_PREFIX}messages WHERE receiver=".$uid." AND id=".$id." AND readed='yes'") or die(mysql_error());
             redirect("index.php?page=usercp&uid=".$uid."&do=pm&action=list&what=inbox");
@@ -93,7 +110,12 @@ switch ($action)
            $pmoutboxtpl["frm_action"]="index.php?page=usercp&amp;do=pm&amp;action=deleteall&amp;uid=".$uid."&amp;type=out";
            $usercptpl->set("pmbox",$pmoutboxtpl);
 
-           $res=do_sqlquery("select m.*, IF(m.receiver=0,'System',u.username) as receivername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.receiver WHERE sender=$uid ORDER BY added DESC");
+           if($FORUMLINK=="smf")
+           {
+               $res=do_sqlquery("SELECT pm.ID_PM id, pmr.ID_MEMBER receiver, pm.msgtime added, pm.subject, pm.body msg, IF(pmr.is_read=1,'yes','no') readed, u.username receivername FROM {$db_prefix}personal_messages pm LEFT JOIN {$db_prefix}pm_recipients pmr ON pm.ID_PM=pmr.ID_PM LEFT JOIN {$TABLE_PREFIX}users u ON pmr.ID_MEMBER=u.smf_fid WHERE pm.ID_MEMBER_FROM=".$CURUSER["smf_fid"]." AND pm.deletedBySender!=1 ORDER BY added DESC");
+           }
+           else
+               $res=do_sqlquery("select m.*, IF(m.receiver=0,'System',u.username) as receivername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.receiver WHERE sender=$uid ORDER BY added DESC");
            if (!$res || mysql_num_rows($res)==0)
              {
                 $usercptpl->set("NO_MESSAGES",true,true);
@@ -106,10 +128,10 @@ switch ($action)
                         while ($result=mysql_fetch_array($res))
                 {
                 $pmouttpl[$i]["readed"]=unesc($result["readed"]);
-                $pmouttpl[$i]["senderid"]=($result["receiver"]==0||empty($result["receivername"])?"#":"index.php?page=userdetails&amp;id=".$result["receiver"]."");
+                $pmouttpl[$i]["senderid"]=($result["receiver"]==0||empty($result["receivername"])?"#":(($FORUMLINK=="smf")?$BASEURL."/index.php?page=forum&action=profile;u=".$result["receiver"]:"index.php?page=userdetails&amp;id=".$result["receiver"]));
                 $pmouttpl[$i]["sendername"]=unesc($result["receivername"]);
                 $pmouttpl[$i]["added"]=get_date_time($result["added"]);
-                $pmouttpl[$i]["pmlink"]="index.php?page=usercp&amp;do=pm&amp;action=read&amp;uid=".$uid."&amp;id=".$result["id"]."&amp;what=outbox";
+                $pmouttpl[$i]["pmlink"]=(($FORUMLINK=="smf")?$BASEURL."/index.php?page=forum&amp;action=pm;f=outbox":"index.php?page=usercp&amp;do=pm&amp;action=read&amp;uid=".$uid."&amp;id=".$result["id"]."&amp;what=outbox");
                 $pmouttpl[$i]["subject"]=format_comment(unesc($result["subject"]));
                 $pmouttpl[$i]["msgid"]=$result["id"];
                 $i++;
@@ -124,7 +146,12 @@ switch ($action)
            $pminboxtpl["frm_action"]="index.php?page=usercp&amp;do=pm&amp;action=deleteall&amp;uid=".$uid."&amp;type=in";
            $usercptpl->set("pmbox",$pminboxtpl);
 
-           $res=do_sqlquery("select m.*, IF(m.sender=0,'System',u.username) as sendername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.sender WHERE receiver=$uid ORDER BY added DESC");
+           if($FORUMLINK=="smf")
+           {
+               $res=do_sqlquery("SELECT pm.ID_PM id, pm.ID_MEMBER_FROM sender, pmr.ID_MEMBER receiver, pm.msgtime added, pm.subject, pm.body msg, IF(pmr.is_read=1,'yes','no') readed, pm.fromName sendername FROM {$db_prefix}personal_messages pm LEFT JOIN {$db_prefix}pm_recipients pmr ON pm.ID_PM=pmr.ID_PM WHERE pmr.ID_MEMBER=".$CURUSER["smf_fid"]." AND pmr.deleted!=1 ORDER BY added DESC");
+           }
+           else
+               $res=do_sqlquery("select m.*, IF(m.sender=0,'System',u.username) as sendername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.sender WHERE receiver=$uid ORDER BY added DESC");
            if (!$res || mysql_num_rows($res)==0)
              {
                 $usercptpl->set("NO_MESSAGES",true,true);
@@ -137,10 +164,10 @@ switch ($action)
                 while ($result=mysql_fetch_array($res))
         {
         $pmintpl[$i]["readed"]=unesc($result["readed"]);
-        $pmintpl[$i]["senderid"]=($result["sender"]==0||empty($result["sendername"])?"#":"index.php?page=userdetails&amp;id=".$result["sender"]."");
+        $pmintpl[$i]["senderid"]=($result["sender"]==0||empty($result["sendername"])?"#":(($FORUMLINK=="smf")?$BASEURL."/index.php?page=forum&amp;action=profile;u=".$result["sender"]:"index.php?page=userdetails&amp;id=".$result["sender"]));
         $pmintpl[$i]["sendername"]=unesc($result["sendername"]);
         $pmintpl[$i]["added"]=get_date_time($result["added"]);
-        $pmintpl[$i]["pmlink"]="index.php?page=usercp&amp;do=pm&amp;action=read&amp;uid=".$uid."&amp;id=".$result["id"]."&amp;what=inbox";
+        $pmintpl[$i]["pmlink"]=(($FORUMLINK=="smf")?$BASEURL."/index.php?page=forum&amp;action=pm":"index.php?page=usercp&amp;do=pm&amp;action=read&amp;uid=".$uid."&amp;id=".$result["id"]."&amp;what=inbox");
         $pmintpl[$i]["subject"]=format_comment(unesc($result["subject"]));
         $pmintpl[$i]["msgid"]=$result["id"];
         $i++;

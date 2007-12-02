@@ -1,5 +1,5 @@
 <?php
-global $CURUSER;
+global $CURUSER, $FORUMLINK, $db_prefix;
 
   if (isset($CURUSER) && $CURUSER && $CURUSER["uid"]>1)
   {
@@ -22,7 +22,10 @@ if ($CURUSER["admin_access"]=="yes")
 
 print("<td style=\"text-align:center;\" align=\"center\"><a href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."\">".$language["USER_CP"]."</a></td>\n");
 
-$resmail=do_sqlquery("SELECT COUNT(*) FROM {$TABLE_PREFIX}messages WHERE readed='no' AND receiver=$CURUSER[uid]");
+if($FORUMLINK=="smf")
+    $resmail=do_sqlquery("SELECT unreadMessages FROM {$db_prefix}members WHERE ID_MEMBER=".$CURUSER["smf_fid"]);
+else
+    $resmail=do_sqlquery("SELECT COUNT(*) FROM {$TABLE_PREFIX}messages WHERE readed='no' AND receiver=$CURUSER[uid]");
 if ($resmail && mysql_num_rows($resmail)>0)
    {
     $mail=mysql_fetch_row($resmail);

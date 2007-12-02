@@ -9,8 +9,29 @@ require_once($BASEDIR."/language/english/lang_smf_import.php");
 (!file_exists($BASEDIR."/smf/Settings.php") ? $files_present=$lang[1] : $files_present=$lang[0]);
 
 if($files_present==$lang[0])
+{
     require_once($BASEDIR."/smf/Settings.php");
-
+    
+    $filename=dirname(__FILE__)."/include/settings.php";
+    if (file_exists($filename))
+    {
+        if (is_writable($filename))
+        {
+            $filesize=filesize($filename);
+            $fd = fopen($filename, "w");
+            $contents ="<?php\n\n";
+            $contents.="\$dbhost = \"$dbhost\";\n";
+            $contents.="\$dbuser = \"$dbuser\";\n";
+            $contents.="\$dbpass = \"$dbpass\";\n";
+            $contents.="\$database = \"$database\";\n";
+            $contents.= "\$TABLE_PREFIX = \"$TABLE_PREFIX\";\n";
+            $contents.= "\$db_prefix = \"$db_prefix\";\n";
+            $contents.= "\n?>";
+            fwrite($fd,$contents);
+            fclose($fd);
+        }
+    } 
+}
 (isset($_GET["act"]) ? $act=$_GET["act"] : $act="");
 (isset($_GET["confirm"]) ? $confirm=$_GET["confirm"] : $confirm="");
 (isset($_GET["start"]) ? $start=intval($_GET["start"]) : $start=2);

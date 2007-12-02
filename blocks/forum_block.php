@@ -1,5 +1,5 @@
 <?php
-global $CURUSER,$CACHE_DURATION, $FORUMLINK, $THIS_BASEPATH;
+global $CURUSER,$CACHE_DURATION, $FORUMLINK, $THIS_BASEPATH, $db_prefix;
 
 if (!$CURUSER || $CURUSER["view_forum"]=="no")
    {
@@ -9,10 +9,7 @@ else
 {
     if ($FORUMLINK=="smf")
     {
-        $language2=$language;
         block_begin(FORUM_INFO);
-        require_once ($THIS_BASEPATH."/smf/Settings.php");
-        $language=$language2;
 
        $search1 = mysql_query("SELECT COUNT(*) AS topic_total FROM {$db_prefix}topics");
        if ($search1)
@@ -78,11 +75,11 @@ else
                $title=preg_replace("/Re:/", "", htmlspecialchars_decode($trow['title']));
                if (strlen($title>30))
                {
-                   print("<tr><td class='lista'><b><a title='".$language["FIRST_UNREAD"].": ".preg_replace("/Re:/", "", $trow["title"])."' href='smf/index.php?topic=" . $trow['tid'] . ".msg" . $trow['goto_last_post'] . "#new'>" . substr($title,0,30) . "...</a></b><br />".$language["LAST_POST_BY"]." <a href='smf/index.php?action=profile;u=" . $trow['last_poster_id'] . "'>" .$trow['last_poster_name'] ."</a><br />On " . date('d/m/Y H:i:s',$trow["last_post"]). "</td></tr>\n");
+                   print("<tr><td class='lista'><b><a title='".$language["FIRST_UNREAD"].": ".preg_replace("/Re:/", "", $trow["title"])."' href='index.php?page=forum&action=viewtopic&topicid=" . $trow['tid'] . ".msg" . $trow['goto_last_post'] . "#new'>" . substr($title,0,30) . "...</a></b><br />".$language["LAST_POST_BY"]." <a href='smf/index.php?action=profile;u=" . $trow['last_poster_id'] . "'>" .$trow['last_poster_name'] ."</a><br />On " . date('d/m/Y H:i:s',$trow["last_post"]). "</td></tr>\n");
                }
                else
                {
-                   print("<tr><td class='lista'><b><a title='".$language["FIRST_UNREAD"].": ".preg_replace("/Re:/", "", $trow["title"])."' href='smf/index.php?topic=" . $trow['tid'] . ".msg" . $trow['goto_last_post'] . "#new'>" . $title . "</a></b><br />".$language["LAST_POST_BY"]." <a href='smf/index.php?action=profile;u=" . $trow['last_poster_id'] . "'>" .$trow['last_poster_name'] ."</a><br />On " . date('d/m/Y H:i:s',$trow["last_post"]). "</td></tr>\n");
+                   print("<tr><td class='lista'><b><a title='".$language["FIRST_UNREAD"].": ".preg_replace("/Re:/", "", $trow["title"])."' href='index.php?page=forum&action=viewtopic&topicid=" . $trow['tid'] . ".msg" . $trow['goto_last_post'] . "#new'>" . $title . "</a></b><br />".$language["LAST_POST_BY"]." <a href='index.php?page=forum&action=profile;u=" . $trow['last_poster_id'] . "'>" .$trow['last_poster_name'] ."</a><br />On " . date('d/m/Y H:i:s',$trow["last_post"]). "</td></tr>\n");
                }
            }
        }
