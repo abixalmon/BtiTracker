@@ -10,4 +10,5 @@ $language["NO_SUBJECT"]="No subject";
 $language["MUST_ENTER_PASSWORD"]="<br /><font color='#FF0000'><strong>You must enter your password to change the settings above.</strong></font>";
 $language["ERR_PASS_WRONG"]="Password empty or incorrect, cannot update profile.";
 $language["MSG_DEL_ALL_PM"]="If you select PMs which are not read, they will not be deleted";
+$language["ERR_PM_GUEST"]="Sorry you can't send PM to guest or to yourself!";
 ?>

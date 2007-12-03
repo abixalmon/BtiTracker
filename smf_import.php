@@ -37,19 +37,30 @@ if($files_present==$lang[0])
 (isset($_GET["start"]) ? $start=intval($_GET["start"]) : $start=2);
 (isset($_GET["counter"]) ? $counter=intval($_GET["counter"]) : $counter=0);
 
+echo "
+<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
+<html>
+  <head>
+  <title>SMF Import</title>
+  <meta http-equiv=\"content-type\" content=\"text/html; charset=ISO-8859-1\" />
+  <link rel=\"stylesheet\" href=\"$BASEDIR/style/xbtit_default/main.css\" type=\"text/css\" />
+  </head>
+  <body>
+";
+
 // Lets open a connection to the database
 mysql_select_db($database, mysql_connect($dbhost,$dbuser,$dbpass));
 
 $lock=mysql_fetch_assoc(mysql_query("SELECT random FROM {$TABLE_PREFIX}users WHERE id=1"));
 if($lock["random"]==54345)
-    die($lang[26] . $lang[27]);
+    die($lang[26] . $lang[27] . $lang[35]);
 
 if($act=="")
 {
         echo $lang[2];
         echo $lang[3] . (($files_present==$lang[0]) ? "#00FF00" : "#FF0000") . $lang[4] . $files_present .  $lang[5];
         if($files_present==$lang[1])
-            die($lang[6] . $lang[8] . $lang[9]);
+            die($lang[6] . $lang[8] . $lang[9] . $lang[35]);
 
     // Make sure SMF is installed by checking the tables are there
     // (There should be 41 as of v1.1.4 but lets be generous and ensure
@@ -66,7 +77,7 @@ if($act=="")
     
     echo $lang[10] . (($smf_installed==$lang[0]) ? "#00FF00" : "#FF0000") . $lang[4] . $smf_installed .  $lang[5];
     if($smf_installed==$lang[1])
-        die($lang[7] . $lang[8] . $lang[9]);
+        die($lang[7] . $lang[8] . $lang[9] . $lang[35]);
 
     // Check if the default english language file is present and writable
     (!file_exists($BASEDIR."/smf/Themes/default/languages/Errors.english.php") ? $lang_present=$lang[1] : $lang_present=$lang[0]);
@@ -83,19 +94,28 @@ if($act=="")
     echo $lang[13] . (($status==$lang[0]) ? "#00FF00" : "#FF0000") . $lang[4] . $status . $lang[5];
     
     if($status==$lang[11])
-        die($lang[15] . $BASEDIR . "/smf/Themes/default/languages/Errors.english.php" . $lang[16] . $lang[9]);
+        die($lang[15] . $BASEDIR . "/smf/Themes/default/languages/Errors.english.php" . $lang[16] . $lang[9] . $lang[35]);
     elseif($status==$lang[12])
-        die($lang[15] . $BASEDIR . "/smf/Themes/default/languages/Errors.english.php" . $lang[17] . $lang[9]);
+        die($lang[15] . $BASEDIR . "/smf/Themes/default/languages/Errors.english.php" . $lang[17] . $lang[9] . $lang[35]);
 
-    die($lang[19] . $_SERVER["PHP_SELF"] . "?act=init_setup" . $lang[20]);
+    die($lang[19] . $_SERVER["PHP_SELF"] . "?act=init_setup" . $lang[20] . $lang[35]);
     
 }
 elseif($act=="init_setup"  && $confirm!="yes")
 {
-    die($lang[21] . $lang[22] . $lang[23]);
+
+    die($lang[21] . $lang[22] . $lang[23] . $lang[35]);
+
 }
 elseif($act=="init_setup"  && $confirm=="yes")
 {
+    $input_pwd = $_GET["pwd"];
+
+    if ($input_pwd!=="$dbpass")
+       {
+       die($lang[34] . $lang[35]);
+    }
+
     // Purge the current forum settings we're about to rebuild
     @mysql_query("TRUNCATE TABLE {$db_prefix}board_permissions");
     @mysql_query("TRUNCATE TABLE {$db_prefix}permissions");
@@ -353,7 +373,7 @@ elseif($act=="init_setup"  && $confirm=="yes")
     $count=mysql_num_rows($query);
     if ($count==0)
         @mysql_query("ALTER TABLE {$TABLE_PREFIX}users ADD smf_fid INT( 10 ) NOT NULL DEFAULT '0'");
-    die($lang[24] . $lang[25]);
+    die($lang[24] . $lang[25] . $lang[35]);
 }
 elseif($act=="member_import" && $confirm=="yes")
 {
@@ -387,7 +407,7 @@ elseif($act=="member_import" && $confirm=="yes")
     
 }
 elseif($act=="import_forum" && $confirm!="yes")
-    die($lang[30] . $lang[31]);
+    die($lang[30] . $lang[31] . $lang[35]);
 elseif($act=="import_forum" && $confirm=="yes")
 {
     $sqlquery ="SELECT MAX(boardOrder)+1 AS nextboard, membergroups, MAX(catOrder)+1 AS nextcat ";
@@ -501,7 +521,7 @@ elseif($act=="completed")
 {
     // Lock import file from future use
     @mysql_query("UPDATE {$TABLE_PREFIX}users SET random=54345 WHERE id=1");
-    echo $lang[32] . $lang[33];
+    echo $lang[32] . $lang[33] . $lang[35];
 }
 
 ?>

@@ -423,9 +423,10 @@ do_sqlquery("INSERT INTO {$TABLE_PREFIX}users (username, password, random, id_le
 $newuid=mysql_insert_id();
 
 // Continue to create smf members if they disable smf mode
-$test=do_sqlquery("SELECT COUNT(*) FROM {$db_prefix}members");
+// $test=do_sqlquery("SELECT COUNT(*) FROM {$db_prefix}members");
+$test=do_sqlquery("SHOW TABLES LIKE '{$db_prefix}members'");
 
-if ($FORUMLINK=="smf" || mysql_num_rows($test)>0)
+if ($FORUMLINK=="smf" || mysql_num_rows($test))
 {
     $smfpass=smf_passgen($utente, $pwd);
     $flevel=$idlevel+10;

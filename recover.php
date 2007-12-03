@@ -3,7 +3,9 @@
 require_once(load_language("lang_recover.php"));
 
 if (isset($_GET["act"])) $act=$_GET["act"];
- else $act="recover";
+  else $act="recover";
+
+
 
 if ($act == "takerecover")
 {
@@ -11,7 +13,7 @@ if ($act == "takerecover")
   if (!$email)
     stderr($language["ERROR"],$language["ERR_NO_EMAIL"]);
 
-  $res = do_sqlquery("SELECT id, email FROM {$TABLE_PREFIX}users WHERE email=".sqlesc($email)." LIMIT 1") or sqlerr();
+  $res = do_sqlquery("SELECT id, email FROM {$TABLE_PREFIX}users WHERE email=".sqlesc($email)." LIMIT 1",true);
   $arr = mysql_fetch_assoc($res) or stderr($language["ERROR"],$language["ERR_EMAIL_NOT_FOUND_1"]." <b>$email</b> ".$language["ERR_EMAIL_NOT_FOUND_2"]);
 if ($USE_IMAGECODE)
 {
@@ -72,7 +74,7 @@ srand((double)microtime()*1000000);
 $random = rand($floor, $ceiling);
 
 do_sqlquery("UPDATE {$TABLE_PREFIX}users SET random='$random' WHERE id='".$arr["id"]."'") or sqlerr();
-if (mysql_affected_rows()=="0")
+if (mysql_affected_rows()==0)
     stderr($language["ERROR"],"".$language["ERR_DB_ERR"].",".$arr["id"].",".$email.",".$random."");
 
 $user_temp_id = $arr["id"];
@@ -103,13 +105,16 @@ EOD;
 
   send_mail( $arr["email"], "$SITENAME ".$language["PASS_RESET_CONF"], $body) or stderr($language["ERROR"],$language["ERR_SEND_EMAIL"]);
   success_msg($language["SUCCESS"],$language["SUC_SEND_EMAIL"]." <b>$email</b>.\n".$language["SUC_SEND_EMAIL_2"]);
-  stdfoot();
-  exit;
+  $tpl->set("main_footer",bottom_menu()."<br />\n");
+  $tpl->set("btit_version",print_version());
+  echo $tpl->fetch(load_template("main.tpl"));
+  die();
 
 }
 elseif ($act == "generate")
 {
-    $id = 0 + $_GET["id"];
+
+    $id = intval(0 + $_GET["id"]);
     $random = intval($_GET["random"]);
 
 if (!$id || !$random || empty($random) || $random==0)
@@ -156,10 +161,32 @@ $SITENAME
 EOD;
 
   send_mail($email, "$SITENAME ".$language["ACCOUNT_DETAILS"], $body) or stderr($language["ERROR"],$language["ERR_SEND_EMAIL"]);
+  redirect("index.php?page=recover&act=recover_ok&id=$id&random=$random");
+  die();
+}
+elseif ($act=="recover_ok")
+{
+  $id = intval(0 + $_GET["id"]);
+  $random = intval($_GET["random"]);
+                          
+  if (!$id || !$random || empty($random) || $random==0)
+       stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);
+
+  $res = do_sqlquery("SELECT username, email, random".(($GLOBALS["FORUMLINK"]=="smf") ? ", smf_fid" : "")." FROM {$TABLE_PREFIX}users WHERE id = $id");
+  $arr = mysql_fetch_array($res) or httperr();
+
+  if ($random!=$arr["random"])
+       stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);
+
+  $email = $arr["email"];
 
   success_msg($language["SUCCESS"],$language["SUC_SEND_EMAIL"]." <b>$email</b>.\n".$language["SUC_SEND_EMAIL_2"]);
-  stdfoot();
-  exit;
+
+  $tpl->set("main_footer",bottom_menu()."<br />\n");
+  $tpl->set("btit_version",print_version());
+  echo $tpl->fetch(load_template("main.tpl"));
+  die();
+
 
 }
 elseif ($act == "recover");

@@ -10,7 +10,7 @@ dbconn();
 
 
 // get user's style
-$resheet=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}style where id=".$CURUSER["style"]."");
+$resheet=mysql_query("SELECT * FROM {$TABLE_PREFIX}style where id=".$CURUSER["style"]."") or die(mysql_error());
 if (!$resheet)
    {
 
@@ -31,9 +31,9 @@ $idlang=intval($_GET["language"]);
 
 // getting user language
 if ($idlang==0)
-   $reslang=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}language WHERE id=".$CURUSER["language"]);
+   $reslang=mysql_query("SELECT * FROM {$TABLE_PREFIX}language WHERE id=".$CURUSER["language"]) or die(mysql_error());
 else
-   $reslang=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}language WHERE id=$idlang");
+   $reslang=mysql_query("SELECT * FROM {$TABLE_PREFIX}language WHERE id=$idlang") or die(mysql_error());
 
 if (!$reslang)
    {
@@ -47,10 +47,7 @@ else
 
 if (!file_exists($USERLANG))
     {
-    err_msg("Error!","Missing Language!");
-    print_version();
-    print("</body>\n</html>\n");
-    die;
+    die("Error!<br />\nMissing Language!<br />\n");
 }
 
 
@@ -91,7 +88,7 @@ if ($action!="find")
 }
 else
 {
-  $res=do_sqlquery("SELECT username FROM {$TABLE_PREFIX}users WHERE id>1 AND username LIKE '%".mysql_escape_string($_POST["user"])."%' ORDER BY username");
+  $res=mysql_query("SELECT username FROM {$TABLE_PREFIX}users WHERE id>1 AND username LIKE '%".mysql_escape_string($_POST["user"])."%' ORDER BY username") or die(mysql_error());
   if (!$res or mysql_num_rows($res)==0)
      {
          print("<center>".$language["NO_USERS_FOUND"]."!<br />");

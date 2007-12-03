@@ -140,12 +140,13 @@ $tpl->set("main_header",$header.$err_msg_install);
 
 $tpl->set("more_css","");
 
+
 // assign main content
 switch ($pageID) {
 
     case 'modules':
-        $module_name=sqlesc(htmlspecialchars($_GET["module"]));
-        $modules=get_result("SELECT * FROM {$TABLE_PREFIX}modules WHERE name=$module_name",true,$btit_settings["cache"]);
+        $module_name=htmlspecialchars($_GET["module"]);
+        $modules=get_result("SELECT * FROM {$TABLE_PREFIX}modules WHERE name=".sqlesc($module_name),true,$btit_settings["cache"]);
         if (count($modules)<1) // MODULE NOT SET
            stderr($language["ERROR"],$language["MODULE_NOT_PRESENT"]);
 
@@ -153,12 +154,12 @@ switch ($pageID) {
            stderr($language["ERROR"],$language["MODULE_UNACTIVE"]);
 
         $module_out="";
-        if (!file_exists("$THIS_BASEPATH/modules/".$_GET["module"]."/index.php")) // MODULE SET, ACTIVED, BUT WRONG FOLDER??
+        if (!file_exists("$THIS_BASEPATH/modules/$module_name/index.php")) // MODULE SET, ACTIVED, BUT WRONG FOLDER??
            stderr($language["ERROR"],$language["MODULE_LOAD_ERROR"]."<br />\n$THIS_BASEPATH/modules/$module_name/index.php");
 
         // ALL OK, LET GO :)
-        require("$THIS_BASEPATH/modules/".$_GET["module"]."/index.php");
-        $tpl->set("main_content",set_block(ucfirst($_GET["module"]),"center",$module_out));
+        require("$THIS_BASEPATH/modules/$module_name/index.php");
+        $tpl->set("main_content",set_block(ucfirst($module_name),"center",$module_out));
         $tpl->set("main_title","Index->Torrents");
         break;
 

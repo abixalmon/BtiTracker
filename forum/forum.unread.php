@@ -69,7 +69,7 @@ if ($numtopics > 0)
       {
         $topicpages = " (<img src=images/multipage.gif>";
         for ($i = 1; $i <= $tpages; ++$i)
-          $topicpages .= " <a href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=$topicid&amp;page=$i>$i</a>";
+          $topicpages .= " <a href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=$topicid&amp;page=$i\">$i</a>";
         $topicpages .= ")";
       }
       else

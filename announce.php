@@ -152,6 +152,17 @@ if (!isset($_GET["port"]) || !isset($_GET["downloaded"]) || !isset($_GET["upload
 
 $port = $_GET["port"];
 $ip = getip();
+
+// IP Banned ??
+$nip = ip2long($ip);
+$res = mysql_query("SELECT * FROM bannedip WHERE $nip >= first AND $nip <= last") or error_log(__FILE__." - ".__LINE__);
+if (mysql_num_rows($res) > 0)
+ {
+   show_error("You are not authorized to use this tracker (".$SITENAME.") -- Your IP address (".$ip.") is BANNED.");
+   die();
+}
+// end banned IP
+
 $downloaded = (float)($_GET["downloaded"]);
 $uploaded = (float)($_GET["uploaded"]);
 $left = (float)($_GET["left"]);

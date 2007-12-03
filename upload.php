@@ -183,7 +183,7 @@ if (!isset($array["announce"]))
       $status = do_sqlquery($query,true); //makeTorrent($hash, true);
       if ($status)
          {
-         $mf=move_uploaded_file($_FILES["torrent"]["tmp_name"] , $TORRENTSDIR . "/" . $hash . ".btf");
+         $mf=@move_uploaded_file($_FILES["torrent"]["tmp_name"] , $TORRENTSDIR . "/" . $hash . ".btf");
          if (!$mf)
            {
            // failed to move file

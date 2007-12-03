@@ -57,6 +57,10 @@ switch ($action)
              $msg=sqlesc($_POST["msg"]);
              $rec=$result["id"];
              $send=$CURUSER["uid"];
+
+             if ($rec==1 || ($FORUMLINK=="smf"?$rec==$CURUSER["smf_fid"]:$rec==$send))
+                stderr($language["ERROR"],$language["ERR_PM_GUEST"]);
+
              if ($subject=="''")
                 $subject="'no subject'";
              if($FORUMLINK=="smf")

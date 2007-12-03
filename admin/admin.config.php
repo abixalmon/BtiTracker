@@ -83,6 +83,14 @@ switch ($action)
               {
               $btit_settings["xbtt_use"]=isset($_POST["xbtt_use"])?"true":"false";
               $admintpl->set("xbtt_error",false,true);
+              // save some settings into xbt_config table
+              $xbt_cfg="('anonymous_announce','anonymous_scrape','announce_interval','auto_register')";
+              do_sqlquery("DELETE FROM xbt_config WHERE name IN $xbt_cfg",true);
+              do_sqlquery("INSERT INTO xbt_config (name,value) VALUES ".
+               "('anonymous_announce','".($btit_settings["p_announce"]=="false"?1:0)."'),".
+               "('anonymous_scrape','".($btit_settings["p_scrape"]=="false"?1:0)."'),".
+               "('announce_interval','".$btit_settings["max_announce"]."'),".
+               "('auto_register','0');",true);
             }
         }
         $btit_settings["xbtt_url"]=$_POST["xbtt_url"];

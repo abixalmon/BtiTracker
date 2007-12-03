@@ -244,7 +244,7 @@ function userlogin() {
 
     $ip = getip(); //$_SERVER["REMOTE_ADDR"];
     $nip = ip2long($ip);
-    $res = do_sqlquery("SELECT * FROM {$TABLE_PREFIX}bannedip WHERE $nip >= first AND $nip <= last") or sqlerr(__FILE__, __LINE__);
+    $res = mysql_query("SELECT * FROM {$TABLE_PREFIX}bannedip WHERE $nip >= first AND $nip <= last") or sqlerr(__FILE__, __LINE__);
     if (mysql_num_rows($res) > 0)
     {
       header("HTTP/1.0 403 Forbidden");
@@ -262,19 +262,19 @@ function userlogin() {
     if (!$id)
        $id=1;
 
-    $res = do_sqlquery("SELECT u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = $id",true);
+    $res = mysql_query("SELECT u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = $id") or sqlerr(__FILE__, __LINE__);
     $row = mysql_fetch_array($res);
     if (!$row)
        {
        $id=1;
-       $res = do_sqlquery("SELECT u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1");
+       $res = mysql_query("SELECT u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1") or sqlerr(__FILE__, __LINE__);
        $row = mysql_fetch_array($res);
        }
     if (!isset($_COOKIE["pass"])) $_COOKIE["pass"] = "";
     if (($_COOKIE["pass"] != md5($row["random"].$row["password"].$row["random"])) && $id != 1)
        {
        $id=1;
-       $res = do_sqlquery("SELECT u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1");
+       $res = mysql_query("SELECT u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1") or sqlerr(__FILE__, __LINE__);
        $row = mysql_fetch_array($res);
        }
 
@@ -282,7 +282,7 @@ function userlogin() {
     //$ip=sprintf("%u", ip2long($_SERVER["REMOTE_ADDR"]));
 
     if ($id>1)
-       do_sqlquery("UPDATE {$TABLE_PREFIX}users SET lip=".$nip.", cip='".AddSlashes($ip)."' WHERE id = $id");
+       mysql_query("UPDATE {$TABLE_PREFIX}users SET lip=".$nip.", cip='".AddSlashes($ip)."' WHERE id = $id") or sqlerr(__FILE__, __LINE__);
 
     // CHECK FOR INSTALLATION FOLDER WITHOUT INSTALL.ME
     if (file_exists("install.php") && $row["id_level"]==8) // only owner level
@@ -687,6 +687,7 @@ function stdfoot($normalpage=true, $update=true, $adminpage=false, $torrentspage
 
     if ($update)
         register_shutdown_function("updatedata");
+
 }
 
 function linkcolor($num) {
@@ -856,7 +857,7 @@ function success_msg($heading="Success!",$string,$close=false)
 
     $tpl->set("main_content",set_block($heading,"center",$suc_tpl->fetch(load_template("success.tpl"))));
 
-    $page=$tpl->fetch(load_template("main.tpl"));
+    //$page=$tpl->fetch(load_template("main.tpl"));
 
 }
 
@@ -883,7 +884,7 @@ function err_msg($heading="Error!",$string,$close=false)
 
     $tpl->set("main_content",set_block($heading,"center",$err_tpl->fetch(load_template("error.tpl"))));
 
-    $page=$tpl->fetch(load_template("main.tpl"));
+    //$page=$tpl->fetch(load_template("main.tpl"));
 
 }
 
@@ -910,7 +911,7 @@ function information_msg($heading="Error!",$string,$close=false)
 
     $tpl->set("main_content",set_block($heading,"center",$err_tpl->fetch(load_template("information.tpl"))));
 
-    $page=$tpl->fetch(load_template("main.tpl"));
+    //$page=$tpl->fetch(load_template("main.tpl"));
     stdfoot(true,false);
     die;
 
