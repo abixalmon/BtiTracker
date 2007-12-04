@@ -125,6 +125,8 @@ $pn = 0;
 $posts=array();
 foreach($res as $id=>$arr)
 {
+  $posterid=$arr["userid"];
+
   if ($arr["username"])
     $posts[$pn]["username"]=($arr["userid"]>1?"<a href=\"index.php?page=userdetails&amp;id=".$arr["userid"]."\">".unesc($arr["username"])."</a>":unesc($arr["username"]));
   else
@@ -146,7 +148,7 @@ foreach($res as $id=>$arr)
   if ($user_can_write)
     $posts[$pn]["actions"].="<a href=\"index.php?page=forum&amp;action=quotepost&amp;topicid=$topicid&amp;postid=".$arr["id"]."\">".image_or_link($STYLEPATH."/images/f_quote.png","","[".$language["QUOTE"]."]")."</a>";
 
-  if (($CURUSER["uid"] == $posterid && !$locked) || $CURUSER["edit_forum"] == "yes")
+  if (($CURUSER["uid"] == $posterid && !$locked && $posterid>1) || $CURUSER["edit_forum"] == "yes")
     $posts[$pn]["actions"].="&nbsp;&nbsp;<a href=\"index.php?page=forum&amp;action=editpost&amp;postid=".$arr["id"]."\">".image_or_link($STYLEPATH."/images/f_edit.png","","[".$language["EDIT"]."]")."</a>";
 
   if ($CURUSER["delete_forum"] == "yes")
