@@ -105,15 +105,15 @@ if ($page=="last")
 list($pagertop, $pagerbottom,$limit)=forum_pager($postsperpage,$postcount, "index.php?page=forum&amp;action=viewtopic&amp;topicid=$topicid&amp;");
 
 if ($XBTT_USE)
-   $query = "SELECT p.*, u.username, ul.level as user_group, u.avatar, u.uploaded+IFNULL(x.uploaded,0) as uploaded".
+   $query = "SELECT p.*, u.username, IFNULL(ul.level,'".$language['UNKNOWN']."') as user_group, u.avatar, u.uploaded+IFNULL(x.uploaded,0) as uploaded".
             ", u.downloaded+IFNULL(x.downloaded,0) as downloaded, c.name as name, ue.username as editor, flagpic FROM {$TABLE_PREFIX}posts p".
-            " LEFT JOIN {$TABLE_PREFIX}users u ON p.userid=u.id LEFT JOIN xbt_users x ON x.uid=u.id INNER JOIN {$TABLE_PREFIX}users_level ul".
+            " LEFT JOIN {$TABLE_PREFIX}users u ON p.userid=u.id LEFT JOIN xbt_users x ON x.uid=u.id LEFT JOIN {$TABLE_PREFIX}users_level ul".
             " ON u.id_level=ul.id LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag = c.id LEFT JOIN {$TABLE_PREFIX}users ue ON p.editedby=ue.id".
             " WHERE topicid=$topicid ORDER BY id $limit";
 else
-   $query = "SELECT p.*, u.username, ul.level as user_group, u.avatar, u.uploaded".
+   $query = "SELECT p.*, u.username,IFNULL(ul.level,'".$language['UNKNOWN']."') as user_group, u.avatar, u.uploaded".
             ", u.downloaded, c.name as name, ue.username as editor, flagpic FROM {$TABLE_PREFIX}posts p".
-            " LEFT JOIN {$TABLE_PREFIX}users u ON p.userid=u.id INNER JOIN {$TABLE_PREFIX}users_level ul".
+            " LEFT JOIN {$TABLE_PREFIX}users u ON p.userid=u.id LEFT JOIN {$TABLE_PREFIX}users_level ul".
             " ON u.id_level=ul.id LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag = c.id LEFT JOIN {$TABLE_PREFIX}users ue ON p.editedby=ue.id".
             " WHERE topicid=$topicid ORDER BY id $limit";
 
@@ -126,9 +126,9 @@ $posts=array();
 foreach($res as $id=>$arr)
 {
   if ($arr["username"])
-    $posts[$pn]["username"]="<a href=\"index.php?page=userdetails&amp;id=".$arr["userid"]."\">".unesc($arr["username"])."</a>";
+    $posts[$pn]["username"]=($arr["userid"]>1?"<a href=\"index.php?page=userdetails&amp;id=".$arr["userid"]."\">".unesc($arr["username"])."</a>":unesc($arr["username"]));
   else
-    $posts[$pn]["username"]="unknown[".$arr["userid"]."]";
+    $posts[$pn]["username"]=$language["MEMBER"]."[".$arr["userid"]."]";
 
   $posts[$pn]["date"]=get_date_time($arr["added"]);
   $posts[$pn]["elapsed"]="(".get_elapsed_time($arr["added"]) . " ago)";
@@ -181,8 +181,10 @@ $ret=do_sqlquery("SELECT id FROM {$TABLE_PREFIX}readposts WHERE topicid=$topicid
 if (mysql_num_rows($ret)==0)
     do_sqlquery("INSERT INTO {$TABLE_PREFIX}readposts SET lastpostread=(SELECT MAX(id) FROM {$TABLE_PREFIX}posts WHERE topicid=$topicid), topicid=$topicid, userid=".intval(0+$CURUSER["uid"]),true);
 else // update existing record
-    do_sqlquery("UPDATE {$TABLE_PREFIX}readposts SET lastpostread=(SELECT MAX(id) FROM {$TABLE_PREFIX}posts WHERE topicid=$topicid) WHERE topicid=$topicid AND userid=".intval(0+$CURUSER["uid"]),true);
-
+ {
+   $rp_id=mysql_fetch_row($ret);
+   do_sqlquery("UPDATE {$TABLE_PREFIX}readposts SET lastpostread=(SELECT MAX(id) FROM {$TABLE_PREFIX}posts WHERE topicid=$topicid) WHERE id=".$rp_id[0],true);
+}
 //------ Mod options
 
 $forumtpl->set("can_write",$user_can_write,true);

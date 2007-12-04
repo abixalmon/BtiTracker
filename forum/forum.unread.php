@@ -22,7 +22,13 @@ $block_title=$language["TOPIC_UNREAD_POSTS"];
 $perpage = $CURUSER["topicsperpage"];
 if (!$perpage) $perpage = 20;
 
-$res = do_sqlquery("SELECT COUNT(*) FROM {$TABLE_PREFIX}topics t LEFT JOIN {$TABLE_PREFIX}readposts r ON t.id=r.topicid WHERE t.lastpost>IF(r.lastpostread IS NULL,0, r.lastpostread)",true);
+//$res = do_sqlquery("SELECT COUNT(*) FROM {$TABLE_PREFIX}topics t LEFT JOIN {$TABLE_PREFIX}readposts r ON t.id=r.topicid WHERE t.lastpost>IF(r.lastpostread IS NULL,0, r.lastpostread)",true);
+$res = do_sqlquery("SELECT COUNT(*) FROM {$TABLE_PREFIX}topics t LEFT JOIN {$TABLE_PREFIX}readposts rp ON t.id=rp.topicid AND rp.userid=".intval($CURUSER["uid"]).
+                         " LEFT JOIN {$TABLE_PREFIX}users us ON t.userid=us.id LEFT JOIN {$TABLE_PREFIX}forums f ON t.forumid=f.id".
+                         " LEFT JOIN {$TABLE_PREFIX}posts p ON t.lastpost=p.id LEFT JOIN {$TABLE_PREFIX}users ulp ON p.userid=ulp.id".
+                         " WHERE t.lastpost>IF(rp.lastpostread IS NULL,0, rp.lastpostread) AND IFNULL(f.minclassread,999)<=".$CURUSER["id_level"].
+                         " ORDER BY lastpost DESC $limit",true);
+
 $arr = mysql_fetch_row($res);
 $numtopics=$arr[0];
 mysql_free_result($res);
@@ -32,16 +38,14 @@ list($pagertop, $pagerbottom, $limit)=forum_pager($perpage,$numtopics, "index.ph
 
 //------ Get topics data
 
-$topicsres = do_sqlquery("SELECT t.*,(SELECT COUNT(*) FROM {$TABLE_PREFIX}posts WHERE topicid=t.id) as num_posts,".
+$topicsres = do_sqlquery("SELECT DISTINCT t.*,(SELECT COUNT(*) FROM {$TABLE_PREFIX}posts WHERE topicid=t.id) as num_posts,".
                          " ulp.username as lastposter, ulp.id as lastposter_uid, p.added as start_date, us.username as starter,".
-                         " IF(t.lastpost<=(SELECT lastpostread FROM {$TABLE_PREFIX}readposts rp WHERE rp.userid=".intval($CURUSER["uid"]).
-                         " AND rp.topicid=t.id) OR t.lastpost IS NULL,'unlocked','unlockednew') as img".
-                         " FROM {$TABLE_PREFIX}topics t LEFT JOIN {$TABLE_PREFIX}readposts rp ON t.id=rp.topicid".
+                         " IF(t.lastpost<rp.lastpostread OR t.lastpost IS NULL,'unlocked','unlockednew') as img".
+                         " FROM {$TABLE_PREFIX}topics t LEFT JOIN {$TABLE_PREFIX}readposts rp ON t.id=rp.topicid AND rp.userid=".intval($CURUSER["uid"]).
                          " LEFT JOIN {$TABLE_PREFIX}users us ON t.userid=us.id LEFT JOIN {$TABLE_PREFIX}forums f ON t.forumid=f.id".
                          " LEFT JOIN {$TABLE_PREFIX}posts p ON t.lastpost=p.id LEFT JOIN {$TABLE_PREFIX}users ulp ON p.userid=ulp.id".
                          " WHERE t.lastpost>IF(rp.lastpostread IS NULL,0, rp.lastpostread) AND IFNULL(f.minclassread,999)<=".$CURUSER["id_level"].
                          " ORDER BY lastpost DESC $limit",true);
-
 
 $postsperpage = $CURUSER["postsperpage"];
   if (!$postsperpage) $postsperpage = 15;
@@ -69,7 +73,7 @@ if ($numtopics > 0)
       {
         $topicpages = " (<img src=images/multipage.gif>";
         for ($i = 1; $i <= $tpages; ++$i)
-          $topicpages .= " <a href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=$topicid&amp;page=$i\">$i</a>";
+          $topicpages .= " <a href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=$topicid&amp;pages=$i\">$i</a>";
         $topicpages .= ")";
       }
       else
@@ -77,7 +81,10 @@ if ($numtopics > 0)
 
       $lppostid = 0 + $topicarr["lastpost"];
       $lpuserid = 0 + $topicarr["lastposter_uid"];
-      $lpusername = ($topicarr["lastposter"]?"<a href=\"index.php?page=userdetails&amp;id=$lpuserid\"><b>".$topicarr["lastposter"]."</b></a>":"unknown[$topic_userid]");
+      if ($lpuserid>1)
+          $lpusername = ($topicarr["lastposter"]?"<a href=\"index.php?page=userdetails&amp;id=$lpuserid\"><b>".unesc($topicarr["lastposter"])."</b></a>":$language["MEMBER"]."[$topic_userid]");
+      else
+          $lpusername = ($topicarr["lastposter"]?unesc($topicarr["lastposter"]):$language["MEMBER"]."[$topic_userid]");
 
       $new = $topicarr["img"]=="unlockednew";
 
@@ -90,7 +97,10 @@ if ($numtopics > 0)
 
       $topics[$i]["view"]=number_format($topic_views);
       $topics[$i]["replies"]=intval($topicarr["num_posts"]) - 1;
-      $topics[$i]["starter"]=($topicarr["starter"]?"<a href=\"index.php?page=userdetails&amp;id=$topic_userid\"><b>".$topicarr["starter"]."</b></a>":"unknown[$topic_userid]");
+      if ($topic_userid>1)
+          $topics[$i]["starter"]=($topicarr["starter"]?"<a href=\"index.php?page=userdetails&amp;id=$topic_userid\"><b>".unesc($topicarr["starter"])."</b></a>":$language["MEMBER"]."[$topic_userid]");
+      else
+          $topics[$i]["starter"]=($topicarr["starter"]?unesc($topicarr["starter"]):$language["MEMBER"]."[$topic_userid]");
       $topics[$i]["status"]=image_or_link("$STYLEPATH/images/$topicpic.png","",$topicpic);
       $topics[$i]["topic"]=$subject;
       $topics[$i]["lastpost"]=get_date_time($topicarr["start_date"])." ". $language["BY"] . " $lpusername";

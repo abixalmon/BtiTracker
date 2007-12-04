@@ -110,8 +110,10 @@ if ($numtopics > 0)
 
       $lppostid = 0 + $topicarr["lastpost"];
       $lpuserid = 0 + $topicarr["lastposter_uid"];
-      $lpusername = ($topicarr["lastposter"]?"<a href=\"index.php?page=userdetails&amp;id=$lpuserid\"><b>".$topicarr["lastposter"]."</b></a>":"unknown[$topic_userid]");
-
+      if ($lpuserid>1)
+         $lpusername = ($topicarr["lastposter"]?"<a href=\"index.php?page=userdetails&amp;id=$lpuserid\"><b>".unesc($topicarr["lastposter"])."</b></a>":$language["MEMBER"]."[$topic_userid]");
+      else
+          $lpusername = ($topicarr["lastposter"]?unesc($topicarr["lastposter"]):$language["MEMBER"]."[$topic_userid]");
       $new = $topicarr["img"]=="unlockednew";
 
       $topicpic = ($locked ? ($new ? "lockednew" : "locked") : $topicarr["img"]);
@@ -122,7 +124,10 @@ if ($numtopics > 0)
 
       $topics[$i]["view"]=number_format($topic_views);
       $topics[$i]["replies"]=intval($topicarr["num_posts"]) - 1;
-      $topics[$i]["starter"]=($topicarr["starter"]?"<a href=\"index.php?page=userdetails&amp;id=$topic_userid\"><b>".$topicarr["starter"]."</b></a>":"unknown[$topic_userid]");
+      if ($topic_userid>1)
+         $topics[$i]["starter"]=($topicarr["starter"]?"<a href=\"index.php?page=userdetails&amp;id=$topic_userid\"><b>".unesc($topicarr["starter"])."</b></a>":$language["MEMBER"]."[$topic_userid]");
+      else
+         $topics[$i]["starter"]=($topicarr["starter"]?unesc($topicarr["starter"]):$language["MEMBER"]."[$topic_userid]");
       $topics[$i]["status"]=image_or_link("$STYLEPATH/images/$topicpic.png","",$topicpic);
       $topics[$i]["topic"]=$subject;
       $topics[$i]["lastpost"]=get_date_time($topicarr["start_date"])." ". $language["BY"] . " $lpusername";
