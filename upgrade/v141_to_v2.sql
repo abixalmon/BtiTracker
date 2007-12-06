@@ -115,6 +115,16 @@ CREATE TABLE `btit_hacks` (
 ) TYPE = MYISAM ;
 
 
+TRUNCATE TABLE `btit_language`;
+
+INSERT INTO `btit_language` (`id`, `language`, `language_url`) VALUES
+(1, 'English', 'language/english'),
+(2, 'Romanian', 'language/romanian'),
+(3, 'Polish', 'language/polish'),
+(4, 'Serbocroatian', 'language/serbocroatian'),
+(5, 'Dutch', 'language/dutch'),
+(6, 'Italiano', 'language/italian');
+
 --- new modules system
 CREATE TABLE `btit_modules` (
   `id` mediumint(3) NOT NULL auto_increment,

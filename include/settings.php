@@ -5,6 +5,6 @@ $dbuser = "test";
 $dbpass = "test";
 $database = "btit";
 $TABLE_PREFIX = "";
-$db_prefix="smf_"
+$db_prefix="smf_";
 
 ?>
