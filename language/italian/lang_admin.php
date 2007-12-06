@@ -31,7 +31,7 @@ $language["ACP_OTHER_TOOLS"]="Altre Utilit√†";
 $language["ACP_MYSQL_STATS"]="Statistiche MySql";
 $language["XBTT_BACKEND"]="Opzioni XBTT";
 $language["XBTT_USE"]="Usa <a href=\"http://xbtt.sourceforge.net/tracker/\" target=\"_blank\">XBTT</a> come backend?";
-$language["XBTT_URL"]="Xbtt base url (like http://localhost:2710)";
+$language["XBTT_URL"]="Indirizzo di base per Xbtt (tipo http://localhost:2710)";
 $language["GENERAL_SETTINGS"]="Settaggio Generale";
 $language["TRACKER_NAME"]="Nome del Sito";
 $language["TRACKER_BASEURL"]="URL Base del Tracker (senza l'ultima /)";
@@ -91,6 +91,7 @@ $language["SETTING_SMTP_USERNAME"]="SMTP Utente";
 $language["SETTING_SMTP_PASSWORD"]="SMTP Password";
 $language["SETTING_SMTP_PASSWORD_REPEAT"]="SMTP Password (Ripeti)";
 $language["XBTT_TABLES_ERROR"]="Devi importare le tabelle di xbtt(guarda le istruzioni di installazione di xbtt) nel tuo database prima di attivare il backend di xbtt!";
+$language["XBTT_URL_ERROR"]="L'indirizzo base di Xbtt Ë obbligatorio!";
 // BAN FORM
 $language["BAN_NOTE"]="In questa parte del pannello di amministrazione, puoi vedere gli indirizzi ip interdetti, ed escludere altri indirizzi ip dal tracker.<br />\nDevi inserirli in un raggio da (primo IP) a (ultimo IP).";
 $language["BAN_NOIP"]="Non ci sono indirizzi Ip interdetti";

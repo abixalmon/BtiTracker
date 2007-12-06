@@ -61,6 +61,9 @@ switch ($action)
 
         if (isset($_POST["xbtt_use"]))
           {
+          // check base xbtt url
+          if ($_POST["xbtt_url"]!="")
+            {
             // check if XBTT tables are present in current db
             $res=do_sqlquery("SHOW TABLES LIKE 'xbt%'");
             $xbt_tables=array('xbt_announce_log','xbt_config','xbt_deny_from_hosts','xbt_files','xbt_files_users','xbt_scrape_log','xbt_users');
@@ -91,7 +94,17 @@ switch ($action)
                "('anonymous_scrape','".($btit_settings["p_scrape"]=="false"?1:0)."'),".
                "('announce_interval','".$btit_settings["max_announce"]."'),".
                "('auto_register','0');",true);
+              // insert non exist torrent into xbt_files
+              do_sqlquery("INSERT INTO xbt_files (info_hash, mtime, ctime) SELECT UNHEX(info_hash), unix_timestamp(), unix_timestamp() FROM {$TABLE_PREFIX}files WHERE UNHEX(info_hash) NOT IN (SELECT info_hash FROM xbt_files) AND external='no'",true);
+
             }
+          }
+          else
+          {
+              $language["XBTT_TABLES_ERROR"]=$language["XBTT_URL_ERROR"];
+              $btit_settings["xbtt_use"]="false";
+              $admintpl->set("xbtt_error",true,true);
+          }
         }
         $btit_settings["xbtt_url"]=$_POST["xbtt_url"];
         $btit_settings["cache_duration"]=$_POST["cache_duration"];
@@ -109,10 +122,10 @@ switch ($action)
         foreach($btit_settings as $key=>$value)
             $values[]="(".sqlesc($key).",".sqlesc($value).")";
         //die(implode(",",$values));
-        mysql_query("DELETE FROM {$TABLE_PREFIX }settings") or stderr($language["ERROR"],mysql_error());
-        mysql_query("INSERT INTO {$TABLE_PREFIX }settings (`key`,`value`) VALUES ".implode(",",$values).";") or stderr($language["ERROR"],mysql_error());
+        mysql_query("DELETE FROM {$TABLE_PREFIX}settings") or stderr($language["ERROR"],mysql_error());
+        mysql_query("INSERT INTO {$TABLE_PREFIX}settings (`key`,`value`) VALUES ".implode(",",$values).";") or stderr($language["ERROR"],mysql_error());
         // update guest values for language, style, torrentsxpage etc...
-        mysql_query("UPDATE {$TABLE_PREFIX }users SET language=".sqlesc($btit_settings["default_language"]).",
+        mysql_query("UPDATE {$TABLE_PREFIX}users SET language=".sqlesc($btit_settings["default_language"]).",
                             style=".sqlesc($btit_settings["default_style"]).",
                             torrentsperpage=".sqlesc($btit_settings["max_torrents_per_page"])." WHERE id=1") or stderr($language["ERROR"],mysql_error());
 

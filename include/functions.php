@@ -1,6 +1,6 @@
 <?php
 
-$tracker_version="2.0.0 Beta 2";
+$tracker_version="2.0.0 Beta 3";
 
 error_reporting(E_ALL ^ E_NOTICE);
 
