@@ -1228,6 +1228,7 @@ function peercolor($num)
 
     function display_captcha($noise=true) {
       $this->make_captcha($noise);
+      @chmod($this->get_filename(),0766);
       $res="<input type=\"hidden\" name=\"public_key\" value=\"".$this->public_key."\" />\n";
             $res.="<img align=\"middle\" src=\"".$this->get_filename()."\" border=\"0\" alt=\"\" />\n";
       return $res;

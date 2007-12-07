@@ -14,17 +14,29 @@ if ($btit_settings["forum"]=="smf")
      $smf_content.="
      <script type=\"text/javascript\" language=\"JavaScript\">
 
+     function autoIframe(frameId){
+     var newheight
+              try{
+                newheight = document.getElementById(frameId).contentWindow.document.body.scrollHeight;
+                document.getElementById(frameId).height = newheight + 45;
+              }
+                catch(err){
+                window.status = err.message;
+              }
+     }
+
+
      function autoResize(id){
 
      var newheight;
 
      if (!window.opera && !document.mimeType && document.all && document.getElementById){
 
-     newheight=document.getElementById(id).contentWindow.document .body.offsetHeight;
+     newheight=document.getElementById(id).contentWindow.document.body.offsetHeight;
 
      }else if(document.getElementById){
 
-     newheight=document.getElementById(id).contentWindow.document .body.scrollHeight;
+     newheight=document.getElementById(id).contentWindow.document.body.scrollHeight;
 
      }
 
@@ -45,21 +57,21 @@ if ($btit_settings["forum"]=="smf")
        {
        $smf_content.="
           <div align=\"center\">
-          <iframe id=\"forum_ifrm\" onload=\"autoResize('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php?topic=$topic\" width=\"98%\"></iframe>
+          <iframe id=\"forum_ifrm\" onload=\"autoIframe('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php?topic=$topic\" width=\"98%\">Your browser don't support iframe, then click <a href=\"$FORUMLINK/index.php?topic=$topic\">here</a> to get forum page</iframe>
           </div>";
       }
      elseif (substr($action, 0, 7)=="profile")
        {
        $smf_content.="
           <div align=\"center\">
-          <iframe id=\"forum_ifrm\" onload=\"autoResize('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php?action=$action\" width=\"98%\"></iframe>
+          <iframe id=\"forum_ifrm\" onload=\"autoIframe('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php?action=$action\" width=\"98%\">Your browser don't support iframe, then click <a href=\"$FORUMLINK/index.php?action=$action\">here</a> to get forum page</iframe>
           </div>";
       }
      elseif (substr($action, 0, 2)=="pm")
        {
        $smf_content.="
           <div align=\"center\">
-          <iframe id=\"forum_ifrm\" onload=\"autoResize('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php?action=$action\" width=\"98%\"></iframe>
+          <iframe id=\"forum_ifrm\" onload=\"autoIframe('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php?action=$action\" width=\"98%\">Your browser don't support iframe, then click <a href=\"$FORUMLINK/index.php?action=$action\">here</a> to get forum page</iframe>
           </div>";
       }
       
@@ -67,7 +79,7 @@ if ($btit_settings["forum"]=="smf")
        {
        $smf_content.="
           <div align=\"center\">
-          <iframe id=\"forum_ifrm\" onload=\"autoResize('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php\" width=\"98%\"></iframe>
+          <iframe id=\"forum_ifrm\" onload=\"autoIframe('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php\" width=\"98%\">Your browser don't support iframe, then click <a href=\"$FORUMLINK/index.php\">here</a> to get forum page</iframe>
           </div>";
       }
 
