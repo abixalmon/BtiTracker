@@ -135,7 +135,7 @@ if ( $GLOBALS["FORUMLINK"] == '' || $GLOBALS["FORUMLINK"] == 'internal' )
 }
 elseif ($GLOBALS["FORUMLINK"]=="smf")
    {
-   $forum=mysql_fetch_assoc(mysql_query("SELECT dateRegistered, posts FROM {$db_prefix}members WHERE ID_MEMBER=".$CURUSER["smf_fid"]));
+   $forum=mysql_fetch_assoc(mysql_query("SELECT dateRegistered, posts FROM {$db_prefix}members WHERE ID_MEMBER=".$row["smf_fid"]));
    $memberdays = max(1, round( ( time() - $forum["dateRegistered"] ) / 86400 ));
    $posts_per_day = number_format(round($forum["posts"] / $memberdays,2),2);
    $userdetailtpl-> set("userdetail_forum_posts", $forum["posts"] . " &nbsp; [" . sprintf($language["POSTS_PER_DAY"], $posts_per_day) . "]");
