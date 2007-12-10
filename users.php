@@ -132,11 +132,11 @@ else
 
 $users[$i]["ratio"] = $ratio;
                        
-if ($CURUSER["uid"]>1)
+if ($CURUSER["uid"]>1 && $CURUSER["uid"]!=$row_user["id"])
   $users[$i]["pm"] = "<a href=\"index.php?page=usercp&amp;do=pm&amp;action=edit&amp;uid=$CURUSER[uid]&amp;what=new&amp;to=".urlencode(unesc($row_user["username"]))."\">".image_or_link("$STYLEPATH/images/pm.png","",$language["USERS_PM"])."</a>";
-if ($CURUSER["edit_users"]=="yes")
+if ($CURUSER["edit_users"]=="yes" && $CURUSER["uid"]!=$row_user["id"])
   $users[$i]["edit"] = "<a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=users&amp;action=edit&amp;uid=".$row_user["id"]."\">".image_or_link("$STYLEPATH/images/edit.png","",$language["EDIT"])."</a>";
-if ($CURUSER["delete_users"]=="yes")
+if ($CURUSER["delete_users"]=="yes" && $CURUSER["uid"]!=$row_user["id"])
 
   $users[$i]["delete"] = "<a onclick=\"return confirm('".AddSlashes($language["DELETE_CONFIRM"])."')\" href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=users&amp;action=delete&amp;uid=".$row_user["id"]."&amp;smf_fid=".$row_user["smf_fid"]."&amp;returnto=".urlencode("index.php?page=users")."\">".image_or_link("$STYLEPATH/images/delete.png","",$language["DELETE"])."</a>";
 

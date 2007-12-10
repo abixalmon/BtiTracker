@@ -15,9 +15,12 @@ switch ($action)
   {
 
      case 'delete':
+        $uid=isset($_GET["uid"])?intval($_GET["uid"]):0;  
+        if ($uid==$CURUSER["uid"] || $uid==1) // cannot delete guest/myself
+           stderr($language["ERROR"],$language["USER_NOT_DELETE"]);
+
         if (isset($_GET["sure"]) && $_GET["sure"]=="1")
         {
-            $uid=isset($_GET["uid"])?intval($_GET["uid"]):0;
             do_sqlquery("DELETE FROM {$TABLE_PREFIX}users WHERE id=$uid",true);
             if($GLOBALS["FORUMLINK"]=="smf")
             {
@@ -35,7 +38,6 @@ switch ($action)
         }
         else
          {
-            $uid=isset($_GET["uid"])?intval($_GET["uid"]):0;
             $curu=get_result("SELECT u.*,ul.level FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON ul.id=u.id_level WHERE u.id=$uid LIMIT 1");
             if (count($curu)>0)
               {
@@ -60,6 +62,9 @@ switch ($action)
         
      case 'edit':
         $uid=isset($_GET["uid"])?intval($_GET["uid"]):0;
+        if ($uid==$CURUSER["uid"] || $uid==1) // cannot edit guest/myself
+           stderr($language["ERROR"],$language["USER_NOT_EDIT"]);
+
         $curu=get_result("SELECT * FROM {$TABLE_PREFIX}users WHERE id=$uid LIMIT 1");
         if (count($curu)>0)
           {
@@ -145,6 +150,7 @@ switch ($action)
           $profile["torrentsperpage"]=$curu[0]["torrentsperpage"];
           $profile["frm_cancel"]="index.php?page=usercp&amp;uid=".$uid."";
 
+          $avatar_size=array(100);
           if ($curu[0]["avatar"]!="")
               $profile["avatar"]=$curu[0]["avatar"];
           else

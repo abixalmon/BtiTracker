@@ -190,6 +190,9 @@ switch ($action)
            if (!isset($_GET['what'])) $_GET['what'] = '';
            if (!isset($_GET['to'])) $_GET['to'] = '';
 
+           if (urldecode($_GET['to'])==$CURUSER["username"])
+              stderr($language["ERROR"],$language["ERR_PM_GUEST"]);
+
            $res=do_sqlquery("select m.*, IF(m.sender=0,'System',u.username) as sendername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.sender WHERE receiver=$uid AND m.id=$id");
 
            if (!$res)

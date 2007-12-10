@@ -18,7 +18,10 @@ else
      $uo=array();
      foreach($u_online as $id=>$users_online)
         {
-            $group[unesc(ucfirst($users_online["user_group"]))]++;
+            if (isset($group[unesc(ucfirst($users_online["user_group"]))]))
+               $group[unesc(ucfirst($users_online["user_group"]))]++;
+            else
+               $group[unesc(ucfirst($users_online["user_group"]))]=1;
             if ($users_online["user_id"]>1)
                 $uo[]="<a href=\"index.php?page=userdetails&amp;id=".$users_online["user_id"]."\" title=\"".unesc(ucfirst($users_online["location"]))."\">".
                        unesc($users_online["prefixcolor"]).unesc($users_online["user_name"]).unesc($users_online["suffixcolor"])."</a>";

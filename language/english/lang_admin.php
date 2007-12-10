@@ -264,4 +264,7 @@ $language["HACK_UNINSTALL"]="UnInstall";
 $language["HACK_INSTALLED_OK"]="Hack has been installed with success!<br />\nTo see which hacks are installed go back to <a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=hacks&amp;action=read\">adminCP (Hacks)</a>";
 $language["HACK_BAD_ID"]="Error getting hack's info with this ID.";
 $language["HACK_UNINSTALLED_OK"]="Hack has been UnInstalled with success!<br />\nTo see which hacks are installed go back to <a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=hacks&amp;action=read\">adminCP (Hacks)</a>";
+// USERS TOOLS
+$language["USER_NOT_DELETE"]="You cannot delete Guest user or yourself!";
+$language["USER_NOT_EDIT"]="You cannot edit Guest user or yourself!";
 ?>
