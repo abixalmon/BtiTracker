@@ -74,7 +74,7 @@ function get_remote_file($http_url,$mode="r")
      curl_setopt($fp, CURLOPT_RETURNTRANSFER, true);
      $stream=curl_exec($fp);
      curl_close($fp);
-     if (!substr($stream,9,3)=="404")
+     if (substr($stream,9,3)!="404")
         return $stream;
   }
   // then with fsockopen
