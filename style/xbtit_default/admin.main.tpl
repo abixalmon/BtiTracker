@@ -20,7 +20,7 @@ function update_cat(newimage)
     </tr>
   </table>
   </td>
-  <td>
+  <td valign="top"><br />
     <table border="0" class="lista" align="center" width="100%">
   <tr><td class="block" align="center"><b>xBtit Infos:</b></td></tr>
   <tr><td class="lista"><tag:admin.xbtit_version /></td></tr>

@@ -38,7 +38,7 @@ if ($res)
  $ad=array_diff($xbt_tables,$xbt_in_db);
 
  if (count($ad)==0)
-    $admin["xbtt_ok"]="IT SEEMS THAT ALL XBTT TABLES ARE PRESENT!";
+    $admin["xbtt_ok"]="<br />\nIT SEEMS THAT ALL XBTT TABLES ARE PRESENT!<br />\n<br />\n";
  else
     $admin["xbtt_ok"]="";
 
@@ -53,39 +53,47 @@ mysql_free_result($res);
 if (file_exists($TORRENTSDIR))
   {
   if (is_writable($TORRENTSDIR))
-        $admin["torrent_ok"]=("<br />\nTorrent's folder $TORRENTSDIR <span style=\"color:#BEC635; font-weight: bold;\">is writable</span><br />\n");
+        $admin["torrent_ok"]=("<br />\nTorrent's folder $TORRENTSDIR<br />\n<span style=\"color:#BEC635; font-weight: bold;\">is writable</span><br />\n");
   else
-        $admin["torrent_ok"]=("<br />\nTorrent's folder $TORRENTSDIR is <span style=\"color:#FF0000; font-weight: bold;\">NOT writable</span><br />\n");
+        $admin["torrent_ok"]=("<br />\nTorrent's folder $TORRENTSDIR<br />\nis <span style=\"color:#FF0000; font-weight: bold;\">NOT writable</span><br />\n");
   }
 else
-  $admin["torrent_ok"]=("<br />\nTorrent's folder $TORRENTSDIR <span style=\"color:#FF0000; font-weight: bold;\">NOT FOUND!</span><br />\n");
+  $admin["torrent_ok"]=("<br />\nTorrent's folder $TORRENTSDIR<br />\n<span style=\"color:#FF0000; font-weight: bold;\">NOT FOUND!</span><br />\n");
 
 // check cache folder
 if (file_exists("$THIS_BASEPATH/cache"))
   {
   if (is_writable("$THIS_BASEPATH/cache"))
-        $admin["cache_ok"]=("cache folder <span style=\"color:#BEC635; font-weight: bold;\">is writable</span><br />\n");
+        $admin["cache_ok"]=("cache folder<br />\n<span style=\"color:#BEC635; font-weight: bold;\">is writable</span><br />\n");
   else
-        $admin["cache_ok"]=("cache folder is <span style=\"color:#FF0000; font-weight: bold;\">NOT writable</span><br />\n");
+        $admin["cache_ok"]=("cache folder is<br />\n<span style=\"color:#FF0000; font-weight: bold;\">NOT writable</span><br />\n");
   }
 else
-  $admin["cache_ok"]=("cache folder <span style=\"color:#FF0000; font-weight: bold;\">NOT FOUND!</span><br />\n");
+  $admin["cache_ok"]=("cache folder<br />\n<span style=\"color:#FF0000; font-weight: bold;\">NOT FOUND!</span><br />\n");
 
 
 // check censored worlds file
 if (file_exists("badwords.txt"))
   {
   if (is_writable("badwords.txt"))
-        $admin["badwords_ok"]=("Censored worls file (badwords.txt) <span style=\"color:#BEC635; font-weight: bold;\">is writable</span><br />\n");
+        $admin["badwords_ok"]=("Censored worls file (badwords.txt)<br />\n<span style=\"color:#BEC635; font-weight: bold;\">is writable</span><br />\n");
   else
-        $admin["badwords_ok"]=("Censored worls file (badwords.txt) is <span style=\"color:#FF0000; font-weight: bold;\">NOT writable</span> (cannot writing tracker's configuration change)<br />\n");
+        $admin["badwords_ok"]=("Censored worls file (badwords.txt)<br />\nis <span style=\"color:#FF0000; font-weight: bold;\">NOT writable</span> (cannot writing tracker's configuration change)<br />\n");
    }
 else
-  $admin["badwords_ok"]=("<br />\nCensored worls file (badwords.txt) <span style=\"color:#FF0000; font-weight: bold;\">NOT FOUND!</span><br />\n");
+  $admin["badwords_ok"]=("<br />\nCensored worls file (badwords.txt)<br />\n<span style=\"color:#FF0000; font-weight: bold;\">NOT FOUND!</span><br />\n");
 
 
 // check last version on btiteam.org site
-$btit_last=get_remote_file($btit_url_last);
+$btit_last=get_cached_version($btit_url_last);
+if (!$btit_last)
+{
+  $btit_last=get_remote_file($btit_url_last);
+  if ($btit_last)
+     write_cached_version($btit_url_last,$btit_last);
+  else
+      $btit_last="Last version n/a";
+}
 $current_version=explode(" ", strtolower($tracker_version)); // array('2.0.0','beta','2')
 $last_version=explode("/",strtolower($btit_last));  // array('2.0.0','beta','2')
 
@@ -107,16 +115,16 @@ if (!empty($your_version))
    $admin["xbtit_version"]=$your_version."<br />\n";
 
 $admin["infos"].=("<br />\n<table border=\"0\">\n");
-$admin["infos"].=("<tr><td>Server's OS:</td><td>".php_uname()."</td></tr>");
-$admin["infos"].=("<tr><td>PHP version:</td><td>".phpversion()."</td></tr>");
+$admin["infos"].=("<tr><td class=\"header\" align=\"center\">Server's OS</td></tr><tr><td align=\"left\">".php_uname()."</td></tr>");
+$admin["infos"].=("<tr><td class=\"header\" align=\"center\">PHP version</td></td></tr><td align=\"left\">".phpversion()."</td></tr>");
 
 $sqlver=mysql_fetch_row(do_sqlquery("SELECT VERSION()"));
-$admin["infos"].=("\n<tr><td>MYSQL version:</td><td>$sqlver[0]</td></tr>");
+$admin["infos"].=("\n<tr><td class=\"header\" align=\"center\">MYSQL version</td></td></tr><td align=\"left\">$sqlver[0]</td></tr>");
 $sqlver=mysql_stat();
 $sqlver=explode('  ',$sqlver);
-$admin["infos"].=("\n<tr><td valign=\"top\" rowspan=\"".(count($sqlver)+1)."\">MYSQL stats  : </td>\n");
+$admin["infos"].=("\n<tr><td valign=\"top\" class=\"header\" align=\"center\">MYSQL stats</td></tr>\n");
 for ($i=0;$i<count($sqlver);$i++)
-      $admin["infos"].=(($i==0?"":"<tr>")."<td>$sqlver[$i]</td></tr>\n");
+      $admin["infos"].=(($i==0?"":"<tr>")."<td align=\"left\">$sqlver[$i]</td></tr>\n");
 $admin["infos"].=("\n</table><br />\n");
 
 unset($sqlver);
@@ -133,7 +141,7 @@ if (!$btit_news)
     $frss=get_remote_file($btit_url_rss);
 
     if (!$frss)
-      $btit_news="<div class=\"blocklist\" style=\"padding:5px;\">Unable to contact Btiteam's site</div>";
+      $btit_news="<div class=\"blocklist\" style=\"padding:5px; align:center;\">Unable to contact Btiteam's site</div>";
     else
       {
         $nrss=new rss_reader();

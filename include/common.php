@@ -74,8 +74,8 @@ function get_remote_file($http_url,$mode="r")
      curl_setopt($fp, CURLOPT_RETURNTRANSFER, true);
      $stream=curl_exec($fp);
      curl_close($fp);
-
-     return $stream;
+     if (!substr($stream,9,3)=="404")
+        return $stream;
   }
   // then with fsockopen
 
@@ -88,13 +88,14 @@ function get_remote_file($http_url,$mode="r")
 
   if ($fp)
     {
-      fputs($fp,"GET $path$query HTTP/1.0\r\nHost: www.google.com\r\nConnection: close\r\n\r\n");
+      fputs($fp,"GET $path"."$query HTTP/1.0\r\nHost: www.google.com\r\nConnection: close\r\n\r\n");
       while (!feof($fp))
          $stream .= fgets($fp, 4096);
       @fclose($fp);
 
       if (substr($stream,9,3)=="404")
         {
+          $stream="";
           // last chance we try slowest fopen
           $fp=@fopen($http_url,$mode);
           if (!$fp)
@@ -104,6 +105,9 @@ function get_remote_file($http_url,$mode="r")
               $stream.=fread($fp,4096);
 
           @fclose($fp);
+
+          //if (substr($stream,9,3)=="404")
+          //   return false;
 
       }
 
