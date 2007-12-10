@@ -48,11 +48,11 @@
     <tr>
     <td colspan="5">
       &nbsp;&nbsp;If checked:&nbsp;&nbsp;
-      <input type="submit" name="doit" value="<tag:language.DBUTILS_REPAIR />" />&nbsp;&nbsp;
-      <input type="submit" name="doit" value="<tag:language.DBUTILS_OPTIMIZE />" />&nbsp;&nbsp;
-      <input type="submit" name="doit" value="<tag:language.DBUTILS_ANALYSE />" />&nbsp;&nbsp;
-      <input type="submit" name="doit" value="<tag:language.DBUTILS_CHECK />" />&nbsp;&nbsp;
-      <input type="submit" name="doit" value="<tag:language.DBUTILS_DELETE />" onclick="return confirm('Warning, this will delete selected tables!')" />
+      <input type="submit" name="doit" class="btn" value="<tag:language.DBUTILS_REPAIR />" />&nbsp;&nbsp;
+      <input type="submit" name="doit" class="btn" value="<tag:language.DBUTILS_OPTIMIZE />" />&nbsp;&nbsp;
+      <input type="submit" name="doit" class="btn" value="<tag:language.DBUTILS_ANALYSE />" />&nbsp;&nbsp;
+      <input type="submit" name="doit" class="btn" value="<tag:language.DBUTILS_CHECK />" />&nbsp;&nbsp;
+      <input type="submit" name="doit" class="btn" value="<tag:language.DBUTILS_DELETE />" onclick="return confirm('Warning, this will delete selected tables!')" />
     </td>
     </tr>
   </table>

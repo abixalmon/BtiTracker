@@ -183,8 +183,8 @@
       <td class="lista"><input type="text" name="mostpoplimit" value="<tag:config.mostpoplimit />" size="3" maxlength="3" /></td>
     </tr>
     <tr>
-      <td align="center" class="header" colspan="2"><input type="submit" name="write" value="<tag:language.FRM_CONFIRM />" /></td>
-      <td align="center" class="header" colspan="2"><input type="submit" name="cancel" value="<tag:language.FRM_CANCEL />" /></td>
+      <td align="center" class="header" colspan="2"><input type="submit" name="write" class="btn" value="<tag:language.FRM_CONFIRM />" /></td>
+      <td align="center" class="header" colspan="2"><input type="submit" name="cancel" class="btn" value="<tag:language.FRM_CANCEL />" /></td>
     </tr>
   </table>
 </form>

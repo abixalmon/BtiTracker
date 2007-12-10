@@ -23,7 +23,7 @@
       <td class="lista" align="center" colspan="4"><br /><tag:poll_pager_bottom /></td>
     </tr>
     <tr>
-      <td class="header" align="center" colspan="4"><input type="submit" name="cancel" value="<tag:language.POLL_BACK />" class="formButton" /></td>
+      <td class="header" align="center" colspan="4"><input type="submit" class="btn" name="cancel" value="<tag:language.POLL_BACK />" class="formButton" /></td>
     </tr>
   </table>
   <else:show_poller>
@@ -66,10 +66,10 @@
   </table>
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
-      <td class="header" align="center"><input type="submit" name="save" value="<tag:language.POLL_SAVE />" class="formButton" /></td>
-      <td class="header" align="center"><input type="submit" name="cancel" value="<tag:language.POLL_CANCEL />" class="formButton" /></td>
+      <td class="header" align="center"><input type="submit" class="btn" name="save" value="<tag:language.POLL_SAVE />" class="formButton" /></td>
+      <td class="header" align="center"><input type="submit" class="btn" name="cancel" value="<tag:language.POLL_CANCEL />" class="formButton" /></td>
       <if:poll_delete>
-      <td class="header" align="center"><input type="submit" name="delete" value="<tag:language.POLL_DELETE />" onclick="return confirm('<tag:language.POLL_DEL_CONFIRM />')" class="formButton" /></td>
+      <td class="header" align="center"><input type="submit" class="btn" name="delete" value="<tag:language.POLL_DELETE />" onclick="return confirm('<tag:language.POLL_DEL_CONFIRM />')" class="formButton" /></td>
       </if:poll_delete>
     </tr>
   </table>
@@ -100,7 +100,7 @@
   </table>
   <table width="100%" border="0" cellspacing="0" cellpadding="5">
     <tr>
-      <td class="header" align="center"><input type="submit" name="new" value="<tag:language.POLL_NEW />" class="formButton" /></td>
+      <td class="header" align="center"><input type="submit" class="btn" name="new" value="<tag:language.POLL_NEW />" class="formButton" /></td>
     </tr>
   </table>
   </if:new_poll>

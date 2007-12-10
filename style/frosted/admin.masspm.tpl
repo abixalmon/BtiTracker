@@ -54,11 +54,8 @@
     <tr>
       <td colspan="2" class="lista"><tag:masspm.body /></td>
     </tr>
-  </table>
-  <br />
-  <table class="lista" width="100%" align="center">
     <tr>
-      <td class="lista" align="center"><input type="submit" name="masspm" value="<tag:language.FRM_CONFIRM />" /></td>
+      <td colspan="2" class="header" align="center"><input type="submit" name="masspm" class="btn" value="<tag:language.FRM_CONFIRM />" /></td>
     </tr>
   </table>
 </form>

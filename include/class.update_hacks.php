@@ -67,7 +67,12 @@ class update_hacks
           } else {
               $text = '';
           }
-          
+
+          $StartPos = strpos($text,'<![CDATA[');
+          $EndPos = strpos($text, ']]>');
+          if ($EndPos > $StartPos)
+             $text = substr ($text, $StartPos, ($EndPos - $StartPos));
+
           $text = str_replace('<![CDATA[', '', $text);
           $text = str_replace(']]>', '', $text);
           
@@ -212,7 +217,7 @@ class update_hacks
             global $THIS_BASEPATH,$CURRENT_FOLDER,$dbhost, $dbuser, $dbpass, $database, $TABLE_PREFIX;
 
             $DEFAULT_ROOT=$THIS_BASEPATH;
-            $DEFAULT_STYLE_PATH="$THIS_BASEPATH/style/btit";
+            $DEFAULT_STYLE_PATH="$THIS_BASEPATH/style/xbtit_default";
             $DEFAULT_LANGUAGE_PATH="$THIS_BASEPATH/language/english";
 
             // reset errors array;

@@ -30,8 +30,8 @@ function update_cat(newimage,blank)
       </tr>
       <tr>
         <td class="header" align="center" colspan="4">
-            <input type="submit" name="confirm" value="<tag:language.FRM_CONFIRM />" />&nbsp;&nbsp;&nbsp;
-            <input type="submit" name="confirm" value="<tag:language.FRM_CANCEL />" />
+            <input type="submit" name="confirm" class="btn" value="<tag:language.FRM_CONFIRM />" />&nbsp;&nbsp;&nbsp;
+            <input type="submit" name="confirm" class="btn" value="<tag:language.FRM_CANCEL />" />
         </td>
       </tr>
     </table>

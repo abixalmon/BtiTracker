@@ -16,8 +16,8 @@
     </tr>
     <tr>
       <td align="center" class="header" colspan="4">
-        <input type="submit" name="write" value="<tag:language.FRM_CONFIRM />" />&nbsp;&nbsp;&nbsp;
-        <input type="submit" name="write" value="<tag:language.FRM_CANCEL />" />
+        <input type="submit" name="write" class="btn" value="<tag:language.FRM_CONFIRM />" />&nbsp;&nbsp;&nbsp;
+        <input type="submit" name="write" class="btn" value="<tag:language.FRM_CANCEL />" />
       </td>
     </tr>
   </table>

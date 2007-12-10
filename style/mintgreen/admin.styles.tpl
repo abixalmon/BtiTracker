@@ -22,8 +22,8 @@
       </tr>
       <tr>
         <td class="header" align="center" colspan="2">
-            <input type="submit" name="confirm" value="<tag:language.FRM_CONFIRM />" />&nbsp;&nbsp;&nbsp;
-            <input type="submit" name="confirm" value="<tag:language.FRM_CANCEL />" />
+            <input type="submit" name="confirm" class="btn" value="<tag:language.FRM_CONFIRM />" />&nbsp;&nbsp;&nbsp;
+            <input type="submit" name="confirm" class="btn" value="<tag:language.FRM_CANCEL />" />
         </td>
       </tr>
     </table>
