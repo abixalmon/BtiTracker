@@ -442,7 +442,7 @@ if ($FORUMLINK=="smf" || mysql_num_rows($test))
 // xbt
 if ($XBTT_USE)
    {
-   $resin=do_sqlquery("INSERT INTO xbt_users (uid, name, torrent_pass) VALUES ($newuid, '$utente','$pid')");
+   $resin=do_sqlquery("INSERT INTO xbt_users (uid, torrent_pass) VALUES ($newuid,'$pid')");
    }
 if ($VALIDATION=="user")
    {
