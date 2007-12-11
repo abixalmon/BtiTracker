@@ -405,7 +405,7 @@ elseif ($action == 'sql_import') {
         $replaces[') TYPE=MyISAM;'] = ') TYPE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;';
 
     // Read in the SQL.  Turn this on and that off... internationalize... etc.
-    $sql_lines = explode("\n", strtr(implode(' ', file(dirname(__FILE__) . '/upgrade/v141_to_v2.sql')), $replaces));
+    $sql_lines = explode("\n", strtr(implode(' ', file(dirname(__FILE__) . '/'.$dbfile)), $replaces));
 
     // Execute the SQL.
     $current_statement = '';
@@ -414,7 +414,7 @@ elseif ($action == 'sql_import') {
     foreach ($sql_lines as $count => $line)
     {
         // No comments allowed!
-        if (substr(trim($line), 0, 1) != '#')
+        if (substr(trim($line), 0, 1) != '#' && substr(trim($line), 0, 3) != '---')
             $current_statement .= "\n" . rtrim($line);
 
         // Is this the end of the query string?
@@ -439,6 +439,14 @@ elseif ($action == 'sql_import') {
 
         $current_statement = '';
     }
+    if (count($exists)>0 || count($failures)>0)
+       { // errors occured!
+         echo "<pre>";
+         print_r($exists);
+         echo "<br />\n";
+         print_r($failures);
+         echo "</pre>";
+     }
      echo (str_replace("database.sql",$dbfile,$install_lang["database_saved"]));
      echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='$cur_script?lang_file=".$_SESSION["install_lang"]."&amp;action=finished'\" /></div>");
 }

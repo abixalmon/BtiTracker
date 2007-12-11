@@ -90,10 +90,9 @@ announce_url, uploader, lastupdate, anonymous, lastsuccess FROM namemap;
 
 --- update all torrents with summary's info
 
-UPDATE btit_files SET dlbytes=s.dlbytes, seeds=s.sseds, leechers=s.leechers,
-finished=s.finished, lastcycle=s.lastcycle, lastSpeedCycle=s.lastSpeedCycle,
-speed=s.speed, binhash=UNHEX(s.info_hash) FROM btit_files bf inner join summary s
-ON s.info_hash=bf.info_hash;
+UPDATE btit_files bf, summary s SET bf.dlbytes=s.dlbytes, bf.seeds=s.seeds, bf.leechers=s.leechers,
+bf.finished=s.finished, bf.lastcycle=s.lastcycle, bf.lastSpeedCycle=s.lastSpeedCycle,
+bf.speed=s.speed, bf.bin_hash=UNHEX(s.info_hash) WHERE s.info_hash=bf.info_hash;
 
 
 --- add parent field for forum
