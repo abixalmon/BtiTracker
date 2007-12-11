@@ -13,7 +13,7 @@
       <td align="center" class="blocklist"><tag:language.RANK />&nbsp;<tag:search_combo_groups /></td>
     </tr>
     <tr>
-      <td align="center" class="lista"><input type="submit" name="readyto" value="Go" /></td>
+      <td align="center" class="lista"><input type="submit" class="btn" name="readyto" value="Go" /></td>
     </tr>
   </table>
 </form>
@@ -43,7 +43,7 @@
       <input name="grupdegis" type="checkbox" value="evet" />
       <tag:language.SEARCH_DIFF_CHANGE_GROUP />&nbsp;
       <tag:search_combo_newgroups />&nbsp;
-      <input type="submit" name="changeug" value="Work" /></td>
+      <input type="submit" class="btn" name="changeug" value="Work" /></td>
     </tr>
     <tr>
       <td align="center" class="header"><tag:language.USER_ID /></td>

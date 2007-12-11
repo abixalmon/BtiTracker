@@ -69,7 +69,7 @@ switch ($action)
           }
       $timeout=(60*60*24)*$days;
 
-      $res=get_result("SELECT info_hash, filename, $tspeed AS lastupdate, $tseeds as seeds, ".
+      $res=get_result("SELECT f.info_hash, filename, $tspeed AS lastupdate, $tseeds as seeds, ".
             "$tleechs as leechers FROM $ttables WHERE external='no' AND $tspeed<(UNIX_TIMESTAMP()-$timeout) ORDER BY $tseeds",true);
 
 

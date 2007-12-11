@@ -57,7 +57,7 @@ function popusers(url)
 </loop:pm>
     <tr>
       <td class="lista" align="right" colspan="5">
-      <input type="submit" name="action" value="<tag:language.DELETE_READED />" />
+      <input type="submit" class="btn" name="action" value="<tag:language.DELETE_READED />" />
       &nbsp;&nbsp;&nbsp;<tag:language.MSG_DEL_ALL_PM />
       </td>
     </tr>
@@ -103,9 +103,9 @@ function popusers(url)
       <td colspan="2" class="lista">
     <table align="center" width="60%" cellspacing="0" cellpadding="0">
       <tr>
-        <td align="center"><input type="submit" name="confirm" value="<tag:language.FRM_CONFIRM />" /></td>
-        <td align="center"><input type="submit" name="confirm" value="<tag:language.FRM_PREVIEW />" /></td>
-        <td align="center"><input type="button" name="confirm" onclick="javascript:window.open('<tag:pmedit.frm_cancel />','_self');" value="<tag:language.FRM_CANCEL />" /></td>
+        <td align="center"><input type="submit" class="btn" name="confirm" value="<tag:language.FRM_CONFIRM />" /></td>
+        <td align="center"><input type="submit" class="btn" name="confirm" value="<tag:language.FRM_PREVIEW />" /></td>
+        <td align="center"><input type="button" class="btn" name="confirm" onclick="javascript:window.open('<tag:pmedit.frm_cancel />','_self');" value="<tag:language.FRM_CANCEL />" /></td>
       </tr>
     </table>
       </td>

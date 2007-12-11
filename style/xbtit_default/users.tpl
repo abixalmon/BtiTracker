@@ -14,7 +14,7 @@
             <tag:users_search_select />
             </select>
         </td>
-        <td><input type="submit" value="<tag:language.SEARCH />" /></td>
+        <td><input type="submit" class="btn" value="<tag:language.SEARCH />" /></td>
       </tr>
     </table>
   </form>

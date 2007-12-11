@@ -23,8 +23,8 @@
       <td class="lista">&nbsp;&nbsp;<tag:language.NO /><input type="radio" name="anonymous" value="false" checked="checked" />&nbsp;&nbsp;<tag:language.YES /><input type="radio" name="anonymous" value="true" /></td>
     </tr>
     <tr>
-      <td class="header" align="right"><input type="submit" value="<tag:language.FRM_SEND />" /></td>
-      <td class="header" align="left"><input type="reset" value="<tag:language.FRM_RESET />" /></td>
+      <td class="header" align="right"><input type="submit" class="btn" value="<tag:language.FRM_SEND />" /></td>
+      <td class="header" align="left"><input type="reset" class="btn" value="<tag:language.FRM_RESET />" /></td>
     </tr>
   </table>
 </form>

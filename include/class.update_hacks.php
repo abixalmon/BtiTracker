@@ -75,7 +75,7 @@ class update_hacks
 
           $text = str_replace('<![CDATA[', '', $text);
           $text = str_replace(']]>', '', $text);
-          
+
           return $text;
       }
 
@@ -151,7 +151,7 @@ class update_hacks
             global $THIS_BASEPATH,$CURRENT_FOLDER;
 
             $DEFAULT_ROOT=$THIS_BASEPATH;
-            $DEFAULT_STYLE_PATH="$THIS_BASEPATH/style/btit";
+            $DEFAULT_STYLE_PATH="$THIS_BASEPATH/style/xbtit_default";
             $DEFAULT_LANGUAGE_PATH="$THIS_BASEPATH/language/english";
 
          // file exists?
@@ -260,7 +260,7 @@ class update_hacks
                               @mysql_select_db($database) or ($this->db_error());
                               // if we just test then that's all, else we will run the query
                               if (!$test)
-                                 @mysql_query(mysql_escape_string(str_replace("{\$db_prefix}","$TABLE_PREFIX",$hack_array[$i]["file"][$j]["operations"][$k]["data"]))) or ($this->db_error());
+                                 @mysql_query(mysql_escape_string(str_replace("{\$db_prefix}","$TABLE_PREFIX",$hack_array[$i]["file"][$j]["operations"][$k]["data"])));
                             break;
 
                           case 'copy':
@@ -286,35 +286,51 @@ class update_hacks
                           case 'add':
                           case 'remove':
                           case 'replace':
-                            // we will put a comment before and after each change
-                            $begin_hack_str="\n// begin modification\n";
-                            $begin_hack_str.="// hack: ".$hack_array[$i]["title"]."\n";
-                            $begin_hack_str.="//operation #$k\n";
-                            $end_hack_str="\n// end modification\n";
-                            $end_hack_str.="// hack: ".$hack_array[$i]["title"]."\n";
-                            $end_hack_str.="//operation #$k\n";
-                            $file_content=str_replace("\r\n","\n", $file_content); // convert file containt into unix style
+                            // for template files, comments must be html comment <!--- comment -->
+                            if (substr(str_replace("\"","",$hack_array[$i]["file"][$j]["name"]),-4)==".tpl")
+                              {
+                              $begin_hack_str="\n<!-- begin modification -->\n";
+                              $begin_hack_str.="<!-- hack: ".$hack_array[$i]["title"]." -->\n";
+                              $begin_hack_str.="<!-- operation #$k -->\n";
+                              $end_hack_str="\n<!-- end modification -->\n";
+                              $end_hack_str.="<!-- hack: ".$hack_array[$i]["title"]." -->\n";
+                              $end_hack_str.="<!-- operation #$k -->\n";
+                            }
+                            else
+                              {
+                              // we will put a comment before and after each change
+                              $begin_hack_str="\n// begin modification\n";
+                              $begin_hack_str.="// hack: ".$hack_array[$i]["title"]."\n";
+                              $begin_hack_str.="// operation #$k\n";
+                              $end_hack_str="\n// end modification\n";
+                              $end_hack_str.="// hack: ".$hack_array[$i]["title"]."\n";
+                              $end_hack_str.="// operation #$k\n";
+                            }
                             $string_to_search=str_replace("\r\n","\n", $hack_array[$i]["file"][$j]["operations"][$k]["search"]);
-                            $pos=strpos($file_content,$string_to_search);
+                            $file_content=str_replace("\r\n","\n", $file_content); // convert file containt into unix style
+                            $pos=@strpos($file_content,$string_to_search);
                             // we find the position
                             if ($pos!==false)
                               {
                                 if ($action=="add")
                                   {
                                     // we must find if before or after
-                                    $where=$hack_array[$i]["file"][$j]["operations"][$k]["where"];
-                                    $newpos=($where=="before"?$pos:$pos+strlen($string_to_search)+1);
+                                    $where=str_replace("\"","",$hack_array[$i]["file"][$j]["operations"][$k]["where"]);
+                                    $newpos=($where=="before"?$pos-strlen($string_to_search)+1:$pos+strlen($string_to_search)+1);
                                     $file_content=substr($file_content,0,$newpos).$begin_hack_str.str_replace("\r\n","\n", $hack_array[$i]["file"][$j]["operations"][$k]["data"]).$end_hack_str.substr($file_content,$newpos);
                                 }
                                 elseif ($action=="replace")
                                   {
-                                    $newpos=$pos+strlen($hack_array[$i]["file"][$j]["operations"][$k]["search"]);
+                                    $newpos=$pos+strlen($string_to_search);
                                     $file_content=substr($file_content,0,$pos).$begin_hack_str.str_replace("\r\n","\n", $hack_array[$i]["file"][$j]["operations"][$k]["data"]).$end_hack_str.substr($file_content,$newpos);
                                 }
                                 else
                                   { // we're removing...
-                                    $newpos=$pos+strlen($hack_array[$i]["file"][$j]["operations"][$k]["search"]);
-                                    $file_content=substr($file_content,0,$pos).$begin_hack_str."*** REMOVED ***\n".substr($file_content,$newpos);
+                                    $newpos=$pos+strlen($string_to_search);
+                                    if (substr(str_replace("\"","",$hack_array[$i]["file"][$j]["name"]),-4)==".tpl")
+                                      $file_content=substr($file_content,0,$pos).$begin_hack_str."<!-- *** REMOVED *** -->\n".substr($file_content,$newpos);
+                                    else
+                                      $file_content=substr($file_content,0,$pos).$begin_hack_str."// *** REMOVED ***\n".substr($file_content,$newpos);
                                 }
                             }
                             else // we don't find the searched text
@@ -377,10 +393,10 @@ class update_hacks
             else
               $this->errors[]["message"]="Sorry no hack defined.";
 
-            // ok, we've do nothing but seems ok.
+            // ok, we've do nothing (in test mode) but seems ok.
             // finally we check if all was gone as should
             if (isset($this->errors))
-              if (($this->errors)>0)
+              if (count($this->errors)>0)
                   return false;
               else
                   return true;    
@@ -401,7 +417,7 @@ class update_hacks
             global $THIS_BASEPATH,$CURRENT_FOLDER,$dbhost, $dbuser, $dbpass, $database;
 
             $DEFAULT_ROOT=$THIS_BASEPATH;
-            $DEFAULT_STYLE_PATH="$THIS_BASEPATH/style/btit";
+            $DEFAULT_STYLE_PATH="$THIS_BASEPATH/style/xbtit_default";
             $DEFAULT_LANGUAGE_PATH="$THIS_BASEPATH/language/english";
 
             // reset errors array;
@@ -451,16 +467,31 @@ class update_hacks
                           case 'add':
                           case 'remove':
                           case 'replace':
-                            $begin_hack_str="\n// begin modification\n";
-                            $begin_hack_str.="// hack: ".$hack_array[$i]["title"]."\n";
-                            $begin_hack_str.="//operation #$k\n";
-                            $end_hack_str="\n// end modification\n";
-                            $end_hack_str.="// hack: ".$hack_array[$i]["title"]."\n";
-                            $end_hack_str.="//operation #$k\n";
-                            // removing the hack, so we search what has be added or replacement
-                            $string_to_search=$begin_hack_str.($action=="remove"?"*** REMOVED ***\n":str_replace("\r\n","\n", $hack_array[$i]["file"][$j]["operations"][$k]["data"]).$end_hack_str);
+                            // for template files, comments must be html comment <!--- comment -->
+                            if (substr(str_replace("\"","",$hack_array[$i]["file"][$j]["name"]),-4)==".tpl")
+                              {
+                              $begin_hack_str="\n<!-- begin modification -->\n";
+                              $begin_hack_str.="<!-- hack: ".$hack_array[$i]["title"]." -->\n";
+                              $begin_hack_str.="<!-- operation #$k -->\n";
+                              $end_hack_str="\n<!-- end modification -->\n";
+                              $end_hack_str.="<!-- hack: ".$hack_array[$i]["title"]." -->\n";
+                              $end_hack_str.="<!-- operation #$k -->\n";
+                              // removing the hack, so we search what has be added or replacement
+                              $string_to_search=$begin_hack_str.($action=="remove"?"<!-- *** REMOVED *** -->\n":str_replace("\r\n","\n", $hack_array[$i]["file"][$j]["operations"][$k]["data"]).$end_hack_str);
+                            }
+                            else
+                              {
+                              $begin_hack_str="\n// begin modification\n";
+                              $begin_hack_str.="// hack: ".$hack_array[$i]["title"]."\n";
+                              $begin_hack_str.="// operation #$k\n";
+                              $end_hack_str="\n// end modification\n";
+                              $end_hack_str.="// hack: ".$hack_array[$i]["title"]."\n";
+                              $end_hack_str.="// operation #$k\n";
+                              // removing the hack, so we search what has be added or replacement
+                              $string_to_search=$begin_hack_str.($action=="remove"?"// *** REMOVED ***\n":str_replace("\r\n","\n", $hack_array[$i]["file"][$j]["operations"][$k]["data"]).$end_hack_str);
+                            }
                             $file_content=str_replace("\r\n","\n", $file_content); // convert file containt into unix style
-                            $pos=strpos($file_content, $string_to_search);
+                            $pos=@strpos($file_content, $string_to_search);
                             // we find the position
                             if ($pos!==false)
                               {

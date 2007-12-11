@@ -83,7 +83,7 @@ function valid_folder(value) {
   <tr>
     <td class="lista"><tag:language.HACK_SELECT /></td>
     <td class="lista" align="left"><tag:hack_combo /></td>
-    <td class="lista"><input type="submit" name="confirm" disabled="disabled" value="<tag:language.FRM_CONFIRM />" /></td>
+    <td class="lista"><input type="submit" class="btn" name="confirm" disabled="disabled" value="<tag:language.FRM_CONFIRM />" /></td>
   </tr>
 </table>
 </form>

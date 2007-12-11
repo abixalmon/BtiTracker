@@ -20,7 +20,7 @@
         <option value="2" <tag:torrent_selected_dead />><tag:language.DEAD_ONLY /></option>
         </select>
       </td>
-      <td><input type="submit" value="<tag:language.SEARCH />" /></td>
+      <td><input type="submit" class="btn" value="<tag:language.SEARCH />" /></td>
      </tr>
   </table>
 </form>

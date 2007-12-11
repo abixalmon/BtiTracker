@@ -45,7 +45,7 @@
     <option value="style"><tag:language.STYLE /></option></select></td>
   </tr>
   <tr>
-    <td colspan="2" class="lista"><input type="submit" name="confirm" value="<tag:language.FRM_CONFIRM />" /></td>
+    <td colspan="2" class="lista"><input type="submit" class="btn" name="confirm" value="<tag:language.FRM_CONFIRM />" /></td>
   </tr>
 </table>
 </form>

@@ -27,7 +27,7 @@ function form_control()
     <td align="left" class="lista"><tag:news.bbcode /></td>
       </tr>
       <tr>
-    <td align="center" class="header" colspan="2"><input type="submit" name="conferma" value="<tag:language.FRM_CONFIRM />" />&nbsp;&nbsp;&nbsp;<input type="submit" name="conferma" value="<tag:language.FRM_CANCEL />" /></td>
+    <td align="center" class="header" colspan="2"><input type="submit" class="btn" name="conferma" value="<tag:language.FRM_CONFIRM />" />&nbsp;&nbsp;&nbsp;<input type="submit" class="btn" name="conferma" value="<tag:language.FRM_CANCEL />" /></td>
       </tr>
     </table>
   </form>

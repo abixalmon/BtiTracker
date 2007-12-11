@@ -1,0 +1,221 @@
+<hack>
+  <title>Signature on (Internal) Forum</title>
+  <author>Original author: Ksami</author>
+  <version>1.0</version>
+  <!-- usercp.profile.php -->
+  <file>
+    <name>"$DEFAULT_ROOT/user/usercp.profile.php"</name>
+    <operation>
+      <search><![CDATA[$avatar=htmlspecialchars(AddSlashes($_POST["avatar"]));]]></search>
+      <action>"add"</action>
+      <where>"after"</where>
+      <data><![CDATA[           $signature=AddSlashes(htmlspecialchars($_POST["signature"]));]]></data>
+    </operation>
+    <operation>
+      <search><![CDATA[$set[]="avatar='$avatar'";]]></search>
+      <action>"add"</action>
+      <where>"after"</where>
+      <data><![CDATA[               $set[]="signature='$signature'";      ]]></data>
+    </operation>
+    <operation>
+      <search><![CDATA[$profiletpl["email"]=unesc($CURUSER["email"]);]]></search>
+      <action>"add"</action>
+      <where>"after"</where>
+      <data><![CDATA[      $profiletpl["signature"]=unesc($CURUSER["signature"]);]]></data>
+    </operation>
+  </file>
+  <!-- usercp.profile.tpl -->
+  <file>
+    <name>"$DEFAULT_STYLE_PATH/usercp.profile.tpl"</name>
+    <operation>
+    <action>"add"</action>
+    <where>"after"</where>
+    <search><![CDATA[
+  <if:INTERNAL_FORUM>
+    <tr>
+      <td align="left" class="header"><tag:language.TOPICS_PER_PAGE />:</td>
+      <td align="left" class="lista" colspan="2"><input type="text" size="3" name="topicsperpage" maxlength="3" value="<tag:profile.topicsperpage />"/></td>
+    </tr>
+    <tr>
+      <td align="left" class="header"><tag:language.POSTS_PER_PAGE />:</td>
+      <td align="left" class="lista" colspan="2"><input type="text" size="3" name="postsperpage" maxlength="3" value="<tag:profile.postsperpage />"/></td>
+    </tr>]]>
+    </search>
+    <data><![CDATA[
+    <tr>
+      <td align="left" class="header"><tag:language.SIGNATURE />:</td>
+      <td align="left" class="lista" colspan="2"><textarea cols="38" rows="6" name="signature"><tag:profile.signature /></textarea></td>
+    </tr>
+    ]]>
+    </data>
+  </file>
+
+  <!-- usercp.main.php -->
+  <file>
+    <name>"$DEFAULT_ROOT/user/usercp.main.php"</name>
+    <operation>
+      <search><![CDATA[$res=do_sqlquery("SELECT u.lip,u.username,u.downloaded,u.uploaded, UNIX_TIMESTAMP(u.joined) as joined, u.flag, c.name, c.flagpic FROM {$TABLE_PREFIX}users u LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag=c.id WHERE u.id=$uid",true);]]></search>
+      <action>"replace"</action>
+      <data><![CDATA[$res=do_sqlquery("SELECT u.signature, u.lip,u.username,u.downloaded,u.uploaded, UNIX_TIMESTAMP(u.joined) as joined, u.flag, c.name, c.flagpic FROM {$TABLE_PREFIX}users u LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag=c.id WHERE u.id=$uid",true);]]></data>
+    </operation>
+    <operation>
+      <search><![CDATA[$ucptpl["ratio"]=$ratio;]]></search>
+      <action>"add"</action>
+      <where>"after"</where>
+      <data><![CDATA[      $ucptpl["signature"]=format_comment($row["signature"]);]]></data>
+    </operation>
+  </file>
+
+  <!-- usercp.main.tpl -->
+  <file>
+    <name>"$DEFAULT_STYLE_PATH/usercp.main.tpl"</name>
+    <operation>
+      <search><![CDATA[<if:INTERNAL_FORUM>
+  <tr>
+    <td class="header" align="left"><tag:language.FORUM /> <tag:language.POSTS />:</td>
+    <td class="lista" colspan="2" align="left"><tag:posts /></td>
+  </tr>]]>
+      </search>
+      <action>"add"</action>
+      <where>"after"</where>
+      <data><![CDATA[
+  <tr>
+    <td class="header" align="left"><tag:language.SIGNATURE />:</td>
+    <td class="lista" colspan="2" align="left"><tag:ucp.signature /></td>
+  </tr>
+      ]]></data>
+    </operation>
+  </file>
+
+  <!-- include/functions.php -->
+  <file>
+  <name>"$DEFAULT_ROOT/include/functions.php"</name>
+  <operation>
+    <action>"replace"</action>
+    <search><![CDATA[$res = mysql_query("SELECT u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = $id") or sqlerr(__FILE__, __LINE__);]]></search>
+    <data><![CDATA[$res = mysql_query("SELECT u.signature, u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = $id") or sqlerr(__FILE__, __LINE__);]]></data>
+  </operation>
+  <operation>
+    <action>"replace"</action>
+    <search><![CDATA[$res = mysql_query("SELECT u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1") or sqlerr(__FILE__, __LINE__);]]></search>
+    <data><![CDATA[$res = mysql_query("SELECT u.signature, u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1") or sqlerr(__FILE__, __LINE__);]]></data>
+  </operation>
+  <operation>
+    <action>"replace"</action>
+    <search><![CDATA[$res = mysql_query("SELECT u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1") or sqlerr(__FILE__, __LINE__);]]></search>
+    <data><![CDATA[$res = mysql_query("SELECT u.signature, u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1") or sqlerr(__FILE__, __LINE__);]]></data>
+  </operation>
+  </file>
+
+  <!-- forum/forum.post.php -->
+  <file>
+  <name>"$DEFAULT_ROOT/forum/forum.viewtopic.php"</name>
+  <operation>
+    <action>"replace"</action>
+    <search><![CDATA[
+if ($XBTT_USE)
+   $query = "SELECT p.*, u.username, IFNULL(ul.level,'".$language['UNKNOWN']."') as user_group, u.avatar, u.uploaded+IFNULL(x.uploaded,0) as uploaded".
+            ", u.downloaded+IFNULL(x.downloaded,0) as downloaded, c.name as name, ue.username as editor, flagpic FROM {$TABLE_PREFIX}posts p".
+            " LEFT JOIN {$TABLE_PREFIX}users u ON p.userid=u.id LEFT JOIN xbt_users x ON x.uid=u.id LEFT JOIN {$TABLE_PREFIX}users_level ul".
+            " ON u.id_level=ul.id LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag = c.id LEFT JOIN {$TABLE_PREFIX}users ue ON p.editedby=ue.id".
+            " WHERE topicid=$topicid ORDER BY id $limit";
+else
+   $query = "SELECT p.*, u.username,IFNULL(ul.level,'".$language['UNKNOWN']."') as user_group, u.avatar, u.uploaded".
+            ", u.downloaded, c.name as name, ue.username as editor, flagpic FROM {$TABLE_PREFIX}posts p".
+            " LEFT JOIN {$TABLE_PREFIX}users u ON p.userid=u.id LEFT JOIN {$TABLE_PREFIX}users_level ul".
+            " ON u.id_level=ul.id LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag = c.id LEFT JOIN {$TABLE_PREFIX}users ue ON p.editedby=ue.id".
+            " WHERE topicid=$topicid ORDER BY id $limit";
+]]>
+    </search>
+    <data><![CDATA[
+if ($XBTT_USE)
+   $query = "SELECT p.*, u.signature, u.username, IFNULL(ul.level,'".$language['UNKNOWN']."') as user_group, u.avatar, u.uploaded+IFNULL(x.uploaded,0) as uploaded".
+            ", u.downloaded+IFNULL(x.downloaded,0) as downloaded, c.name as name, ue.username as editor, flagpic FROM {$TABLE_PREFIX}posts p".
+            " LEFT JOIN {$TABLE_PREFIX}users u ON p.userid=u.id LEFT JOIN xbt_users x ON x.uid=u.id LEFT JOIN {$TABLE_PREFIX}users_level ul".
+            " ON u.id_level=ul.id LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag = c.id LEFT JOIN {$TABLE_PREFIX}users ue ON p.editedby=ue.id".
+            " WHERE topicid=$topicid ORDER BY id $limit";
+else
+   $query = "SELECT p.*, u.signature, u.username,IFNULL(ul.level,'".$language['UNKNOWN']."') as user_group, u.avatar, u.uploaded".
+            ", u.downloaded, c.name as name, ue.username as editor, flagpic FROM {$TABLE_PREFIX}posts p".
+            " LEFT JOIN {$TABLE_PREFIX}users u ON p.userid=u.id LEFT JOIN {$TABLE_PREFIX}users_level ul".
+            " ON u.id_level=ul.id LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag = c.id LEFT JOIN {$TABLE_PREFIX}users ue ON p.editedby=ue.id".
+            " WHERE topicid=$topicid ORDER BY id $limit";
+]]></data>
+  </operation>
+  <operation>
+    <action>"add"</action>
+    <where>"after"</where>
+    <search><![CDATA[$posts[$pn]["body"].= "<p><font size=\"1\">".$language["LAST_EDITED_BY"]." <a href=\"index.php?page=userdetails&amp;id=".$arr["editedby"]."\"><b>".$arr["editor"]."</b></a> at ".get_date_time($arr['editedat'])."</font></p>\n";]]></search>
+    <data><![CDATA[
+  if ($arr["signature"])
+    $posts[$pn]["body"].= "<p style='vertical-align:bottom'><br />_______________________________________________<br />" . format_comment($arr["signature"]) . "</p>";
+]]></data>
+  </operation>
+  </file>
+
+  <!-- userdetails.php -->
+  <file>
+  <name>"$DEFAULT_ROOT/userdetails.php"</name>
+  <operation>
+    <action>"replace"</action>
+    <search><![CDATA[$res=do_sqlquery("SELECT u.avatar,u.email,u.cip,u.username,$udownloaded as downloaded,$uuploaded as uploaded,UNIX_TIMESTAMP(u.joined) as joined,UNIX_TIMESTAMP(u.lastconnect) as lastconnect,ul.level, u.flag, c.name, c.flagpic, u.pid, u.time_offset, u.smf_fid FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON ul.id=u.id_level LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag=c.id WHERE u.id=$id",true);]]></search>
+    <data><![CDATA[$res=do_sqlquery("SELECT u.signature, u.avatar,u.email,u.cip,u.username,$udownloaded as downloaded,$uuploaded as uploaded,UNIX_TIMESTAMP(u.joined) as joined,UNIX_TIMESTAMP(u.lastconnect) as lastconnect,ul.level, u.flag, c.name, c.flagpic, u.pid, u.time_offset, u.smf_fid FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON ul.id=u.id_level LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag=c.id WHERE u.id=$id",true);]]></data>
+  </operation>
+
+  <operation>
+    <action>"add"</action>
+    <where>"after"</where>
+    <search><![CDATA[$userdetailtpl -> set("userdetail_ratio", ($ratio));]]></search>
+    <data><![CDATA[
+$userdetailtpl -> set("userdetail_signature", format_comment($row["signature"]));
+]]></data>
+  </operation>
+  </file>
+
+  <!-- userdetails.tpl -->
+  <file>
+  <name>"$DEFAULT_STYLE_PATH/userdetails.tpl"</name>
+  <operation>
+    <action>"add"</action>
+    <where>"after"</where>
+    <search><![CDATA[  <tr>
+
+    <td class="header"><b><tag:language.FORUM /></b>&nbsp;<b><tag:language.POSTS /></b></td>
+
+    <td class="lista" colspan="2"><tag:userdetail_forum_posts /></td>
+
+  </tr>
+]]></search>
+    <data><![CDATA[
+   <tr>
+
+    <td class="header"><tag:language.SIGNATURE /></td>
+
+    <td class="lista" colspan="2"><tag:userdetail_signature /></td>
+
+  </tr>
+]]></data>
+  </operation>
+  </file>
+
+  <!-- language (only english) -->
+  <file>
+  <name>"$DEFAULT_LANGUAGE_PATH/lang_main.php"</name>
+  <operation>
+    <action>"add"</action>
+    <where>"before"</where>
+    <search><![CDATA[?>]]></search>
+    <data><![CDATA[
+$language["SIGNATURE"]="Forum Signature";
+]]></data>
+  </operation>
+  </file>
+  <!-- database -->
+  <file>
+    <name>"database"</name>
+    <operation>
+      <action>"sql"</action>
+      <data><![CDATA[ALTER TABLE `{$db_prefix}users` ADD `signature` text NOT NULL;]]></data>
+    </operation>
+  </file>
+</hack>

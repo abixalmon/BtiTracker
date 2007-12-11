@@ -141,9 +141,9 @@ if ($readyto=="Go") {
         }
 
     if ($kullan==0)
-        $q=do_sqlquery("SELECT u.id as fid, username, $udownloaded as downloaded, $uuploaded as uploaded, level, UNIX_TIMESTAMP(joined) as joined, UNIX_TIMESTAMP(lastconnect) as lastconnect FROM $utables LEFT JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id where (ABS(downloaded - uploaded) > '".$mdiff."') ORDER BY (uploaded / downloaded) ASC");
+        $q=do_sqlquery("SELECT u.id as fid, username, $udownloaded as downloaded, $uuploaded as uploaded, level, UNIX_TIMESTAMP(joined) as joined, UNIX_TIMESTAMP(lastconnect) as lastconnect FROM $utables LEFT JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id where (ABS($udownloaded - $uuploaded) > '".$mdiff."') ORDER BY ($uuploaded / $udownloaded) ASC",true);
     else
-        $q=do_sqlquery("SELECT u.id as fid, username, $udownloaded as downloaded, $uuploaded as uploaded, level, UNIX_TIMESTAMP(joined) as joined, UNIX_TIMESTAMP(lastconnect) as lastconnect FROM $utables LEFT JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id where (u.id_level='".$kullan."' and ABS(downloaded - uploaded) > '".$mdiff."') ORDER BY (uploaded / downloaded) ASC");
+        $q=do_sqlquery("SELECT u.id as fid, username, $udownloaded as downloaded, $uuploaded as uploaded, level, UNIX_TIMESTAMP(joined) as joined, UNIX_TIMESTAMP(lastconnect) as lastconnect FROM $utables LEFT JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id where (u.id_level='".$kullan."' and ABS($udownloaded - $uuploaded) > '".$mdiff."') ORDER BY ($uuploaded / $udownloaded) ASC",true);
 
     $lusers=array();
     while ($user=mysql_fetch_object($q)) {

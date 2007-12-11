@@ -36,10 +36,10 @@
     <input type="hidden" name="info_hash" value="<tag:torrent.info_hash />" />
     <table>
       <td align="right">
-            <input type="submit" value="<tag:language.FRM_CONFIRM />" name="action" />
+            <input type="submit" class="btn" value="<tag:language.FRM_CONFIRM />" name="action" />
       </td>
       <td align="left">
-            <input type="submit" value="<tag:language.FRM_CANCEL />" name="action" />
+            <input type="submit" class="btn" value="<tag:language.FRM_CANCEL />" name="action" />
       </td>
     </table>
   </form>

@@ -40,7 +40,7 @@
 </table>
 <form action="index.php?page=delete&amp;info_hash=<tag:torrent.info_hash />&amp;returnto=<tag:torrent.return />" name="delete" method="post">
   <div align="center">
-  <input type="submit" name="action" value="<tag:language.FRM_DELETE />" />&nbsp;&nbsp;
-  <input type="submit" name="action" value="<tag:language.FRM_CANCEL />" />
+  <input type="submit" class="btn" name="action" value="<tag:language.FRM_DELETE />" />&nbsp;&nbsp;
+  <input type="submit" class="btn" name="action" value="<tag:language.FRM_CANCEL />" />
 </div>
 </form>    

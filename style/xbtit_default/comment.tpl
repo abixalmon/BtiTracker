@@ -18,9 +18,9 @@
       </tr>
       <tr>
         <td class="header" colspan="2" align="center">
-        <input type="submit" name="confirm" value="<tag:language.FRM_CONFIRM />" />
+        <input type="submit" class="btn" name="confirm" value="<tag:language.FRM_CONFIRM />" />
         &nbsp;&nbsp;&nbsp;
-        <input type="submit" name="confirm" value="<tag:language.FRM_PREVIEW />" />
+        <input type="submit" class="btn" name="confirm" value="<tag:language.FRM_PREVIEW />" />
         </td>
       </tr>
     </table>

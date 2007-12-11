@@ -46,7 +46,7 @@
     </loop:torrents>
     </if:no_records>
     <tr>
-      <td class="lista" align="right" colspan="5"><input type="submit" name="action" value="GO" /></td>
+      <td class="lista" align="right" colspan="5"><input type="submit" class="btn" name="action" value="GO" /></td>
     </tr>
   </table>
 </form>
@@ -58,7 +58,7 @@
     <br />
     <br />
     <input type="text" name="days" value="<tag:prune_days />" size="10" maxlength="3" />
-    <input type="submit" name="action" value="View" />
+    <input type="submit" class="btn" name="action" value="View" />
   </div>
 </form>
 </if:prune_list>

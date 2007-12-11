@@ -40,7 +40,7 @@ function form_control()
       <td class="lista"><input type="password" size="40" name="pwd" id="want_password" maxlength="40" /></td>
     </tr>
     <tr>
-      <td colspan="2" class="header" align="center"><input type="submit" value="<tag:language.FRM_CONFIRM />" /></td>
+      <td colspan="2" class="header" align="center"><input type="submit" class="btn" value="<tag:language.FRM_CONFIRM />" /></td>
     </tr>
     <tr>
       <td colspan="2" class="header" align="center"><tag:language.NEED_COOKIES /></td>
