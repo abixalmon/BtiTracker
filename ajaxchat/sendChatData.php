@@ -1,4 +1,26 @@
 <?php
+/////////////////////////////////////////////////////////////////////////
+// xBtit - Bittorrent tracker/frontend
+//
+// Copyright (C) 2004 - 2007  Btiteam
+//
+//    This file is part of xBtit.
+//
+//    xBtit is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+//
+//    xBtit is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with xBtit.  If not, see <http://www.gnu.org/licenses/>.
+//
+/////////////////////////////////////////////////////////////////////////
+
 
   /*################################################################
   #
@@ -17,7 +39,7 @@ if (!ini_get('register_globals')) {
         extract($_POST, EXTR_SKIP);
 }
 $name = $n; # name from the form
-$text = $c;	# comment from the form
+$text = $c; # comment from the form
 $uid = $u;  # userid from the form
 
 # some weird conversion of the data inputed
@@ -39,7 +61,7 @@ $text = preg_replace("/([^\s]{50})/","$1 ",$text);
 /*
 # the name is shortened to 30 letters
 if (strlen($name) > 30) {
-	$name = substr($name, 0,30); 
+    $name = substr($name, 0,30); 
 }
 */
 
@@ -47,53 +69,53 @@ require_once("conn.php");
 
 # only if a name and a message have been provided the information is added to the db
 if ($name != '' && $text != '' && $uid !='') {
-	addData($name,$text,$uid); # adds new data to the database
-	getID(50); # some database maintenance
+    addData($name,$text,$uid); # adds new data to the database
+    getID(50); # some database maintenance
 }
 
 # adds new data to the database
 function addData($name,$text,$uid) {
-  include("../include/settings.php");	# getting table prefix
+  include("../include/settings.php");   # getting table prefix
   $now = time();
-	$sql = "INSERT INTO {$TABLE_PREFIX}chat (time,name,text,uid) VALUES ('".$now."','".$name."','".$text."','".$uid."')";
-	$conn = getDBConnection();
-	$results = mysql_query($sql, $conn);
-	if (!$results || empty($results)) {
-		# echo 'There was an error creating the entry';
-		end;
-	}
+    $sql = "INSERT INTO {$TABLE_PREFIX}chat (time,name,text,uid) VALUES ('".$now."','".$name."','".$text."','".$uid."')";
+    $conn = getDBConnection();
+    $results = mysql_query($sql, $conn);
+    if (!$results || empty($results)) {
+        # echo 'There was an error creating the entry';
+        end;
+    }
 }
 
 # returns the id of a message at a certain position
 function getID($position) {
-  include("../include/settings.php");	# getting table prefix
+  include("../include/settings.php");   # getting table prefix
   
-	$sql = 	"SELECT * FROM {$TABLE_PREFIX}chat ORDER BY id DESC LIMIT ".$position.",1";
-	$conn = getDBConnection(); 
-	$results = mysql_query($sql, $conn);
-	if (!$results || empty($results)) {
-		# echo 'There was an error creating the entry';
-		end;
-	}
-	while ($row = mysql_fetch_array($results)) {
-		$id = $row[0]; # the result is converted from the db setup (see conn.php)
-	}
-	if ($id) {
-		deleteEntries($id); # deletes all message prior to a certain id
-	}
+    $sql =  "SELECT * FROM {$TABLE_PREFIX}chat ORDER BY id DESC LIMIT ".$position.",1";
+    $conn = getDBConnection(); 
+    $results = mysql_query($sql, $conn);
+    if (!$results || empty($results)) {
+        # echo 'There was an error creating the entry';
+        end;
+    }
+    while ($row = mysql_fetch_array($results)) {
+        $id = $row[0]; # the result is converted from the db setup (see conn.php)
+    }
+    if ($id) {
+        deleteEntries($id); # deletes all message prior to a certain id
+    }
 }
 
 # deletes all message prior to a certain id
 function deleteEntries($id) {
-  include("../include/settings.php");	# getting table prefix
+  include("../include/settings.php");   # getting table prefix
   
-	$sql = 	"DELETE FROM {$TABLE_PREFIX}chat WHERE id < ".$id;
-	$conn = getDBConnection();
-	$results = mysql_query($sql, $conn);
-	if (!$results || empty($results)) {
-		# echo 'There was an error deletig the entries';
-		end;
-	}
+    $sql =  "DELETE FROM {$TABLE_PREFIX}chat WHERE id < ".$id;
+    $conn = getDBConnection();
+    $results = mysql_query($sql, $conn);
+    if (!$results || empty($results)) {
+        # echo 'There was an error deletig the entries';
+        end;
+    }
 }
 exit; # exits the script
 ?>

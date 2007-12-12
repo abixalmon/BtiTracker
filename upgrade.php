@@ -1,4 +1,25 @@
 <?php
+/////////////////////////////////////////////////////////////////////////
+// xBtit - Bittorrent tracker/frontend
+//
+// Copyright (C) 2004 - 2007  Btiteam
+//
+//    This file is part of xBtit.
+//
+//    xBtit is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+//
+//    xBtit is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with xBtit.  If not, see <http://www.gnu.org/licenses/>.
+//
+/////////////////////////////////////////////////////////////////////////
 
 $dbfile="upgrade/v141_to_v2.sql";
 
@@ -194,7 +215,7 @@ if ($action == 'welcome')
 
     echo ("".$install_lang["system_req"]."");
     // changelog
-    echo ("<p>".$install_lang["view_log"]."&nbsp;<a href=\"changelog.txt\" target=\"_blank\">".$install_lang["here"]."</a>&nbsp;<b>(now missed, will be included in definitive version)</b></p>");
+    echo ("<p>".$install_lang["view_log"]."&nbsp;<a href=\"changelog.txt\" target=\"_blank\">".$install_lang["here"]."</a></p>");
     echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["start"]."\" onclick=\"javascript:document.location.href='$cur_script?lang_file=".$_SESSION["install_lang"]."&amp;action=reqcheck'\" /></div>");
 }
 
@@ -330,64 +351,52 @@ elseif ($action == 'sql_import') {
     // Attempt a connection.
     $db_connection = @mysql_connect($dbhost, $dbuser, $dbpass);
     
-    // No dice?  Let's try adding the prefix they specified, just in case they misread the instructions ;).
-    if (!$db_connection)
-    {
-        $mysql_error = mysql_error();
-
-        $db_connection = @mysql_connect($dbhost, $TABLE_PREFIX . $dbuser, $dbpass);
-        if ($db_connection != false)
-        {
-            $db_user = $TABLE_PREFIX . $dbuser;
-            updateSettingsFile(array('db_user' => $dbuser));
-        }
-    }
 
     // Still no connection?  Big fat error message :P.
     if (!$db_connection)
     {
         echo '
                 <div class="error_message">
-                    <div style="color: red;">', $txt['error_mysql_connect'], '</div>
+                    <div style="color: red;">', $install_lang['mysql_fail'], '</div>
 
-                    <div style="margin: 2.5ex; font-family: monospace;"><b>', $mysql_error, '</b></div>
+                    <div style="margin: 2.5ex; font-family: monospace;"><b>', mysql_error() , '</b></div>
 
-                    <a href="', $_SERVER['PHP_SELF'], '?step=0&amp;overphp=true">', $txt['error_message_click'], '</a> ', $txt['error_message_try_again'], '
+                    <a href="', $_SERVER['PHP_SELF'], '?step=0&amp;overphp=true">', $install_lang['error_message_click'], '</a> ', $install_lang['error_message_try_again'], '
                 </div>';
-        return false;
+        die;
     }
 
-    // Let's try that database on for size...
-    if ($database != '')
-        mysql_query("
-            CREATE DATABASE IF NOT EXISTS `$database`", $db_connection);
-
-    // Okay, let's try the prefix if it didn't work...
-    if (!mysql_select_db($database, $db_connection) && $database != '')
-    {
-        mysql_query("
-            CREATE DATABASE IF NOT EXISTS `$TABLE_PREFIX$database`", $db_connection);
-
-        if (mysql_select_db($TABLE_PREFIX . $database, $db_connection))
-        {
-            $db_name = $TABLE_PREFIX . $db_name;
-            updateSettingsFile(array('database' => $database));
-        }
-    }
 
     // Okay, now let's try to connect...
     if (!mysql_select_db($database, $db_connection))
     {
         echo '
                 <div class="error_message">
-                    <div style="color: red;">', sprintf($txt['error_mysql_database'], $database), '</div>
+                    <div style="color: red;">', sprintf($install_lang['error_mysql_database'], $database), '</div>
                     <br />
-                    <a href="', $_SERVER['PHP_SELF'], '?step=0&amp;overphp=true">', $txt['error_message_click'], '</a> ', $txt['error_message_try_again'], '
+                    <a href="', $_SERVER['PHP_SELF'], '?step=0&amp;overphp=true">', $install_lang['error_message_click'], '</a> ', $install_lang['error_message_try_again'], '
                 </div>';
 
-        return false;
+        die;
     }
 
+    // check if some basic table are present in current selected db
+    $request_tables=array("{$TABLE_PREFIX}blocks", "{$TABLE_PREFIX}namemap", "{$TABLE_PREFIX}summary", "{$TABLE_PREFIX}forums","{$TABLE_PREFIX}language", "{$TABLE_PREFIX}style", "{$TABLE_PREFIX}users", "{$TABLE_PREFIX}users_level");
+    for ($i=0;$i<count($request_tables);$i++)
+      {
+        $rt=mysql_num_rows(mysql_query("SHOW TABLES LIKE '".$request_tables[$i]."'"));
+        if ($rt==0) // table not found!
+                {
+                    echo '
+                            <div class="error_message">
+                                <div style="color: red;">Table '.$request_tables[$i].' seems to be missed!</div>
+                                <br />
+                                <a href="', $_SERVER['PHP_SELF'], '?step=0&amp;overphp=true">', $install_lang['error_message_click'], '</a> ', $install_lang['error_message_try_again'], '
+                            </div>';
+
+                    die;
+                }
+    }
     $replaces = array(
         'btit_' => $TABLE_PREFIX,
     );
@@ -440,12 +449,19 @@ elseif ($action == 'sql_import') {
         $current_statement = '';
     }
     if (count($exists)>0 || count($failures)>0)
-       { // errors occured!
-         echo "<pre>";
-         print_r($exists);
-         echo "<br />\n";
-         print_r($failures);
-         echo "</pre>";
+     {
+     $error="";
+     foreach($failures as $err_line=>$err_msg)
+        $error.="Error on line $err_line: \"$err_msg\"<br />\n";
+        echo '
+                <div class="error_message">
+                    <div style="color: red;">', $error, '</div>
+                    <br />
+                    <a href="', $_SERVER['PHP_SELF'], '?step=0&amp;overphp=true">', $install_lang['error_message_click'], '</a> ', $install_lang['error_message_try_again'], '
+                </div>';
+
+        die;
+
      }
      echo (str_replace("database.sql",$dbfile,$install_lang["database_saved"]));
      echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='$cur_script?lang_file=".$_SESSION["install_lang"]."&amp;action=finished'\" /></div>");

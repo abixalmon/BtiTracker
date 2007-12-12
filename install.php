@@ -1,4 +1,26 @@
 <?php
+/////////////////////////////////////////////////////////////////////////
+// xBtit - Bittorrent tracker/frontend
+//
+// Copyright (C) 2004 - 2007  Btiteam
+//
+//    This file is part of xBtit.
+//
+//    xBtit is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+//
+//    xBtit is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with xBtit.  If not, see <http://www.gnu.org/licenses/>.
+//
+/////////////////////////////////////////////////////////////////////////
+
 $dbfile="database.sql";
 // declaration of variables
 $INSTALLPATH = dirname(__FILE__);
@@ -187,7 +209,7 @@ if ($action == 'welcome')
 
     echo ("".$install_lang["system_req"]."");
     // changelog
-    echo ("<p>".$install_lang["view_log"]."&nbsp;<a href=\"changelog.txt\" target=\"_blank\">".$install_lang["here"]."</a>&nbsp;<b>(now missed, will be included in definitive version)</b></p>");
+    echo ("<p>".$install_lang["view_log"]."&nbsp;<a href=\"changelog.txt\" target=\"_blank\">".$install_lang["here"]."</a></p>");
     echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["start"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=reqcheck'\" /></div>");
 }
 
@@ -341,11 +363,11 @@ elseif ($action == 'sql_import') {
     {
         echo '
                 <div class="error_message">
-                    <div style="color: red;">', $txt['error_mysql_connect'], '</div>
+                    <div style="color: red;">', $install_lang['error_mysql_connect'], '</div>
 
                     <div style="margin: 2.5ex; font-family: monospace;"><b>', $mysql_error, '</b></div>
 
-                    <a href="', $_SERVER['PHP_SELF'], '?step=0&amp;overphp=true">', $txt['error_message_click'], '</a> ', $txt['error_message_try_again'], '
+                    <a href="', $_SERVER['PHP_SELF'], '?step=0&amp;overphp=true">', $install_lang['error_message_click'], '</a> ', $install_lang['error_message_try_again'], '
                 </div>';
         return false;
     }
@@ -373,9 +395,9 @@ elseif ($action == 'sql_import') {
     {
         echo '
                 <div class="error_message">
-                    <div style="color: red;">', sprintf($txt['error_mysql_database'], $database), '</div>
+                    <div style="color: red;">', sprintf($install_lang['error_mysql_database'], $database), '</div>
                     <br />
-                    <a href="', $_SERVER['PHP_SELF'], '?step=0&amp;overphp=true">', $txt['error_message_click'], '</a> ', $txt['error_message_try_again'], '
+                    <a href="', $_SERVER['PHP_SELF'], '?step=0&amp;overphp=true">', $install_lang['error_message_click'], '</a> ', $install_lang['error_message_try_again'], '
                 </div>';
 
         return false;

@@ -1,4 +1,26 @@
 <?php
+/////////////////////////////////////////////////////////////////////////
+// xBtit - Bittorrent tracker/frontend
+//
+// Copyright (C) 2004 - 2007  Btiteam
+//
+//    This file is part of xBtit.
+//
+//    xBtit is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+//
+//    xBtit is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with xBtit.  If not, see <http://www.gnu.org/licenses/>.
+//
+/////////////////////////////////////////////////////////////////////////
+
 
 
 if (!defined("IN_BTIT"))
@@ -174,8 +196,8 @@ unset($tmp_array);
     <li>
         <!-- Server Traffic -->
         <b>Server traffic:</b> These tables show the network traffic statistics of this MySQL server since its startup</li></ul>
-				</div>
-				
+                </div>
+                
         </td>
       </tr>
     </table>
@@ -241,8 +263,8 @@ unset($tmp_array);
     <li>
         <!-- Queries -->
         <?php print("<b>Query Statistics:</b> Since it's start up, ". number_format($serverStatus['Questions'], 0, '.', ',')." queries have been sent to the server.\n"); ?></li></ul>
-				</div>
-				
+                </div>
+                
         </td>
       </tr>
     </table>
@@ -335,8 +357,8 @@ if (!empty($serverStatus)) {
     <li>
         <!-- Other status variables -->
         <b>More status variables</b></li></ul>
-				</div>
-				
+                </div>
+                
         </td>
       </tr>
     </table>
@@ -391,9 +413,9 @@ if (!empty($serverStatus)) {
 <div align="left">
 <ul>
     <li>The code for mysql server status is kindly provided by CoLdFuSiOn (Tbdev.net)</li></ul>
-				</div>
-			<div align="right">
-<ul><a href="#">Back to Top</a></div>	
+                </div>
+            <div align="right">
+<ul><a href="#">Back to Top</a></div>   
         </td>
       </tr>
     </table></td>

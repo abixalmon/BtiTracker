@@ -1,4 +1,25 @@
 <?php
+/////////////////////////////////////////////////////////////////////////
+// xBtit - Bittorrent tracker/frontend
+//
+// Copyright (C) 2004 - 2007  Btiteam
+//
+//    This file is part of xBtit.
+//
+//    xBtit is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+//
+//    xBtit is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with xBtit.  If not, see <http://www.gnu.org/licenses/>.
+//
+/////////////////////////////////////////////////////////////////////////
 
 // english installation file //
 
@@ -100,4 +121,7 @@ $install_lang["succes_upgrade1"]        = "The upgrade is completed!";
 $install_lang["succes_upgrade2a"]       = "<p>You succesfully upgraded ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." on your tracker.</p><p>The upgrade has been successfully locked to prevent being used again but we advise you to also delete <b>upgrade.php+install.php</b> for extra protection.</p>";
 $install_lang["succes_upgrade2b"]       = "<p>You succesfully upgraded ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." on your tracker.</p><p>We advise you to lock the installation. You can do this by changing <b>install.unlock</b> to <b>install.lock</b> or to delete this <b>upgrade.php+install.php</b> file.</p>";
 $install_lang["succes_upgrade3"]        = "<p>We of BTITeam hope you enjoy use of this product and that we will see you again on our <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forum</a>.</p>";
+$install_lang['error_mysql_database']   = 'The installer was unable to access the &quot;<i>%s</i>&quot; database.  With some hosts, you have to create the database in your administration panel before xBtit can use it.  Some also add prefixes - like your username - to your database names.';
+$install_lang['error_message_click']    = 'Click here';
+$install_lang['error_message_try_again']= 'to try again';
 ?>

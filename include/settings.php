@@ -3,8 +3,7 @@
 $dbhost = "localhost";
 $dbuser = "test";
 $dbpass = "test";
-$database = "btit";
+$database = "test";
 $TABLE_PREFIX = "";
-$db_prefix="smf_";
 
 ?>
