@@ -75,6 +75,8 @@ if (!file_exists($USERLANG))
 
 require_once(load_language("lang_main.php"));
 
+if (!empty($language["charset"]))
+   $GLOBALS["charset"]=$language["charset"];
 
 if (isset($_GET['action']) && $_GET['action'])
             $action=$_GET['action'];
@@ -83,10 +85,10 @@ else $action = '';;
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<?php echo (!empty($language["rtl"])?"<html dir=\"".$language["rtl"]."\">\n":"<html>\n"); ?>
   <head>
   <title>Search User</title>
-  <meta http-equiv="content-type" content="text/html; charset=<tag:main_charset />" />
+  <meta http-equiv="content-type" content="text/html; charset=<?php echo $GLOBALS["charset"] ?>/>" />
   <link rel="stylesheet" href="<?php echo $style; ?>" type="text/css" />
   </head>
   <body>

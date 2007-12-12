@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<html<tag:main_rtl />>
   <head>
   <title><tag:main_title /></title>
   <meta http-equiv="content-type" content="text/html; charset=<tag:main_charset />" />
@@ -10,11 +10,11 @@
   <body>
     <div id="main">
       <div id="logo">
-		   <table width="750" align="center" cellpadding="0" cellspacing="0" border="0" >
-			<tr><td class="tracker_logo" valign="top"></td></tr>
-			</table></div>
-		<div id="slideIt">
-		     <tag:main_slideIt />
+           <table width="750" align="center" cellpadding="0" cellspacing="0" border="0" >
+            <tr><td class="tracker_logo" valign="top"></td></tr>
+            </table></div>
+        <div id="slideIt">
+             <tag:main_slideIt />
       <div id="header">
             <tag:main_header />
       </div></div>
@@ -35,13 +35,13 @@ var collapse2=new animatedcollapse("header", 800, false, "block")
     </tr></table>
       <br />
       
-			  <table width="100%" cellpadding="0" cellspacing="0" border="0" >
-			<tr><td valign="top"><tag:main_footer /></td></tr>
-			</table>
-				<br />
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" >
+            <tr><td valign="top"><tag:main_footer /></td></tr>
+            </table>
+                <br />
       <div id="footer">
           <tag:btit_version />
       </div></div><br />
-		</div>
+        </div>
   </body>
 </html>

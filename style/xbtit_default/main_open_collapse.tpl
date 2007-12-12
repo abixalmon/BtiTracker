@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<html<tag:main_rtl />>
   <head>
   <title><tag:main_title /></title>
   <meta http-equiv="content-type" content="text/html; charset=<tag:main_charset />" />
@@ -9,10 +9,10 @@
   </head>
   <body>
     <div id="main">
-		<div id="logo">
+        <div id="logo">
             <tag:main_logo />
       </div>
-			<script type="text/javascript">
+            <script type="text/javascript">
 function ShowHide(id,id1) {
     obj = document.getElementsByTagName("div");
     if (obj[id].style.display == 'block'){

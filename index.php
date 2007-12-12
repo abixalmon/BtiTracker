@@ -112,6 +112,15 @@ require(load_language("lang_main.php"));
 
 $tpl=new bTemplate();
 $tpl->set("main_title",$btit_settings["name"]." .::. "."Index");
+
+// is language right to left?
+if (!empty($language["rtl"]))
+   $tpl->set("main_rtl"," dir=\"".$language["rtl"]."\"");
+else
+   $tpl->set("main_rtl","");
+if (!empty($language["charset"]))
+   $GLOBALS["charset"]=$language["charset"];
+
 $tpl->set("main_charset",$GLOBALS["charset"]);
 $tpl->set("main_css","$style_css");
 

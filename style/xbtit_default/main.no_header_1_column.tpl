@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<html<tag:main_rtl />>
   <head>
   <title><tag:main_title /></title>
   <meta http-equiv="content-type" content="text/html; charset=<tag:main_charset />" />
@@ -14,10 +14,10 @@
     <tr>
 <td valign="top" width="5" background="style/xbtit_default/images/index_r6_c1_md1.png" rowspan="2"><img src="style/xbtit_default/images/index_r6_c1_md1.png" /></td>
     <td valign="top"><tag:main_content /></td>
-<td valign="top" width="5" background="style/xbtit_default/images/index_r6_c1_md1.png" rowspan="2"><img src="style/xbtit_default/images/index_r6_c1_md1.png" /></td>	
+<td valign="top" width="5" background="style/xbtit_default/images/index_r6_c1_md1.png" rowspan="2"><img src="style/xbtit_default/images/index_r6_c1_md1.png" /></td>    
       </tr>
     </table>
       </div>
-		</div>
+        </div>
   </body>
 </html>
