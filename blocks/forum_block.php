@@ -9,7 +9,6 @@ else
 {
     if ($FORUMLINK=="smf")
     {
-        block_begin(FORUM_INFO);
 
        $search1 = mysql_query("SELECT COUNT(*) AS topic_total FROM {$db_prefix}topics");
        if ($search1)
@@ -34,11 +33,11 @@ else
            $posts = 0;
            $posts_avg = 0;
        }
-       print("<table cellpadding='4' cellspacing='1' width='100%'>\n<tr><td class='lista'>\n");
-       print("<table width='100%' cellspacing='2' cellpading='2'>\n");
-       print("<tr><td>" . $language["TOPICS"] . ":</td><td align='right'>" . number_format($topics) . "</td></tr>\n");
-       print("<tr><td>" . $language["POSTS"] . ":</td><td align='right'>" . number_format($posts) . "</td></tr>\n");
-       print("<tr><td>" . $language["TOPICS"] . "/" . $language["POSTS"] . ":</td><td align='right'>" . $posts_avg . " %</td></tr>\n");
+       print("<table cellpadding=\"4\" cellspacing=\"1\" width=\"100%\">\n<tr><td class=\"lista\">\n");
+       print("<table width=\"100%\" cellspacing=\"2\" cellpading=\"2\">\n");
+       print("<tr><td>" . $language["TOPICS"] . ":</td><td align=\"right\">" . number_format($topics) . "</td></tr>\n");
+       print("<tr><td>" . $language["POSTS"] . ":</td><td align=\"right\">" . number_format($posts) . "</td></tr>\n");
+       print("<tr><td>" . $language["TOPICS"] . "/" . $language["POSTS"] . ":</td><td align=\"right\">" . $posts_avg . " %</td></tr>\n");
        print("</table>\n</td></tr>\n");
 
        if ( $topics > 0 )
@@ -75,23 +74,22 @@ else
                $title=preg_replace("/Re:/", "", htmlspecialchars_decode($trow['title']));
                if (strlen($title>30))
                {
-                   print("<tr><td class='lista'><b><a title='".$language["FIRST_UNREAD"].": ".preg_replace("/Re:/", "", $trow["title"])."' href='index.php?page=forum&action=viewtopic&topicid=" . $trow['tid'] . ".msg" . $trow['goto_last_post'] . "#new'>" . substr($title,0,30) . "...</a></b><br />".$language["LAST_POST_BY"]." <a href='smf/index.php?action=profile;u=" . $trow['last_poster_id'] . "'>" .$trow['last_poster_name'] ."</a><br />On " . date('d/m/Y H:i:s',$trow["last_post"]). "</td></tr>\n");
+                   print("<tr><td class=\"lista\"><b><a title=\"".$language["FIRST_UNREAD"].": ".preg_replace("/Re:/", "", $trow["title"])."\" href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=" . $trow['tid'] . ".msg" . $trow['goto_last_post'] . "#new\">" . substr($title,0,30) . "...</a></b><br />".$language["LAST_POST_BY"]." <a href='smf/index.php?action=profile;u=" . $trow['last_poster_id'] . "'>" .$trow['last_poster_name'] ."</a><br />On " . date('d/m/Y H:i:s',$trow["last_post"]). "</td></tr>\n");
                }
                else
                {
-                   print("<tr><td class='lista'><b><a title='".$language["FIRST_UNREAD"].": ".preg_replace("/Re:/", "", $trow["title"])."' href='index.php?page=forum&action=viewtopic&topicid=" . $trow['tid'] . ".msg" . $trow['goto_last_post'] . "#new'>" . $title . "</a></b><br />".$language["LAST_POST_BY"]." <a href='index.php?page=forum&action=profile;u=" . $trow['last_poster_id'] . "'>" .$trow['last_poster_name'] ."</a><br />On " . date('d/m/Y H:i:s',$trow["last_post"]). "</td></tr>\n");
+                   print("<tr><td class=\"lista\"><b><a title=\"".$language["FIRST_UNREAD"].": ".preg_replace("/Re:/", "", $trow["title"])."\" href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=" . $trow['tid'] . ".msg" . $trow['goto_last_post'] . "#new\">" . $title . "</a></b><br />".$language["LAST_POST_BY"]." <a href='index.php?page=forum&amp;action=profile;u=" . $trow['last_poster_id'] . "'>" .$trow['last_poster_name'] ."</a><br />On " . date('d/m/Y H:i:s',$trow["last_post"]). "</td></tr>\n");
                }
            }
        }
        else
        {
-           print("<tr><td class='lista'>" . $language["NO_TOPIC"] . "</td></tr>\n");
+           print("<tr><td class=\"lista\">" . $language["NO_TOPIC"] . "</td></tr>\n");
        }
        print("</table>\n");
        block_end();
 } else {
 
-    block_begin(FORUM_INFO);
 
     $topics = 0;
     $posts = 0;
