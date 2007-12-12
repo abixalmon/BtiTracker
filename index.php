@@ -153,7 +153,10 @@ $morescript="
   // -->
   </script>";
 
-$logo.="<div></div>";
+$logo.="<a href=\"$BASEURL\">
+<table width=\"750\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">
+<tr><td class=\"tracker_logo\" valign=\"top\"></td></tr>
+</table></a>";
 $slideIt="<span style=\"align:left;\"><a href=\"javascript:collapse2.slideit()\"><img src=\"$STYLEURL/images/slide.png\" border=\"0\" alt=\"\" /></a></span>";
 $header.="<div>".main_menu()."</div>";
 

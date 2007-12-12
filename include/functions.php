@@ -156,7 +156,7 @@ function print_version()
   GLOBAL $time_start, $gzip, $PRINT_DEBUG,$tracker_version,$num_queries;
 
   $time_end=get_microtime();
-  $version=("<br /><br /><p align=center valign=middle>");
+  $version=("<br /><br /><p align=\"center\">");
   if ($PRINT_DEBUG)
   $version.=("<a href=\"#\">Back To Top</a><br />[&nbsp;&nbsp;<u>XBtit Styles Designed By: </u><a href=\"http://global-bttracker.no-ip.org/forum/\" target=\"_blank\">TreetopClimber</a>&nbsp;&nbsp;]&nbsp;[&nbsp;&nbsp;<u>BtiTracker ($tracker_version) By: </u><a href=\"http://www.btiteam.org/\" target=\"_blank\">Btiteam</a>&nbsp;&nbsp;]<br />[Queries: $num_queries] - [ Script Execution time: ".number_format(($time_end-$time_start),4)." sec. ] - [ GZIP: $gzip ]</p>");
 

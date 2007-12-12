@@ -21,8 +21,8 @@ else
 
      $row = do_sqlquery($sql) or err_msg($language["ERROR"],$language["CANT_DO_QUERY"].mysql_error());
   ?>
-  <tr colspan="2">
-	  <td align="center" width="20" class="header">&nbsp;<?php echo $language["DOWN"]; ?>&nbsp;</td>
+  <tr>
+      <td align="center" width="20" class="header">&nbsp;<?php echo $language["DOWN"]; ?>&nbsp;</td>
     <td align="center" width="55%" class="header">&nbsp;<?php echo $language["TORRENT_FILE"]; ?>&nbsp;</td>
     <td align="center" width="45" class="header">&nbsp;<?php echo $language["CATEGORY"]; ?>&nbsp;</td>
 <?php

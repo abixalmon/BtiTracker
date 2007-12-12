@@ -10,7 +10,7 @@ function update_cat(newimage)
 }
 //-->
 </script>
-<tr><td class="lista" style="text-align:center;"><b><tag:language.ADMINCP_NOTES /></b>
+<b><tag:language.ADMINCP_NOTES /></b>
 <table border="0" class="lista" align="center" width="100%">
 <tr>
  <td colspan="5">

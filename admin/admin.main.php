@@ -138,15 +138,15 @@ if (!empty($your_version))
 
 $admin["infos"].=("<br />\n<table border=\"0\">\n");
 $admin["infos"].=("<tr><td class=\"header\" align=\"center\">Server's OS</td></tr><tr><td align=\"left\">".php_uname()."</td></tr>");
-$admin["infos"].=("<tr><td class=\"header\" align=\"center\">PHP version</td></td></tr><td align=\"left\">".phpversion()."</td></tr>");
+$admin["infos"].=("<tr><td class=\"header\" align=\"center\">PHP version</td></tr><tr><td align=\"left\">".phpversion()."</td></tr>");
 
 $sqlver=mysql_fetch_row(do_sqlquery("SELECT VERSION()"));
-$admin["infos"].=("\n<tr><td class=\"header\" align=\"center\">MYSQL version</td></td></tr><td align=\"left\">$sqlver[0]</td></tr>");
+$admin["infos"].=("\n<tr><td class=\"header\" align=\"center\">MYSQL version</td></tr><tr><td align=\"left\">$sqlver[0]</td></tr>");
 $sqlver=mysql_stat();
 $sqlver=explode('  ',$sqlver);
 $admin["infos"].=("\n<tr><td valign=\"top\" class=\"header\" align=\"center\">MYSQL stats</td></tr>\n");
 for ($i=0;$i<count($sqlver);$i++)
-      $admin["infos"].=(($i==0?"":"<tr>")."<td align=\"left\">$sqlver[$i]</td></tr>\n");
+      $admin["infos"].=("<tr><td align=\"left\">$sqlver[$i]</td></tr>\n");
 $admin["infos"].=("\n</table><br />\n");
 
 unset($sqlver);
