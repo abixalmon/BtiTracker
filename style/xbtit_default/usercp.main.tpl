@@ -15,7 +15,7 @@ function popusers(url)
     <td class="header" align="left"><tag:language.USER_NAME />:</td>
     <td class="lista" align="left"><tag:ucp.username /></td>
   <if:AVATAR>
-    <td class="lista" align="center" valign="middle" rowspan="4"><img border="0" src="<tag:ucp.avatar />" /></td>
+    <td class="lista" align="center" valign="middle" rowspan="4"><tag:ucp.avatar /></td>
   </if:AVATAR>
   </tr>
 <if:CAN_EDIT>

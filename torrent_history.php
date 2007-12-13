@@ -46,7 +46,7 @@ if ($res) {
 else
     die("Error ID");
 
-$res = do_sqlquery("SELECT h.*, u.username, c.name AS country, c.flagpic, ul.level, ul.prefixcolor, ul.suffixcolor FROM {$TABLE_PREFIX}history h INNER JOIN {$TABLE_PREFIX}users u ON h.uid=u.id INNER JOIN {$TABLE_PREFIX}countries c ON u.flag=c.id INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE h.infohash='$id' AND h.date IS NOT NULL ORDER BY date DESC LIMIT 0,30") or die(mysql_error());
+$res = do_sqlquery("SELECT h.*, u.username, c.name AS country, c.flagpic, ul.level, ul.prefixcolor, ul.suffixcolor FROM {$TABLE_PREFIX}history h LEFT JOIN {$TABLE_PREFIX}users u ON h.uid=u.id LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag=c.id LEFT JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE h.infohash='$id' AND h.date IS NOT NULL ORDER BY date DESC LIMIT 0,30") or die(mysql_error());
 
 mysql_num_rows($res);
 //echo "SELECT {$TABLE_PREFIX}history.*,username,  {$TABLE_PREFIX}countries.name AS country,  {$TABLE_PREFIX}countries.flagpic, level, prefixcolor,suffixcolor FROM {$TABLE_PREFIX}history INNER JOIN {$TABLE_PREFIX}users ON {$TABLE_PREFIX}history.uid={$TABLE_PREFIX}users.id INNER JOIN {$TABLE_PREFIX}countries  ON {$TABLE_PREFIX}users.flag={$TABLE_PREFIX}countries.id INNER JOIN {$TABLE_PREFIX}users_level  ON {$TABLE_PREFIX}users.id_level={$TABLE_PREFIX}users_level.id WHERE {$TABLE_PREFIX}history.infohash='$id' AND {$TABLE_PREFIX}history.date IS NOT NULL ORDER BY date DESC LIMIT 30";

@@ -8,7 +8,7 @@
 
     <if:userdetail_has_avatar>
 
-      <td class="lista" align="center" valign="middle" rowspan="4"><img border=0 src="<tag:userdetail_avatar />"></td>
+      <td class="lista" align="center" valign="middle" rowspan="4"><tag:userdetail_avatar /></td>
 
     <else:userdetail_has_avatar>
 

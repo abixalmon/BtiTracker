@@ -118,6 +118,22 @@ switch ($action)
                "('auto_register','0');",true);
               // insert non exist torrent into xbt_files
               do_sqlquery("INSERT INTO xbt_files (info_hash, mtime, ctime) SELECT UNHEX(info_hash), unix_timestamp(), unix_timestamp() FROM {$TABLE_PREFIX}files WHERE UNHEX(info_hash) NOT IN (SELECT info_hash FROM xbt_files) AND external='no'",true);
+              // control missed field (latest xbt don't have torrent_pass field)
+              $mf=mysql_list_fields($database,"xbt_users");
+              $tp_present=false;
+              for ($i=0;$i<mysql_num_fields($mf);$i++)
+                {
+                  $fn=mysql_field_name($mf,$i);
+                  if ($fn=="torrent_pass")
+                     {
+                         $tp_present=true;
+                         break;
+                  }
+              }
+              if (!$tp_present)
+                 do_sqlquery("ALTER TABLE xbt_users ADD torrent_pass CHAR(32) NOT NULL;",true);
+              do_sqlquery("ALTER TABLE `xbt_users` CHANGE `torrent_pass_version` `torrent_pass_version` INT(11) NOT NULL DEFAULT '0'",true);
+
               // insert missed users in xbt_users
               do_sqlquery("INSERT INTO xbt_users (uid, torrent_pass) SELECT id,pid FROM {$TABLE_PREFIX}users WHERE id NOT IN (SELECT uid FROM xbt_users)",true);
             }
@@ -184,8 +200,8 @@ switch ($action)
         $btit_settings["countbyte"]=($btit_settings["countbyte"]=="true"?"checked=\"checked\"":"");
         $btit_settings["peercaching"]=($btit_settings["peercaching"]=="true"?"checked=\"checked\"":"");
         $btit_settings["imagecode"]=($btit_settings["imagecode"]=="true"?"checked=\"checked\"":"");
-        $btit_settings["clockanalog"]=($btit_settings["clocktype"]=="true"?"checked=\"checked\"":"");
-        $btit_settings["clockdigital"]=($btit_settings["clocktype"]=="false"?"checked=\"checked\"":"");
+        $btit_settings["clockanalog"]=($btit_settings["clocktype"]?"checked=\"checked\"":"");
+        $btit_settings["clockdigital"]=(!$btit_settings["clocktype"]?"checked=\"checked\"":"");
         $btit_settings["xbtt_use"]=($btit_settings["xbtt_use"]=="true"?"checked=\"checked\"":"");
         // language dropdown
         $lres=language_list();

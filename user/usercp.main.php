@@ -48,7 +48,9 @@
 
         $ucptpl=array();
         $ucptpl["username"]=unesc($CURUSER["username"]);
-        $ucptpl["avatar"]=htmlspecialchars($CURUSER["avatar"]);
+        if ($CURUSER["avatar"] && $CURUSER["avatar"]!="")
+           $avatar_size=GetImageSize($CURUSER["avatar"]);
+        $ucptpl["avatar"]="<img border=\"0\" ".($avatar_size[0]>80?"width=\"80\"":"")." src=\"".htmlspecialchars($CURUSER["avatar"])."\" alt=\"\" />";
         $ucptpl["email"]=htmlspecialchars($CURUSER["email"]);
         $ucptpl["lastip"]=long2ip($row["lip"]);
         $ucptpl["userlevel"]=unesc($CURUSER["level"]);

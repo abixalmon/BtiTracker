@@ -34,7 +34,7 @@ else
            $posts_avg = 0;
        }
        print("<table cellpadding=\"4\" cellspacing=\"1\" width=\"100%\">\n<tr><td class=\"lista\">\n");
-       print("<table width=\"100%\" cellspacing=\"2\" cellpading=\"2\">\n");
+       print("<table width=\"100%\" cellspacing=\"2\" cellpadding=\"2\">\n");
        print("<tr><td>" . $language["TOPICS"] . ":</td><td align=\"right\">" . number_format($topics) . "</td></tr>\n");
        print("<tr><td>" . $language["POSTS"] . ":</td><td align=\"right\">" . number_format($posts) . "</td></tr>\n");
        print("<tr><td>" . $language["TOPICS"] . "/" . $language["POSTS"] . ":</td><td align=\"right\">" . $posts_avg . " %</td></tr>\n");

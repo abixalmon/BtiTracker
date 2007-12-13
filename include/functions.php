@@ -158,7 +158,7 @@ function print_version()
   $time_end=get_microtime();
   $version=("<br /><br /><p align=\"center\">");
   if ($PRINT_DEBUG)
-  $version.=("<a href=\"#\">Back To Top</a><br />[&nbsp;&nbsp;<u>xBtit Styles Designed By: </u><a href=\"http://global-bttracker.no-ip.org/forum/\" target=\"_blank\">TreetopClimber</a>&nbsp;&nbsp;]&nbsp;[&nbsp;&nbsp;<u>xBtit ($tracker_version) By: </u><a href=\"http://www.btiteam.org/\" target=\"_blank\">Btiteam</a>&nbsp;&nbsp;]<br />[Queries: $num_queries] - [ Script Execution time: ".number_format(($time_end-$time_start),4)." sec. ] - [ GZIP: $gzip ]</p>");
+  $version.=("<a href=\"#\">Back To Top</a><br />[&nbsp;&nbsp;<u>Design By: </u><a href=\"http://global-bttracker.no-ip.org/forum/\" target=\"_blank\">TreetopClimber</a>&nbsp;&nbsp;]&nbsp;[&nbsp;&nbsp;<u>xBtit ($tracker_version) By: </u><a href=\"http://www.btiteam.org/\" target=\"_blank\">Btiteam</a>&nbsp;&nbsp;]<br />[Queries: $num_queries] - [ Script Execution time: ".number_format(($time_end-$time_start),4)." sec. ] - [ GZIP: $gzip ]</p>");
 
   return $version;
 
@@ -750,7 +750,7 @@ function parse_image($image) {
     $alt = "Click on image for full size view.";
 
     if ($img_info[0] >  $maxwidth)
-        return "<font size=\"1\"><b>$alt</b></font>\n<a href='$image' target='_blank'><img width='$maxwidth' height='$maxheight' src='$image' border='0' alt='$alt' /></a><br />";
+        return "<font size=\"1\"><b>$alt</b></font>\n<a href='$image' target='_blank'><img width='$maxwidth' src='$image' border='0' alt='$alt' /></a><br />";
     
     return "<img src='$image' border='0'/>";
 }
