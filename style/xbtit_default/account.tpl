@@ -152,7 +152,7 @@ function form_control()
     </tr>
     <tr>
        <td align="left" class="header"><tag:language.USER_EMAIL_AGAIN />:</td>
-       <td align="left" class="lista"><input type="text" size="30" name="email_again" id="email_again" value="<tag:dati.email />"/></td>
+       <td align="left" class="lista"><input type="text" size="30" name="email_again" id="email_again" autocomplete="off" value="<tag:dati.email />"/></td>
     </tr>
     <tr>
        <td align="left" class="header"><tag:language.USER_LANGUE />:</td>
