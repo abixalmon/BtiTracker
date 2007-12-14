@@ -106,12 +106,12 @@ else
 if (file_exists("badwords.txt"))
   {
   if (is_writable("badwords.txt"))
-        $admin["badwords_ok"]=("Censored worls file (badwords.txt)<br />\n<span style=\"color:#BEC635; font-weight: bold;\">is writable</span><br />\n");
+        $admin["badwords_ok"]=("Censored words file (badwords.txt)<br />\n<span style=\"color:#BEC635; font-weight: bold;\">is writable</span><br />\n");
   else
-        $admin["badwords_ok"]=("Censored worls file (badwords.txt)<br />\nis <span style=\"color:#FF0000; font-weight: bold;\">NOT writable</span> (cannot writing tracker's configuration change)<br />\n");
+        $admin["badwords_ok"]=("Censored words file (badwords.txt)<br />\nis <span style=\"color:#FF0000; font-weight: bold;\">NOT writable</span> (cannot writing tracker's configuration change)<br />\n");
    }
 else
-  $admin["badwords_ok"]=("<br />\nCensored worls file (badwords.txt)<br />\n<span style=\"color:#FF0000; font-weight: bold;\">NOT FOUND!</span><br />\n");
+  $admin["badwords_ok"]=("<br />\nCensored words file (badwords.txt)<br />\n<span style=\"color:#FF0000; font-weight: bold;\">NOT FOUND!</span><br />\n");
 
 
 // check last version on btiteam.org site

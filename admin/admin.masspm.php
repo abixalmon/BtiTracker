@@ -279,7 +279,7 @@ if ($_GET["action"]=="post")
 elseif($_GET["action"]=="write")
    {
 
-    $block_title=$language["MASS_SENT"];
+    $block_title=$language["ACP_MASSPM"];
    
     //error?
     if($error=="return")

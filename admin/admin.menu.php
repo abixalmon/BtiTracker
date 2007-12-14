@@ -84,7 +84,7 @@ else
                     "description"=>$language["ACP_POLLS"]),
                           2=>array(
                     "url"=>"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=badwords&amp;action=read" ,
-                    "description"=>$language["ACP_CENSURED"]),
+                    "description"=>$language["ACP_CENSORED"]),
                           3=>array(
                     "url"=>"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=blocks&amp;action=read" ,
                     "description"=>$language["ACP_BLOCKS"])

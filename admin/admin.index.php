@@ -155,7 +155,7 @@ switch ($do)
 
     case 'badwords':
       include("$ADMIN_PATH/admin.censored.php");
-      $tpl->set("main_content",set_block($language["LANGUAGE_SETTINGS"],"center",$admintpl->fetch(load_template("admin.censored.tpl"))));
+      $tpl->set("main_content",set_block($language["ACP_CENSORED"],"center",$admintpl->fetch(load_template("admin.censored.tpl"))));
       break;
 
     case 'blocks':

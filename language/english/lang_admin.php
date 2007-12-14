@@ -1,13 +1,13 @@
 <?php
 $language["ACP_BAN_IP"]="Ban IPs";
-$language["ACP_FORUM"]="Forums Settings";
+$language["ACP_FORUM"]="Forum's Settings";
 $language["ACP_USER_GROUP"]="Users Group Settings";
 $language["ACP_STYLES"]="Styles Settings";
 $language["ACP_LANGUAGES"]="Languages Settings";
 $language["ACP_CATEGORIES"]="Categories Settings";
 $language["ACP_TRACKER_SETTINGS"]="Tracker's Settings";
 $language["ACP_OPTIMIZE_DB"]="Optimize your Database";
-$language["ACP_CENSURED"]="Censored words Settings";
+$language["ACP_CENSORED"]="Censored words Settings";
 $language["ACP_DBUTILS"]="Database Utilities";
 $language["ACP_HACKS"]="Hacks";
 $language["ACP_HACKS_CONFIG"]="Hacks Settings";
@@ -26,15 +26,15 @@ $language["ACP_USERS_TOOLS"]="User's Tools";
 $language["ACP_TORRENTS_TOOLS"]="Torrent's Tools";
 $language["ACP_OTHER_TOOLS"]="Others Tools";
 $language["ACP_MYSQL_STATS"]="MySql Statistics";
-$language["XBTT_BACKEND"]="XBTT Option";
-$language["XBTT_USE"]="Use <a href=\"http://xbtt.sourceforge.net/tracker/\" target=\"_blank\">XBTT</a> as backend?";
-$language["XBTT_URL"]="Xbtt base url (like http://localhost:2710)";
+$language["XBTT_BACKEND"]="xbtt Option";
+$language["XBTT_USE"]="Use <a href=\"http://xbtt.sourceforge.net/tracker/\" target=\"_blank\">xbtt</a> as backend?";
+$language["XBTT_URL"]="xbtt base url e.g. http://localhost:2710";
 $language["GENERAL_SETTINGS"]="General settings";
 $language["TRACKER_NAME"]="Site's Name";
 $language["TRACKER_BASEURL"]="Base Tracker's URL (without last /)";
-$language["TRACKER_ANNOUNCE"]="Tracker's Announce URLS (one url per row)".($XBTT_USE?"<br />\n<span style=\"color:#FF0000; font-weight: bold;\">Check your announce urls twice, you've enable XBTT backend...</span>":"");
+$language["TRACKER_ANNOUNCE"]="Tracker's Announce URLS (one url per row)".($XBTT_USE?"<br />\n<span style=\"color:#FF0000; font-weight: bold;\">Check your announce urls twice, you've enable xbtt backend...</span>":"");
 $language["TRACKER_EMAIL"]="Tracker's/owner email";
-$language["TORRENT_FOLDER"]="Torrent's folder";
+$language["TORRENT_FOLDER"]="Torrent folder";
 $language["ALLOW_EXTERNAL"]="Allow External torrents";
 $language["ALLOW_GZIP"]="enabled GZIP";
 $language["ALLOW_DEBUG"]="Show Debug infos on page's bottom";
@@ -88,7 +88,7 @@ $language["SETTING_SMTP_USERNAME"]="SMTP Username";
 $language["SETTING_SMTP_PASSWORD"]="SMTP Password";
 $language["SETTING_SMTP_PASSWORD_REPEAT"]="SMTP Password (Repeat)";
 $language["XBTT_TABLES_ERROR"]="You should have to import xbtt tables (look at xbtt installation instructions) into your database before activate xbtt backend!";
-$language["XBTT_URL_ERROR"]="Xbtt base url is mandatory!";
+$language["XBTT_URL_ERROR"]="xbtt base url is mandatory!";
 // BAN FORM
 $language["BAN_NOTE"]="In this part of the admin panel, you can see the banned IPs and ban new IPs from accessing the tracker.<br />\nYou must insert a range from (first IP) to (last IP).";
 $language["BAN_NOIP"]="There are no banned IPs";
@@ -207,7 +207,7 @@ $language["SEEDS"]="seed(s)";
 // DBUTILS
 $language["DBUTILS_TABLENAME"]="Table Name";
 $language["DBUTILS_RECORDS"]="Records";
-$language["DBUTILS_DATALENGTH"]="Data Lenght";
+$language["DBUTILS_DATALENGTH"]="Data Length";
 $language["DBUTILS_OVERHEAD"]="Overhead";
 $language["DBUTILS_REPAIR"]="Repair";
 $language["DBUTILS_OPTIMIZE"]="Optimize";
@@ -219,14 +219,14 @@ $language["DBUTILS_INFO"]="Info";
 $language["DBUTILS_STATUS"]="Status";
 $language["DBUTILS_TABLES"]="Tables";
 // MYSQL STATUS
-$language["MYSQL_STATUS"]="MySql Status";
+$language["MYSQL_STATUS"]="MySQL Status";
 // SITE LOG
 $language["SITE_LOG"]="Site Log";
 // FORUMS
 $language["FORUM_MIN_CREATE"]="Min Class Create";
 $language["FORUM_MIN_WRITE"]="Min Class Write";
 $language["FORUM_MIN_READ"]="Min Class Read";
-$language["FORUM_SETTINGS"]="Forums Settings";
+$language["FORUM_SETTINGS"]="Forum's Settings";
 $language["FORUM_EDIT"]="Edit Forum";
 $language["FORUM_ADD_NEW"]="Add New Forum";
 $language["FORUM_PARENT"]="Parent's Forum";

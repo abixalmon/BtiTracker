@@ -269,7 +269,7 @@ unset($tmp_array);
 <ul>
     <li>
         <!-- Queries -->
-        <?php print("<b>Query Statistics:</b> Since it's start up, ". number_format($serverStatus['Questions'], 0, '.', ',')." queries have been sent to the server.\n"); ?></li></ul>
+        <?php print("<b>Query Statistics:</b> Since its start up ". number_format($serverStatus['Questions'], 0, '.', ',')." queries have been sent to the server.\n"); ?></li></ul>
                 </div>
                 
         </td>
@@ -419,7 +419,7 @@ if (!empty($serverStatus)) {
         <td>
 <div align="left">
 <ul>
-    <li>The code for mysql server status is kindly provided by CoLdFuSiOn (Tbdev.net)</li></ul>
+    <li>The code for MySQL server status is kindly provided by CoLdFuSiOn (Tbdev.net)</li></ul>
                 </div>
             <div align="right">
 <ul><a href="#">Back to Top</a></div>   
