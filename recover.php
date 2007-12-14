@@ -1,26 +1,34 @@
 <?php
-/////////////////////////////////////////////////////////////////////////
-// xBtit - Bittorrent tracker/frontend
+/////////////////////////////////////////////////////////////////////////////////////
+// xbtit - Bittorrent tracker/frontend
 //
 // Copyright (C) 2004 - 2007  Btiteam
 //
-//    This file is part of xBtit.
+//    This file is part of xbtit.
 //
-//    xBtit is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU General Public License as published by
-//    the Free Software Foundation, either version 3 of the License, or
-//    (at your option) any later version.
+// Redistribution and use in source and binary forms, with or without modification,
+// are permitted provided that the following conditions are met:
 //
-//    xBtit is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU General Public License for more details.
+//   1. Redistributions of source code must retain the above copyright notice,
+//      this list of conditions and the following disclaimer.
+//   2. Redistributions in binary form must reproduce the above copyright notice,
+//      this list of conditions and the following disclaimer in the documentation
+//      and/or other materials provided with the distribution.
+//   3. The name of the author may not be used to endorse or promote products
+//      derived from this software without specific prior written permission.
 //
-//    You should have received a copy of the GNU General Public License
-//    along with xBtit.  If not, see <http://www.gnu.org/licenses/>.
+// THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+// WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+// MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+// IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+// TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+// EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-/////////////////////////////////////////////////////////////////////////
-
+////////////////////////////////////////////////////////////////////////////////////
 
 require_once(load_language("lang_recover.php"));
 
@@ -101,32 +109,9 @@ if (mysql_affected_rows()==0)
 
 $user_temp_id = $arr["id"];
 $user_temp_email = $email;
-/*
-  $body = PASSWORD_REQUEST_MAIL;
-*/
-/*
-$body=<<<EOD
-Someone, hopefully you, requested that the password for the account
-associated with this email address ($email) be reset.
 
-The request originated from {$_SERVER["REMOTE_ADDR"]}.
-
-If you did not do this ignore this email. Please do not reply.
-
-
-Should you wish to confirm this request, please follow this link:
-
-$BASEURL/index.php?page=recover&act=generate&id=$user_temp_id&random=$random
-
-
-After you do this, your password will be reset and emailed back
-to you.
-
---
-$SITENAME
-EOD;
-*/
 $body=sprintf($language["RECOVER_EMAIL_1"],$email,$_SERVER["REMOTE_ADDR"],"$BASEURL/index.php?page=recover&act=generate&id=$user_temp_id&random=$random",$SITENAME);
+
   send_mail( $arr["email"], "$SITENAME ".$language["PASS_RESET_CONF"], $body) or stderr($language["ERROR"],$language["ERR_SEND_EMAIL"]);
   success_msg($language["SUCCESS"],$language["SUC_SEND_EMAIL"]." <b>$email</b>.\n".$language["SUC_SEND_EMAIL_2"]);
   $tpl->set("main_footer",bottom_menu()."<br />\n");
@@ -169,21 +154,8 @@ if ($random!=$arr["random"])
         $passhash=smf_passgen($arr["username"], $newpassword);
         do_sqlquery("UPDATE {$db_prefix}members SET passwd='$passhash[0]', passwordSalt='$passhash[1]' WHERE ID_MEMBER=".$arr["smf_fid"]);
     }
-/*
-  $body = <<<EOD
-As per your request we have generated a new password for your account.
 
-Here is the information we now have on file for this account:
 
-    User name: {$arr["username"]}
-    Password:  $newpassword
-
-You may login at $BASEURL/index.php?page=login
-
---
-$SITENAME
-EOD;
-*/
 $body=sprintf($language["RECOVER_EMAIL_2"],$arr["username"],$newpassword,"$BASEURL/index.php?page=login",$SITENAME);
 
   send_mail($email, "$SITENAME ".$language["ACCOUNT_DETAILS"], $body) or stderr($language["ERROR"],$language["ERR_SEND_EMAIL"]);

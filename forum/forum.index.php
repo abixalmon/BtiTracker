@@ -209,12 +209,12 @@ else
     //        else
     //            $pager .= "\n&nbsp;<span class=\"pager\">&nbsp;&gt;</span>";
 
-            $pagertop = "$pager\n";
-            $pagerbottom = str_replace("change_page","change_page1",$pager)."\n</form>";
+            $pagertop = "$pager\n</form>";
+            $pagerbottom = str_replace("change_page","change_page1",$pager)."\n";
         }
         else {
-            $pagertop = "$pager\n";
-            $pagerbottom = str_replace("change_page","change_page1",$pagertop)."\n</form>";
+            $pagertop = "$pager\n</form>";
+            $pagerbottom = str_replace("change_page","change_page1",$pagertop)."\n";
         }
 
         $start = ($page-1) * $rpp;

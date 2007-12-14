@@ -145,6 +145,7 @@ $pc = count($res);
 
 $pn = 0;
 $posts=array();
+$post_number=($postsperpage*($page-1))+1;
 foreach($res as $id=>$arr)
 {
   $posterid=$arr["userid"];
@@ -164,7 +165,7 @@ foreach($res as $id=>$arr)
 
   $sql = get_result("SELECT COUNT(*) as posts FROM {$TABLE_PREFIX}posts p INNER JOIN {$TABLE_PREFIX}users u ON p.userid = u.id WHERE u.id = " . $arr["userid"],true);
   $posts[$pn]["posts"]=intval(0+$sql[0]["posts"]);
-  $posts[$pn]["id"]=$arr["id"];
+  $posts[$pn]["id"]=($post_number); //$arr["id"];
 
   $posts[$pn]["actions"]="";
   if ($user_can_write)
@@ -187,6 +188,7 @@ foreach($res as $id=>$arr)
   $posts[$pn]["pm"]=($CURUSER["uid"]>1?"<a href=\"index.php?page=usercp&amp;do=pm&amp;action=edit&amp;uid=$userid&amp;what=new&amp;to=".urlencode($arr["username"])."\">".image_or_link("$STYLEPATH/images/pm.png","",$language["PM"])."</a>":"");
   $posts[$pn]["top"]=image_or_link("$STYLEPATH/images/top.gif","",$language["TOP"]);
   ++$pn;
+  ++$post_number;
 
 }
 

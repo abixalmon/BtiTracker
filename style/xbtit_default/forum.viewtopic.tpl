@@ -37,9 +37,9 @@
           </td>
         </tr>
         <tr>
-          <td class="post" align="center" width="150">
+          <td class="post" align="left" valign="top">
           <!-- poster infos -->
-            <table>
+            <table width="140">
               <tr>
                 <td>
                 <tag:posts[].username />&nbsp;(<tag:posts[].user_group />)
