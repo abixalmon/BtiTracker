@@ -48,6 +48,7 @@ function send_mail($rec_email,$subject,$message, $IsHtml=false)
       $mail->IsMail();                                   // send via mail
       $mail->From     = $btit_settings["email"];
       $mail->FromName = $btit_settings["name"];
+	  $mail->CharSet  = $btit_settings["default_charset"];
       $mail->AddAddress($rec_email);
       $mail->AddReplyTo($btit_settings["email"],$btit_settings["name"]);
 
@@ -68,6 +69,7 @@ function send_mail($rec_email,$subject,$message, $IsHtml=false)
 
       $mail->From     = $btit_settings["email"];
       $mail->FromName = $btit_settings["name"];
+	  $mail->CharSet  = $btit_settings["default_charset"];
       $mail->AddAddress($rec_email);
       $mail->AddReplyTo($btit_settings["email"],$btit_settings["name"]);
 
