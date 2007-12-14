@@ -140,7 +140,6 @@ $smilies = array(
   ":group:" => "group.gif",
   ":console:" => "console.gif",
   ":smurf:" => "smurf.gif",
-  ":soldiers:" => "soldiers.gif",
   ":spidey:" => "spidey.gif",
   ":smurf:" => "smurf.gif",
   ":rant:" => "rant.gif",
@@ -153,6 +152,8 @@ $smilies = array(
   ":dumbells:" => "dumbells.gif",
   ":clover:" => "clover.gif",
   ":shit:" => "shit.gif",
+  ":beer1:" => "beer1.gif",
+  ":bmkid:" => "bmkid.gif"
 );
 
 $privatesmilies = array(
@@ -162,8 +163,6 @@ $privatesmilies = array(
   ":-P" => "tongue.gif",
   ":-(" => "sad.gif",
   ":Boozer:" => "alcoholic.gif",
-  ":deadhorse:" => "deadhorse.gif",
-  ":spank:" => "spank.gif",
-  ":yoji:" => "yoji.gif",
+  ":spank:" => "spank.gif"
 );
 ?>
