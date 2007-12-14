@@ -104,6 +104,7 @@ $user_temp_email = $email;
 /*
   $body = PASSWORD_REQUEST_MAIL;
 */
+/*
 $body=<<<EOD
 Someone, hopefully you, requested that the password for the account
 associated with this email address ($email) be reset.
@@ -124,7 +125,8 @@ to you.
 --
 $SITENAME
 EOD;
-
+*/
+$body=sprintf($language["RECOVER_EMAIL_1"],$email,$_SERVER["REMOTE_ADDR"],"$BASEURL/index.php?page=recover&act=generate&id=$user_temp_id&random=$random",$SITENAME);
   send_mail( $arr["email"], "$SITENAME ".$language["PASS_RESET_CONF"], $body) or stderr($language["ERROR"],$language["ERR_SEND_EMAIL"]);
   success_msg($language["SUCCESS"],$language["SUC_SEND_EMAIL"]." <b>$email</b>.\n".$language["SUC_SEND_EMAIL_2"]);
   $tpl->set("main_footer",bottom_menu()."<br />\n");
@@ -167,7 +169,7 @@ if ($random!=$arr["random"])
         $passhash=smf_passgen($arr["username"], $newpassword);
         do_sqlquery("UPDATE {$db_prefix}members SET passwd='$passhash[0]', passwordSalt='$passhash[1]' WHERE ID_MEMBER=".$arr["smf_fid"]);
     }
-
+/*
   $body = <<<EOD
 As per your request we have generated a new password for your account.
 
@@ -181,6 +183,8 @@ You may login at $BASEURL/index.php?page=login
 --
 $SITENAME
 EOD;
+*/
+$body=sprintf($language["RECOVER_EMAIL_2"],$arr["username"],$newpassword,"$BASEURL/index.php?page=login",$SITENAME);
 
   send_mail($email, "$SITENAME ".$language["ACCOUNT_DETAILS"], $body) or stderr($language["ERROR"],$language["ERR_SEND_EMAIL"]);
   redirect("index.php?page=recover&act=recover_ok&id=$id&random=$random");

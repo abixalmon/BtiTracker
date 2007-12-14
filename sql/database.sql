@@ -106,8 +106,7 @@ INSERT INTO `{$db_prefix}categories` (`id`, `name`, `sub`, `sort_index`, `image`
 (8, 'Apps Linux', 0, 1020, 'linux.png'),
 (9, 'Apps Mac', 0, 1030, 'mac.png'),
 (11, 'DVD-R', 1, 0, 'movies.png'),
-(12, 'Mvcd', 1, 2030, 'film.jpg'),
-(13, 'Adult', 0, 6969, 'adult.png');
+(12, 'Adult', 0, 6969, 'adult.png');
 
 -- --------------------------------------------------------
 

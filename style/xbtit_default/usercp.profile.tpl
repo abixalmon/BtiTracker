@@ -4,7 +4,7 @@
       <td align="left" class="header"><tag:language.USER_NAME />:</td>
       <td align="left" class="lista"><tag:profile.username /></td>
   <if:AVATAR>
-      <td class="lista" align="center" valign="top" rowspan="3"><img border="0" src="<tag:profile.avatar />" alt="" /></td>
+      <td class="lista" align="center" valign="top" rowspan="3"><tag:profile.avatar /></td>
   </if:AVATAR>
     </tr>
     <tr>
