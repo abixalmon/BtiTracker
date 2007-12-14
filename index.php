@@ -119,8 +119,10 @@ if (!empty($language["rtl"]))
 else
    $tpl->set("main_rtl","");
 if (!empty($language["charset"]))
+  {
    $GLOBALS["charset"]=$language["charset"];
-
+   $btit_settings["default_charset"]=$language["charset"];
+}
 $tpl->set("main_charset",$GLOBALS["charset"]);
 $tpl->set("main_css","$style_css");
 
