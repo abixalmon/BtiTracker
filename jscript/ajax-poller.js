@@ -36,7 +36,7 @@ var graphMaxWidth = 100; // It will actually be a little wider than this because
 var graphMinWidth = 15; // Minimum size of graph
 var pollScrollSpeed = 10  // Lower = faster
 var useCookiesToRememberCastedVotes = true; // Use cookie to remember casted votes
-var txt_totalVotes = 'Total number of votes: ';
+var txt_totalVotes = 'Total votes: ';
 
 var ajaxObjects = new Array();
 var pollVotes = new Array();
