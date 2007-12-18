@@ -1117,7 +1117,7 @@ CREATE TABLE `{$db_prefix}users` (
 -- 
 
 INSERT INTO `{$db_prefix}users` (`id`, `username`, `password`, `id_level`, `random`, `email`, `language`, `style`, `joined`, `lastconnect`, `lip`, `downloaded`, `uploaded`, `avatar`, `pid`, `flag`, `topicsperpage`, `postsperpage`, `torrentsperpage`, `cip`, `time_offset`, `temp_email`, `smf_fid`) VALUES
-(1, 'Guest', '', 1, 0, 'none', 1, 1, '0000-00-00 00:00:00', '2005-12-22 11:23:36', 0, 0, 0, NULL, '', 0, 10, 10, 10, '127.0.0.2', '0', '', 0);
+(1, 'Guest', '', 1, 0, 'none', 1, 1, '0000-00-00 00:00:00', '2005-12-22 11:23:36', 0, 0, 0, NULL, '00000000000000000000000000000000', 0, 10, 10, 10, '127.0.0.2', '0', '', 0);
 
 -- --------------------------------------------------------
 

@@ -1,25 +1,34 @@
 <?php
-/////////////////////////////////////////////////////////////////////////
-// xBtit - Bittorrent tracker/frontend
+/////////////////////////////////////////////////////////////////////////////////////
+// xbtit - Bittorrent tracker/frontend
 //
 // Copyright (C) 2004 - 2007  Btiteam
 //
-//    This file is part of xBtit.
+//    This file is part of xbtit.
 //
-//    xBtit is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU General Public License as published by
-//    the Free Software Foundation, either version 3 of the License, or
-//    (at your option) any later version.
+// Redistribution and use in source and binary forms, with or without modification,
+// are permitted provided that the following conditions are met:
 //
-//    xBtit is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU General Public License for more details.
+//   1. Redistributions of source code must retain the above copyright notice,
+//      this list of conditions and the following disclaimer.
+//   2. Redistributions in binary form must reproduce the above copyright notice,
+//      this list of conditions and the following disclaimer in the documentation
+//      and/or other materials provided with the distribution.
+//   3. The name of the author may not be used to endorse or promote products
+//      derived from this software without specific prior written permission.
 //
-//    You should have received a copy of the GNU General Public License
-//    along with xBtit.  If not, see <http://www.gnu.org/licenses/>.
+// THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+// WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+// MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+// IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+// TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+// EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-/////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
 
 // english installation file //
 
@@ -27,7 +36,7 @@ $install_lang["charset"]                = "ISO-8859-1";
 $install_lang["lang_rtl"]               = FALSE;
 $install_lang["step"]                   = "STEP:";
 $install_lang["welcome_header"]         = "Welcome";
-$install_lang["welcome"]                = "Welcome to the installation for the new XBTI-Tracker.";
+$install_lang["welcome"]                = "Welcome to the installation for the new xbtit.";
 $install_lang["installer_language"]     = "Language:";
 $install_lang["installer_language_set"] = "Enable this language";
 $install_lang["start"]                  = "Start";
@@ -43,7 +52,7 @@ $install_lang["here"]                   = "here";
 $install_lang["settingup"]              = "Setting up your tracker";
 $install_lang["settingup_info"]         = "Basic Settings";
 $install_lang["sitename"]               = "Sitename";
-$install_lang["sitename_input"]         = "XBTI-Tracker";
+$install_lang["sitename_input"]         = "xbtit";
 $install_lang["siteurl"]                = "Site-url";
 $install_lang["siteurl_info"]           = "Without trailing slash";
 $install_lang["mysql_settings"]         = "MySQL Settings<br />\nCreate a MySQL user and database, input the details here";
@@ -105,11 +114,11 @@ $install_lang["succes_install2b"]       = "<p>You succesfully installed ".$GLOBA
 $install_lang["succes_install3"]        = "<p>We of BTITeam hope you enjoy use of this product and that we will see you again on our <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forum</a>.</p>";
 $install_lang["go_to_tracker"]          = "Go to your tracker";
 $install_lang["forum_type"]             = "Forum Type";
-$install_lang["forum_internal"]         = "XBTI-Tracker Internal Forum";
+$install_lang["forum_internal"]         = "xbtit Internal Forum";
 $install_lang["forum_smf"]              = "Simple Machines Forum";
 $install_lang["forum_other"]            = "Unintegrated External Forum - Enter url here -->";
 $install_lang["smf_download_a"]         = "<strong>If using Simple Machines Forum:</strong><br /><br/ >Please download the latest version of Simple Machines Forum <a target='_new' href='http://www.simplemachines.org/download/'>here</a> and upload the contents of the archive to the \"smf\" folder and <a target='_new' href='smf/install.php'>click here</a> to install it.*<br /><strong>(Please use the same database credentials you used for this installation procedure).<br /><br /><font color='#FF0000'>Once installed</font></strong> please CHMOD the SMF English language file (<strong>";
-$install_lang["smf_download_b"]         = "</strong>) to 777 and click <strong>Next</strong> to continue with the XBTI-Tracker installation.<br /><br /><strong>* Both links will open into a new window/tab to prevent losing your place on the XBTI-Tracker installation.</strong></p>";
+$install_lang["smf_download_b"]         = "</strong>) to 777 and click <strong>Next</strong> to continue with the xbtit installation.<br /><br /><strong>* Both links will open into a new window/tab to prevent losing your place on the xbtit installation.</strong></p>";
 $install_lang["smf_err_1"]              = "Can't find Simple Machines Forum in the \"smf\" folder, please install it before proceeding.<br /><br />Click <a href=\"javascript: history.go(-1);\">here</a> to return to the previous page.";
 $install_lang["smf_err_2"]              = "Can't find Simple Machines Forum in the database, please install it before proceeding.<br /><br />Click <a href=\"javascript: history.go(-1);\">here</a> to return to the previous page.";
 $install_lang["smf_err_3a"]             = "Unable to write to the SMF English language file (<strong>";

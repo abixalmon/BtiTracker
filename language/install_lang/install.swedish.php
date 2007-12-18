@@ -5,7 +5,7 @@
 $install_lang["lang_rtl"]               = FALSE;
 $install_lang["step"]                   = "Steg:";
 $install_lang["welcome_header"]         = "Välkommen";
-$install_lang["welcome"]                = "Välkommen till installationen för nya XBTI-Tracker.";
+$install_lang["welcome"]                = "Välkommen till installationen för nya xbtit.";
 $install_lang["installer_language"]     = "Språk:";
 $install_lang["installer_language_set"] = "Möjliggör detta språk";
 $install_lang["start"]                  = "Start";
@@ -21,7 +21,7 @@ $install_lang["here"]                   = "här";
 $install_lang["settingup"]              = "Installera din tracker";
 $install_lang["settingup_info"]         = "Grundinställningar";
 $install_lang["sitename"]               = "Sitenamn";
-$install_lang["sitename_input"]         = "XBTI-Tracker";
+$install_lang["sitename_input"]         = "xbtit";
 $install_lang["siteurl"]                = "Site-url";
 $install_lang["siteurl_info"]           = "Utan avslutning <b>/</b>.";
 $install_lang["mysql_settings"]         = "MySQL Inställningar";

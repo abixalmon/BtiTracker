@@ -266,6 +266,9 @@ ALTER TABLE `btit_users`
 CHANGE `avatar` `avatar` VARCHAR( 200 ) default NULL,
 ADD `smf_fid` int(10) NOT NULL default '0';
 
+# update guest PID ;)
+UPDATE btit_users SET pid='00000000000000000000000000000000' WHERE id=1;
+
 ALTER TABLE `btit_users_level`
 CHANGE `prefixcolor` `prefixcolor` VARCHAR( 200 ) NOT NULL,
 CHANGE `suffixcolor` `suffixcolor` VARCHAR( 200 ) NOT NULL;

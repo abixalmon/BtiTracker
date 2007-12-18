@@ -45,9 +45,9 @@ if (isset($_SERVER['PHP_SELF']))
 $cur_script=$_SERVER['PHP_SELF'];
 
 // getting globals
-$GLOBALS["btit-tracker"]         = "XBTI-Tracker";
+$GLOBALS["btit-tracker"]         = "xbtit";
 $GLOBALS["current_btit_version"] = "v2.0 (Private Beta)";
-$GLOBALS["btit_installer"]       = "XBTI-Tracker Upgrade ::";
+$GLOBALS["btit_installer"]       = "xbtit Upgrade ::";
 
 // getting needed files
 load_lang_file();
@@ -304,7 +304,7 @@ elseif ($action == 'settings') {
     $db_user = isset($_POST['ftp_username']) ? $_POST['ftp_username'] : @ini_get('mysql.default_user');
     $db_name = isset($_POST['ftp_username']) ? $_POST['ftp_username'] : @ini_get('mysql.default_user');
     $db_passwd = @ini_get('mysql.default_password');
-    $db_name = empty($db_name) ? 'xbti-tracker' : $db_name;
+    $db_name = empty($db_name) ? 'xbtit' : $db_name;
     
     echo ("<form action=\"".$_SERVER['PHP_SELF']."?lang_file=".$_SESSION["install_lang"]."&amp;action=save_mysql\" method=\"post\">");
     echo ("<h2>".$install_lang["mysql_settings"]."</h2><h3>".$install_lang["mysql_settings_info"]."</h3>");

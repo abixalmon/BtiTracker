@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 // fişierul de instalare în limba română //
 // tradus de RippeR //
@@ -7,7 +7,7 @@ $install_lang["charset"]                = "ISO-8859-1";
 $install_lang["lang_rtl"]               = FALSE;
 $install_lang["step"]                   = "PAS:";
 $install_lang["welcome_header"]         = "Bun-venit";
-$install_lang["welcome"]                = "Bun-venit la instalarea noului XBTI-Tracker.";
+$install_lang["welcome"]                = "Bun-venit la instalarea noului xbtit.";
 $install_lang["installer_language"]     = "Limba:";
 $install_lang["installer_language_set"] = "Activează această limbă";
 $install_lang["start"]                  = "Start";
@@ -23,7 +23,7 @@ $install_lang["here"]                   = "aici";
 $install_lang["settingup"]              = "Setarea tracker-ului";
 $install_lang["settingup_info"]         = "Setări de Bază";
 $install_lang["sitename"]               = "Numele site-ului";
-$install_lang["sitename_input"]         = "XBTI-Tracker";
+$install_lang["sitename_input"]         = "xbtit";
 $install_lang["siteurl"]                = "Adresa site-ului";
 $install_lang["siteurl_info"]           = "Fără <b>/</b> la sfârşit.";
 $install_lang["mysql_settings"]         = "Setări MySQL";
