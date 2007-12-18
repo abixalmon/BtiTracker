@@ -240,7 +240,7 @@
 
     <td align="center" class="<tag:tortpl[].leechcolor />" style="text-align: center;"><tag:tortpl[].leechs /></td>
 
-    <td align="center" class="lista" style="text-align: center;"><tag:tortpl[]completed. /></td>
+    <td align="center" class="lista" style="text-align: center;"><tag:tortpl[].completed. /></td>
 
   </tr>
 

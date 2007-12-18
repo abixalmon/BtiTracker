@@ -359,7 +359,7 @@ if ($sanq[0]>0)
                 $torhistory[$i]["seeds"]="<a href=\"javascript:poppeer('index.php?page=peers&amp;id=".$torlist->info_hash."')\">$torlist->seeds</a>";
                 $torhistory[$i]["leechcolor"]=linkcolor($torlist->leechers);
                 $torhistory[$i]["leechs"]="<a href=\"javascript:poppeer('index.php?page=peers&amp;id=".$torlist->info_hash."')\">$torlist->leechers</a>";
-                $torhistory[$i]["completed"]="<a href=\"javascript:poppeer('index.php?page=torrent_history6amp;id=".$torlist->info_hash."')\">".$torlist->finished."</a>";
+                $torhistory[$i]["completed"]="<a href=\"javascript:poppeer('index.php?page=torrent_history&amp;id=".$torlist->info_hash."')\">".$torlist->finished."</a>";
                 $i++;
                 $userdetailtpl->set("torhistory",$torhistory);
             }
