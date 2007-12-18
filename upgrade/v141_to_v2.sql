@@ -263,6 +263,7 @@ INSERT INTO `btit_style` (`id`, `style`, `style_url`) VALUES
 
 
 ALTER TABLE `btit_users`
+CHANGE `avatar` `avatar` VARCHAR( 200 ) default NULL,
 ADD `smf_fid` int(10) NOT NULL default '0';
 
 ALTER TABLE `btit_users_level`

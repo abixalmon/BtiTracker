@@ -183,13 +183,13 @@ if (count($sub_forums)>0)
       {
         $subforums[$i]["status"]=image_or_link("$STYLEPATH/images/".$subfor["img"].".png","",$subfor["img"]);
         $subforums[$i]["name"]="<a href=\"index.php?page=forum&amp;action=viewforum&amp;forumid=".$subfor["id"]."\">".htmlspecialchars(unesc($subfor["name"]))."</a>";
-        $subforums[$i]["description"]=htmlspecialchars(unesc($subfor["description"]));
+        $subforums[$i]["description"]  =  ($subfor["description"]?"<br />\n".format_comment(unesc($subfor["description"])):"");
         $subforums[$i]["topics"]=number_format($subfor["topiccount"]);
         $subforums[$i]["posts"]=number_format($subfor["postcount"]);
         if ($subfor["uid"])
-          $subforums[$i]["lastpost"]=date("",$subfor["date"])."<br />" .
-                    "by <a href=\"index.php?page=userdetails&amp;id=".$subfor["uid"]."\"><b>".unesc($subfor["username"])."</b></a><br />" .
-                    "in ".htmlspecialchars(unesc($subfor["subject"]));
+          $subforums[$i]["lastpost"]=date("",$subfor["date"])."<br />by&nbsp;" .
+                    ($subfor["username"]?"<a href=\"index.php?page=userdetails&amp;id=".$subfor["uid"]."\"><b>".unesc($subfor["username"])."</b></a><br />":$language["MEMBER"]."[".$subfor["topicid"]."]")."<br />\n" .
+                    "in <a href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=".$subfor["topicid"]."&amp;msg=".$subfor["lastpost"]."#".$subfor["lastpost"]."\">".htmlspecialchars(unesc($subfor["subject"]))."</a>";
         else
           $subforums[$i]["lastpost"]  = $language["NA"];
         $i++;

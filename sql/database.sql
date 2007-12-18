@@ -1095,7 +1095,7 @@ CREATE TABLE `{$db_prefix}users` (
   `lip` bigint(11) default '0',
   `downloaded` bigint(20) default '0',
   `uploaded` bigint(20) default '0',
-  `avatar` varchar(100) default NULL,
+  `avatar` varchar(200) default NULL,
   `pid` varchar(32) NOT NULL default '',
   `flag` tinyint(1) unsigned NOT NULL default '0',
   `topicsperpage` tinyint(3) unsigned NOT NULL default '15',

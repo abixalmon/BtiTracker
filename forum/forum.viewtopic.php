@@ -145,6 +145,7 @@ $pc = count($res);
 
 $pn = 0;
 $posts=array();
+$page=(isset($page)?($page>0?max(1,$page):1):1);
 $post_number=($postsperpage*($page-1))+1;
 foreach($res as $id=>$arr)
 {
@@ -165,7 +166,8 @@ foreach($res as $id=>$arr)
 
   $sql = get_result("SELECT COUNT(*) as posts FROM {$TABLE_PREFIX}posts p INNER JOIN {$TABLE_PREFIX}users u ON p.userid = u.id WHERE u.id = " . $arr["userid"],true);
   $posts[$pn]["posts"]=intval(0+$sql[0]["posts"]);
-  $posts[$pn]["id"]=($post_number); //$arr["id"];
+  $posts[$pn]["id"]=$arr["id"];
+  $posts[$pn]["post_number"]=$post_number;
 
   $posts[$pn]["actions"]="";
   if ($user_can_write)

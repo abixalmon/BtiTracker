@@ -60,14 +60,19 @@ else
     {
 
         $forums[$i]["name"]  = "<a href=\"index.php?page=forum&amp;action=viewforum&amp;forumid=".$forums_arr["id"]."\">".htmlspecialchars(unesc($forums_arr["name"]))."</a>";
-        $forums[$i]["description"]  =  htmlspecialchars(unesc($forums_arr["description"]));
+        $forums[$i]["description"]  =  ($forums_arr["description"]?"<br />\n".format_comment(unesc($forums_arr["description"])):"");
         $forums[$i]["topics"]  = number_format($forums_arr["topiccount"]);
         $forums[$i]["posts"]  = number_format($forums_arr["postcount"]);
 
         if ($forums_arr["uid"])
-          $forums[$i]["lastpost"]  = date("",$forums_arr["date"])."<br />" .
-                          "by <a href=\"index.php?page=userdetails&amp;id=".$forums_arr["uid"]."\"><b>".unesc($forums_arr["username"])."</b></a><br />" .
-                          "in <a href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=".$forums_arr["topicid"]."&amp;msg=".$forums_arr["lastpost"]."#".$forums_arr["lastpost"]."\">".htmlspecialchars(unesc($forums_arr["subject"]))."</a>";
+         if ($forums_arr["username"])
+            $forums[$i]["lastpost"]  = date("",$forums_arr["date"])."<br />" .
+                            "by <a href=\"index.php?page=userdetails&amp;id=".$forums_arr["uid"]."\"><b>".unesc($forums_arr["username"])."</b></a><br />" .
+                            "in <a href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=".$forums_arr["topicid"]."&amp;msg=".$forums_arr["lastpost"]."#".$forums_arr["lastpost"]."\">".htmlspecialchars(unesc($forums_arr["subject"]))."</a>";
+         else
+            $forums[$i]["lastpost"]  = date("",$forums_arr["date"])."<br />" .
+                            "by ".$language["MEMBER"]."[".$forums_arr["uid"]."]<br />" .
+                            "in <a href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=".$forums_arr["topicid"]."&amp;msg=".$forums_arr["lastpost"]."#".$forums_arr["lastpost"]."\">".htmlspecialchars(unesc($forums_arr["subject"]))."</a>";
         else
           $forums[$i]["lastpost"]  = $language["NA"];
 
@@ -88,9 +93,14 @@ else
                 $subforums[$j]["topics"]=number_format($subfor["topiccount"]);
                 $subforums[$j]["posts"]=number_format($subfor["postcount"]);
                 if ($subfor["uid"])
-                  $subforums[$j]["lastpost"]=date("",$subfor["date"])."<br />" .
-                            "by <a href=\"index.php?page=userdetails&amp;id=".$subfor["uid"]."\"><b>".unesc($subfor["username"])."</b></a><br />" .
-                            "in ".htmlspecialchars(unesc($subfor["subject"]));
+                   if ($forums_arr["username"])
+                      $subforums[$j]["lastpost"]=date("",$subfor["date"])."<br />" .
+                                "by <a href=\"index.php?page=userdetails&amp;id=".$subfor["uid"]."\"><b>".unesc($subfor["username"])."</b></a><br />" .
+                                "in <a href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=".$subfor["topicid"]."&amp;msg=".$subfor["lastpost"]."#".$subfor["lastpost"]."\">".htmlspecialchars(unesc($subfor["subject"]))."</a>";
+                   else
+                      $subforums[$j]["lastpost"]  = date("",$subfor["date"])."<br />" .
+                                      "by ".$language["MEMBER"]."[".$subfor["uid"]."]<br />" .
+                                      "in <a href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=".$subfor["topicid"]."&amp;msg=".$subfor["lastpost"]."#".$subfor["lastpost"]."\">".htmlspecialchars(unesc($subfor["subject"]))."</a>";
                 else
                   $subforums[$j]["lastpost"]  = $language["NA"];
                 $j++;

@@ -29,7 +29,7 @@
               <tr>
               <td align="left">
                 <tag:posts[].new />
-                <a name="<tag:posts[].id />" href="<tag:posts[].msglink />"><tag:language.POST />&nbsp;#<tag:posts[].id /></a>
+                <a name="<tag:posts[].id />" href="<tag:posts[].msglink />"><tag:language.POST />&nbsp;#<tag:posts[].post_number /></a>
               </td>
                 <td align="right"><tag:posts[].actions /></td>
               </tr>

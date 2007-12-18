@@ -113,9 +113,10 @@ $userstpl->set("users_search", $search);
 $userstpl->set("users_search_level", $level==0 ? " selected=\"selected\" " : "");
 
 $res=do_sqlquery("SELECT id,level FROM {$TABLE_PREFIX}users_level WHERE id_level>1 ORDER BY id_level");
+$select="";
 while($row=mysql_fetch_array($res))
   {    // start while
-  $select="<option value='".$row["id"]."'";
+  $select.="<option value='".$row["id"]."'";
   if ($level==$row["id"])
     $select.="selected=\"selected\"";
   $select.=">".$row["level"]."</option>\n";

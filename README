@@ -9,13 +9,18 @@ The script is released under GNU GPL license, which mean you can freely use and
 modify it (read LICENSE for more info).
 
 
-
 #----------------#
 # MAJOR FEATURES #
 #----------------#
+- new's system
+- user's system
+- private+public announce/scrape
+- torrent's system
+- internal forum
+- external torrents support (manual or auto update)
 - Template system
 - external mail server support (via phpmailer class)
-- Xbtt (c++ tracker) support
+- xbtt (c++ tracker) support
 - smf (forum) support 
 - internal forum with subforums
 - AJAX shoutbox
