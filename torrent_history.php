@@ -68,11 +68,15 @@ $historytpl->set("history_script","index.php");
 while ($row = mysql_fetch_array($res))
 {
   if ($GLOBALS["usepopup"])
-    $history[$i]["USER_NAME"]="<a href=\"javascript: windowunder('index.php?page=userdetails&amp;id=".$row["uid"]."')\">".unesc($row["username"])."</a>".
-       "<td align=\"center\" class=\"lista\"><a href=\"javascript: windowunder('index.php?page=usercp&amp;do=pm&action=edit&uid=$CURUSER[uid]&what=new&to=".urlencode(unesc($row["username"]))."')\">".image_or_link("$STYLEPATH/images/pm.png","","PM")."</a></td>";
+    {
+    $history[$i]["USERNAME"]="<a href=\"javascript: windowunder('index.php?page=userdetails&amp;id=".$row["uid"]."')\">".unesc($row["username"])."</a>";
+    $history[$i]["PM"]=(strtolower($row["username"])=="guest"?"":"<a href=\"javascript: windowunder('index.php?page=usercp&amp;do=pm&action=edit&uid=$CURUSER[uid]&what=new&to=".urlencode(unesc($row["username"]))."')\">".image_or_link("$STYLEPATH/images/pm.png","","PM")."</a>");
+  }
   else
-    $history[$i]["USER_NAME"]="<a href=\"index.php?page=userdetails&amp;id=".$row["uid"]."\">".unesc($row["username"])."</a>".
-       "<td align=\"center\" class=\"lista\"><a href=\"index.php?page=usercp&amp;do=pm&action=edit&uid=$CURUSER[uid]&what=new&to=".urlencode(unesc($row["username"]))."\">".image_or_link("$STYLEPATH/images/pm.png","","PM")."</a></td>";
+    {
+    $history[$i]["USERNAME"]="<a href=\"index.php?page=userdetails&amp;id=".$row["uid"]."\">".unesc($row["username"])."</a>";
+    $history[$i]["PM"]=(strtolower($row["username"])=="guest"?"":"<a href=\"index.php?page=usercp&amp;do=pm&action=edit&uid=$CURUSER[uid]&what=new&to=".urlencode(unesc($row["username"]))."\">".image_or_link("$STYLEPATH/images/pm.png","","PM")."</a>");
+  }
   if ($row["flagpic"]!="")
     $history[$i]["FLAG"]="<img src=images/flag/".$row["flagpic"]." alt=".$row["country"]." />";
   else
