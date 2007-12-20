@@ -28,7 +28,7 @@
 
 <table width="100%">
   <tr>
-    <td> <tag:torrent_pagertop /></td>
+    <td colspan="2" align="center"> <tag:torrent_pagertop /></td>
   </tr>
   <tr>
     <td>
