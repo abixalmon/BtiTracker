@@ -1,4 +1,34 @@
 <?php
+/////////////////////////////////////////////////////////////////////////////////////
+// xbtit - Bittorrent tracker/frontend
+//
+// Copyright (C) 2004 - 2007  Btiteam
+//
+//    This file is part of xbtit.
+//
+// Redistribution and use in source and binary forms, with or without modification,
+// are permitted provided that the following conditions are met:
+//
+//   1. Redistributions of source code must retain the above copyright notice,
+//      this list of conditions and the following disclaimer.
+//   2. Redistributions in binary form must reproduce the above copyright notice,
+//      this list of conditions and the following disclaimer in the documentation
+//      and/or other materials provided with the distribution.
+//   3. The name of the author may not be used to endorse or promote products
+//      derived from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+// WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+// MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+// IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+// TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+// EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+////////////////////////////////////////////////////////////////////////////////////
 
 // english installation file //
 
@@ -100,4 +130,7 @@ $install_lang["succes_upgrade1"]        = "Uaktualnienie zakończone!";
 $install_lang["succes_upgrade2a"]       = "<p>Właśnie uaktualniłeś ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." na twoim trackerze.</p><p>Uaktualnienie zostało zablokowane aby zapobiec ponownemu jego wykonaniu ale radzimy usunąć także <b>upgrade.php+install.php</b> dla dodatkowej ochrony.</p>";
 $install_lang["succes_upgrade2b"]       = "<p>Właśnie uaktualniłeś ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." na twoim trackerze.</p><p>Radzimy zablokować instalację. Możesz to zrobić zamieniając rozszerzenie <b>install.unlock</b> na <b>install.lock</b> lub usunąć te pliki <b>upgrade.php+install.php</b> .</p>";
 $install_lang["succes_upgrade3"]        = "<p>My z BTITeam mamy nadzieje, że będziesz zadowolony z używania tego produktu i zobaczymy się ponownie na naszym <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forum</a>.</p>";
+$install_lang['error_mysql_database']   = 'Instalator nie mógł połączyć sie z bazą danych &quot;<i>%s</i>&quot; . Na niektórych hostingach trzeba najpierw utworzyć bazę danych w panelu administracyjnym hostingu przed instalacją xBtit.';
+$install_lang['error_message_click']    = 'Kliknij tutaj';
+$install_lang['error_message_try_again']= 'aby spróbować ponownie';
 ?>

@@ -10,4 +10,5 @@ $language["NO_SUBJECT"]="Brak Tematu";
 $language["MUST_ENTER_PASSWORD"]="<br /><font color='#FF0000'><strong>Musisz wpisać hasło aby zmienić powyższe ustawienia.</strong></font>";
 $language["ERR_PASS_WRONG"]="Hasło puste lub nieprawidłowe, nie można uaktualnić profilu.";
 $language["MSG_DEL_ALL_PM"]="Jeżeli wybierzesz PM-y, których nie czytałeś nie zostaną one usunięte";
+$language["ERR_PM_GUEST"]="Przepraszamy nie możesz wysyłać PM do konta gościa lub samego siebie!";
 ?>

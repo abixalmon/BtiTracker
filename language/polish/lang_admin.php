@@ -263,4 +263,7 @@ $language["HACK_UNINSTALL"]="Odinstaluj";
 $language["HACK_INSTALLED_OK"]="Hack został pomyślnie zainstalowany!<br />\nAby zobaczyć jakie hack-i są zainstalowane przejdź do <a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=hacks&amp;action=read\">adminCP (Hacki)</a>";
 $language["HACK_BAD_ID"]="Błąd pobierania info o hack-u z tym ID.";
 $language["HACK_UNINSTALLED_OK"]="Hack został pomyślnie odinstalowany!<br />\nAby zobaczyć jakie hack-i są zainstalowane przejdź do <a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=hacks&amp;action=read\">adminCP (Hacki)</a>";
+// USERS TOOLS
+$language["USER_NOT_DELETE"]="Nie możesz usunąć konta gościa lub swojego!";
+$language["USER_NOT_EDIT"]="Nie możesz edytować konta gościa lub swojego!";
 ?>
