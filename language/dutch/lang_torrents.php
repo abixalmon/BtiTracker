@@ -29,6 +29,7 @@ $language["THREE_STAR"]="3 sterren";
 $language["TWO_STAR"]="2 sterren";
 $language["YOU_RATE"]="u heeft deze torrent gekwalificeerd als";
 $language["ADD_RATING"]="voeg kwalificatie toe";
+$language["RATING"]="Kwaliteit";
 $language["ERR_NO_VOTE"]="U moet een waarde kiezen om te stemmen.";
 $language["VOTES"]="Stemmen";
 $language["SHOW_HIDE"]="Bestanden Laten Zien/Verbergen";

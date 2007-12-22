@@ -1,5 +1,7 @@
 <?php
 global $users, $torrents, $seeds, $leechers, $percent;
+// $language["rtl"]="rtl"; // if your language is  right to left then uncomment this line
+// $language["charset"]="ISO-8859-1"; // uncomment this line with specific language charset if different than tracker's one
 $language["ACCOUNT_CONFIRM"]="Account bevestiging op de $SITENAME site.";
 $language["ACCOUNT_CONGRATULATIONS"]="Gefeliciteerd, uw account is nu gevalideerd!<br />Nu kunt u <a href=index.php?page=login>inloggen</a> op de site en gebruik maken van uw account.";
 $language["ACCOUNT_CREATE"]="Account Aanmaken";
@@ -422,4 +424,7 @@ $language["X_TIMES"]="keer";
 $language["YES"]="Ja";
 $language["LAST_IP"]="Laatste IP";
 $language["FIRST_UNREAD"]="Ga naar de eerste ongelezen post";
+$language["MODULE_UNACTIVE"]="De benodigde module is niet actief!";
+$language["MODULE_NOT_PRESENT"]="De benodigde module bestaat niet!";
+$language["MODULE_LOAD_ERROR"]="De benodigde module schijnt verkeerd te zijn!";
 ?>

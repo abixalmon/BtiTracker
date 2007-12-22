@@ -27,7 +27,7 @@ $language["ACP_TORRENTS_TOOLS"]="Torrent Opties";
 $language["ACP_OTHER_TOOLS"]="Overige Opties";
 $language["ACP_MYSQL_STATS"]="MySql Statistieken";
 $language["XBTT_BACKEND"]="XBTT Optie";
-$language["XBTT_USE"]="Gebruik <a href=\"http://xbtt.sourceforge.net/tracker/\" target=\"_blank\">XBTT</a> ter ondersteuning?";
+$language["XBTT_USE"]="Gebruik <a href=\"http://xbtt.sourceforge.net/tracker/\" target=\"_blank\">XBTT</a> als backend?";
 $language["XBTT_URL"]="XBTT basislink (zoals http://localhost:2710)";
 $language["GENERAL_SETTINGS"]="Algemene Instellingen";
 $language["TRACKER_NAME"]="Naam Site";
@@ -87,7 +87,8 @@ $language["SETTING_SMTP_PORT"]="SMTP Poort";
 $language["SETTING_SMTP_USERNAME"]="SMTP Gebruikersnaam";
 $language["SETTING_SMTP_PASSWORD"]="SMTP Wachtwoord";
 $language["SETTING_SMTP_PASSWORD_REPEAT"]="Herhaal SMTP Wachtwoord";
-$language["XBTT_TABLES_ERROR"]="You should have to import xbtt tables (look at xbtt installation instructions) into your database before activate xbtt backend!";
+$language["XBTT_TABLES_ERROR"]="U zou xbtt tabellen moeten importeren (kijk naar xbtt installatie instructies) in uw database voordat u xbtt kunt activeren als backend!";
+$language["XBTT_URL_ERROR"]="xbtt basis url is verplicht!";
 // BAN FORM
 $language["BAN_NOTE"]="In dit gedeelte van het Admin Menu, kunt u zien welke IP geband zijn en nieuwe IPs bannen.<br />\nU moet een bereik invullen vanaf (eerste IP) tot (laatste IP).";
 $language["BAN_NOIP"]="Er zijn geen gebande IPs";
@@ -263,4 +264,7 @@ $language["HACK_UNINSTALL"]="Verwijderen";
 $language["HACK_INSTALLED_OK"]="Hack is met succes ge&iuml;nstalleerd!<br />\nOm te zien welke hacks er ge&iuml;nstalleerd zijn, ga terug naar <a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=hacks&amp;action=read\">adminCP (Hacks)</a>";
 $language["HACK_BAD_ID"]="Fout tijdens het halen van de info van de hack met dit ID.";
 $language["HACK_UNINSTALLED_OK"]="Hack is met succes verwijderd!<br />\nOm te zien welke hacks er ge&iuml;nstalleerd zijn, ga terug naar <a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=hacks&amp;action=read\">adminCP (Hacks)</a>";
+// USERS TOOLS
+$language["USER_NOT_DELETE"]="U kunt niet het Gast account of uzelf verwijderen!";
+$language["USER_NOT_EDIT"]="U kunt niet het Gast account of uzelf veranderen!";
 ?>

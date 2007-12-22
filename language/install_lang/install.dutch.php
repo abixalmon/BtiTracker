@@ -1,4 +1,34 @@
 <?php
+/////////////////////////////////////////////////////////////////////////////////////
+// xbtit - Bittorrent tracker/frontend
+//
+// Copyright (C) 2004 - 2007  Btiteam
+//
+//    This file is part of xbtit.
+//
+// Redistribution and use in source and binary forms, with or without modification,
+// are permitted provided that the following conditions are met:
+//
+//   1. Redistributions of source code must retain the above copyright notice,
+//      this list of conditions and the following disclaimer.
+//   2. Redistributions in binary form must reproduce the above copyright notice,
+//      this list of conditions and the following disclaimer in the documentation
+//      and/or other materials provided with the distribution.
+//   3. The name of the author may not be used to endorse or promote products
+//      derived from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+// WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+// MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+// IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+// TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+// EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+////////////////////////////////////////////////////////////////////////////////////
 
 // dutch installation file //
 
@@ -96,4 +126,11 @@ $install_lang["smf_err_3b"]             = "</strong>) CHMOD dit eerst voordat u 
 $install_lang["allow_url_fopen"]        = "php.ini waarde voor \"allow_url_fopen\" (beste is ON)";
 $install_lang["allow_url_fopen_ON"]     = "<span style=\"color:#00FF00; font-weight: bold;\">ON</span>";
 $install_lang["allow_url_fopen_OFF"]    = "<span style=\"color:#FF0000; font-weight: bold;\">OFF</span>";
+$install_lang["succes_upgrade1"]        = "Upgrade is geslaagd!";
+$install_lang["succes_upgrade2a"]       = "<p>U heeft met succes ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." geupgrade op uw tracker.</p><p>De installatie is met succes vergrendelt tegen hergebruik maar wij adviseren u om <b>upgrade.php+install.php</b> te verwijderen voor de zekerheid.</p>";
+$install_lang["succes_upgrade2b"]       = "<p>U heeft met succes ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." geupgrade op uw tracker.</p><p>Wij adviseren u de installatie te vergrendelen. Dit kunt u doen door <b>install.unlock</b> te veranderen naar <b>install.lock</b> of dit <b>upgrade.php+install.php</b> bestand te verwijderen.</p>";
+$install_lang["succes_upgrade3"]        = "<p>Wij van BTITeam hopen dat u veel plezier heeft met dit product en wij hopen u nog een terug te zien op ons <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forum</a>.</p>";
+$install_lang['error_mysql_database']   = 'De installer kon geen verbinding krijgen met de &quot;<i>%s</i>&quot; database. Met enkele hosts, moet u een database aanmaken in uw administratie paneel voordat xBtit het kan gebruiken. Ook het toevoegen van prefixes - zoals uw gebruikersnaam - aan uw database.';
+$install_lang['error_message_click']    = 'Klik hier';
+$install_lang['error_message_try_again']= 'om het opnieuw te proberen';
 ?>
