@@ -259,7 +259,9 @@ INSERT INTO `btit_style` (`id`, `style`, `style_url`) VALUES
 (1, 'xBtit_Default', 'style/xbtit_default'),
 (2, 'Mint Green', 'style/mintgreen'),
 (3, 'Dark Lair', 'style/darklair'),
-(4, 'The Hive', 'style/thehive');
+(4, 'The Hive', 'style/thehive'),
+(5, 'Frosted', 'style/frosted'),
+(6, 'Holiday Spirit', 'style/holiday-spirit');
 
 
 ALTER TABLE `btit_users`

@@ -960,7 +960,8 @@ INSERT INTO `{$db_prefix}style` (`id`, `style`, `style_url`) VALUES
 (2, 'Mint Green', 'style/mintgreen'),
 (3, 'Dark Lair', 'style/darklair'),
 (4, 'The Hive', 'style/thehive'),
-(5, 'Frosted', 'style/frosted');
+(5, 'Frosted', 'style/frosted'),
+(6, 'Holiday Spirit', 'style/holiday-spirit');
 -- --------------------------------------------------------
 
 -- 
