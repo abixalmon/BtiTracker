@@ -57,6 +57,7 @@ if($files_present==$lang[0])
     $start=strpos($data, "\$db_prefix");
     $end=strpos(substr($data,$start),";")+1;
     $data=substr($data,$start,$end);
+    fclose($fd);
     
     $filename=dirname(__FILE__)."/include/settings.php";
     if (file_exists($filename))
