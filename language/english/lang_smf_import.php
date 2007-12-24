@@ -40,4 +40,5 @@ $lang[34]="<center><u><strong><font size=\"4\" face=\"Arial\" color=\"#FF0000\">
 $lang[35]="</body>\n</html>\n";
 $lang[36]="<center>Unable to write to:<br /><br /><b>";
 $lang[37]="</b><br /><br />Please ensure this file is writable then run this script again.</center>";
+$lang[38]="<center><br /><font color=red size=4><b>Access Denied</b></font></center>";
 ?>

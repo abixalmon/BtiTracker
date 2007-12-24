@@ -31,6 +31,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
+
 $BASEDIR=str_replace("\\", "/", dirname(__FILE__));
 
 echo "
@@ -46,6 +47,21 @@ echo "
 
 require_once($BASEDIR."/include/settings.php");
 require_once($BASEDIR."/language/english/lang_smf_import.php");
+
+// Lets open a connection to the database
+mysql_select_db($database, mysql_connect($dbhost,$dbuser,$dbpass));
+
+(isset($_COOKIE["uid"])?$id=intval($_COOKIE["uid"]):$id=1);
+(isset($_COOKIE["pass"])?$pass=$_COOKIE["pass"]:$pass="");
+
+$res=mysql_query("SELECT u.random, u.password, ul.admin_access FROM {$TABLE_PREFIX}users u LEFT JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id=$id");
+$row=mysql_fetch_assoc($res);
+if(md5($row["random"] . $row["password"] . $row["random"])!=$pass || $row["admin_access"]=="no")
+    die($lang[38]);
+
+$lock=mysql_fetch_assoc(mysql_query("SELECT random FROM {$TABLE_PREFIX}users WHERE id=1"));
+if($lock["random"]==54345)
+    die($lang[26] . $lang[27] . $lang[35]);
 
 (!file_exists($BASEDIR."/smf/Settings.php") ? $files_present=$lang[1] : $files_present=$lang[0]);
 
@@ -85,15 +101,6 @@ if($files_present==$lang[0])
 (isset($_GET["confirm"]) ? $confirm=$_GET["confirm"] : $confirm="");
 (isset($_GET["start"]) ? $start=intval($_GET["start"]) : $start=2);
 (isset($_GET["counter"]) ? $counter=intval($_GET["counter"]) : $counter=0);
-
-
-
-// Lets open a connection to the database
-mysql_select_db($database, mysql_connect($dbhost,$dbuser,$dbpass));
-
-$lock=mysql_fetch_assoc(mysql_query("SELECT random FROM {$TABLE_PREFIX}users WHERE id=1"));
-if($lock["random"]==54345)
-    die($lang[26] . $lang[27] . $lang[35]);
 
 if($act=="")
 {
