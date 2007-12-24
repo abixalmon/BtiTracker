@@ -38,4 +38,6 @@ $lang[32]="<center><u><strong><font size='4' face='Arial'>Import Complete</font>
 $lang[33]="<center><font face=\"Arial\" size=\"2\">Please <a target='_new' href='smf/index.php?action=login'>login to your new SMF forum</a> using your Tacker details and goto<br />the <strong>Administration Center</strong> then select <strong>Forum Maintenance</strong> and run<br /><strong>Find and repair any errors.</strong> followed by <strong>Recount all forum totals<br />and statistics.</strong> to tidy up the import and fix the post count etc.<br /><br /><strong><font color='#0000FF'>Your integrated SMF Forum should then be ready to use!</font></strong></font></center>";
 $lang[34]="<center><u><strong><font size=\"4\" face=\"Arial\" color=\"#FF0000\">ERROR!</font></strong></u></center><br />\n<br />\n<center><font face=\"Arial\" size=\"3\">You typed the wrong password or you're not the owner of this tracker!<br />\nPlease note that your IP as been logged.</font></center>";
 $lang[35]="</body>\n</html>\n";
+$lang[36]="<center>Unable to write to:<br /><br /><b>";
+$lang[37]="</b><br /><br />Please ensure this file is writable then run this script again.</center>";
 ?>

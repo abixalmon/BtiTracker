@@ -33,6 +33,17 @@
 
 $BASEDIR=str_replace("\\", "/", dirname(__FILE__));
 
+echo "
+<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
+<html>
+  <head>
+  <title>SMF Import</title>
+  <meta http-equiv=\"content-type\" content=\"text/html; charset=ISO-8859-1\" />
+  <link rel=\"stylesheet\" href=\"$BASEDIR/style/xbtit_default/main.css\" type=\"text/css\" />
+  </head>
+  <body>
+";
+
 require_once($BASEDIR."/include/settings.php");
 require_once($BASEDIR."/language/english/lang_smf_import.php");
 
@@ -60,6 +71,8 @@ if($files_present==$lang[0])
             fwrite($fd,$contents);
             fclose($fd);
         }
+        else
+            die($lang[36] . $filename . $lang[37]);
     } 
 }
 (isset($_GET["act"]) ? $act=$_GET["act"] : $act="");
@@ -67,16 +80,7 @@ if($files_present==$lang[0])
 (isset($_GET["start"]) ? $start=intval($_GET["start"]) : $start=2);
 (isset($_GET["counter"]) ? $counter=intval($_GET["counter"]) : $counter=0);
 
-echo "
-<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
-<html>
-  <head>
-  <title>SMF Import</title>
-  <meta http-equiv=\"content-type\" content=\"text/html; charset=ISO-8859-1\" />
-  <link rel=\"stylesheet\" href=\"$BASEDIR/style/xbtit_default/main.css\" type=\"text/css\" />
-  </head>
-  <body>
-";
+
 
 // Lets open a connection to the database
 mysql_select_db($database, mysql_connect($dbhost,$dbuser,$dbpass));
