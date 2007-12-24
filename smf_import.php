@@ -424,7 +424,7 @@ elseif($act=="member_import" && $confirm=="yes")
     $newstart=$end+1;
     
     // Import Tracker accounts to the forum
-    $query="SELECT id, username, id_level+10 AS id_level, password, email, UNIX_TIMESTAMP(joined) AS joined, lip FROM {$TABLE_PREFIX}users WHERE id>=$start AND id<=$end ORDER BY id ASC";
+    $query="SELECT u.id, u.username, u.id_level +10 id_level, u.password, u.email, UNIX_TIMESTAMP(u.joined) joined, u.lip, COUNT(p.userid) posts FROM {$TABLE_PREFIX}users u LEFT JOIN {$TABLE_PREFIX}posts p ON u.id=p.userid WHERE u.id >=$start AND u.id <=$end GROUP BY u.id ORDER BY u.id ASC";
     $list=mysql_query($query);
     $count=mysql_num_rows($list);
     if($start==2)
@@ -434,7 +434,7 @@ elseif($act=="member_import" && $confirm=="yes")
         while ($account=mysql_fetch_assoc($list))
         {
             $counter++;
-            @mysql_query("INSERT INTO {$db_prefix}members (ID_MEMBER, memberName, dateRegistered, ID_GROUP, realName, passwd, emailAddress, memberIP, memberIP2, is_activated, passwordSalt) VALUES (".$account["id"].", '".$account["username"]."', ".$account["joined"].", ".$account["id_level"].", '".$account["username"]."', '".$account["password"]."', '".$account["email"]."', '".long2ip($account["lip"])."', '".long2ip($account["lip"])."', 1, '')");
+            @mysql_query("INSERT INTO {$db_prefix}members (ID_MEMBER, memberName, dateRegistered, ID_GROUP, realName, passwd, emailAddress, memberIP, memberIP2, is_activated, passwordSalt, posts) VALUES (".$account["id"].", '".$account["username"]."', ".$account["joined"].", ".$account["id_level"].", '".$account["username"]."', '".$account["password"]."', '".$account["email"]."', '".long2ip($account["lip"])."', '".long2ip($account["lip"])."', 1, '',".$account["posts"].")");
             @mysql_query("UPDATE {$TABLE_PREFIX}users SET smf_fid=".$account["id"]." WHERE id=".$account["id"]);
         }
         print("<script LANGUAGE=\"javascript\">window.location.href='".$_SERVER["PHP_SELF"]."?act=member_import&confirm=yes&start=$newstart&counter=$counter'</script>");
