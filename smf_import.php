@@ -51,7 +51,12 @@ require_once($BASEDIR."/language/english/lang_smf_import.php");
 
 if($files_present==$lang[0])
 {
-    require_once($BASEDIR."/smf/Settings.php");
+    $filename=$BASEDIR."/smf/Settings.php";
+    $fd=fopen($filename,"r");
+    $data=fread($fd,filesize($filename));
+    $start=strpos($data, "\$db_prefix");
+    $end=strpos(substr($data,$start),";")+1;
+    $data=substr($data,$start,$end);
     
     $filename=dirname(__FILE__)."/include/settings.php";
     if (file_exists($filename))
@@ -66,7 +71,7 @@ if($files_present==$lang[0])
             $contents.="\$dbpass = \"$dbpass\";\n";
             $contents.="\$database = \"$database\";\n";
             $contents.= "\$TABLE_PREFIX = \"$TABLE_PREFIX\";\n";
-            $contents.= "\$db_prefix = \"$db_prefix\";\n";
+            $contents.= $data."\n";
             $contents.= "\n?>";
             fwrite($fd,$contents);
             fclose($fd);
