@@ -1,9 +1,6 @@
-xBtit (aka BtiTracker v.2)
---------------------------
-There is really a lot of changes, all files are different, it's not possible to upgrade a modified Btit 1.4.x without
-doing standard database upgrade (using upgrade.php which is NOT included in the standard package) and then applying 
-hacks again on your new installed clean xBtit. Please note that you'll have an easy way to install hacks, but all 
-existing hacks need to be packaging (at the moment no one done). 
+xbtit v.2
+---------
+There is really a lot of changes, all files are different, it's not possible to upgrade a modified Btit 1.4.x without doing standard database upgrade (using upgrade.php) and then applying hacks again on your new installed clean xbtit. Please note that you'll have an easy way to install hacks, but all existing hacks need to be packaging (at the moment not one is done). 
 Now let's go with major changes list (new features only):
 
 - real template system, 99% of the html code is out for the php files using bTemplate (http://www.massassi.com/bTemplate/)
@@ -31,7 +28,7 @@ Don't remember other "major" changes, you should know that xBtit asked a lot of 
 - users
 
 
-===========================================================================================================================
+===============================================================================================
 
 
 
@@ -298,7 +295,7 @@ torrents.php
 usercp.php
 userdetails.php
 
-**************************************************************************************************************************************
+*************************************************************************
 
 Btit Tracker v.1.3.2
 --------------------
@@ -341,7 +338,7 @@ blocks\lasttorrents_block.php
 blocks\toptorrents_block.php
 blocks\paypal_block.php         + NEW
 
-**************************************************************************************************************************************
+*************************************************************************
 
 Btit Tracker v.1.3.1
 --------------------
@@ -353,7 +350,7 @@ LIST OF CHANGED FILES:
 account.php
 account_change.php
 
-**************************************************************************************************************************************
+*************************************************************************
 
 Btit Tracker v.1.3
 ------------------
@@ -411,7 +408,7 @@ include\sitelog.php     + NEW
 sql\database.sql
 upgrade\12_to_13.sql    + NEW
 
-**************************************************************************************************************************************
+*************************************************************************
 
 Btit Tracker v.1.2
 ---------------
@@ -476,7 +473,7 @@ List of changed/new files:
 .\include\prune_users.php       (NEW)
 .\include\sanity.php
 
-**************************************************************************************************************************************
+*************************************************************************
 
 Btit Tracker v.1.1
 ---------------
@@ -489,7 +486,7 @@ Btit Tracker v.1.1
 - upload.php:
     + fixed: malicious code in torrent filename/info.
 
-**************************************************************************************************************************************
+*************************************************************************
 
 Btit Tracker v.1
 -------------
