@@ -1,9 +1,9 @@
 <?php
 
 $dbhost = "localhost";
-$dbuser = "test";
-$dbpass = "test";
-$database = "btit";
+$dbuser = "";
+$dbpass = "";
+$database = "";
 $TABLE_PREFIX = "";
 
 ?>
