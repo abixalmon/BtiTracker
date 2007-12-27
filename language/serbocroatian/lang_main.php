@@ -421,4 +421,8 @@ $language["WT"]="WT";
 $language["X_TIMES"]="puta";
 $language["YES"]="Da";
 $language["LAST_IP"]="Zadnji IP";
+$language["FIRST_UNREAD"]="Idi na prvi ne procitan post";
+$language["MODULE_UNACTIVE"]="Potreban modul nije aktivan!";
+$language["MODULE_NOT_PRESENT"]="Potreban modul ne postoji!";
+$language["MODULE_LOAD_ERROR"]="Potreban modul se cini da ima gresku!";
 ?>
