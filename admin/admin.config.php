@@ -130,18 +130,19 @@ switch ($action)
               // control missed field (latest xbt don't have torrent_pass field)
               $mf=mysql_list_fields($database,"xbt_users");
               $tp_present=false;
+              $tpv_present=false;
               for ($i=0;$i<mysql_num_fields($mf);$i++)
                 {
                   $fn=mysql_field_name($mf,$i);
                   if ($fn=="torrent_pass")
-                     {
                          $tp_present=true;
-                         break;
-                  }
+                  if ($fn=="torrent_pass_version")
+                        $tpv_present=true;
               }
               if (!$tp_present)
                  do_sqlquery("ALTER TABLE xbt_users ADD torrent_pass CHAR(32) NOT NULL;",true);
-              do_sqlquery("ALTER TABLE `xbt_users` CHANGE `torrent_pass_version` `torrent_pass_version` INT(11) NOT NULL DEFAULT '0'",true);
+              if ($tpv_present)
+                 do_sqlquery("ALTER TABLE `xbt_users` CHANGE `torrent_pass_version` `torrent_pass_version` INT(11) NOT NULL DEFAULT '0'",true);
 
               // insert missed users in xbt_users
               do_sqlquery("INSERT INTO xbt_users (uid, torrent_pass) SELECT id,pid FROM {$TABLE_PREFIX}users WHERE id NOT IN (SELECT uid FROM xbt_users)",true);
