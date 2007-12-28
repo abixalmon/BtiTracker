@@ -104,7 +104,7 @@ ADD INDEX ( `id_parent` );
 
 --- new table for installed hack
 CREATE TABLE `btit_hacks` (
-  `id` INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  `id` INT( 11 ) NOT NULL AUTO_INCREMENT,
   `title` VARCHAR( 200 ) NOT NULL ,
   `version` VARCHAR( 10 ) NOT NULL ,
   `author` VARCHAR( 100 ) NOT NULL ,
