@@ -52,9 +52,17 @@ if (isset($_FILES["torrent"]))
    {
    if ($_FILES["torrent"]["error"] != 4)
    {
-      $fd = fopen($HTTP_POST_FILES["torrent"]["tmp_name"], "rb") or stderr($language["ERROR"],$language["FILE_UPLOAD_ERROR_1"]);
-      is_uploaded_file($HTTP_POST_FILES["torrent"]["tmp_name"]) or stderr($language["ERROR"],$language["FILE_UPLOAD_ERROR_2"]);
-      $length=filesize($HTTP_POST_FILES["torrent"]["tmp_name"]);
+      $HTTP_POST_FILES["torrent"]["tmp_name"]=str_replace("\\", "/", $HTTP_POST_FILES["torrent"]["tmp_name"]);
+      $_FILES["torrent"]["tmp_name"]=str_replace("\\", "/", $_FILES["torrent"]["tmp_name"]);
+
+      if (strpos($_FILES["torrent"]["tmp_name"],"/"))
+         $torrenttemp=$_FILES["torrent"]["tmp_name"];
+      else
+         $torrenttemp=$HTTP_POST_FILES["torrent"]["tmp_name"];
+
+      $fd = fopen($torrenttemp, "rb") or stderr($language["ERROR"],$language["FILE_UPLOAD_ERROR_1"]);
+      is_uploaded_file($torrenttemp) or stderr($language["ERROR"],$language["FILE_UPLOAD_ERROR_2"]);
+      $length=filesize($torrenttemp);
       if ($length)
         $alltorrent = fread($fd, $length);
       else {
@@ -174,7 +182,7 @@ if (!isset($array["announce"]))
       if (!in_array($announce,$TRACKER_ANNOUNCEURLS) && $EXTERNAL_TORRENTS==false)
          {
            err_msg($language["ERROR"],$language["ERR_EXTERNAL_NOT_ALLOWED"]);
-           unlink($HTTP_POST_FILES["torrent"]["tmp_name"]);
+           unlink($torrenttemp);
            stdfoot();
            exit();
          }
@@ -214,7 +222,7 @@ if (!isset($array["announce"]))
       $status = do_sqlquery($query,true); //makeTorrent($hash, true);
       if ($status)
          {
-         $mf=@move_uploaded_file($HTTP_POST_FILES["torrent"]["tmp_name"] , $TORRENTSDIR . "/" . $hash . ".btf");
+         $mf=@move_uploaded_file($torrenttemp, $TORRENTSDIR . "/" . $hash . ".btf");
          if (!$mf)
            {
            // failed to move file
@@ -251,7 +259,7 @@ if (!isset($array["announce"]))
       else
           {
               err_msg($language["ERROR"],$language["ERR_ALREADY_EXIST"]);
-              unlink($HTTP_POST_FILES["torrent"]["tmp_name"]);
+              unlink($torrenttemp);
               stdfoot();
               die();
           }
