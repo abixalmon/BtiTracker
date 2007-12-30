@@ -166,8 +166,9 @@ function print_version()
 
   $time_end=get_microtime();
   $version=("<br /><br /><p align=\"center\">");
+  $version.=("<a href=\"#\">Back To Top</a><br />[&nbsp;&nbsp;<u>Design By</u>: <a href=\"http://global-bttracker.no-ip.org/forum/\" target=\"_blank\">TreetopClimber</a>&nbsp;&nbsp;]&nbsp;[&nbsp;&nbsp;<u>xbtit ($tracker_version) By</u>: <a href=\"http://www.btiteam.org/\" target=\"_blank\">Btiteam</a>&nbsp;]</p>");
   if ($PRINT_DEBUG)
-  $version.=("<a href=\"#\">Back To Top</a><br />[&nbsp;&nbsp;<u>Design By: </u><a href=\"http://global-bttracker.no-ip.org/forum/\" target=\"_blank\">TreetopClimber</a>&nbsp;&nbsp;]&nbsp;[&nbsp;&nbsp;<u>xbtit ($tracker_version) By: </u><a href=\"http://www.btiteam.org/\" target=\"_blank\">Btiteam</a>&nbsp;&nbsp;]<br />[Queries: $num_queries] - [ Script Execution time: ".number_format(($time_end-$time_start),4)." sec. ] - [ GZIP: $gzip ]</p>");
+  $version.=("<br />[Queries: $num_queries] - [ Script Execution time: ".number_format(($time_end-$time_start),4)." sec. ] - [ GZIP: $gzip ]</p>");
 
   return $version;
 

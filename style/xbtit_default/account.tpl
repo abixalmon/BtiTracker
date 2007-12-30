@@ -175,6 +175,11 @@ function form_control()
        <td align="left" class="header"><tag:language.IMAGE_CODE />:</td>
        <td align="left" class="lista"><input type="text" name="private_key" maxlength="6" size="6" value="" />&nbsp;&nbsp;<tag:account_captcha /></td>
     </tr>
+    <else:CAPTCHA>
+    <tr>
+       <td align="left" class="header"><tag:language.SECURITY_CODE />:</td>
+       <td align="left" class="lista"><tag:scode_question /><input type="text" name="scode_answer" maxlength="6" size="6" value="" /></td>
+    </tr>
     </if:CAPTCHA>
     <tr>
        <td align="center" class="header" colspan="2">

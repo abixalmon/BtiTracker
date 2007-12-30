@@ -240,12 +240,12 @@ switch ($action)
       if ($_POST["confirm"]==$language["FRM_CONFIRM"])
         {
 
-          $newtopic = $forumid > 0;
+          $newtopic = $topicid?false:true;
           $subject = isset($_POST["subject"])?sqlesc(htmlspecialchars(trim($_POST["subject"]))):false;
 
           if ($newtopic)
           {
-            if (!$subject)
+            if (!$subject || $subject=="''")
               stderr($language["ERROR"],$language["ERR_SUBJECT"]);
 
             if (strlen($subject) > $maxsubjectlength)
