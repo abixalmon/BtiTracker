@@ -289,7 +289,7 @@ class update_hacks
                               @mysql_select_db($database) or ($this->db_error());
                               // if we just test then that's all, else we will run the query
                               if (!$test)
-                                 @mysql_query(mysql_escape_string(str_replace("{\$db_prefix}","$TABLE_PREFIX",$hack_array[$i]["file"][$j]["operations"][$k]["data"])));
+                                 @mysql_query(str_replace("{\$db_prefix}","$TABLE_PREFIX",$hack_array[$i]["file"][$j]["operations"][$k]["data"]));
                             break;
 
                           case 'copy':
