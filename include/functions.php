@@ -101,7 +101,7 @@ function load_css($css_name)
 
   $DEFAULT_STYLE_URL="$BASEURL/style/xbtit_default";
 
-  if (file_exists("$STYLEPATH/$css_name"))
+  if (@file_exists("$STYLEPATH/$css_name"))
       return "$STYLEURL/$css_name";
   else
       return "$DEFAULT_STYLE_URL/$css_name";
@@ -117,7 +117,7 @@ function load_template($tpl_name)
 
   $DEFAULT_STYLE_PATH="$THIS_BASEPATH/style/xbtit_default";
 
-  if (file_exists("$STYLEPATH/$tpl_name"))
+  if (@file_exists("$STYLEPATH/$tpl_name"))
       return "$STYLEPATH/$tpl_name";
   else
       return "$DEFAULT_STYLE_PATH/$tpl_name";
@@ -131,7 +131,7 @@ function load_language($mod_language_name)
 
   $DEFAULT_LANGUAGE_PATH="$THIS_BASEPATH/language/english";
 
-  if (file_exists("$USERLANG/$mod_language_name"))
+  if (@file_exists("$USERLANG/$mod_language_name"))
       return "$USERLANG/$mod_language_name";
   else
       return "$DEFAULT_LANGUAGE_PATH/$mod_language_name";
@@ -1262,7 +1262,7 @@ function peercolor($num)
       $this->make_captcha($noise);
       @chmod($this->get_filename(),0766);
       $res="<input type=\"hidden\" name=\"public_key\" value=\"".$this->public_key."\" />\n";
-            $res.="<img align=\"middle\" src=\"".$this->get_filename()."\" border=\"0\" alt=\"\" />\n";
+            $res.="<img src=\"".$this->get_filename()."\" alt=\"\" />\n";
       return $res;
     }
   }
