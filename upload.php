@@ -59,6 +59,8 @@ if (isset($_FILES["torrent"]))
          $torrenttemp=$_FILES["torrent"]["tmp_name"];
       else
          $torrenttemp=$HTTP_POST_FILES["torrent"]["tmp_name"];
+      
+      $torrenttemp=realpath($torrenttemp);
 
       $fd = fopen($torrenttemp, "rb") or stderr($language["ERROR"],$language["FILE_UPLOAD_ERROR_1"]);
       is_uploaded_file($torrenttemp) or stderr($language["ERROR"],$language["FILE_UPLOAD_ERROR_2"]);
