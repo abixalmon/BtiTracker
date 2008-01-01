@@ -36,7 +36,7 @@ if (!defined("IN_BTIT"))
 
 require_once(load_language("lang_account.php"));
 
-if (!isset($_POST["language"])) $_POST["language"] = 0;
+if (!isset($_POST["language"])) $_POST["language"] = max(1,$btit_settings["default_language"]);
 $idlang=intval($_POST["language"]);
 
 
@@ -47,7 +47,7 @@ if (isset($_GET["returnto"])) $link=urldecode($_GET["returnto"]);
 if (isset($_GET["act"])) $act=$_GET["act"];
  else $act="signup";
 if (isset($_GET["language"])) $idlangue=intval($_GET["language"]);
- else $idlangue="";
+ else $idlangue=max(1,$btit_settings["default_language"]);
 if (isset($_GET["style"])) $idstyle=intval($_GET["style"]);
  else $idstyle="";
 if (isset($_GET["flag"])) $idflag=intval($_GET["flag"]);
@@ -152,6 +152,7 @@ function tabella($action,$dati=array()) {
      {
           $dati["username"]="";
           $dati["email"]="";
+          $dati["language"]=$idlangue;
 
      }
 
