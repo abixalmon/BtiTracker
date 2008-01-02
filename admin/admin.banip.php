@@ -68,7 +68,7 @@ switch ($action)
             else{
                  $comment = sqlesc($comment);
                  $added = sqlesc(time());
-                 do_sqlquery("INSERT INTO {$TABLE_PREFIX}bannedip (added, addedby, first, last, comment) VALUES($added, $CURUSER[uid], $firstip, $lastip, '$comment')",true);
+                 do_sqlquery("INSERT INTO {$TABLE_PREFIX}bannedip (added, addedby, first, last, comment) VALUES($added, $CURUSER[uid], $firstip, $lastip, $comment)",true);
             }
           }
     // don't break, so now we read directly ;)
