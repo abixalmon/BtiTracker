@@ -83,8 +83,9 @@ function handlehHttpReceiveChat() {
 
 //stores a new comment on the server
 function sendComment() {
+    if (httpSendChat.readyState == 4 || httpSendChat.readyState == 0) {
     currentChatText = encodeURIComponent(document.forms['chatForm'].elements['chatbarText'].value);
-    if (currentChatText != '' & (httpSendChat.readyState == 4 || httpSendChat.readyState == 0)) {
+    if (currentChatText != '') {
         currentName = encodeURIComponent(document.forms['chatForm'].elements['name'].value);
         currentUid = document.forms['chatForm'].elements['uid'].value;
         param = 'n='+ currentName+'&c='+ currentChatText+'&u='+ currentUid; 
@@ -93,6 +94,7 @@ function sendComment() {
     httpSendChat.onreadystatechange = handlehHttpSendChat;
     httpSendChat.send(param);
     document.forms['chatForm'].elements['chatbarText'].value = '';
+    }
     } else {
         setTimeout('sendComment();',1000);
     }
