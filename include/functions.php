@@ -700,19 +700,18 @@ function rank_list()
             
 function stdfoot($normalpage=true, $update=true, $adminpage=false, $torrentspage=false, $forumpage=false) {
 
-    global $STYLEPATH, $tpl;
+    global $STYLEPATH, $tpl, $no_columns;
+
     $tpl->set("main_footer",bottom_menu()."<br />\n");
     $tpl->set("btit_version",print_version());
 
-    if ($normalpage)
+    if ($normalpage && !$no_columns)
         echo $tpl->fetch(load_template("main.tpl"));
-        elseif ($adminpage)
+    elseif ($adminpage)
         echo $tpl->fetch(load_template("main.left_column.tpl"));
-        elseif ($torrentspage)
-            echo $tpl->fetch(load_template("main.no_columns.tpl"));
-        elseif ($forumpage)
-            echo $tpl->fetch(load_template("main.no_columns.tpl"));
-        else
+    elseif ($torrentspage || $forumpage || $no_columns==1)
+        echo $tpl->fetch(load_template("main.no_columns.tpl"));
+    else
         echo $tpl->fetch(load_template("main.no_header_1_column.tpl")); 
 
     ob_end_flush();

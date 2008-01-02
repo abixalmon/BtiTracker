@@ -170,11 +170,16 @@ $logo.="
 $slideIt="<span style=\"align:left;\"><a href=\"javascript:collapse2.slideit()\"><img src=\"$STYLEURL/images/slide.png\" border=\"0\" alt=\"\" /></a></span>";
 $header.="<div>".main_menu()."</div>";
 
+$left_col=side_menu();
+$right_col=right_menu();
+
+if ($left_col=="" && $right_col=="")
+   $no_columns=1;
 
 $tpl->set("main_jscript",$morescript);
 if (!$no_columns && $pageID!='admin' && $pageID!='forum' && $pageID!='torrents') {
-  $tpl->set("main_left",side_menu());
-  $tpl->set("main_right",right_menu());
+  $tpl->set("main_left",$left_col);
+  $tpl->set("main_right",$right_col);
 }
 
 $tpl->set("main_logo","$logo");

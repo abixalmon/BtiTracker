@@ -36,7 +36,7 @@ function windowunder(link)
           <td class="lista" align="center"><tag:torrent.info_hash /></td>
         </tr>
         <tr>
-          <td align="right" class="header"><tag:language.DESCRIPTION /></td>
+          <td align="right" class="header" valign="top"><tag:language.DESCRIPTION /></td>
           <td class="lista" align="center"><tag:torrent.description /></td>
         </tr>
         <tr>
