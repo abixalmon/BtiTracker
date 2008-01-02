@@ -126,8 +126,8 @@ switch ($do)
            // Verify the email address in the url is the address we sent the mail to
            if ($newmail!=$mailcheck) {
              err_msg($language["ERROR"],$language["NOT_MAIL_IN_URL"]);
-         stdfoot();
-         exit;
+             stdfoot();
+             exit;
            }
 
             // Update their tracker member record with the now verified email address
@@ -144,8 +144,8 @@ switch ($do)
             }
             
             // Print a message stating that their email has been successfully changed
-            success_msg($language["REVERIFY_CONGRATS1"]." ".$oldmail." ".$language["REVERIFY_CONGRATS2"]." ".$newmail." ".$language["REVERIFY_CONGRATS3"]."<a href=\"".$BASEURL."\">".$language["MNU_INDEX"]."</a>");
-        stdfoot(true,false);
+            success_msg($language["SUCCESS"],$language["REVERIFY_CONGRATS1"]." ".$oldmail." ".$language["REVERIFY_CONGRATS2"]." ".$newmail." ".$language["REVERIFY_CONGRATS3"]."<a href=\"".$BASEURL."\">".$language["MNU_INDEX"]."</a>");
+            stdfoot(true,false);
             // If the member clicking the link is validating...
             if ($idlevel==2)
             {
@@ -155,11 +155,14 @@ switch ($do)
                     do_sqlquery("UPDATE {$db_prefix}members SET ID_GROUP=13 WHERE ID_MEMBER=".$getacc["smf_fid"]);
             }
        }
-           // If the random number in the url is incorrect print an error message
-           else err_msg($language["REVERIFY_FAILURE"]."<a href=\"".$BASEURL."\">".$language["MNU_INDEX"]."</a>");
-       stdfoot();
-       exit;
-           // End the block and add a couple of linespaces afterwards.
+       // If the random number in the url is incorrect print an error message
+       else
+         {
+         err_msg($language["REVERIFY_FAILURE"]."<a href=\"".$BASEURL."\">".$language["MNU_INDEX"]."</a>");
+         stdfoot();
+         exit;
+       }
+       // End the block and add a couple of linespaces afterwards.
 
        }
 // <--- Reverify Mail Hack by Petr1fied - End
