@@ -30,6 +30,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
+if (!defined("IN_BTIT"))
+      die("non direct access!");
+
+
 $usercptpl->set("MSG_LIST",false,true);
 $usercptpl->set("MSG_READ",false,true);
 $usercptpl->set("MSG_EDIT",false,true);

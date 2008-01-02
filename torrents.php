@@ -30,6 +30,12 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
+
+
+if (!defined("IN_BTIT"))
+      die("non direct access!");
+
+
 $scriptname = htmlspecialchars($_SERVER["PHP_SELF"]."?page=torrents");
 $addparam = "";
 

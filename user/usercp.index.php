@@ -30,6 +30,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
+if (!defined("IN_BTIT"))
+      die("non direct access!");
+
+
 require_once(load_language("lang_usercp.php"));
 global $CURUSER, $language, $usercptpl;
 

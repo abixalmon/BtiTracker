@@ -30,6 +30,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
+if (!defined("IN_BTIT"))
+      die("non direct access!");
+
+
 $id = AddSlashes((isset($_GET["id"])?$_GET["id"]:false));
 
 if (!isset($id) || !$id)

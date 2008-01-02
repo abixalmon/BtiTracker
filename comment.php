@@ -31,6 +31,10 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 
+if (!defined("IN_BTIT"))
+      die("non direct access!");
+
+
 if (!$CURUSER || $CURUSER["uid"]==1)
    {
    stderr($language["ERROR"],$language["ONLY_REG_COMMENT"]);

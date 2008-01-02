@@ -31,6 +31,10 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 
+if (!defined("IN_BTIT"))
+      die("non direct access!");
+
+
 $id = mysql_escape_string($_GET["info_hash"]);
 
 if (!isset($id) || !$id)

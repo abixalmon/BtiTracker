@@ -30,6 +30,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
+if (!defined("IN_BTIT"))
+      die("non direct access!");
+
+
 $usercp_menu=array(
 0=>array(
         "title"=>$language["MNU_UCP_HOME"],

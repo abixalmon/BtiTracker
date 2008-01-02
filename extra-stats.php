@@ -30,6 +30,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
+if (!defined("IN_BTIT"))
+      die("non direct access!");
+
+
 function usertable($res, $frame_caption) {
 
  global $STYLEPATH, $extratpl, $language;

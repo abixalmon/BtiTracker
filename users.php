@@ -31,6 +31,10 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 
+if (!defined("IN_BTIT"))
+      die("non direct access!");
+
+
 if ($CURUSER["view_users"]=="no")
    {    // start 'view_users'
        err_msg($language["ERROR"],$language["NOT_AUTHORIZED"]." ".$language["MEMBERS"]."!");

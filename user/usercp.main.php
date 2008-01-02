@@ -30,6 +30,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
+if (!defined("IN_BTIT"))
+      die("non direct access!");
+
+
           $uid = intval($CURUSER["uid"]);
           $res=do_sqlquery("SELECT u.lip,u.username,u.downloaded,u.uploaded, UNIX_TIMESTAMP(u.joined) as joined, u.flag, c.name, c.flagpic FROM {$TABLE_PREFIX}users u LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag=c.id WHERE u.id=$uid",true);
           $row = mysql_fetch_array($res);

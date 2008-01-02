@@ -30,8 +30,12 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
+
+if (!defined("IN_BTIT"))
+      die("non direct access!");
+
+
 $i=0;
-dbconn();
 $scriptname = htmlspecialchars($_SERVER["PHP_SELF"]."?page=peers&amp;id=$_GET[id]");
 $addparam = "";
 $id = AddSlashes($_GET["id"]);

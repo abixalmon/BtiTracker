@@ -35,7 +35,7 @@ if (!defined("IN_BTIT"))
       die("non direct access!");
 
 if (!$CURUSER || $CURUSER["view_forum"]!="yes")
-   stderr(ERROR,NOT_AUTHORIZED." ".MNU_FORUM);
+   stderr($language["ERROR"],$language["NOT_AUTHORIZED"]." ".$language["MNU_FORUM"]);
 
 if ($btit_settings["forum"]=="smf")
   {

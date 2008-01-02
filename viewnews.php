@@ -30,6 +30,12 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
+
+if (!defined("IN_BTIT"))
+      die("non direct access!");
+
+
+
 if ($CURUSER["view_news"]=="no")
    {
        err_msg($language["ERROR"],$language["NOT_AUTHORIZED"]."!");

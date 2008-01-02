@@ -30,6 +30,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
+if (!defined("IN_BTIT"))
+      die("non direct access!");
+
+
 require_once(load_language("lang_recover.php"));
 
 if (isset($_GET["act"])) $act=$_GET["act"];

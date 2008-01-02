@@ -31,6 +31,10 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 
+if (!defined("IN_BTIT"))
+      die("non direct access!");
+
+
 // load language file
 require(load_language("lang_userdetails.php"));
 
