@@ -38,15 +38,15 @@
     <loop:users>
     <tr>
       <td class="lista" align="left"><tag:users[].username /></td>
-      <td class="lista" align="center"><tag:users[].joined /></td>
-      <td class="lista" align="center"><tag:users[].lastconnect /></td>
-      <td class="lista" align="center"><tag:users[].level /></td>
-      <td class="lista" align="center"><input type="checkbox" name="id[]" value="<tag:users[].id />" /></td>
+      <td class="lista" style="text-align:center"><tag:users[].joined /></td>
+      <td class="lista" style="text-align:center"><tag:users[].lastconnect /></td>
+      <td class="lista" style="text-align:center"><tag:users[].level /></td>
+      <td class="lista" style="text-align:center"><input type="checkbox" name="id[]" value="<tag:users[].id />" /><input type="hidden" name="smf_fid[]" value="<tag:users[].smf_fid />" /></td>
     </tr>
     </loop:users>
     </if:no_records>
     <tr>
-      <td class="lista" align="right" colspan="5"><input type="submit" class="btn" name="action" value="GO" /></td>
+      <td class="lista" style="text-align:right;" colspan="5"><input type="submit" class="btn" name="action" value="GO" /></td>
     </tr>
   </table>
 </form>

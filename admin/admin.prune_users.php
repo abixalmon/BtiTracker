@@ -59,12 +59,12 @@ if ($action=="prune")
      if($GLOBALS["FORUMLINK"]=="smf")
      {
          $smf_fid=array();
-         foreach($_POST["smf_fid"] AS $v)
+         foreach($_POST["smf_fid"] AS $id=>$v)
          {
              $smf_fid[]=intval($v);
          }
-        
-         do_sqlquery("DELETE FROM {$db_prefix}members WHERE ID_MEMBER IN(".implode(",", $smf_fid).")",true);
+         if (implode("", $smf_fid)!="")
+            do_sqlquery("DELETE FROM {$db_prefix}members WHERE ID_MEMBER IN (".implode(",", $smf_fid).")",true);
      }
      
      $block_title=$language["PRUNE_USERS_PRUNED"];
@@ -102,6 +102,8 @@ elseif ($action=="view")
              $ru[$i]["id"]=$rusers["id"];
              if($GLOBALS["FORUMLINK"]=="smf")
                  $ru[$i]["smf_fid"]=$rusers["smf_fid"];
+             else
+                 $ru[$i]["smf_fid"]="";
              $i++;
            }
       unset($res);
