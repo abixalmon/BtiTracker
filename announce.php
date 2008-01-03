@@ -196,12 +196,15 @@ if (mysql_num_rows($res) > 0)
 $downloaded = (float)($_GET["downloaded"]);
 $uploaded = (float)($_GET["uploaded"]);
 $left = (float)($_GET["left"]);
+
+// if private announce turned on
+if ($PRIVATE_ANNOUNCE) {
 $pid = AddSlashes(StripSlashes($pid));
 
-// if private announce turned on and PID empty string or not send by client
-if (($pid=="" || !$pid) && $PRIVATE_ANNOUNCE)
+// if PID empty string or not send by client
+if ($pid=="" || !$pid)
    show_error("Please redownload the torrent. PID system is active and pid was not found in the torrent");
-
+}
 
 // PID turned on
 if ($PRIVATE_ANNOUNCE) {
