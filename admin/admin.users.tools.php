@@ -180,13 +180,13 @@ switch ($action)
           $profile["torrentsperpage"]=$curu[0]["torrentsperpage"];
           $profile["frm_cancel"]="index.php?page=usercp&amp;uid=".$uid."";
 
-          $avatar_size=array(100);
+          $avatar_size=array(0=>100);
           if ($curu[0]["avatar"]!="")
               $profile["avatar"]=$curu[0]["avatar"];
           else
               $profile["avatar"]="$STYLEURL/images/default_avatar.gif";
 
-          $avatar_size=GetImageSize(htmlspecialchars($profile["avatar"]));
+          //$avatar_size=@getimagesize(htmlspecialchars($profile["avatar"]));
           $profile["avatar"]="<img ".($avatar_size[0]>80?"width=\"80\"":"")." src=\"".htmlspecialchars($profile["avatar"])."\" alt=\"\" />";
           $profile["uploaded"]=$curu[0]["uploaded"];
           $profile["downloaded"]=$curu[0]["downloaded"];

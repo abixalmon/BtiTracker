@@ -92,14 +92,16 @@ function _torrenttable($res, $frame_caption,$speed=false) {
      if ($speed)
         $torrent[$num-1]["speed"]=makesize($a["speed"]);
 
-     $extratpl->set("language",$language);
-     $extratpl->set("torrent",$torrent);
-     $extratpl->set("DISPLAY_SPEED",$speed,true);
-     $extratpl->set("DISPLAY_SPEED1",$speed,true);
-
-     return set_block($frame_caption,"center",$extratpl->fetch(load_template("extra-stats.torrent.tpl")));
 
    }
+
+   $extratpl->set("language",$language);
+   $extratpl->set("torrent",$torrent);
+   $extratpl->set("DISPLAY_SPEED",$speed,true);
+   $extratpl->set("DISPLAY_SPEED1",$speed,true);
+
+   return set_block($frame_caption,"center",$extratpl->fetch(load_template("extra-stats.torrent.tpl")));
+
 }
 
 

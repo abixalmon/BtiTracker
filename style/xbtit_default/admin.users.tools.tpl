@@ -37,7 +37,7 @@ function convert() {
     <tr>
       <td align="left" class="header"><tag:language.USER_NAME />:</td>
       <td align="left" class="lista"><input type="text" size="40" name="username" maxlength="100" value="<tag:profile.username />"/></td>
-      <td align="left" class="lista" rowspan="3"><div align="center"><tag:profile.avatar /></div></td>
+      <td align="left" class="lista" rowspan="5"><div align="center"><tag:profile.avatar /></div></td>
     </tr>
     <tr>
       <td align="left" class="header"><tag:language.USER_EMAIL /></td>
@@ -58,8 +58,8 @@ function convert() {
     <tr>
       <td align="left" class="header"><tag:language.UPLOADED />/<tag:language.DOWNLOADED />:</td>
       <td align="left" class="lista" colspan="2">
-        <input type="text" size="15" name="downloaded" maxlength="10" onkeyup="convert()" value="<tag:profile.downloaded />"/>
-        &nbsp;&nbsp;/&nbsp;&nbsp;<input type="text" size="15" name="uploaded" onkeyup="convert()" maxlength="10" value="<tag:profile.uploaded />"/>
+        <input type="text" size="18" name="downloaded" maxlength="18" onkeyup="convert()" value="<tag:profile.downloaded />"/>
+        &nbsp;&nbsp;/&nbsp;&nbsp;<input type="text" size="18" name="uploaded" onkeyup="convert()" maxlength="18" value="<tag:profile.uploaded />"/>
         &nbsp;&nbsp;(<input name="lblup" size="10" readonly="readonly" value="<tag:profile.up />" />&nbsp;&nbsp;/&nbsp;&nbsp;<input name="lbldown" size="10" readonly="readonly" value="<tag:profile.down />" />)
         &nbsp;&nbsp;<tag:language.RATIO />:<input name="lblratio" size="10" readonly="readonly" value="<tag:profile.ratio />" />
       </td>
