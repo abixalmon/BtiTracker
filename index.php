@@ -210,7 +210,7 @@ switch ($pageID) {
         // ALL OK, LET GO :)
         require("$THIS_BASEPATH/modules/$module_name/index.php");
         $tpl->set("main_content",set_block(ucfirst($module_name),"center",$module_out));
-        $tpl->set("main_title","Index->Torrents");
+        $tpl->set("main_title","Index->Modules->".ucfirst($module_name));
         break;
 
     case 'admin':

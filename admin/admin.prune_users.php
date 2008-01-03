@@ -59,7 +59,7 @@ if ($action=="prune")
      if($GLOBALS["FORUMLINK"]=="smf")
      {
          $smf_fid=array();
-         foreach($_POST["smf_fid"] AS $id=>$v)
+         foreach($_POST["smf_fid"] AS $v)
          {
              $smf_fid[]=intval($v);
          }
