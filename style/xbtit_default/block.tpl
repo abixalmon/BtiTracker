@@ -9,7 +9,4 @@
     <tag:block_content />
     </td>
   </tr>
- <!-- <tr>
-    <td class="block" align="center" height="20px"></td>
-  </tr>-->
 </table>

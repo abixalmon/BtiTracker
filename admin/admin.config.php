@@ -140,7 +140,7 @@ switch ($action)
                         $tpv_present=true;
               }
               if (!$tp_present)
-                 do_sqlquery("ALTER TABLE xbt_users ADD torrent_pass CHAR(32) NOT NULL;",true);
+                 do_sqlquery("ALTER TABLE xbt_users ADD torrent_pass CHAR(32) NOT NULL, ADD torrent_pass_secret bigint unsigned not null;",true);
               if ($tpv_present)
                  do_sqlquery("ALTER TABLE `xbt_users` CHANGE `torrent_pass_version` `torrent_pass_version` INT(11) NOT NULL DEFAULT '0'",true);
 
