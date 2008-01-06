@@ -30,7 +30,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-global $CURUSER, $FORUMLINK, $db_prefix;
+global $CURUSER, $FORUMLINK, $db_prefix,$XBTT_USE;
 
   if (isset($CURUSER) && $CURUSER && $CURUSER["uid"]>1)
   {
@@ -41,7 +41,20 @@ global $CURUSER, $FORUMLINK, $db_prefix;
 <?php
 $style=style_list();
 $langue=language_list();
-$resuser=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}users WHERE id=".$CURUSER["uid"]);
+if ($XBTT_USE)
+   {
+    $udownloaded="u.downloaded+IFNULL(x.downloaded,0)";
+    $uuploaded="u.uploaded+IFNULL(x.uploaded,0)";
+    $utables="{$TABLE_PREFIX}users u LEFT JOIN xbt_users x ON x.uid=u.id";
+   }
+else
+    {
+    $udownloaded="u.downloaded";
+    $uuploaded="u.uploaded";
+    $utables="{$TABLE_PREFIX}users u";
+}
+
+$resuser=do_sqlquery("SELECT $udownloaded as downloaded,$uuploaded as uploaded FROM $utables WHERE u.id=".$CURUSER["uid"]);
 $rowuser= mysql_fetch_array($resuser);
 
 print("<td style=\"text-align:center;\" align=\"center\">".$language["USER_LEVEL"].": ".$CURUSER["level"]."</td>\n");

@@ -121,7 +121,7 @@ function popusers(url)
       <td class="header"><tag:language.SUBJECT />: <tag:pmread.comment /></td>
    </tr>
    <tr>
-      <td><tag:pmread.body /></td>
+      <td class="lista"><tag:pmread.body /></td>
    </tr>
 <if:MSG_MENU>
     <tr>
