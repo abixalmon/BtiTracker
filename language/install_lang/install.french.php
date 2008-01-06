@@ -1,6 +1,6 @@
 <?php
 
-// english installation file //
+// french installation file //
 
 $install_lang["charset"]                = "ISO-8859-1";
 $install_lang["lang_rtl"]               = FALSE;
@@ -79,8 +79,28 @@ $install_lang["tracker_saved"]          = "La configuration est sauvegard&eacute
 $install_lang["finished"]               = "R&eacute;sum&eacute; d'installation";
 $install_lang["finished_step"]          = "R&eacute;sum&eacute;";
 $install_lang["succes_install1"]        = "L'installation est termin&eacute;e !";
-$install_lang["succes_install2"]        = "<p>Vous avez install&eacute; avec succ&egrave;s ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." comme tracker.</p><p>Nous vous conseillons de bloquer l'installation. Vous pouvez faire cela en renommant le fichier <b>install.unlock</b> en <b>install.lock</b> ou en supprimant le fichier <b>install.php</b>.</p>";
+$install_lang["succes_install2a"]       = "<p>Vous avez install&eacute; avec succ&egrave;s ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." comme tracker.</p><p>L'installation a &eacute;t&eacute; bloqu&eacute; avec succ&egrave;s et le fichier <b>install.php</b> supprim&eacute; afin de pr&egrave;venir toute utilisation ult&eacute;rieure.</p>";
+$install_lang["succes_install2b"]       = "<p>Vous avez install&eacute; avec succ&egrave;s ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." comme tracker.</p><p>Nous vous conseillons de bloquer l'installation. Vous pouvez faire cela en renommant le fichier <b>install.unlock</b> en <b>install.lock</b> ou en supprimant le fichier <b>install.php</b>.</p>";
 $install_lang["succes_install3"]        = "<p>L'&eacute;quipe BTIT vous souhaite une agr&eacute;able utilisation du produit, et esp&egrave;re vous voir bientot sur le <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forum</a>.</p>";
 $install_lang["go_to_tracker"]          = "Aller au Tracker";
-
+$install_lang["forum_type"]             = "Type de Forum";
+$install_lang["forum_internal"]         = "Forum interne xbtit";
+$install_lang["forum_smf"]              = "Simple Machines Forum";
+$install_lang["forum_other"]            = "Forum externe non int&eacute;gr&eacute; - Entrer l'adresse url ici -->";
+$install_lang["smf_download_a"]         = "<strong>Si vous utilisez Simple Machines Forum:</strong><br /><br/ >Veuillez t&eacute;l&eacute;chargez la derni&egrave;re version de Simple Machines Forum <a target='_new' href='http://www.simplemachines.org/download/'>ici</a> et uploadez le contenu de l'archive dans le dossier \"smf\" et <a target='_new' href='smf/install.php'>cliquez ici</a> pour l'installer.*<br /><strong>(Utilisez s'il vous pla&icirc;t la m&ecirc;me base de donn&eacute;es que vous avez utilis&eacute;e lors de cette proc&eacute;dure d'installation).<br /><br /><font color='#FF0000'>Une fois install&eacute;</font></strong> veuillez faire un CHMOD aux fichiers de language de SMF (<strong>";
+$install_lang["smf_download_b"]         = "</strong>) &agrave; 777 et cliquez <strong>Suivant</strong> pour continuer l'installation de xbtit.<br /><br /><strong>* Les liens s'ouvriront dans de nouvelles fen&ecirc;tres afin d'&eacute;viter la perte de l'installation de xbtit.</strong></p>";
+$install_lang["smf_err_1"]              = "Impossible de trouver Simple Machines Forum dans le dossier \"smf\", veuillez l'install&eacute; avant de continuer.<br /><br />Cliquez <a href=\"javascript: history.go(-1);\">ici</a> pour revenir &agrave; la page pr&eacute;c&eacute;dente.";
+$install_lang["smf_err_2"]              = "Impossible de trouver Simple Machines Forum dans la base de donn&eacute;es, veuillez l'install&eacute; avant de continuer.<br /><br />Cliquez <a href=\"javascript: history.go(-1);\">ici</a> pour revenir &agrave; la page pr&eacute;c&eacute;dente.";
+$install_lang["smf_err_3a"]             = "Impossible d'&eacute;crire le fichier de language de SMF (<strong>";
+$install_lang["smf_err_3b"]             = "</strong>) veuillez faire un CHMOD &agrave; 777 avant de continuer.<br /><br />Cliquez <a href=\"javascript: history.go(-1);\">ici</a> pour revenir &agrave; la page pr&eacute;c&eacute;dente.";
+$install_lang["allow_url_fopen"]        = "Valeur de php.ini pour \"allow_url_fopen\" (recommand&eacute;: ON)";
+$install_lang["allow_url_fopen_ON"]     = "<span style=\"color:#00FF00; font-weight: bold;\">ON</span>";
+$install_lang["allow_url_fopen_OFF"]    = "<span style=\"color:#FF0000; font-weight: bold;\">OFF</span>";
+$install_lang["succes_upgrade1"]        = "La mise &agrave jour est compl&egrave;te!";
+$install_lang["succes_upgrade2a"]       = "<p>Vous avez mis &agrave jour avec succ&egrave;s ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." comme tracker.</p><p>La mise &agrave; jour a &eacute;t&eacute; bloqu&eacute; avec succ&egrave;s mais nous vous conseillons de supprim&eacute; les fichiers <b>upgrade.php+install.php</b> pour une protection accrue.</p>";
+$install_lang["succes_upgrade2b"]       = "<p>Vous avez mis &agrave jour avec succ&egrave;s ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." comme tracker.</p><p>Nous vous conseillons de bloquer la mise &agrave; jour. Vous pouvez faire cela en renommant le fichier <b>install.unlock</b> en <b>install.lock</b> ou en supprimant les fichiers <b>upgrade.php+install.php</b>.</p>";
+$install_lang["succes_upgrade3"]        = "<p>L'&eacute;quipe BTIT vous souhaite une agr&eacute;able utilisation du produit, et esp&egrave;re vous voir bientot sur le <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forum</a>.</p>";
+$install_lang['error_mysql_database']   = "L'installation n'est pas en mesure d'acc&eacute;der &agrave; la base de donn&eacute;es &quot;<i>%s</i>&quot;. Chez certains h&eacute;bergeurs, vous devez cr&eacute;er la base de donn&eacute;es via le panneau d'administration avant que xBtit puisse l'utiliser. Certains ajoutent aussi des pr&eacute;fixes - comme votre pseudo - dans le nom des bases de donn&eacute;es.";
+$install_lang['error_message_click']    = "Cliquez icie";
+$install_lang['error_message_try_again']= "pour r&eacute;essayez";
 ?>
