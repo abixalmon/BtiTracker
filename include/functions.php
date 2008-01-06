@@ -202,7 +202,7 @@ function check_online($session_id, $location)
 
   //  $timeout=time()-(60*5); // 5 minutes
   //    $timeout=time()-(60*3); // 3 minutes
-        $timeout=time()-(60*1); // 1 minute
+    $timeout=time()-(60*15); // 1 minute
     @mysql_query("UPDATE {$TABLE_PREFIX}users SET lastconnect=NOW() WHERE id IN (SELECT user_id FROM {$TABLE_PREFIX}online ol WHERE ol.lastaction<$timeout AND ol.user_id>1)");
     @mysql_query("DELETE FROM {$TABLE_PREFIX}online WHERE lastaction<$timeout");
 

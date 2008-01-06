@@ -46,7 +46,7 @@ function SmileIT(smile){
 
 //pops out history window
 function Pophistory() {
-         newWin=window.open('index.php?page=allshout&nocolumns=1','shouthistory','height=500,width=490,resizable=yes,scrollbars=yes');
+         newWin=window.open('index.php?page=allshout','shouthistory','height=500,width=490,resizable=yes,scrollbars=yes');
          if (window.focus) {newWin.focus()}
 }
 

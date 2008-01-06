@@ -90,7 +90,7 @@
  
 if (isset($_POST["confirm"]) && $_POST["confirm"]==$language["FRM_CANCEL"]) {
     
-      header("Location: index.php?page=allshout&amp;nocolumns=1");
+      header("Location: index.php?page=allshout");
 }
 
 
@@ -169,7 +169,7 @@ header("Content-Type: text/html; charset=UTF-8");
                                   margin-top:-13px;
                                   margin-bottom:-3.5px;
                                   '>
-                                  <a onclick=\"return confirm('". str_replace("'","\'",DELETE_CONFIRM)."')\" href='index.php?page=allshout&amp;nocolumns=1&amp;sid=$sid&amp;delete'>
+                                  <a onclick=\"return confirm('". str_replace("'","\'",DELETE_CONFIRM)."')\" href='index.php?page=allshout&amp;sid=$sid&amp;delete'>
                                 <img border='0' class='DeleteSwap' src='images/canvas.gif' alt='' /></a>
 
                             </div>";
@@ -205,7 +205,7 @@ header("Content-Type: text/html; charset=UTF-8");
 
 
             $edit_text = "
-            <form enctype='multipart/form-data' name='shout' method='post' action='index.php?page=allshout&amp;nocolumns=1&amp;sid=$sid&amp;edit'>
+            <form enctype='multipart/form-data' name='shout' method='post' action='index.php?page=allshout&amp;sid=$sid&amp;edit'>
 
             <textarea style='width:99%; style='overflow: auto;' rows='2' name='shoutid'>".htmlspecialchars(unesc($text))."</textarea>
                           <div style='text-align:right;
@@ -235,8 +235,7 @@ header("Content-Type: text/html; charset=UTF-8");
         end;
     }
    
-         //header("Location: index.php?page=allshout&amp;nocolumns=1");
-         redirect("index.php?page=allshout&amp;nocolumns=1");
+         redirect("index.php?page=allshout");
    
       ############################################################
 }
@@ -316,8 +315,8 @@ function getData($lastID) {
                              margin-top:-13px;
                              margin-bottom:-3.5px;
                              '>
-                      <a href='index.php?page=allshout&amp;nocolumns=1&amp;sid=$id&amp;edit'><img border='0' class='EditSwap' src='images/canvas.gif' alt='' /></a>
-                      <a onclick=\"return confirm('". str_replace("'","\'",DELETE_CONFIRM)."')\" href='index.php?page=allshout&amp;nocolumns=1&amp;sid=$id&amp;delete'>
+                      <a href='index.php?page=allshout&amp;sid=$id&amp;edit'><img border='0' class='EditSwap' src='images/canvas.gif' alt='' /></a>
+                      <a onclick=\"return confirm('". str_replace("'","\'",DELETE_CONFIRM)."')\" href='index.php?page=allshout&amp;sid=$id&amp;delete'>
                       <img border='0' class='DeleteSwap' src='images/canvas.gif' alt='' /></a>
                  </div>";
                       
