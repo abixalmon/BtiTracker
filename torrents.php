@@ -384,9 +384,9 @@ if ($count>0) {
   else {
        $id = $data['hash'];
        if ($XBTT_USE)
-          $subres = do_sqlquery("SELECT sum(xfu.left) as to_go, count(*) as numpeers FROM xbt_files_users xfu INNER JOIN xbt_files xf ON xf.fid=xfu.fid WHERE xf.info_hash=UNHEX('$id')",true) or mysql_error();
+          $subres = do_sqlquery("SELECT sum(IFNULL(xfu.left,0)) as to_go, count(xfu.uid) as numpeers FROM xbt_files_users xfu INNER JOIN xbt_files xf ON xf.fid=xfu.fid WHERE xf.info_hash=UNHEX('$id')",true) or mysql_error();
        else
-           $subres = do_sqlquery("SELECT sum(bytes) as to_go, count(*) as numpeers FROM {$TABLE_PREFIX}peers where infohash='$id'" ) or mysql_error();
+           $subres = do_sqlquery("SELECT sum(IFNULL(bytes,0)) as to_go, count(*) as numpeers FROM {$TABLE_PREFIX}peers where infohash='$id'" ) or mysql_error();
        $subres2 = do_sqlquery("SELECT size FROM {$TABLE_PREFIX}files WHERE info_hash ='$id'") or mysql_error();
        $torrent = mysql_fetch_array($subres2);
        $subrow = mysql_fetch_array($subres);
