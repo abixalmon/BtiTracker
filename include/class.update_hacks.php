@@ -295,6 +295,20 @@ class update_hacks
                           case 'copy':
                             eval("\$new_file_path=".$hack_array[$i]["file"][$j]["operations"][$k]["where"].";");
                             eval("\$new_file_name=".$hack_array[$i]["file"][$j]["operations"][$k]["data"].";");
+
+                            if (!file_exists($new_file_path))
+                              {
+                                if (!@mkdir($new_file_path,0777))
+                                  {
+                                   $this->errors[]["message"]="Error: $new_file_path was not created";
+                                   $this->file[$j]["status"]="Failed";
+                                }
+                                else
+                                   $this->file[$j]["status"]="OK";
+
+                                @chmod($new_file_path,0766);
+                            }
+
                             if (!is_writable($new_file_path))
                               {
                                 if (!@chmod($new_file_path,0777))
