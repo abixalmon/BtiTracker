@@ -62,12 +62,13 @@ function usertable($res, $frame_caption) {
    return set_block($frame_caption,"center",$extratpl->fetch(load_template("extra-stats.user.tpl")));
 }
 
-function _torrenttable($res, $frame_caption,$speed=false) {
+function _torrenttable($rt, $frame_caption,$speed=false) {
 
  global $STYLEPATH, $extratpl, $language;
 
+ $torrent=array();
  $num = 0;
- foreach ($res as $id=>$a) {
+ foreach ($rt as $id=>$a) {
      $num++;
      if ($a["leechers"]>0)
      {
@@ -77,7 +78,6 @@ function _torrenttable($res, $frame_caption,$speed=false) {
      else
        $ratio = $language["INFINITE"];
 
-     $torrent=array();
      $torrent[$num-1]["rank"]=$num;
      if ($GLOBALS["usepopup"])
          $torrent[$num-1]["filename"]="<a href=\"javascript:popdetails('index.php?page=details&amp;id=".$a['hash']."');\">".unesc($a["name"])."</a>";

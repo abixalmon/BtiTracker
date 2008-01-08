@@ -33,7 +33,6 @@
 if (!defined("IN_BTIT"))
       die("non direct access!");
 
-
 $scriptname = htmlspecialchars($_SERVER["PHP_SELF"]."?page=upload");
 $addparam = "";
 
@@ -56,19 +55,9 @@ if (isset($_FILES["torrent"]))
    {
    if ($_FILES["torrent"]["error"] != 4)
    {
-      $HTTP_POST_FILES["torrent"]["tmp_name"]=str_replace("\\", "/", $HTTP_POST_FILES["torrent"]["tmp_name"]);
-      $_FILES["torrent"]["tmp_name"]=str_replace("\\", "/", $_FILES["torrent"]["tmp_name"]);
-
-      if (strpos($_FILES["torrent"]["tmp_name"],"/"))
-         $torrenttemp=$_FILES["torrent"]["tmp_name"];
-      else
-         $torrenttemp=$HTTP_POST_FILES["torrent"]["tmp_name"];
-      
-      $torrenttemp=realpath($torrenttemp);
-
-      $fd = fopen($torrenttemp, "rb") or stderr($language["ERROR"],$language["FILE_UPLOAD_ERROR_1"]);
-      is_uploaded_file($torrenttemp) or stderr($language["ERROR"],$language["FILE_UPLOAD_ERROR_2"]);
-      $length=filesize($torrenttemp);
+      $fd = fopen($_FILES["torrent"]["tmp_name"], "rb") or stderr($language["ERROR"],$language["FILE_UPLOAD_ERROR_1"]);
+      is_uploaded_file($_FILES["torrent"]["tmp_name"]) or stderr($language["ERROR"],$language["FILE_UPLOAD_ERROR_2"]);
+      $length=filesize($_FILES["torrent"]["tmp_name"]);
       if ($length)
         $alltorrent = fread($fd, $length);
       else {
@@ -188,7 +177,7 @@ if (!isset($array["announce"]))
       if (!in_array($announce,$TRACKER_ANNOUNCEURLS) && $EXTERNAL_TORRENTS==false)
          {
            err_msg($language["ERROR"],$language["ERR_EXTERNAL_NOT_ALLOWED"]);
-           unlink($torrenttemp);
+           unlink($_FILES["torrent"]["tmp_name"]);
            stdfoot();
            exit();
          }
@@ -228,7 +217,7 @@ if (!isset($array["announce"]))
       $status = do_sqlquery($query,true); //makeTorrent($hash, true);
       if ($status)
          {
-         $mf=@move_uploaded_file($torrenttemp, $TORRENTSDIR . "/" . $hash . ".btf");
+         $mf=@move_uploaded_file($_FILES["torrent"]["tmp_name"] , $TORRENTSDIR . "/" . $hash . ".btf");
          if (!$mf)
            {
            // failed to move file
@@ -265,7 +254,7 @@ if (!isset($array["announce"]))
       else
           {
               err_msg($language["ERROR"],$language["ERR_ALREADY_EXIST"]);
-              unlink($torrenttemp);
+              unlink($_FILES["torrent"]["tmp_name"]);
               stdfoot();
               die();
           }
