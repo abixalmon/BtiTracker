@@ -630,20 +630,23 @@ mysql_free_result($results);
 // only with the difference between stored down/up and sended by client
 if ($LIVESTATS)
   {
-     $resstat=mysql_query("SELECT uploaded, downloaded FROM {$TABLE_PREFIX}peers WHERE peer_id=\"$peer_id\" AND infohash=\"$info_hash\"");
+     // changed peer_id with pid/ip 485
+     $resstat=mysql_query("SELECT uploaded, downloaded FROM {$TABLE_PREFIX}peers WHERE ".($PRIVATE_ANNOUNCE?"pid=\"$pid\"":"ip=\"$ip\"")." AND infohash=\"$info_hash\"");
      if ($resstat && mysql_num_rows($resstat)>0)
          {
          $livestat=mysql_fetch_assoc($resstat);
          // only if uploaded/downloaded are >= stored data in peer list
-         if ($uploaded>=$livestat["uploaded"])
-               $newup=($uploaded-$livestat["uploaded"]);
-         else
-               $newup=$uploaded;
+         //if ($uploaded>=$livestat["uploaded"])
+               $newup=max(0,($uploaded-$livestat["uploaded"]));
+         //else
+         //      $newup=$uploaded;
 
-         if ($downloaded>=$livestat["downloaded"])
-               $newdown=($downloaded-$livestat["downloaded"]);
-         else
-               $newdown=$downloaded;
+         //if ($downloaded>=$livestat["downloaded"])
+               $newdown=max(0,($downloaded-$livestat["downloaded"]));
+         //else
+         //      $newdown=$downloaded;
+         // rev 485
+
          quickquery("UPDATE {$TABLE_PREFIX}users SET downloaded=IFNULL(downloaded,0)+$newdown, uploaded=IFNULL(uploaded,0)+$newup WHERE ".($PRIVATE_ANNOUNCE?"pid='$pid'":"cip='$ip'")."");
          }
        mysql_free_result($resstat);

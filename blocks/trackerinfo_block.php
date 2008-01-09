@@ -73,7 +73,10 @@ else
 
    $peers=$seeds+$leechers;
 
-   $res=do_sqlquery("select sum(downloaded) as dled, sum(uploaded) as upld FROM {$TABLE_PREFIX}users");
+   if ($XBTT_USE)
+      $res=do_sqlquery("select sum(u.downloaded+x.downloaded) as dled, sum(u.uploaded+x.uploaded) as upld FROM {$TABLE_PREFIX}users u LEFT JOIN xbt_users x ON x.uid=u.id",true);
+   else
+      $res=do_sqlquery("select sum(downloaded) as dled, sum(uploaded) as upld FROM {$TABLE_PREFIX}users",true);
    $row=mysql_fetch_array($res);
    $dled=0+$row["dled"];
    $upld=0+$row["upld"];

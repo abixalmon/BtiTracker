@@ -10,16 +10,20 @@
   <body>
     <div id="main">
         <div id="logo">
-        <tag:main_logo />
+             <table width="750" align="center" cellpadding="0" cellspacing="0" border="0">
+             <tr>
+             <td class="tracker_logo" valign="top"></td>
+             </tr>
+             </table>
         </div>
         <div id="slideIt">
         <tag:main_slideIt />
         <div id="header">
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-        <td valign="top" width="5" style="background: url(index_r6_c1_md1.png); background-repeat: repeat-x;" rowspan="2"></td>
+        <td valign="top" width="5" style="background: url(images/index_r6_c1_md1.png); background-repeat: repeat-x;" rowspan="2"></td>
         <td valign="top"><tag:main_header /></td>
-        <td valign="top" width="5" style="background: url(index_r6_c1_md1.png); background-repeat: repeat-x;" rowspan="2"></td>
+        <td valign="top" width="5" style="background: url(images/index_r6_c1_md1.png); background-repeat: repeat-x;" rowspan="2"></td>
         </tr>
         </table>
         </div>
@@ -31,21 +35,21 @@
     <div id="bodyarea" style="padding: 1ex 0ex 0ex 0ex;">  
          <table border="0" align="center" cellpadding="0" cellspacing="0" width="100%">
          <tr>
-         <td valign="top" width="5" style="background: url(index_r6_c1_md1.png); background-repeat: repeat-x;" rowspan="2"></td>
+         <td valign="top" width="5" style="background: url(images/index_r6_c1_md1.png); background-repeat: repeat-x;" rowspan="2"></td>
          <td valign="top" width="150"><tag:main_left /></td>
-         <td valign="top" width="5" style="background: url(index_r6_c1_md1.png); background-repeat: repeat-x;" rowspan="2"></td>
+         <td valign="top" width="5" style="background: url(images/index_r6_c1_md1.png); background-repeat: repeat-x;" rowspan="2"></td>
          <td valign="top"><tag:main_content /></td>
-         <td valign="top" width="5" style="background: url(index_r6_c1_md1.png); background-repeat: repeat-x;" rowspan="2"></td>
+         <td valign="top" width="5" style="background: url(images/index_r6_c1_md1.png); background-repeat: repeat-x;" rowspan="2"></td>
          <td valign="top" width="150"><tag:main_right /></td>
-         <td valign="top" width="5" style="background: url(index_r6_c1_md1.png); background-repeat: repeat-x;" rowspan="2"></td>
+         <td valign="top" width="5" style="background: url(images/index_r6_c1_md1.png); background-repeat: repeat-x;" rowspan="2"></td>
          </tr>
          </table>
          <br />      
          <table width="100%" cellpadding="0" cellspacing="0" border="0">
          <tr>
-         <td valign="top" width="5" style="background: url(index_r6_c1_md1.png); background-repeat: repeat-x;" rowspan="2"></td>
+         <td valign="top" width="5" style="background: url(images/index_r6_c1_md1.png); background-repeat: repeat-x;" rowspan="2"></td>
          <td valign="top"><tag:main_footer /></td>
-         <td valign="top" width="5" style="background: url(index_r6_c1_md1.png); background-repeat: repeat-x;" rowspan="2"></td>
+         <td valign="top" width="5" style="background: url(images/index_r6_c1_md1.png); background-repeat: repeat-x;" rowspan="2"></td>
          </tr>
          </table>
          <br />
