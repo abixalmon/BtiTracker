@@ -64,7 +64,8 @@ if(get_magic_quotes_gpc()){
     if(is_array($val)){
      remove_magic_quotes($array[$key]);
     } else if(is_string($val)){
-     $array[$key] = stripslashes($val);
+     $array[$key] = str_replace(array("\\\\","\\\"","\'"),array("\\","\"","'"),$val);
+     //$array[$key] = StripSlashes($val);
     }
    }
   }

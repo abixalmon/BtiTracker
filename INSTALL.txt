@@ -69,7 +69,7 @@ your hacks and mods are NOT gonna migrate. the best you can do is bring ALL your
 
 1. place the xbtit code in your webroot
 2. open  
-3. use a web browser to open the site
+3. use a web browser to open the site (URL: http://yoursite/upgrade.php)
 4. follow the instructions on the screen
 5. delete install.php
 6. enter the admin control panel and set your tracker's URL and announce URL's (delete the xbtt example announce with the :2710) and set your preferences ... save
