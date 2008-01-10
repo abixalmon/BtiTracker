@@ -3,17 +3,20 @@ function form_control()
   {
     if (document.getElementById('want_username').value.length==0)
       {
-        alert('<tag:language.INSERT_USERNAME />');
-        document.getElementById('want_username').focus();
-        return false;
+      var want_username=document.createElement('span');
+      want_username.innerHTML='<tag:language.INSERT_USERNAME />';
+      alert(want_username.innerHTML);
+      document.getElementById('want_username').focus();
+      return false;
       }
 
     if (document.getElementById('want_password').value == "")
       {
-      alert('<tag:language.INSERT_PASSWORD />');
+      var want_password=document.createElement('span');
+      want_password.innerHTML='<tag:language.INSERT_PASSWORD />';
+      alert(want_password.innerHTML);
       document.getElementById('want_password').focus();
       return false;
-
       }
 
    return true;

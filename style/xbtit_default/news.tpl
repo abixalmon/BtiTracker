@@ -3,9 +3,11 @@ function form_control()
   {
     if (document.getElementById('title').value.length==0)
       {
-        alert('<tag:language.ERR_NO_TITLE />');
-        document.getElementById('title').focus();
-        return false;
+      var title=document.createElement('span');
+      title.innerHTML='<tag:language.ERR_NO_TITLE />';
+      alert(title.innerHTML);
+      document.getElementById('title').focus();
+      return false;
       }
 
    return true;

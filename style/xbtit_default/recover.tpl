@@ -5,26 +5,31 @@ function form_control()
 
     if (document.getElementById('email').value == "")
       {
-      alert('<tag:language.ERR_NO_EMAIL />');
+      var email=document.createElement('span');
+      email.innerHTML='<tag:language.ERR_NO_EMAIL />';
+      alert(email.innerHTML);
       document.getElementById('email').focus();
       return false;
-
       }
     else
       {
         if (!filter.test(document.getElementById('email').value))
          {
-          alert('<tag:language.ERR_INV_EMAIL />');
-          document.getElementById('email').focus();
-          return false;
+         var email=document.createElement('span');
+         email.innerHTML='<tag:language.ERR_INV_EMAIL />';
+         alert(email.innerHTML);
+         document.getElementById('email').focus();
+         return false;
          }
       }
 
     if (document.getElementById('captcha').value.length==0)
       {
-        alert('<tag:language.ERR_NO_CAPTCHA />');
-        document.getElementById('captcha').focus();
-        return false;
+      var captcha=document.createElement('span');
+      captcha.innerHTML='<tag:language.ERR_NO_CAPTCHA />';
+      alert(captcha.innerHTML);
+      document.getElementById('captcha').focus();
+      return false;
       }
 
    return true;

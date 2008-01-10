@@ -10,30 +10,36 @@ function form_control()
   {
     if (document.getElementById('user').value.length==0)
       {
-        alert('<tag:language.INSERT_USERNAME />');
-        document.getElementById('user').focus();
-        return false;
+      var user=document.createElement('span');
+      user.innerHTML='<tag:language.INSERT_USERNAME />';
+      alert(user.innerHTML);
+      document.getElementById('user').focus();
+      return false;
       }
 
     if (document.getElementById('want_password').value == "")
       {
-      alert('<tag:language.INSERT_PASSWORD />');
+      var want_password=document.createElement('span');
+      want_password.innerHTML='<tag:language.INSERT_PASSWORD />';
+      alert(want_password.innerHTML);
       document.getElementById('want_password').focus();
       return false;
-
       }
 
     if (document.getElementById('check_password').value == "")
       {
-      alert('<tag:language.USER_PWD_AGAIN />');
+      var check_password=document.createElement('span');
+      check_password.innerHTML='<tag:language.USER_PWD_AGAIN />';
+      alert(check_password.innerHTML);
       document.getElementById('check_password').focus();
       return false;
-
       }
 
     if (document.getElementById('want_password').value !=  document.getElementById('check_password').value)
       {
-      alert('<tag:language.DIF_PASSWORDS />');
+      var dif_passwords=document.createElement('span');
+      dif_passwords.innerHTML='<tag:language.DIF_PASSWORDS />';
+      alert(dif_passwords.innerHTML);
       return false;
       }
 
@@ -41,16 +47,19 @@ function form_control()
 
     if (document.getElementById('email').value == "")
       {
-      alert('<tag:language.ERR_NO_EMAIL />');
+      var email=document.createElement('span');
+      email.innerHTML='<tag:language.ERR_NO_EMAIL />';
+      alert(email.innerHTML);
       document.getElementById('email').focus();
       return false;
-
       }
     else
       {
         if (!filter.test(document.getElementById('email').value))
          {
-          alert('<tag:language.ERR_NO_EMAIL />');
+          var email=document.createElement('span');
+          email.innerHTML='<tag:language.ERR_NO_EMAIL />';
+          alert(email.innerHTML);
           document.getElementById('email').focus();
           return false;
          }
@@ -59,16 +68,19 @@ function form_control()
 
     if (document.getElementById('email_again').value == "")
       {
-      alert('<tag:language.ERR_NO_EMAIL_AGAIN />');
+      var email_again=document.createElement('span');
+      email_again.innerHTML='<tag:language.ERR_NO_EMAIL_AGAIN />';
+      alert(email_again.innerHTML);
       document.getElementById('email_again').focus();
       return false;
-
       }
     else
       {
         if (!filter.test(document.getElementById('email_again').value))
          {
-          alert('<tag:language.ERR_NO_EMAIL />');
+          var email_again=document.createElement('span');
+          email_again.innerHTML='<tag:language.ERR_NO_EMAIL />';
+          alert(email_again.innerHTML);
           document.getElementById('email_again').focus();
           return false;
          }
@@ -76,7 +88,9 @@ function form_control()
 
     if (document.getElementById('email').value !=  document.getElementById('email_again').value)
       {
-      alert('<tag:language.DIF_EMAIL />');
+      var DIF_EMAIL=document.createElement('span');
+      DIF_EMAIL.innerHTML='<tag:language.DIF_EMAIL />';
+      alert(DIF_EMAIL.innerHTML);
       return false;
       }
 
