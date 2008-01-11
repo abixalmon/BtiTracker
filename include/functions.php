@@ -163,11 +163,19 @@ function cut_string($ori_string,$cut_after)
 function print_version()
 {
 
-  GLOBAL $time_start, $gzip, $PRINT_DEBUG,$tracker_version,$num_queries;
+  GLOBAL $time_start, $gzip, $PRINT_DEBUG,$tracker_version,$num_queries, $STYLEPATH;
+
+  if (file_exists("$STYLEPATH/style_copyright.php"))
+    {
+     include("$STYLEPATH/style_copyright.php");
+     $design_copyright="[&nbsp;&nbsp;<u>Design By</u>: $design_copyright&nbsp;&nbsp;]&nbsp;";
+  }
+  else
+      $design_copyright="";
 
   $time_end=get_microtime();
   $version=("<br /><br /><p align=\"center\">");
-  $version.=("<a href=\"#\">Back To Top</a><br />[&nbsp;&nbsp;<u>Design By</u>: <a href=\"http://global-bttracker.no-ip.org/forum/\" target=\"_blank\">TreetopClimber</a>&nbsp;&nbsp;]&nbsp;[&nbsp;&nbsp;<u>xbtit ($tracker_version) By</u>: <a href=\"http://www.btiteam.org/\" target=\"_blank\">Btiteam</a>&nbsp;]");
+  $version.=("<a href=\"#\">Back To Top</a><br />$design_copyright [&nbsp;&nbsp;<u>xbtit ($tracker_version) By</u>: <a href=\"http://www.btiteam.org/\" target=\"_blank\">Btiteam</a>&nbsp;]");
   if ($PRINT_DEBUG)
   $version.=("<br />[Queries: $num_queries] - [ Script Execution time: ".number_format(($time_end-$time_start),4)." sec. ] - [ GZIP: $gzip ]");
   $version.="</p>";
