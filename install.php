@@ -307,7 +307,7 @@ elseif ($action == 'settings') {
     echo ("<tr><td valign=\"top\">".$install_lang["mysql_settings_username"].":</td><td><input type=\"text\" name=\"db_user\" id=\"db_user_input\" value=\"".$db_user."\" size=\"30\" /></td></tr>");
     echo ("<tr><td valign=\"top\">".$install_lang["mysql_settings_password"].":</td><td><input type=\"password\" name=\"db_passwd\" id=\"db_passwd_input\" value=\"".$db_passwd."\" size=\"30\" /></td></tr>");
     echo ("<tr><td valign=\"top\">".$install_lang["mysql_settings_database"].":</td><td><input type=\"text\" name=\"db_name\" id=\"db_name_input\" value=\"".$db_name."\" size=\"30\" /></td></tr>");
-    echo ("<tr><td valign=\"top\">".$install_lang["mysql_settings_prefix"].":</td><td><input type=\"text\" name=\"db_prefix\" id=\"db_prefix_input\" value=\"btit_\" size=\"30\" /></td></tr></table>");
+    echo ("<tr><td valign=\"top\">".$install_lang["mysql_settings_prefix"].":</td><td><input type=\"text\" name=\"db_prefix\" id=\"db_prefix_input\" value=\"xbtit_\" size=\"30\" /></td></tr></table>");
     echo ("<div align=\"right\"><input type=\"submit\" value=\"". $install_lang["next"]."\" /></div></form>");
 }
 // saving the database connection data
@@ -493,7 +493,7 @@ elseif ($action == 'site_config') {
 
     $lres=language_list();
     foreach ($lres as $l)
-            echo ("<option value=\"".$l["id"]."\">".StripSlashes($l["language"])."</option>");
+            echo ("<option value=\"".$l["id"].($l["id"]==1?" selected=\"selected\"":"")."\">".StripSlashes($l["language"])."</option>");
 
     echo ("</select></td>");
     echo ("<tr><td>".$install_lang["default_style"].":</td><td><select name=\"style\">");

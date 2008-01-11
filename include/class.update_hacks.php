@@ -229,7 +229,8 @@ class update_hacks
         global $j;
 
         $this->errors[]["message"]=mysql_error();
-        $this->file[$j]["status"]="Failed!";
+        $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
+        $this->file[$j]["operation"]="Sql";
 
       }
 
@@ -280,10 +281,12 @@ class update_hacks
                         // what is the task?
                         unset($new_file_path);
                         unset($new_file_name);
+                        $this->file[$j]["operation"]=ucfirst("$action");
                         switch($action)
                           {
                           case 'sql':
-                              $this->file[$j]["status"]="OK";
+                              $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
+
                               require_once(dirname(__FILE__)."/settings.php");
                               @mysql_connect($dbhost,$dbuser,$dbpass) or die("Error connecting to $dbhost!");
                               @mysql_select_db($database) or ($this->db_error());
@@ -296,15 +299,16 @@ class update_hacks
                             eval("\$new_file_path=".$hack_array[$i]["file"][$j]["operations"][$k]["where"].";");
                             eval("\$new_file_name=".$hack_array[$i]["file"][$j]["operations"][$k]["data"].";");
 
+
                             if (!file_exists($new_file_path))
                               {
                                 if (!@mkdir($new_file_path,0777))
                                   {
                                    $this->errors[]["message"]="Error: $new_file_path was not created";
-                                   $this->file[$j]["status"]="Failed";
+                                   $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
                                 }
                                 else
-                                   $this->file[$j]["status"]="OK";
+                                   $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
 
                                 @chmod($new_file_path,0766);
                             }
@@ -314,15 +318,15 @@ class update_hacks
                                 if (!@chmod($new_file_path,0777))
                                   {
                                    $this->errors[]["message"]="Error: $new_file_path is not writable";
-                                   $this->file[$j]["status"]="Failed";
+                                   $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
                                 }
                                 else
-                                   $this->file[$j]["status"]="OK";
+                                   $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
 
                                 @chmod($new_file_path,0766);
                             }
                             else
-                               $this->file[$j]["status"]="OK";
+                               $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
                             break;
 
                           // when add or remove we must search
@@ -389,41 +393,41 @@ class update_hacks
                     // we will make a new folder in hacks/backups/before_hack_name
                     // and we will copy files here
                     // then we will write the new file.
-                    if (!$test && (strtoupper($this->file[$j]["name"])!="DATABASE"))
+                    if ((strtoupper($this->file[$j]["name"])!="DATABASE"))
                        {
-                         if ($this->save_original($this->file[$j]["name"]));
+                         if ($this->save_original($this->file[$j]["name"],$test));
                          // we have saved the originale
                            {
                            // we need to copy the file somewhere?
-                           if (isset($new_file_name) && isset($new_file_path))
+                           if (!$test && isset($new_file_name) && isset($new_file_path))
                              {
                              // destination is writable
-                             if ($this->file[$j]["status"]=="OK")
+                             if ($this->file[$j]["status"]=="<span style=\"font-weight: bold; color:green;\">OK</span>")
                                {
                                 if (@copy($this->file[$j]["name"],"$new_file_path/$new_file_name"))
-                                  $this->file[$j]["status"]="OK";
+                                  $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
                                 else
                                   {
-                                    $this->file[$j]["status"]="Failed";
+                                    $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
                                     $this->errors[]["message"]="Error: copying ".$this->file[$j]["name"]." in new position $new_file_path/$new_file_name";
                                 }
                              }
                            }
-                           else  // "normal" operation
+                           else // "normal" operation
                              {
-                               if ($this->write_new_file($this->file[$j]["name"],$file_content))
-                                 $this->file[$j]["status"]="OK";
+                               if ($this->write_new_file($this->file[$j]["name"],$file_content,$test))
+                                 $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
                                else
-                                 $this->file[$j]["status"]="Failed";
+                                 $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
                            }
                          }
                     }
                     elseif (strtoupper($this->file[$j]["name"])!="DATABASE")
                      {
                        if ($this->write_new_file($this->file[$j]["name"],$file_content,true))
-                         $this->file[$j]["status"]="OK";
+                         $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
                        else
-                         $this->file[$j]["status"]="Failed";
+                         $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
                     }
                    // end test control :)
 
@@ -498,12 +502,12 @@ class update_hacks
                           {
                           case 'sql':
                               // on uninstall we will do nothing (don't remove the fields)
-                              $this->file[$j]["status"]="OK";
+                              $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
                             break;
 
                           case 'copy':
                               // atm we do nothing, dunno if we must remove added files...?
-                              $this->file[$j]["status"]="OK";
+                              $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
                             break;
 
                           // when add or remove we must search
@@ -569,41 +573,41 @@ class update_hacks
                     // we will make a new folder in hacks/backups/before_hack_name
                     // and we will copy files here
                     // then we will write the new file.
-                    if (!$test && (strtoupper($this->file[$j]["name"])!="DATABASE"))
+                    if ((strtoupper($this->file[$j]["name"])!="DATABASE"))
                        {
-                         if ($this->save_original($this->file[$j]["name"]));
+                         if ($this->save_original($this->file[$j]["name"],$test));
                          // we have saved the originale
                            {
                            // we need to copy the file somewhere?
-                           if (isset($new_file_name) && isset($new_file_path))
+                           if (!$test && isset($new_file_name) && isset($new_file_path))
                              {
                              // destination is writable
-                             if ($this->file[$j]["status"]=="OK")
+                             if ($this->file[$j]["status"]=="<span style=\"font-weight: bold; color:green;\">OK</span>")
                                {
                                 if (@copy($this->file[$j]["name"],"$new_file_path/$new_file_name"))
-                                  $this->file[$j]["status"]="OK";
+                                  $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
                                 else
                                   {
-                                    $this->file[$j]["status"]="Failed";
+                                    $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
                                     $this->errors[]["message"]="Error: copying ".$this->file[$j]["name"]." in new position $new_file_path/$new_file_name";
                                 }
                              }
                            }
                            else  // "normal" operation
                              {
-                               if ($this->write_new_file($this->file[$j]["name"],$file_content))
-                                 $this->file[$j]["status"]="OK";
+                               if ($this->write_new_file($this->file[$j]["name"],$file_content,$test))
+                                 $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
                                else
-                                 $this->file[$j]["status"]="Failed";
+                                 $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
                            }
                          }
                     }
                     elseif (strtoupper($this->file[$j]["name"])!="DATABASE")
                      {
                        if ($this->write_new_file($this->file[$j]["name"],$file_content,true))
-                         $this->file[$j]["status"]="OK";
+                         $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
                        else
-                         $this->file[$j]["status"]="Failed";
+                         $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
                     }
                    // end test control :)
 
@@ -670,7 +674,7 @@ class update_hacks
       // will save the input $file_with_path in a new
       // create folder called "backup" in folder which the
       // script has origin, or use the already existing one
-      function save_original($file_with_path)
+      function save_original($file_with_path, $in_test=false)
         {
         // globals var
         global $THIS_BASEPATH,$CURRENT_FOLDER;
@@ -715,14 +719,16 @@ class update_hacks
               return false;
           }
         }
-        // ok, all writable we copy the original file in the backup position
-        $fname=basename($file_with_path).".".date("d-m-Y_H-i-s");
-        if (!@copy($file_with_path,$this->hack_path."/backup/$fname"))
+        if (!$in_test)
           {
-            $this->errors[]["message"]="unable to copy $file_with_path in $this->hack_path/backup/$fname!";
-            return false;
+            // ok, all writable we copy the original file in the backup position
+            $fname=basename($file_with_path).".".date("d-m-Y_H-i-s");
+            if (!@copy($file_with_path,$this->hack_path."/backup/$fname"))
+              {
+                $this->errors[]["message"]="unable to copy $file_with_path in $this->hack_path/backup/$fname!";
+                return false;
+              }
         }
-
         @chmod($this->hack_path."/backup",0766);
         @chmod($this->hack_path."/backup/$fname",0766);
 

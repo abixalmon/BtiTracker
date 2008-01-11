@@ -162,9 +162,9 @@ if ($CURUSER["view_torrents"]=="yes")
 if (!$XBTT_USE)
   {
    $r = get_result("SELECT f.info_hash as hash, $tseeds as seeds, $tleechs as leechers, $tcompletes as finished, dlbytes as dwned , filename as name, url as url, info, speed as speed, uploader FROM $ttables WHERE external='no' ORDER BY speed DESC, $tseeds DESC LIMIT 10",true,$CACHE_DURATION);
-    if (count($r)>0) { $out.=_torrenttable($r, $language["TOP_10_BSPEED"]); $out.= "<br /><br />";}
+    if (count($r)>0) { $out.=_torrenttable($r, $language["TOP_10_BSPEED"],true); $out.= "<br /><br />";}
    $r = get_result("SELECT f.info_hash as hash, $tseeds as seeds, $tleechs as leechers, $tcompletes as finished, dlbytes as dwned , filename as name, url as url, info, speed as speed, uploader FROM $ttables WHERE external='no' ORDER BY speed ASC, $tseeds DESC LIMIT 10",true,$CACHE_DURATION);
-    if (count($r)>0) { $out.=_torrenttable($r, $language["TOP_10_WSPEED"]); $out.= "<br /><br />";}
+    if (count($r)>0) { $out.=_torrenttable($r, $language["TOP_10_WSPEED"],true); $out.= "<br /><br />";}
   }
 }
 

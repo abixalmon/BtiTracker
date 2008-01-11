@@ -321,8 +321,8 @@ function userlogin() {
        mysql_query("UPDATE {$TABLE_PREFIX}users SET lip=".$nip.", cip='".AddSlashes($ip)."' WHERE id = $id") or sqlerr(__FILE__, __LINE__);
 
     // CHECK FOR INSTALLATION FOLDER WITHOUT INSTALL.ME
-    if (file_exists("install.php") && $row["id_level"]==8) // only owner level
-         $err_msg_install=("<div align=\"center\" style=\"color:red; font-size:12pt; font-weight: bold;\">SECURITY WARNING: Delete install.php!</div>");
+    if ((file_exists("install.php") || file_exists("upgrade.php")) && $row["id_level"]==8) // only owner level
+         $err_msg_install=("<div align=\"center\" style=\"color:red; font-size:12pt; font-weight: bold;\">SECURITY WARNING: Delete install.php & upgrade.php!</div>");
     else
          $err_msg_install="";
 
@@ -556,13 +556,13 @@ function categories($val="")
 
     $return="";
     $return.= "\n<select name='category'><option value='0'>----</option>";
-    $c_q = get_result("SELECT * FROM {$TABLE_PREFIX}categories WHERE sub='0' ORDER BY id ASC",true,$CACHE_DURATION);
+    $c_q = get_result("SELECT * FROM {$TABLE_PREFIX}categories WHERE sub='0' ORDER BY sort_index, id",true,$CACHE_DURATION);
     foreach ($c_q as $id=>$c)
     {
         $cid = $c["id"];
         $name = unesc($c["name"]);
         // lets see if it has sub-categories.
-        $s_q = get_result("SELECT * FROM {$TABLE_PREFIX}categories WHERE sub='$cid'",true,$CACHE_DURATION);
+        $s_q = get_result("SELECT * FROM {$TABLE_PREFIX}categories WHERE sub='$cid' ORDER BY sort_index, id",true,$CACHE_DURATION);
         $s_t = count($s_q);
         if($s_t == 0)
         {
@@ -593,7 +593,7 @@ function sub_categories($val="")
   global $TABLE_PREFIX;
 
     $return="\n<select name='sub_category'><option value='0'>---</option>";
-    $c_q = get_result("SELECT * FROM {$TABLE_PREFIX}categories WHERE sub='0' ORDER BY id ASC",true,$CACHE_DURATION);
+    $c_q = get_result("SELECT * FROM {$TABLE_PREFIX}categories WHERE sub='0' ORDER BY sort_index, id",true,$CACHE_DURATION);
     foreach($c_q as $id=>$c)
     {
         $cid = $c["id"];

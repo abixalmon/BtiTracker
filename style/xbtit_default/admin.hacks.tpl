@@ -14,21 +14,23 @@ function valid_folder(value) {
 <input type="hidden" name="add_hack_folder" value="<tag:hack_folder />" />
 <table class="lista" cellpadding="4" cellspacing="0">
   <tr>
-    <td class="block" colspan="2" align="center"><tag:hack_title_action /></td>
+    <td class="block" colspan="3" align="center"><tag:hack_title_action /></td>
   </tr>
 <if:test_ok>
   <tr>
+    <td class="header" align="center"><tag:language.OPERATION /></td>
     <td class="header" align="center"><tag:language.FILE_NAME /></td>
     <td class="header" align="center"><tag:language.HACK_STATUS /></td>
   </tr>
   <loop:test_result>
   <tr>
+    <td class="lista"><tag:test_result[].operation /></td>
     <td class="lista"><tag:test_result[].name /></td>
     <td class="lista" style="text-align:center;"><tag:test_result[].status /></td>
   </tr>
   </loop:test_result>
   <tr>
-    <td class="header" colspan="2" style="text-align:center;">
+    <td class="header" colspan="3" style="text-align:center;">
       <input type="submit" name="confirm" class="btn" value="<tag:hack_install />" />
       <input type="submit" name="confirm" class="btn" value="<tag:language.FRM_CANCEL />" />
     </td>
