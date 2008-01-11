@@ -104,14 +104,17 @@ $spacer = "&nbsp;&nbsp;";
 
 $torrenttpl=new bTemplate();
 $torrenttpl->set("language",$language);
-
 if ($CURUSER["uid"]>1 && ($CURUSER["uid"]==$row["uploader"] || $CURUSER["edit_torrents"]=="yes" || $CURUSER["delete_torrents"]=="yes"))
    {
     $torrenttpl->set("MOD",TRUE,TRUE);
     $torrent_mod="<br />&nbsp;&nbsp;";
+    $torrenttpl->set("SHOW_UPLOADER",true,true);
    }
 else
+   {
+    $torrenttpl->set("SHOW_UPLOADER",$SHOW_UPLOADER,true);
     $torrenttpl->set("MOD",false,TRUE);
+   }
 
 // edit and delete picture/link
 if ($CURUSER["uid"]>1 && ($CURUSER["uid"]==$row["uploader"] || $CURUSER["edit_torrents"]=="yes")) {

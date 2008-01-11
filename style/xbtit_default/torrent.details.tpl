@@ -69,7 +69,7 @@ function windowunder(link)
             </loop:files>
           </table>
         </div>
-        <div style="display:block" id="msgfile" align="center"><tag:torrent.numfiles /></div>
+        <div style="display:block" id="msgfile" align="left"><tag:torrent.numfiles /></div>
         </td>
         </tr>
         </if:DISPLAY_FILES>
@@ -77,10 +77,12 @@ function windowunder(link)
           <td align="right" class="header"><tag:language.ADDED /></td>
           <td class="lista" ><tag:torrent.date /></td>
         </tr>
+        <if:SHOW_UPLOADER>
         <tr>
           <td align="right" class="header"><tag:language.UPLOADER /></td>
           <td class="lista" align="center"><tag:torrent.uploader /></td>
         </tr>
+        </if:SHOW_UPLOADER>
         <if:NOT_XBTT>
         <tr>
           <td align="right" class="header"><tag:language.SPEED /></td>
