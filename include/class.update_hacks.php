@@ -36,6 +36,7 @@ class update_hacks
       var $file=array();
       var $errors=array();
       var $hack_path;
+      var $errors_count;
 
       function update_hacks()
             {
@@ -43,7 +44,18 @@ class update_hacks
             $this->file=array();
             $this->errors=array();
             $this->hack_path="";
+            $this->errors_count=0;
       }
+
+      // private
+      function _err_message($e_message, $e_file, $e_solution)
+          {
+          $this->errors[$this->errors_count]["message"]=$e_message;
+          $this->errors[$this->errors_count]["file"]=$e_file;
+          $this->errors[$this->errors_count]["solution"]=$e_solution;
+          $this->errors_count++;
+       }
+
 
       // open the xml input file and return the full stream
       function open_hack($filename_and_folder)
@@ -51,13 +63,15 @@ class update_hacks
             // will open the main file which will contain the informations for insert hack.
             if (!file_exists($filename_and_folder))
                 {
-                $this->errors[]["message"]="File \"$filename_and_folder\" seems to be missed!";
+                //$this->errors[]["message"]="File \"$filename_and_folder\" seems to be missed!";
+                $this->_err_message("File seems to be missed!",$filename_and_folder,"Check Hack's Folder");
                 return false;
              }
 
             if (!is_readable($filename_and_folder))
                 {
-                $this->errors[]["message"]="File \"$filename_and_folder\" seems to be not readable";
+                //$this->errors[]["message"]="File \"$filename_and_folder\" seems to be not readable";
+                $this->_err_message("File seems to be not readable!",$filename_and_folder,"Check chmod+chown for $filename_and_folder");
                 return false;
              }
 
@@ -65,7 +79,8 @@ class update_hacks
 
              if (!$fp)
                 {
-                $this->errors[]["message"]="Error reading file \"$filename_and_folder\"";
+                //$this->errors[]["message"]="Error reading file \"$filename_and_folder\"";
+                $this->_err_message("Error reading file",$filename_and_folder,"Check chmod+chown for $filename_and_folder");
                 return false;
              }
 
@@ -186,7 +201,8 @@ class update_hacks
          // file exists?
            if (!file_exists($file_to_hack))
              {
-               $this->errors[]["message"]="File $file_to_hack don't exists!";
+               //$this->errors[]["message"]="File $file_to_hack don't exists!";
+               $this->_err_message("File don't exists!",$file_to_hack,"Control if file exists");
                return false;
            }
            // i can read it?
@@ -204,7 +220,8 @@ class update_hacks
              $fp=fopen($file_to_hack,"r");
              if (!$fp)
                {
-               $this->errors[]["message"]="Error opening File ($file_to_hack)!";
+               //$this->errors[]["message"]="Error opening File ($file_to_hack)!";
+               $this->_err_message("Error opening file!",$file_to_hack,"Check chmod+chown for $file_to_hack");
                return false;
              }
              else
@@ -217,7 +234,8 @@ class update_hacks
            }
            else
              {
-             $this->errors[]["message"]="File $file_to_hack is not readable!";
+             //$this->errors[]["message"]="File $file_to_hack is not readable!";
+             $this->_err_message("File seems to be not readable!",$file_to_hack,"Check chmod+chown for $file_to_hack");
              return false;
            }
 
@@ -228,7 +246,8 @@ class update_hacks
       function db_error(){
         global $j;
 
-        $this->errors[]["message"]=mysql_error();
+        //$this->errors[]["message"]=mysql_error();
+        $this->_err_message(mysql_error(),"Sql","Check the query");
         $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
         $this->file[$j]["operation"]="Sql";
 
@@ -304,26 +323,30 @@ class update_hacks
                               {
                                 if (!@mkdir($new_file_path,0777))
                                   {
-                                   $this->errors[]["message"]="Error: $new_file_path was not created";
+                                   //$this->errors[]["message"]="Error: $new_file_path was not created";
+                                   $this->_err_message("Error: file was not created in $new_file_path!",$new_file_name,"Check $new_file_path Permission (766 is good)");
                                    $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
                                 }
                                 else
                                    $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
 
                                 @chmod($new_file_path,0766);
+                                @chown($new_file_path,"root");
                             }
 
                             if (!is_writable($new_file_path))
                               {
                                 if (!@chmod($new_file_path,0777))
                                   {
-                                   $this->errors[]["message"]="Error: $new_file_path is not writable";
+                                   //$this->errors[]["message"]="Error: $new_file_path is not writable";
+                                   $this->_err_message("Error: file is not writable!",$new_file_name,"Check $new_file_path Permission (766 is good)");
                                    $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
                                 }
                                 else
                                    $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
 
                                 @chmod($new_file_path,0766);
+                                @chown($new_file_path,"root");
                             }
                             else
                                $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
@@ -381,14 +404,16 @@ class update_hacks
                                 }
                             }
                             else // we don't find the searched text
-                              $this->errors[]["message"]="Sorry <br />\n\"".nl2br(htmlspecialchars($string_to_search))."\"<br />\nto search was not found in file: ".$this->file[$j]["name"].".";
+                              //$this->errors[]["message"]="Sorry <br />\n\"".nl2br(htmlspecialchars($string_to_search))."\"<br />\nto search was not found in file: ".$this->file[$j]["name"].".";
+                              $this->_err_message("Sorry search string: \"".substr(nl2br(htmlspecialchars($string_to_search)),0,20)."...\" (first 20 chars) was not found)",$this->file[$j]["name"],"Ask Hack's Developer");
                             break;
                         } // end switch action
                       } // end for operations
                     } // end if operations
                     else
-                      $this->errors[]["message"]="Sorry no operations defined.";
-                    
+                      //$this->errors[]["message"]="Sorry no operations defined.";
+                      $this->_err_message("Sorry no operations defined",$this->file[$j]["name"],"Ask Hack's Developer");
+                                          
                     // it's not a test, we must save the current file
                     // we will make a new folder in hacks/backups/before_hack_name
                     // and we will copy files here
@@ -409,7 +434,8 @@ class update_hacks
                                 else
                                   {
                                     $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
-                                    $this->errors[]["message"]="Error: copying ".$this->file[$j]["name"]." in new position $new_file_path/$new_file_name";
+                                    //$this->errors[]["message"]="Error: copying ".$this->file[$j]["name"]." in new position $new_file_path/$new_file_name";
+                                    $this->_err_message("Error copying file in $new_file_path/$new_file_name",$this->file[$j]["name"],"Check chmod+chown for $new_file_path");
                                 }
                              }
                            }
@@ -434,11 +460,14 @@ class update_hacks
                   } // end for files    
                 } // end if files
                 else
-                  $this->errors[]["message"]="Sorry no files defined.";
+                  //$this->errors[]["message"]="Sorry no files defined.";
+                  $this->_err_message("Sorry no files defined","None","Ask Hack's Developer");
+
               } // end for hacks
             } //end if hacks
             else
-              $this->errors[]["message"]="Sorry no hack defined.";
+              //$this->errors[]["message"]="Sorry no hack defined.";
+              $this->_err_message("Sorry no hack defined","None","Ask Hack's Developer");
 
             // ok, we've do nothing (in test mode) but seems ok.
             // finally we check if all was gone as should
@@ -559,13 +588,15 @@ class update_hacks
                                 }
                             }
                             else // we don't find the searched text
-                              $this->errors[]["message"]="Sorry <br />\n\"".nl2br(htmlspecialchars($string_to_search))."\"<br />\nto search was not found in file: ".$this->file[$j]["name"].".";
+                              //$this->errors[]["message"]="Sorry <br />\n\"".nl2br(htmlspecialchars($string_to_search))."\"<br />\nto search was not found in file: ".$this->file[$j]["name"].".";
+                              $this->_err_message("Sorry search string: \"".substr(nl2br(htmlspecialchars($string_to_search)),0,20)."...\" (first 20 chars) was not found)",$this->file[$j]["name"],"Ask Hack's Developer");
                             break;
                         } // end switch action
                       } // end for operations
                     } // end if operations
                     else
-                      $this->errors[]["message"]="Sorry no operations defined.";
+                      //$this->errors[]["message"]="Sorry no operations defined.";
+                      $this->_err_message("Sorry no operations defined","None","Ask Hack's Developer");
 
                     // from this point all operations are the same as when we have installed the hack...
                     
@@ -589,7 +620,8 @@ class update_hacks
                                 else
                                   {
                                     $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
-                                    $this->errors[]["message"]="Error: copying ".$this->file[$j]["name"]." in new position $new_file_path/$new_file_name";
+                                    //$this->errors[]["message"]="Error: copying ".$this->file[$j]["name"]." in new position $new_file_path/$new_file_name";
+                                    $this->_err_message("Error copying file in $new_file_path/$new_file_name",$this->file[$j]["name"],"Check chmod+chown for $new_file_path");
                                 }
                              }
                            }
@@ -614,12 +646,13 @@ class update_hacks
                   } // end for files    
                 } // end if files
                 else
-                  $this->errors[]["message"]="Sorry no files defined.";
+                  //$this->errors[]["message"]="Sorry no files defined.";
+                  $this->_err_message("Sorry no files defined","None","Ask Hack's Developer");
               } // end for hacks
             } //end if hacks
             else
-              $this->errors[]["message"]="Sorry no hack defined.";
-
+              //$this->errors[]["message"]="Sorry no hack defined.";
+              $this->_err_message("Sorry no hack defined","None","Ask Hack's Developer");
             // ok, we've do nothing but seems ok.
             // finally we check if all was gone as should
             if (isset($this->errors))
@@ -645,7 +678,8 @@ class update_hacks
           {
           if (!@chmod($file_with_path,0777))
             {
-              $this->errors[]["message"]="unable to write new content in $file_with_path!";
+              //$this->errors[]["message"]="unable to write new content in $file_with_path!";
+              $this->_err_message("Unable to write new content in file",$file_with_path,"Check chmod+chown for $file_with_path");
               return false;
           }
         }
@@ -656,18 +690,21 @@ class update_hacks
         $fp=fopen($file_with_path,"w");
         if (!$fp)
           {
-            $this->errors[]["message"]="unable to open $file_with_path!";
+            //$this->errors[]["message"]="unable to open $file_with_path!";
+            $this->_err_message("Unable to open file",$file_with_path,"Check chmod+chown for $file_with_path");
             return false;
         }
         if (fwrite($fp,$new_content)===false)
           {
-            $this->errors[]["message"]="unable to write new content in $file_with_path!";
+            //$this->errors[]["message"]="unable to write new content in $file_with_path!";
+            $this->_err_message("Unable to write new content in file",$file_with_path,"Check chmod+chown for $file_with_path");
             @fclose($fp);
             return false;
         }
         @fclose($fp);
-        return true;
         @chmod($file_with_path,0766);
+        @chown($file_with_path,"root");
+        return true;
       }
 
       // private
@@ -691,13 +728,15 @@ class update_hacks
             {
             if (!@chmod($this->hack_path,0777))
               {
-                $this->errors[]["message"]="unable to write in $this->hack_path's folder!";
+                //$this->errors[]["message"]="unable to write in $this->hack_path's folder!";
+                $this->_err_message("Unable to write in $this->hack_path","Folder","Check chmod+chown for $this->hack_path");
                 return false;
             }
             else
               if (@mkdir($this->hack_path."/backup",0777))
               {
-                $this->errors[]["message"]="unable to create backup folder!";
+                //$this->errors[]["message"]="unable to create backup folder!";
+                $this->_err_message("Unable to create backup folder","Folder","Check chmod+chown for $this->hack_path");
                 return false;
             }
           }
@@ -705,7 +744,8 @@ class update_hacks
             {
             if (!@mkdir($this->hack_path."/backup",0777))
               {
-                $this->errors[]["message"]="unable to create backup folder!";
+                //$this->errors[]["message"]="unable to create backup folder!";
+                $this->_err_message("Unable to create backup folder","Folder","Check chmod+chown for $this->hack_path");
                 return false;
             }
           }
@@ -715,7 +755,8 @@ class update_hacks
           {
           if (!@chmod($this->hack_path."/backup",0777))
             {
-              $this->errors[]["message"]="unable to write in $this->hack_path/backup's folder!";
+              //$this->errors[]["message"]="unable to write in $this->hack_path/backup's folder!";
+              $this->_err_message("$this->hack_path/backup is not writable","Folder","Check chmod+chown for $this->hack_path/backup");
               return false;
           }
         }
@@ -725,13 +766,15 @@ class update_hacks
             $fname=basename($file_with_path).".".date("d-m-Y_H-i-s");
             if (!@copy($file_with_path,$this->hack_path."/backup/$fname"))
               {
-                $this->errors[]["message"]="unable to copy $file_with_path in $this->hack_path/backup/$fname!";
+                //$this->errors[]["message"]="unable to copy $file_with_path in $this->hack_path/backup/$fname!";
+                $this->_err_message("Unable to copy file in $this->hack_path/backup","$fname","Check chmod+chown for $this->hack_path/backup");
                 return false;
               }
         }
         @chmod($this->hack_path."/backup",0766);
+        @chown($this->hack_path."/backup","root");
         @chmod($this->hack_path."/backup/$fname",0766);
-
+        @chown($this->hack_path."/backup/$fname","root");
         // all gone fine
         return true;
       }

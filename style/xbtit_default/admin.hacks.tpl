@@ -18,7 +18,7 @@ function valid_folder(value) {
   </tr>
 <if:test_ok>
   <tr>
-    <td class="header" align="center"><tag:language.OPERATION /></td>
+    <td class="header" align="center"><tag:language.HACK_OPERATION /></td>
     <td class="header" align="center"><tag:language.FILE_NAME /></td>
     <td class="header" align="center"><tag:language.HACK_STATUS /></td>
   </tr>
@@ -37,11 +37,15 @@ function valid_folder(value) {
   </tr>
 <else:test_ok>
   <tr>
-    <td class="header"><tag:language.HACK_STATUS /></td>
+    <td class="header" align="center"><tag:language.FILE_NAME /></td>
+    <td class="header" align="center"><tag:language.HACK_STATUS /></td>
+    <td class="header" align="center"><tag:language.HACK_SOLUTION /></td>
   </tr>
   <loop:test_result>
   <tr>
+    <td class="lista"><tag:test_result[].file /></td>
     <td class="lista"><tag:test_result[].message /></td>
+    <td class="red" style="font-weight:bold;"><tag:test_result[].solution /></td>
   </tr>
   </loop:test_result>
 </if:test_ok>
