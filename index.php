@@ -29,8 +29,8 @@
 // EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 ////////////////////////////////////////////////////////////////////////////////////
-
-
+     
+     
 if (file_exists("install.unlock") && file_exists("install.php"))
    {
    if (dirname($_SERVER["PHP_SELF"])=="/" || dirname($_SERVER["PHP_SELF"])=="\\")
@@ -48,6 +48,15 @@ $THIS_BASEPATH=dirname(__FILE__);
 include("$THIS_BASEPATH/btemplate/bTemplate.php");
 
 require("$THIS_BASEPATH/include/functions.php");
+
+     $domain = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
+     $domain = str_replace('/index.php', '', $domain);
+     
+     if ($BASEURL != $domain) {
+      $currentFile = $_SERVER['REQUEST_URI']; preg_match("/[^\/]+$/",$currentFile,$matches);
+      $filename = "/" . $matches[0];
+      header ("Location: " . $BASEURL . $filename . "");          
+     }
 
 $time_start = get_microtime();
 
@@ -142,7 +151,7 @@ $morescript="
   <script type=\"text/javascript\" src=\"$BASEURL/jscript/ajax.js\"></script>\n
   <script type=\"text/javascript\" src=\"$BASEURL/jscript/ajax-poller.js\"></script>\n
   <script type=\"text/javascript\" src=\"$BASEURL/jscript/animatedcollapse.js\"></script>\n
-    <script type=\"text/javascript\" src=\"$BASEURL/jscript/DV.js\"></script>\n
+  <script type=\"text/javascript\" src=\"$BASEURL/jscript/DV.js\"></script>\n
   <script language=\"Javascript\" type=\"text/javascript\">
 
   <!--
@@ -163,20 +172,18 @@ $morescript="
   // -->
   </script>";
 
-$logo.="<div></div>";
+$logo.="
+<table width=\"750\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">
+<tr><td valign=\"top\" class=\"tracker_logo\"><a href=\"$BASEURL\"></a></td></tr>
+</table>";
 $slideIt="<span style=\"align:left;\"><a href=\"javascript:collapse2.slideit()\"><img src=\"$STYLEURL/images/slide.png\" border=\"0\" alt=\"\" /></a></span>";
 $header.="<div>".main_menu()."</div>";
 
-$left_col=side_menu();
-$right_col=right_menu();
-
-if ($left_col=="" && $right_col=="")
-   $no_columns=1;
 
 $tpl->set("main_jscript",$morescript);
 if (!$no_columns && $pageID!='admin' && $pageID!='forum' && $pageID!='torrents') {
-  $tpl->set("main_left",$left_col);
-  $tpl->set("main_right",$right_col);
+  $tpl->set("main_left",side_menu());
+  $tpl->set("main_right",right_menu());
 }
 
 $tpl->set("main_logo","$logo");
@@ -207,7 +214,7 @@ switch ($pageID) {
         // ALL OK, LET GO :)
         require("$THIS_BASEPATH/modules/$module_name/index.php");
         $tpl->set("main_content",set_block(ucfirst($module_name),"center",$module_out));
-        $tpl->set("main_title","Index->Modules->".ucfirst($module_name));
+        $tpl->set("main_title","Index->Torrents");
         break;
 
     case 'admin':
