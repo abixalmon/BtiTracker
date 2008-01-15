@@ -193,6 +193,15 @@ if (mysql_num_rows($res) > 0)
 }
 // end banned IP
 
+
+// only for internal tracked torrent!
+$res_tor =mysql_query("SELECT UNIX_TIMESTAMP(data) as data, uploader FROM {$TABLE_PREFIX}files WHERE external='no' AND info_hash='".$info_hash."'");
+if (mysql_num_rows($res_tor)==0)
+   show_error("Torrent is not authorized for use on this tracker.");
+
+
+
+
 $downloaded = (float)($_GET["downloaded"]);
 $uploaded = (float)($_GET["uploaded"]);
 $left = (float)($_GET["left"]);
@@ -223,10 +232,8 @@ if ($PRIVATE_ANNOUNCE) {
            $ratio=number_format($rowpid['uploaded']/$rowpid['downloaded'],2);
         else
             $ratio=0.0;
-        $res2 =mysql_query("SELECT UNIX_TIMESTAMP(data) as data, uploader FROM {$TABLE_PREFIX}files WHERE external='no' AND info_hash='".$info_hash."'");
-        if (mysql_num_rows($res2)==0)
-           show_error("Torrent is not authorized for use on this tracker.");
-        $added=mysql_fetch_assoc($res2);
+
+        $added=mysql_fetch_assoc($res_tor);
         $vz = $added["data"];
         $timer = floor((time() - $vz) / 3600);
         if($ratio<1.0 && $rowpid['id']!=$added["uploader"]){
@@ -261,11 +268,8 @@ if ($PRIVATE_ANNOUNCE) {
            $ratio=number_format($rowpid['uploaded']/$rowpid['downloaded'],2);
         else
             $ratio=0.0;
-        $res2 =mysql_query("SELECT UNIX_TIMESTAMP(data) as data, uploader FROM {$TABLE_PREFIX}files WHERE external='no' AND info_hash='".$info_hash."'");
-        if (mysql_num_rows($res2)==0)
-           show_error("Torrent is not authorized for use on this tracker.");
 
-        $added=mysql_fetch_assoc($res2);
+        $added=mysql_fetch_assoc($res_tor);
         $vz = $added["data"];
         $timer = floor((time() - $vz) / 3600);
         if($ratio<1.0 && $rowpid['id']!=$added["uploader"]){
