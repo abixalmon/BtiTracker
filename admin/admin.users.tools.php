@@ -176,6 +176,12 @@ switch ($action)
               $profile["topicsperpage"]=$curu[0]["topicsperpage"];
               $profile["postsperpage"]=$curu[0]["postsperpage"];
             }
+          else
+            {
+              $admintpl->set("INTERNAL_FORUM",false,true);
+              $profile["topicsperpage"]="";
+              $profile["postsperpage"]="";
+            }
 
           $profile["torrentsperpage"]=$curu[0]["torrentsperpage"];
           $profile["frm_cancel"]="index.php?page=usercp&amp;uid=".$uid."";
