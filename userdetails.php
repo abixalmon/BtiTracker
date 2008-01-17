@@ -329,7 +329,10 @@ if ($sanq[0]>0)
 unset($sanq);
 
 mysql_free_result($anq);
-$anq=do_sqlquery("SELECT count(*) FROM {$TABLE_PREFIX}history h INNER JOIN {$TABLE_PREFIX}files f ON h.infohash=f.info_hash WHERE h.uid=$id AND h.date IS NOT NULL ORDER BY date DESC",true);
+if ($XBTT_USE)
+   $anq=do_sqlquery("SELECT count(h.fid) FROM xbt_files_users h INNER JOIN xbt_files f ON h.fid=f.fid WHERE h.uid=$id AND h.completed=1",true);
+else
+    $anq=do_sqlquery("SELECT count(h.infohash) FROM {$TABLE_PREFIX}history h INNER JOIN {$TABLE_PREFIX}files f ON h.infohash=f.info_hash WHERE h.uid=$id AND h.date IS NOT NULL",true);
 $sanq=mysql_fetch_row($anq);
 
 if ($sanq[0]>0)
@@ -338,8 +341,12 @@ if ($sanq[0]>0)
     $torhistory=array();
     $i=0;
     list($pagertop, $pagerbottom, $limit) = pager(($utorrents==0?15:$utorrents), mysql_num_rows($anq), "index.php?page=userdetails&amp;id=$id&amp;",array("pagename" => "historypage"));
-    $anq=do_sqlquery("SELECT f.filename, f.size, f.info_hash, h.active, h.agent, h.downloaded, h.uploaded, $tseeds as seeds, $tleechs as leechers, $tcompletes as finished
-    FROM $ttables INNER JOIN {$TABLE_PREFIX}history h ON h.infohash=f.info_hash WHERE h.uid=$id AND h.date IS NOT NULL ORDER BY date DESC $limit",true);
+    if ($XBTT_USE)
+       $anq=do_sqlquery("SELECT f.filename, f.size, f.info_hash, IF(h.active=1,'yes','no'), 'unknown' as agent, h.downloaded, h.uploaded, $tseeds as seeds, $tleechs as leechers, $tcompletes as finished
+       FROM $ttables INNER JOIN xbt_files_users h ON h.fid=x.fid WHERE h.uid=$id AND h.completed=1 ORDER BY h.mtime DESC $limit",true);
+    else
+      $anq=do_sqlquery("SELECT f.filename, f.size, f.info_hash, h.active, h.agent, h.downloaded, h.uploaded, $tseeds as seeds, $tleechs as leechers, $tcompletes as finished
+      FROM $ttables INNER JOIN {$TABLE_PREFIX}history h ON h.infohash=f.info_hash WHERE h.uid=$id AND h.date IS NOT NULL ORDER BY date DESC $limit",true);
 //    print("<div align=\"center\">$pagertop</div>");
     while ($torlist = mysql_fetch_object($anq))
         {
