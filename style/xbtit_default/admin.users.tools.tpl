@@ -58,8 +58,8 @@ function convert() {
     <tr>
       <td align="left" class="header"><tag:language.UPLOADED />/<tag:language.DOWNLOADED />:</td>
       <td align="left" class="lista" colspan="2">
-        <input type="text" size="18" name="downloaded" maxlength="18" onkeyup="convert()" value="<tag:profile.downloaded />"/>
-        &nbsp;&nbsp;/&nbsp;&nbsp;<input type="text" size="18" name="uploaded" onkeyup="convert()" maxlength="18" value="<tag:profile.uploaded />"/>
+        <input type="text" size="18" name="uploaded" onkeyup="convert()" maxlength="18" value="<tag:profile.uploaded />"/>
+        &nbsp;&nbsp;/&nbsp;&nbsp;<input type="text" size="18" name="downloaded" maxlength="18" onkeyup="convert()" value="<tag:profile.downloaded />"/>
         &nbsp;&nbsp;(<input name="lblup" size="10" readonly="readonly" value="<tag:profile.up />" />&nbsp;&nbsp;/&nbsp;&nbsp;<input name="lbldown" size="10" readonly="readonly" value="<tag:profile.down />" />)
         &nbsp;&nbsp;<tag:language.RATIO />:<input name="lblratio" size="10" readonly="readonly" value="<tag:profile.ratio />" />
       </td>

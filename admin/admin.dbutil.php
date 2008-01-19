@@ -46,40 +46,43 @@ switch($action)
           {
             $table_action=$_POST["doit"];
             $tables=implode(",",$_POST["tname"]);
-            switch ($table_action)
-               {
-                case 'Repair':
-                    $dbres=do_sqlquery("REPAIR TABLE $tables");
-                    break;
-                case 'Analyze':
-                    $dbres=do_sqlquery("ANALYZE TABLE $tables");
-                    break;
-                case 'Optimize':
-                    $dbres=do_sqlquery("OPTIMIZE TABLE $tables");
-                    break;
-                case 'Check':
-                    $dbres=do_sqlquery("CHECK TABLE $tables");
-                    break;
-                case 'Delete':
-                    $dbres=do_sqlquery("DROP TABLE $tables");
-                    header("Location: index.php?page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=dbutil&action=status");
-                    exit();
-                    break;
-             }
-             $t=array();
-             while ($tstatus=mysql_fetch_array($dbres))
-                  {
-                     $t[$i]["table"]=$tstatus['Table'];
-                     $t[$i]["operation"]=$tstatus['Op'];
-                     $t[$i]["info"]=$tstatus['Msg_type'];
-                     $t[$i]["status"]=$tstatus['Msg_text'];
-                     $i++;
-             }
-              $admintpl->set("language",$language);
-              $admintpl->set("results",$t);
-              $admintpl->set("db_status",false,true);
-              $admintpl->set("table_result",true,true);
+            if (isset($_POST["tname"]))
+              {
+                switch ($table_action)
+                   {
+                    case 'Repair':
+                        $dbres=do_sqlquery("REPAIR TABLE $tables");
+                        break;
+                    case 'Analyze':
+                        $dbres=do_sqlquery("ANALYZE TABLE $tables");
+                        break;
+                    case 'Optimize':
+                        $dbres=do_sqlquery("OPTIMIZE TABLE $tables");
+                        break;
+                    case 'Check':
+                        $dbres=do_sqlquery("CHECK TABLE $tables");
+                        break;
+                    case 'Delete':
+                        $dbres=do_sqlquery("DROP TABLE $tables");
+                        header("Location: index.php?page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=dbutil&action=status");
+                        exit();
+                        break;
+                 }
+                 $t=array();
+                 while ($tstatus=mysql_fetch_array($dbres))
+                      {
+                         $t[$i]["table"]=$tstatus['Table'];
+                         $t[$i]["operation"]=$tstatus['Op'];
+                         $t[$i]["info"]=$tstatus['Msg_type'];
+                         $t[$i]["status"]=$tstatus['Msg_text'];
+                         $i++;
+                 }
+                  $admintpl->set("language",$language);
+                  $admintpl->set("results",$t);
+                  $admintpl->set("db_status",false,true);
+                  $admintpl->set("table_result",true,true);
 
+              }
         }
          else
             header("Location: index.php?page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=dbutil&action=status");

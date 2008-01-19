@@ -386,7 +386,7 @@ class update_hacks
                                   {
                                     // we must find if before or after
                                     $where=str_replace("\"","",$hack_array[$i]["file"][$j]["operations"][$k]["where"]);
-                                    $newpos=($where=="before"?$pos-strlen($string_to_search)+1:$pos+strlen($string_to_search)+1);
+                                    $newpos=($where=="before"?$pos-1:$pos+strlen($string_to_search)+1);
                                     $file_content=substr($file_content,0,$newpos).$begin_hack_str.str_replace("\r\n","\n", $hack_array[$i]["file"][$j]["operations"][$k]["data"]).$end_hack_str.substr($file_content,$newpos);
                                 }
                                 elseif ($action=="replace")

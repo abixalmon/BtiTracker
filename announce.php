@@ -826,7 +826,7 @@ if (!empty($summaryupdate))
     $stuff = "";
     foreach ($summaryupdate as $column => $value)
     {
-        $stuff .= ', '.$column. ($value[1] ? "=".$value[0] : "=IF($column+" . $value[0]."<0,0,$column+".$value[0].")");
+        $stuff .= ', '.$column. ($value[1] ? "=".$value[0] : "=IF(" . abs($value[0])."<$column),0,$column+".$value[0].")");
     }
     mysql_query("UPDATE {$TABLE_PREFIX}files SET ".substr($stuff, 1)." WHERE info_hash=\"$info_hash\"");
 }
