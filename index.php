@@ -49,7 +49,8 @@ include("$THIS_BASEPATH/btemplate/bTemplate.php");
 
 require("$THIS_BASEPATH/include/functions.php");
 
-$domain = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
+$sp = $_ENV['SERVER_PORT']; $ss = $_ENV['HTTPS']; if ( $sp =='443' || $ss == 'on' || $ss == '1') $p = 's';
+$domain = 'http'.$p.'://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
 $domain = str_replace('/index.php', '', $domain);
 
 if ($BASEURL != $domain) {
