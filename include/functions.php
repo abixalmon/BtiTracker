@@ -556,7 +556,7 @@ function genrelist()
 
     return $ret;
 }
-// this returns all the categories
+// this returns all the categories with subs into a select
 function categories($val="")
 {
 
@@ -564,30 +564,35 @@ function categories($val="")
 
     $return="";
     $return.= "\n<select name='category'><option value='0'>----</option>";
-    $c_q = get_result("SELECT * FROM {$TABLE_PREFIX}categories WHERE sub='0' ORDER BY sort_index, id",true,$CACHE_DURATION);
+
+    $c_q = get_result("SELECT c.id, c.name, sc.id as sid, sc.name as sname FROM {$TABLE_PREFIX}categories c LEFT JOIN {$TABLE_PREFIX}categories sc on c.id=sc.sub where c.sub='0' ORDER BY c.sort_index, sc.sort_index, c.id, sc.id",true,$CACHE_DURATION);
+    $b_sub=0;
     foreach ($c_q as $id=>$c)
     {
         $cid = $c["id"];
         $name = unesc($c["name"]);
+
+        if ($b_sub!=$cid && $b_sub!=0)
+           $return.="\n</optgroup>";
+
         // lets see if it has sub-categories.
-        $s_q = get_result("SELECT * FROM {$TABLE_PREFIX}categories WHERE sub='$cid' ORDER BY sort_index, id",true,$CACHE_DURATION);
-        $s_t = count($s_q);
-        if($s_t == 0)
+        if(empty($c["sid"]))
         {
+            $b_sub=0;
             $checked = "";
             if($cid == $val){ $checked = "selected=\"selected\""; }
             $return.= "\n<option $checked value='$cid'>$name</option>";
         } else {
-            $return.= "\n<optgroup label='$name'>";
-            foreach($s_q as $id=>$s)
-            {
-                $sub = $s["id"];
-                $name  = $s["name"];
-                $checked = "";
-                if($sub == $val){ $checked = "selected==\"selected\""; }
-                $return.= "<option $checked value='$sub'>$name</option>";
+            if ($b_sub!=$cid)
+             {
+               $return.="\n<optgroup label='$name'>";
+               $b_sub=$cid;
             }
-            $return.= "</optgroup>";
+            $sub = $c["sid"];
+            $sname  = unesc($c["sname"]);
+            $checked = "";
+            if($sub == $val){ $checked = "selected=\"selected\""; }
+            $return.= "\n<option $checked value='$sub'>$sname</option>";
         }
     }
     $return.= "</select>";
