@@ -100,6 +100,18 @@ function format_shout($text, $strip_html = true) {
         "/\[url\]((http|ftp|https|ftps|irc):\/\/[^<>\s]+?)\[\/url\]/i",
         "<a href=\\1 target=_blank>\\1</a>", $s);
 
+
+    // [url]www.example.com[/url]
+    $s = preg_replace(
+        "/\[url\](www\.[^<>\s]+?)\[\/url\]/i",
+        "<a href='http://\\1' target='_blank'>\\1</a>", $s);
+        
+    // [url=www.example.com]Text[/url]
+    $s = preg_replace(
+        "/\[url=(www\.[^<>\s]+?)\]((\s|.)+?)\[\/url\]/i",
+        "<a href='http://\\1' target='_blank'>\\2</a>", $s);
+
+
     // [size=4]Text[/size]
     $s = preg_replace(
         "/\[size=([1-7])\]((\s|.)+?)\[\/size\]/i",
