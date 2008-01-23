@@ -91,7 +91,10 @@ if ($act=="confirm") {
          die("ERROR: " . mysql_error() . "\n");
       else {
           if($FORUMLINK=="smf")
-              do_sqlquery("UPDATE {$db_prefix}members SET ID_GROUP=13 WHERE ID_MEMBER=".$CURUSER["smf_fid"]);  
+          {
+              $get=mysql_fetch_assoc(mysql_query("SELECT smf_fid FROM {$TABLE_PREFIX}users WHERE id_level=13 AND random=$random2"));
+              do_sqlquery("UPDATE {$db_prefix}members SET ID_GROUP=13 WHERE ID_MEMBER=".$get["smf_fid"]);  
+          }
           success_msg($language["ACCOUNT_CREATED"],$language["ACCOUNT_CONGRATULATIONS"]);
           stdfoot();
           exit;
