@@ -13,7 +13,7 @@
     </tr>
     <tr>
       <td align="left" class="header"><tag:language.USER_EMAIL />:</td>
-      <td align="left" class="lista"><input type="text" size="30" name="email" maxlength="30" value="<tag:profile.email />"/></td>
+      <td align="left" class="lista"><input type="text" size="30" name="email" maxlength="50" value="<tag:profile.email />"/></td>
     </tr>
   <if:USER_VALIDATION>
     <tr>
