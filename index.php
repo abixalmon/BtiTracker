@@ -111,16 +111,6 @@ else
 
 clearstatcache();
 
-/*
-if (!file_exists($USERLANG))
-    {
-    err_msg("Error!","Missing Language!");
-    print_version();
-    print("</body>\n</html>\n");
-    die;
-}
-*/
-
 session_start();
 
 

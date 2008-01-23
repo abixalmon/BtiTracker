@@ -31,8 +31,6 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 
-$tracker_version="2.0.0";
-
 error_reporting(E_ALL ^ E_NOTICE);
 
 
@@ -81,6 +79,8 @@ if(get_magic_quotes_gpc()){
 
 
 $CURRENTPATH = dirname(__FILE__);
+
+include("$CURRENTPATH/xbtit_version.php");
 // protection against sql injection, xss attack
 require_once("$CURRENTPATH/crk_protection.php");
 // protection against sql injection, xss attack
@@ -160,12 +160,35 @@ function cut_string($ori_string,$cut_after)
         return $ori_string;
 }
 
+function print_debug()
+{
+
+  global $time_start, $gzip,$num_queries;
+
+  $time_end=get_microtime();
+  return "[Queries: $num_queries] - [ Script Execution time: ".number_format(($time_end-$time_start),4)." sec. ] - [ GZIP: $gzip ]";
+
+
+
+}
+
 function print_version()
 {
 
-  GLOBAL $time_start, $gzip, $PRINT_DEBUG,$tracker_version,$num_queries, $STYLEPATH;
+  global $tracker_version;
 
-  if (file_exists("$STYLEPATH/style_copyright.php"))
+
+  return "[&nbsp;&nbsp;<u>xbtit ($tracker_version) By</u>: <a href=\"http://www.btiteam.org/\" target=\"_blank\">Btiteam</a>&nbsp;]";
+
+
+}
+
+function print_designer()
+{
+
+  global $STYLEPATH;
+
+    if (file_exists("$STYLEPATH/style_copyright.php"))
     {
      include("$STYLEPATH/style_copyright.php");
      $design_copyright="[&nbsp;&nbsp;<u>Design By</u>: $design_copyright&nbsp;&nbsp;]&nbsp;";
@@ -173,16 +196,11 @@ function print_version()
   else
       $design_copyright="";
 
-  $time_end=get_microtime();
-  $version=("<br /><br /><p align=\"center\">");
-  $version.=("<a href=\"#\">Back To Top</a><br />$design_copyright [&nbsp;&nbsp;<u>xbtit ($tracker_version) By</u>: <a href=\"http://www.btiteam.org/\" target=\"_blank\">Btiteam</a>&nbsp;]");
-  if ($PRINT_DEBUG)
-  $version.=("<br />[Queries: $num_queries] - [ Script Execution time: ".number_format(($time_end-$time_start),4)." sec. ] - [ GZIP: $gzip ]");
-  $version.="</p>";
+  $design_copyright="<a href=\"#\">Back To Top</a><br />$design_copyright";
 
-  return $version;
-
+  return $design_copyright;
 }
+
 
 // check online passed session and user's location
 // this function will update the information into
@@ -720,7 +738,10 @@ function stdfoot($normalpage=true, $update=true, $adminpage=false, $torrentspage
     global $STYLEPATH, $tpl, $no_columns;
 
     $tpl->set("main_footer",bottom_menu()."<br />\n");
-    $tpl->set("btit_version",print_version());
+    $tpl->set("xbtit_version",print_version());
+    $tpl->set("style_copyright",print_designer());
+    $tpl->set("xbtit_debug",print_debug());
+
 
     if ($normalpage && !$no_columns)
         echo $tpl->fetch(load_template("main.tpl"));
@@ -845,6 +866,16 @@ function format_comment($text, $strip_html = true)
     $s = preg_replace(
         "/\[url\]((http|ftp|https|ftps|irc):\/\/[^<>\s]+?)\[\/url\]/i",
         "<a href='\\1' target='_blank'>\\1</a>", $s);
+
+    // [url]www.example.com[/url]
+    $s = preg_replace(
+        "/\[url\](www\.[^<>\s]+?)\[\/url\]/i",
+        "<a href='http://\\1' target='_blank'>\\1</a>", $s);
+        
+    // [url=www.example.com]Text[/url]
+    $s = preg_replace(
+        "/\[url=(www\.[^<>\s]+?)\]((\s|.)+?)\[\/url\]/i",
+        "<a href='http://\\1' target='_blank'>\\2</a>", $s);
 
     // [size=4]Text[/size]
     $s = preg_replace(
@@ -1239,7 +1270,7 @@ function peercolor($num)
           $x=intval(rand(10,$this->lx-10));
           $y=intval(rand(0,$this->ly-5));
           $color=imagecolorallocate($image,intval(rand(160,224)),intval(rand(160,224)),intval(rand(160,224)));
-          $text=chr(intval(rand(45,250)));
+          $text=chr(intval(rand(45,127)));
           ImageTTFText ($image,$size,$angle,$x,$y,$color,$this->font_file,$text);
         }
       }

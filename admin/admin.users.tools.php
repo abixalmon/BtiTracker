@@ -63,6 +63,9 @@ switch ($action)
                 do_sqlquery("DELETE FROM {$db_prefix}members WHERE ID_MEMBER=$smf_fid",true);
             }  
 
+            if ($XBTT_USE)
+               do_sqlquery("DELETE FROM xbt_users WHERE uid=$uid",true);
+
             redirect((isset($_GET["returnto"])?urldecode($_GET["returnto"]):"index.php"));
             die();
         }

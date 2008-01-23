@@ -13,11 +13,11 @@
 <table class="windowbg6" align="center" width="100%" cellpadding="0" cellspacing="0" border="0">
  <tr>
 <td align="middle">
-					<center><img src="style/holiday-spirit/images/northstar.gif" style="margin: 0px;" alt="" /></center></td>
+                    <center><img src="style/holiday-spirit/images/northstar.gif" style="margin: 0px;" alt="" /></center></td>
 </tr>
 <td align="middle">
-					<center><img src="style/holiday-spirit/images/img110.gif" style="margin: 0px;" alt="" /></center></td></tr>
-				<tr><td width="100%" height="8" style="background: url(images/spacer.gif); background-repeat: repeat-x; background-color:#FFF;"></td></tr></table></div>
+                    <center><img src="style/holiday-spirit/images/img110.gif" style="margin: 0px;" alt="" /></center></td></tr>
+                <tr><td width="100%" height="8" style="background: url(images/spacer.gif); background-repeat: repeat-x; background-color:#FFF;"></td></tr></table></div>
 <table class="windowbg6" align="center" width="100%" cellpadding="0" cellspacing="0" border="0">
  <tr><td><tag:main_header /></td></tr></table>
 <br />
@@ -37,24 +37,27 @@
 <!--<td valign="top" width="22" align="left" background="style/holiday-spirit/images/vrt.gif" rowspan="2"></td>-->
 <td valign="top" width="5" style="background: url(images/index_r6_c1_md1.png);" rowspan="2"></td>
     <td valign="top" width="150"><tag:main_right /></td>
-<td valign="top" width="5" style="background: url(images/index_r6_c1_md1.png);" rowspan="2"></td>	
+<td valign="top" width="5" style="background: url(images/index_r6_c1_md1.png);" rowspan="2"></td>   
     </tr>
   </table>
       <br />      
-			  <table width="100%" align="center" cellpadding="0" cellspacing="0" border="0">
-			<tr>
+              <table width="100%" align="center" cellpadding="0" cellspacing="0" border="0">
+            <tr>
 <td valign="top" width="5" style="background: url(images/index_r6_c1_md1.png);" rowspan="2"></td>
-			<td valign="top"><tag:main_footer /></td>
+            <td valign="top"><tag:main_footer /></td>
 <td valign="top" width="5" style="background: url(images/index_r6_c1_md1.png);" rowspan="2"></td>
-			</tr></table>
+            </tr></table>
 <!--</div>
 <b class="bottom"><b class="b4b"></b><b class="b3b"></b><b class="b2b"></b><b class="b1b"></b></b>
 </div>-->
-	<br />
+    <br />
 <table width="738" cellspacing="0" cellpadding="0" colspan="3" align="center">
 <tr><td class="header" align="center" valign="top"></td></tr>
 <tr><td class="lights" align="center" valign="top" bgcolor="#E1E5D5" height="24"></td></tr>
-<td align="center" style="background:#E1E5D5;text-align:center;"><span valign="bottom" class="nav"><tag:btit_version /><br>Holiday Spirit &copy; 2006-2008</span></td></tr>
+<td align="center" style="background:#E1E5D5;text-align:center;"><span valign="bottom" class="nav">
+         <tag:style_copyright />&nbsp;<tag:xbtit_version /><br />
+         <tag:xbtit_debug />
+<br />Holiday Spirit &copy; 2006-2008</span></td></tr>
 <td class="end" align="center" valign="top"></td>
 </tr></table>
 <br /></div>

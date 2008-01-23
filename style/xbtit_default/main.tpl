@@ -53,8 +53,9 @@
          </tr>
          </table>
          <br />
-         <div id="footer">
-         <tag:btit_version />
+         <div id="footer" align="center">
+         <tag:style_copyright />&nbsp;<tag:xbtit_version /><br />
+         <tag:xbtit_debug />
          </div>
     </div>
    </div>

@@ -47,8 +47,9 @@ var collapse2=new animatedcollapse("header", 800, false, "block")
 <td valign="top" width="5" style="background: url(images/index_r6_c1_md1.png); background-repeat: repeat-x;" rowspan="2"></td>
             </tr></table>
                 <br /></div></div>
-      <div id="footer">
-          <tag:btit_version />
+      <div id="footer" align="center">
+         <tag:style_copyright />&nbsp;<tag:xbtit_version /><br />
+         <tag:xbtit_debug />
       </div>
         </div>
   </body>
