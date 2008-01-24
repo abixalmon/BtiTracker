@@ -44,19 +44,17 @@ if (!function_exists("bcsub"))
 }
 
 
-function send_mail($rec_email,$subject,$message, $IsHtml=false)
+function send_mail($rec_email,$subject,$message, $IsHtml=false, $cc=array(), $bcc=array())
 {
   global $THIS_BASEPATH, $btit_settings;
 
   include("$THIS_BASEPATH/phpmailer/class.phpmailer.php");
   $mail=new PHPMailer();
 
+
   if ($btit_settings["mail_type"]=='php')
     {
       $mail->IsMail();                                   // send via mail
-      $mail->From     = $btit_settings["email"];
-      $mail->FromName = $btit_settings["name"];
-      $mail->CharSet  = $btit_settings["default_charset"];
       $mail->AddAddress($rec_email);
       $mail->AddReplyTo($btit_settings["email"],$btit_settings["name"]);
 
@@ -64,6 +62,17 @@ function send_mail($rec_email,$subject,$message, $IsHtml=false)
 
       $mail->Subject  =  $subject;
       $mail->Body     =  $message;
+
+      if (count($cc)>0)
+        {
+            $mail->AddCustomHeader("Cc: ".implode(",",$cc));
+      }
+
+      if (count($bcc)>0)
+        {
+            $mail->AddCustomHeader("Bcc: ".implode(",",$bcc));
+      }
+
     }
   else
     {
@@ -74,9 +83,6 @@ function send_mail($rec_email,$subject,$message, $IsHtml=false)
       $mail->Username = $btit_settings["smtp_username"];  // SMTP username
       $mail->Password = $btit_settings["smtp_password"]; // SMTP password
 
-      $mail->From     = $btit_settings["email"];
-      $mail->FromName = $btit_settings["name"];
-      $mail->CharSet  = $btit_settings["default_charset"];
       $mail->AddAddress($rec_email);
       $mail->AddReplyTo($btit_settings["email"],$btit_settings["name"]);
 
@@ -84,9 +90,28 @@ function send_mail($rec_email,$subject,$message, $IsHtml=false)
 
       $mail->Subject  =  $subject;
       $mail->Body     =  $message;
+      if (count($cc)>0)
+        {
+         foreach($cc as $carbon_copy)
+                     $mail->AddCC($cc[0],$cc[0]);
+      }
+
+      if (count($bcc)>0)
+        {
+         foreach($bcc as $carbon_copy)
+                     $mail->AddBCC($bcc[0],$bcc[0]);
+      }
   }
 
-  return $mail->Send();
+
+  $mail->From     = $btit_settings["email"];
+  $mail->FromName = $btit_settings["name"];
+  $mail->CharSet  = $btit_settings["default_charset"];
+
+  if ($mail->Send())
+     return true;
+  else
+     return $mail->ErrorInfo;
 
 }
 

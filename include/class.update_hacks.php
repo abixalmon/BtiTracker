@@ -439,7 +439,7 @@ class update_hacks
                                 }
                              }
                            }
-                           else // "normal" operation
+                           elseif ($action!="copy") // "normal" operation
                              {
                                if ($this->write_new_file($this->file[$j]["name"],$file_content,$test))
                                  $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
@@ -448,7 +448,7 @@ class update_hacks
                            }
                          }
                     }
-                    elseif (strtoupper($this->file[$j]["name"])!="DATABASE")
+                    elseif ($action!="copy" && strtoupper($this->file[$j]["name"])!="DATABASE")
                      {
                        if ($this->write_new_file($this->file[$j]["name"],$file_content,true))
                          $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
@@ -625,7 +625,7 @@ class update_hacks
                                 }
                              }
                            }
-                           else  // "normal" operation
+                           elseif ($action!="copy")  // "normal" operation
                              {
                                if ($this->write_new_file($this->file[$j]["name"],$file_content,$test))
                                  $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
@@ -634,7 +634,7 @@ class update_hacks
                            }
                          }
                     }
-                    elseif (strtoupper($this->file[$j]["name"])!="DATABASE")
+                    elseif ($action!="copy" && strtoupper($this->file[$j]["name"])!="DATABASE")
                      {
                        if ($this->write_new_file($this->file[$j]["name"],$file_content,true))
                          $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
