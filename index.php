@@ -58,7 +58,7 @@ if ($BASEURL != $domain) {
  $filename = "/" . $matches[0];
  header ("Location: " . $BASEURL . $filename . "");          
 }
-die(print_r($_SERVER));
+
 
 $time_start = get_microtime();
 

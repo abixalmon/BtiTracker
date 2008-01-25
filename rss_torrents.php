@@ -28,6 +28,9 @@
 // NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 // EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
+//
+// **Edited by mcangeli on 1/24/2008 to correct torrent detail link
+//
 ////////////////////////////////////////////////////////////////////////////////////
 
 require_once("include/functions.php");
@@ -89,8 +92,8 @@ print("<?xml version=\"1.0\" encoding=\"".$GLOBALS["charset"]."\"?>");
   <item>
   <title><![CDATA[<?php print htmlspecialchars("[$cat] $filename [".SEEDERS." ($seeders)/".LEECHERS." ($leechers)]");?>]]></title>
   <description><![CDATA[<?php print $desc; ?>]]></description>
-  <link><?php print "$BASEURL/details.php?id=$id";?></link>
-  <guid><?php print "$BASEURL/details.php?id=$id";?></guid>
+  <link><?php print "$BASEURL";?>/index.php?page=torrent-details&amp;id=<?php print "$id";?></link>
+  <guid><?php print "$BASEURL";?>/index.php?page=torrent-details&amp;id=<?php print "$id";?></guid>
   <enclosure url="<?php print("$BASEURL/download.php?id=$id&amp;f=$f.torrent");?>" length="<?php print $item["size"] ?>" type="application/x-bittorrent" />
   <pubDate><?php print $added;?></pubDate>
   </item>

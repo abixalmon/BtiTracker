@@ -28,6 +28,8 @@
 // NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 // EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
+// **Edited by mcangeli on 1/24/2008 to correct torrent detail link
+//
 ////////////////////////////////////////////////////////////////////////////////////
 
 require_once("include/functions.php");
@@ -112,7 +114,7 @@ if ($CURUSER["view_torrents"]=="yes")
   <item>
   <title><![CDATA[<?php print htmlspecialchars("[".TORRENT."] ".$filename);?>]]></title>
   <description><![CDATA[<?php print ($descr)." (".SEEDERS." ".safehtml($seeders)." -- ".LEECHERS." ".safehtml($leechers);?>)]]></description>
-  <link><?php print $BASEURL;?>/details.php?id=<?php print $id;?></link>
+  <link><?php print $BASEURL;?>/index.php?page=torrent-details&amp;id=<?php print $id;?></link>
   <pubDate><?php print $added;?></pubDate>
   </item>
 
