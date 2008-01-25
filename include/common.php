@@ -170,6 +170,37 @@ function get_remote_file($http_url,$mode="r")
   }
 }
 
+function get_fresh_config($qrystr)
+{
+  $cache_dir=realpath(dirname(__FILE__)."/..")."/cache/";
+  $cache_ext=".txt";
+  $cache_file=$cache_dir.md5($qrystr).$cache_ext;
+
+  $mr=do_sqlquery($qrystr,true);
+  while ($mz=mysql_fetch_assoc($mr))
+        {
+        if ($mz["value"]=="true")
+            $return[$mz["key"]]= true;
+        elseif ($mz["value"]=="false")
+            $return[$mz["key"]]= false;
+        elseif (is_numeric($mz["value"]))
+            $return[$mz["key"]]= max(0,$mz["value"]);
+        else
+            $return[$mz["key"]]= StripSlashes($mz["value"]);
+       }
+  unset($mz);
+  mysql_free_result($mr);
+
+  // write new cache
+  $fp=@fopen($cache_file,"w");
+  @fputs($fp,serialize($return));
+  @fclose($fp);
+
+  return $return;
+
+}
+
+
 function do_sqlquery($qrystr,$display_error=false)
 {
   global $num_queries;
