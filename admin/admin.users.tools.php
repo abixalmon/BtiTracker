@@ -263,8 +263,10 @@ switch ($action)
          $set[]="time_offset=".sqlesc(intval($_POST["timezone"]));
          $set[]="email='$email'";
          $set[]="avatar=".sqlesc(htmlspecialchars($avatar));
-         $set[]="topicsperpage=".intval(0+$_POST["topicsperpage"]);
-         $set[]="postsperpage=".intval(0+$_POST["postsperpage"]);
+         if (isset($_POST["topicsperpage"])) // when smf it's not set
+            $set[]="topicsperpage=".intval(0+$_POST["topicsperpage"]);
+         if (isset($_POST["postsperpage"])) // when smf it's not set
+            $set[]="postsperpage=".intval(0+$_POST["postsperpage"]);
          $set[]="torrentsperpage=".intval(0+$_POST["torrentsperpage"]);
          $set[]="torrentsperpage=".intval(0+$_POST["torrentsperpage"]);
          $set[]="uploaded=".(float)($_POST["uploaded"]);

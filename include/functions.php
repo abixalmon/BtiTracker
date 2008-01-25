@@ -128,9 +128,13 @@ function load_template($tpl_name)
 function load_language($mod_language_name)
   {
   // control if input language exist in current user's language path, else return default
-  global $THIS_BASEPATH, $USERLANG;
+  global $THIS_BASEPATH, $USERLANG, $language;
 
   $DEFAULT_LANGUAGE_PATH="$THIS_BASEPATH/language/english";
+
+  // we will allways load english language before, then if some elements are missed in the traduction
+  // we will have them in english
+  include("$DEFAULT_LANGUAGE_PATH/$mod_language_name");
 
   if (@file_exists("$USERLANG/$mod_language_name"))
       return "$USERLANG/$mod_language_name";

@@ -7,7 +7,7 @@
        </td>
     </tr>
     <tr>
-      <td bgcolor="#FFFFFF" align="center">
+      <td bgcolor="#FFFFFF" align="center" style="color:#000000;">
         <img src="<tag:success_image />" alt="" style="float:left; margin:5px" />
         <br />
         <tag:success_message />
