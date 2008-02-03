@@ -102,7 +102,7 @@ else
 
            while ($trow = mysql_fetch_array($tres))
            {
-               $title=preg_replace("/Re:/", "", htmlspecialchars(unesc($trow['title'])));
+               $title=str_replace("Re: ", "", $trow['title']);
                if (strlen($title>30))
                {
                    print("<tr><td class=\"lista\"><b><a title=\"".$language["FIRST_UNREAD"].": ".preg_replace("/Re:/", "", $trow["title"])."\" href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=" . $trow['tid'] . ".msg" . $trow['goto_last_post'] . "#new\">" . substr($title,0,30) . "...</a></b><br />".$language["LAST_POST_BY"]." <a href='smf/index.php?action=profile;u=" . $trow['last_poster_id'] . "'>" .$trow['last_poster_name'] ."</a><br />On " . date('d/m/Y H:i:s',$trow["last_post"]). "</td></tr>\n");
