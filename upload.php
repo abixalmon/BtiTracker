@@ -214,7 +214,7 @@ if (!isset($array["announce"]))
                   $query = "INSERT INTO {$TABLE_PREFIX}files (info_hash, filename, url, info, category, data, size, comment,external,announce_url, uploader,anonymous, bin_hash) VALUES (\"$hash\", \"$filename\", \"$url\", \"$info\",0 + $categoria,NOW(), \"$size\", \"$comment\",\"yes\",\"$announce\",$curuid,$anonyme,0x$hash)";
         }
       //echo $query;
-      $status = do_sqlquery($query,true); //makeTorrent($hash, true);
+      $status = do_sqlquery($query); //makeTorrent($hash, true);
       if ($status)
          {
          $mf=@move_uploaded_file($_FILES["torrent"]["tmp_name"] , $TORRENTSDIR . "/" . $hash . ".btf");

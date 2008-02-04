@@ -96,21 +96,27 @@ function BBTag(opentag, closetag, textarea)
 // -->
 </script>
 
-  <table cellpadding="0" cellspacing="0">
+  <table cellpadding="0" cellspacing="0" align="left">
+    <tr>
+      <td>
+        <table cellpadding="0" cellspacing="1" align="left">
+        <tr>
+          <td align="left" style="height:25px;"><input class="btn" style="font-weight: bold;" type="button" name="bold" value="B " onclick="javascript: BBTag('[b]','[/b]',document.forms.<tag:form_name />.<tag:object_name />)" /></td>
+          <td align="left" style="height:25px;"><input class="btn" style="font-style: italic;" type="button" name="italic" value="i " onclick="javascript: BBTag('[i]','[/i]',document.forms.<tag:form_name />.<tag:object_name />)" /></td>
+          <td align="left" style="height:25px;"><input class="btn" style="text-decoration: underline;" type="button" name="underline" value="U " onclick="javascript: BBTag('[u]','[/u]',document.forms.<tag:form_name />.<tag:object_name />)" /></td>
+          <td align="left" style="height:25px;"><input type="button" class="btn" name="li" value="List " onclick="javascript: BBTag('[*]','',document.forms.<tag:form_name />.<tag:object_name />)" /></td>
+          <td align="left" style="height:25px;"><input type="button" class="btn" name="code" value="Code" onclick="javascript: BBTag('[code]','[/code]',document.forms.<tag:form_name />.<tag:object_name />)" /></td>
+          <td align="left" style="height:25px;"><input type="button" class="btn" name="quote" value="Quote" onclick="javascript: BBTag('[quote]','[/quote]',document.forms.<tag:form_name />.<tag:object_name />)" /></td>
+          <td align="left" style="height:25px;"><input type="button" class="btn" name="url" value="Url" onclick="javascript: BBTag('[url]','[/url]',document.forms.<tag:form_name />.<tag:object_name />)" /></td>
+          <td align="left" style="height:25px;"><input type="button" class="btn" name="img" value="Img" onclick="javascript: BBTag('[img]','[/img]',document.forms.<tag:form_name />.<tag:object_name />)" /></td>
+        </tr>
+        </table>
+      </td>
+    </tr>
     <tr>
       <td>
       <table cellpadding="0" cellspacing="1" align="left">
-      <tr><td align="left"><input class="btn" style="font-weight: bold;" type="button" name="bold" value="B " onclick="javascript: BBTag('[b]','[/b]',document.forms.<tag:form_name />.<tag:object_name />)" /></td>
-        <td align="left"><input class="btn" style="font-style: italic;" type="button" name="italic" value="i " onclick="javascript: BBTag('[i]','[/i]',document.forms.<tag:form_name />.<tag:object_name />)" /></td>
-        <td align="left"><input class="btn" style="text-decoration: underline;" type="button" name="underline" value="U " onclick="javascript: BBTag('[u]','[/u]',document.forms.<tag:form_name />.<tag:object_name />)" /></td>
-        <td align="left"><input type="button" class="btn" name="li" value="List " onclick="javascript: BBTag('[*]','',document.forms.<tag:form_name />.<tag:object_name />)" /></td>
-        <td align="left"><input type="button" class="btn" name="code" value="Code" onclick="javascript: BBTag('[code]','[/code]',document.forms.<tag:form_name />.<tag:object_name />)" /></td>
-        <td align="left"><input type="button" class="btn" name="quote" value="Quote" onclick="javascript: BBTag('[quote]','[/quote]',document.forms.<tag:form_name />.<tag:object_name />)" /></td>
-        <td align="left"><input type="button" class="btn" name="url" value="Url" onclick="javascript: BBTag('[url]','[/url]',document.forms.<tag:form_name />.<tag:object_name />)" /></td>
-        <td align="left"><input type="button" class="btn" name="img" value="Img" onclick="javascript: BBTag('[img]','[/img]',document.forms.<tag:form_name />.<tag:object_name />)" /></td>
-        </tr></table>
-        <table width="50%" cellpadding="0" cellspacing="1" align="left">
-                <tr colspan="2">
+                <tr>
                 <td align="left"><select onchange="BBTag('[size=' + this.options[this.selectedIndex].value.toLowerCase() + ']','[/size]', document.forms.<tag:form_name />.<tag:object_name />); this.selectedIndex = 0;" size="1" style="background-color:#DEDEDE;" name="fontchange">
               <option value="" selected="selected">Font Size</option>
               <option value="1">xx-small</option>
@@ -144,7 +150,7 @@ function BBTag(opentag, closetag, textarea)
     </tr>
     <tr>
       <td>
-      <textarea name="<tag:object_name />" rows="10" style="width:100%" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onchange="storeCaret(this);"><tag:content /></textarea>
+      <textarea name="<tag:object_name />" rows="10" style="width:95%" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onchange="storeCaret(this);"><tag:content /></textarea>
       </td>
     </tr>
     <tr>
