@@ -54,7 +54,7 @@ if ($action=="prune")
              if ($uid==1) continue;
              $del_id[]=$uid;
              }
-     do_sqlquery("DELETE FROM {$TABLE_PREFIX}users WHERE id IN (".implode("','",$del_id).")",true);
+     do_sqlquery("DELETE FROM {$TABLE_PREFIX}users WHERE id IN ('".implode("','",$del_id)."')",true);
      
      if($GLOBALS["FORUMLINK"]=="smf")
      {
@@ -64,7 +64,7 @@ if ($action=="prune")
              $smf_fid[]=intval($v);
          }
          if (implode("", $smf_fid)!="")
-            do_sqlquery("DELETE FROM {$db_prefix}members WHERE ID_MEMBER IN (".implode(",", $smf_fid).")",true);
+            do_sqlquery("DELETE FROM {$db_prefix}members WHERE ID_MEMBER IN ('".implode(",", $smf_fid)."')",true);
      }
      
      $block_title=$language["PRUNE_USERS_PRUNED"];
