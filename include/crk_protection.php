@@ -55,11 +55,6 @@ die(" ");
 $ban;
 $ban["union"] = "select";
 //$ban["update"] = "set";
-$ban["drop"] = "table";
-$ban["alter"] = "table";
-$ban["truncate"] = "table";
-$ban["drop"] = "database";
-$ban["create"] = "table";
 $ban["set password for"] = "@";
 
 

@@ -124,6 +124,7 @@ switch ($action)
                   {
                   success_msg($language["EMAIL_VERIFY_BLOCK"], "".$language["EMAIL_VERIFY_SENT1"]." ".$email." ".$language["EMAIL_VERIFY_SENT2"]."<a href=\"".$BASEURL."\">".$language["MNU_INDEX"]."</a>");
                   stdfoot(true,false);
+                  exit;
                   }
                elseif ($updateset!="")
                // <--- Reverify Mail Hack by Petr1fied - End
@@ -132,6 +133,7 @@ switch ($action)
 
                   success_msg($language["SUCCESS"], $language["INF_CHANGED"]."<br /><a href=\"index.php?page=usercp&amp;uid=".$uid."\">".$language["BCK_USERCP"]."</a>");
                   stdfoot(true,false);
+                  exit;
                   }
               }
     break;
