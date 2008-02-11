@@ -26,7 +26,7 @@ xbtt is the recommended tracker
 3. use a web browser to open the site
 4. follow the instructions on the screen
 5. delete install.php
-6. install xbtt from http://xbtt.sourceforge.net/tracker/
+6. install xbtt from http://xbtt.sourceforge.net/tracker/ *see the XBTT NOTES at the end of this readme
 7. create the xbtt tables in your db using /xbt/Tracker/xbt_tracker.sql
 8. configure xbtt /xbt/Tracker/xbt_tracker.conf with the same db and db user as above
 9. add these two lines to /xbt/Tracker/xbt_tracker.conf (leave 1xblank line at end of file)
@@ -62,7 +62,7 @@ the *recommended* configuration
 2. do it in a relaxed style. you are cool. you are a tracker owner
 3. enjoy your state of the devine art tracker  ;D
 4. donate to btiteam.org
-5. join xbtit and gain access to private hacks, modifications, and styles www.xbtit.com
+5. join xbtit and gain access to private hacks, modifications, and styles @ www.xbtit.com
 
 - UPGRADING FROM BTIT 1.4.* -
 your hacks and mods are NOT gonna migrate. the best you can do is bring ALL your torrents and members and posts and comments and stats etc ... and that is a RESULT!
@@ -75,8 +75,33 @@ your hacks and mods are NOT gonna migrate. the best you can do is bring ALL your
 6. enter the admin control panel and set your tracker's URL and announce URL's (delete the xbtt example announce with the :2710) and set your preferences ... save
 7. re-apply your hacks and mods (join xbtit and gain access to the one click hacks and mods)
 
-NOTES:
-- xbtt installs with auto_register = 1 which means people can use your tracker without uploading ...
+- INSTALLING THE DEV SVN VERSION OF XBTIT -
+
+1. svn co https://btit-tracker.svn.sourceforge.net/svnroot/btit-tracker/BtitT2/branches/beta /var/www/html/
+2. use a web browser to open the site and proceed as normal install
+- CHANGING CURRENT XBTIT VERSION TO DEV SVN VERSION -
+
+1. save ./include/settings.php
+2. uninstall all hacks
+3. delete all files in webroot /html/
+4. enter the following command in bash:
+svn co https://btit-tracker.svn.sourceforge.net/svnroot/btit-tracker/BtitT2/branches/beta /var/www/html/
+4. restore ./include/settings.php
+5. delete upgrade.php install.php install.unlock
+6. apply your hacks
+
+- UPDATING DEV SVN VERSION -
+
+1. save ./include/settings.php
+2. uninstall all hacks
+3. delete all files in webroot /html/
+4. enter the following command in bash:
+svn up https://btit-tracker.svn.sourceforge.net/svnroot/btit-tracker/BtitT2/branches/beta /var/www/html/
+4. restore ./include/settings.php
+5. delete upgrade.php install.php install.unlock
+6. apply your hacks
+
+GENERAL NOTES:
 - the default xbtit tracker config needs your attention, i have made settings in there which you want to change 100%, look for them and learn your system (the tracker timings are all good)
 - look to your Users Group Settings, do they match what you want?
 - you need to create the boards for your internal forum
@@ -84,7 +109,22 @@ NOTES:
 - for the adventurous, the latest (unstable) revision of xbtit is available at:
 svn co https://btit-tracker.svn.sourceforge.net/svnroot/btit-tracker/BtitT2/branches/beta
 
+XBTT NOTES
+- xbtt installs with auto_register = 1 which means people can use your tracker without uploading to your site, you most likely do not want that to happen
+- xbtt @ http://xbtt.sourceforge.net/tracker/ works with CentOS 5
+- the last revision of xbtt which works with CentOS 4.* is 1849. to checkout this specific version use the following subversion commands:
+
+svn co -r 1849 https://xbtt.svn.sourceforge.net/svnroot/xbtt/trunk/xbt/misc xbt/misc
+svn co -r 1849 https://xbtt.svn.sourceforge.net/svnroot/xbtt/trunk/xbt/Tracker xbt/Tracker
+
+the installation procedure is otherwise the same
+
+---------------------------------------------------------
+
+>> if you need help and want to support the project then buy xbtit PREMIUM @ www.xbtit.com and join the private support forum
+
+free support is available @ www.btiteam.org <<
+
 Locutius
-version 1, Dec 2007
-"send me anything you think should be in this file. if there is great demand i may do it"
+version 1.1 Jan 2008
 admin@xbtit.com
