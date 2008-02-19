@@ -151,9 +151,8 @@ switch ($action)
       //avatar
       if ($CURUSER["avatar"] && $CURUSER["avatar"]!="")
         {
-          $avatar_size=GetImageSize($CURUSER["avatar"]);
           $usercptpl->set("AVATAR",true,true);
-          $profiletpl["avatar"]="<img border=\"0\" ".($avatar_size[0]>80?"width=\"80\"":"")." src=\"".htmlspecialchars(unesc($CURUSER["avatar"]))."\" alt=\"\" />";
+          $profiletpl["avatar"]="<img border=\"0\" onload=\"resize_avatar(this);\" src=\"".htmlspecialchars(unesc($CURUSER["avatar"]))."\" alt=\"\" />";
         }
 
       $profiletpl["avatar_field"]=unesc($CURUSER["avatar"]);

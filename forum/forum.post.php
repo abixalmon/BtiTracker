@@ -150,8 +150,7 @@ switch ($action)
 
         $posts[$pn]["date"]=get_date_time($arr["added"]);
         $posts[$pn]["elapsed"]="(".get_elapsed_time($arr["added"]) . " ago)";
-        $avatar_size=GetImageSize(htmlspecialchars($arr["avatar"]));
-        $posts[$pn]["avatar"]="<img ".($avatar_size[0]>80?"width=\"80\"":"")." src=\"".($arr["avatar"] && $arr["avatar"] != "" ? htmlspecialchars($arr["avatar"]): "$STYLEURL/images/default_avatar.gif" )."\" alt=\"\" />";
+        $posts[$pn]["avatar"]="<img onload=\"resize_avatar(this);\" src=\"".($arr["avatar"] && $arr["avatar"] != "" ? htmlspecialchars($arr["avatar"]): "$STYLEURL/images/default_avatar.gif" )."\" alt=\"\" />";
         $posts[$pn]["user_group"]=$arr["user_group"];
         $posts[$pn]["flag"]="<img src=\"images/flag/".($arr["flagpic"] && $arr["flagpic"]!=""?$arr["flagpic"]:"unknown.gif")."\" alt=\"".($arr["name"] && $arr["name"]!=""?$arr["name"]:"unknown")."\" />";
         $posts[$pn]["ratio"]=(intval($arr['downloaded']) > 0?number_format($arr['uploaded'] / $arr['downloaded'], 2):"---");

@@ -135,9 +135,7 @@ if ($CURUSER["delete_users"]=="yes" && $id!=$CURUSER["uid"])
     $userdetailtpl -> set("userdetail_delete", "&nbsp;&nbsp;&nbsp<a onclick=\"return confirm('".AddSlashes($language["DELETE_CONFIRM"])."')\" href=index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=users&amp;action=delete&amp;uid=$id&amp;smf_fid=".$row["smf_fid"]."&amp;returnto=".urlencode("index.php?page=users")."\">".image_or_link("$STYLEPATH/images/delete.png","",$language["DELETE"])."</a>");
 $userdetailtpl -> set("userdetail_has_avatar", $row["avatar"] && $row["avatar"]!="", TRUE);
 
-if ($row["avatar"] && $row["avatar"]!="")
-   $avatar_size=GetImageSize($row["avatar"]);
-$userdetailtpl -> set("userdetail_avatar","<img border=\"0\" ".($avatar_size[0]>80?"width=\"80\"":"")." src=\"".htmlspecialchars($row["avatar"])."\" alt=\"\" />");
+$userdetailtpl -> set("userdetail_avatar","<img border=\"0\" onload=\"resize_avatar(this);\" src=\"".htmlspecialchars($row["avatar"])."\" alt=\"\" />");
 
 $userdetailtpl -> set("userdetail_edit_admin", $CURUSER["edit_users"]=="yes" || $CURUSER["admin_access"]=="yes", TRUE);
 if ($CURUSER["edit_users"]=="yes" || $CURUSER["admin_access"]=="yes")

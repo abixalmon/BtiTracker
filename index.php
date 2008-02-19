@@ -161,6 +161,26 @@ $morescript="
     if (window.focus) {newwindow.focus()}
   }
     
+  function resize(img)
+  {
+    if(img.width>500)
+    {
+      img.height = parseInt(img.height * 500 / img.width);
+      img.width = 500;
+      img.title = 'Click on image for full size view.';
+      document.getElementById(img.name).innerHTML='<strong>Click on image for full size view.</strong><a href=\''+img.src+'\' target=\'_blank\'>'+document.getElementById(img.name).innerHTML+'</a>';
+    }
+  }
+
+  function resize_avatar(img)
+  {
+    if(img.width>80)
+    {
+      img.height = parseInt(img.height * 80 / img.width);
+      img.width = 80;
+    }
+  }
+
   // -->
   </script>";
 

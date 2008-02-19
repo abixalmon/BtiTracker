@@ -81,12 +81,13 @@ if(get_magic_quotes_gpc()){
 $CURRENTPATH = dirname(__FILE__);
 
 include("$CURRENTPATH/xbtit_version.php");
-// protection against sql injection, xss attack
-require_once("$CURRENTPATH/crk_protection.php");
-// protection against sql injection, xss attack
 require_once("$CURRENTPATH/config.php");
 require_once("$CURRENTPATH/common.php");
 require_once("$CURRENTPATH/smilies.php");
+// protection against sql injection, xss attack
+require_once("$CURRENTPATH/crk_protection.php");
+// protection against sql injection, xss attack
+require_once("$CURRENTPATH/class.bbcode.php");
 
 if (!isset($TRACKER_ANNOUNCEURLS))
     {
@@ -773,39 +774,6 @@ function linkcolor($num) {
     return "green";
 }
 
-function format_quote($text)
-{
-
-  global $language;
-
-  $string=$text;
-  $prev_string = "";
-  while ($prev_string != $string)
-        {
-    $prev_string = $string;
-    $string = preg_replace("/\[quote\]\s*((\s|.)+?)\s*\[\/quote\]\s*/i", "<br /><b>".$language["QUOTE"].":</b><br /><table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"10\" class=\"quote\"><tr><td >\\1</td></tr></table><br />", $string);
-    $string = preg_replace("/\[quote=(.+?)\]\s*((\s|.)+?)\s*\[\/quote\]\s*/i", "<br /><b>\${1} ".$language["WROTE"].":</b><br /><table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"10\" class=\"quote\"><tr><td>\\2</td></tr></table><br />", $string);
-    // code
-    $string = preg_replace("/\[code\]\s*((\s|.)+?)\s*\[\/code\]\s*/i", "<br /><b>Code</b><br /><table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"10\" class=\"code\"><tr><td>\\1</td></tr></table><br />", $string);
-
-  }
-
-return $string;
-}
-
-function parse_image($image) {
-    $image = str_replace( "%20", "%20", $image );
-    $maxheight = 500;
-    $maxwidth = 500;
-    $img_info = getimagesize($image);
-    $alt = "Click on image for full size view.";
-
-    if ($img_info[0] >  $maxwidth)
-        return "<font size=\"1\"><b>$alt</b></font>\n<a href='$image' target='_blank'><img width='$maxwidth' src='$image' border='0' alt='$alt' /></a><br />";
-    
-    return "<img src='$image' border='0'/>";
-}
-
 
 function format_comment($text, $strip_html = true)
 {
@@ -829,69 +797,10 @@ function format_comment($text, $strip_html = true)
        }
     @fclose($f);
 
+    $s=bbcode($s);
+
     // [*]
     $s = preg_replace("/\[\*\]/", "<li>", $s);
-
-    // [b]Bold[/b]
-    $s = preg_replace("#\[b\](.*?)\[/b\]#si", "<b>\\1</b>", $s);
-    $s = preg_replace("#\[B\](.*?)\[/B\]#si", "<b>\\1</b>", $s);
-
-    // [i]Italic[/i]
-    $s = preg_replace("#\[i\](.*?)\[/i\]#si", "<i>\\1</i>", $s);
-    $s = preg_replace("#\[I\](.*?)\[/I\]#si", "<i>\\1</i>", $s);
-
-    // [u]Underline[/u]
-    $s = preg_replace("#\[u\](.*?)\[/u\]#si", "<u>\\1</u>", $s);
-    $s = preg_replace("#\[U\](.*?)\[/U\]#si", "<u>\\1</u>", $s);
-
-    // [img]http://www/image.gif[/img]
-    $s = preg_replace("#\[img\](https?://([^<>\"']+?))\[/img\]#esi", "parse_image('\\1')", $s);
-
-    // [img=http://www/image.gif]
-    $s = preg_replace("#\[img=(https?://([^<>\"']+?))\]#esi", "parse_image('\\1')", $s);
-
-
-    // [color=blue]Text[/color]
-    $s = preg_replace(
-        "/\[color=([a-zA-Z]+)\]((\s|.)+?)\[\/color\]/i",
-        "<font color='\\1'>\\2</font>", $s);
-
-    // [color=#ffcc99]Text[/color]
-    $s = preg_replace(
-        "/\[color=(#[a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9])\]((\s|.)+?)\[\/color\]/i",
-        "<font color='\\1'>\\2</font>", $s);
-
-    // [url=http://www.example.com]Text[/url]
-    $s = preg_replace(
-        "/\[url=((http|ftp|https|ftps|irc):\/\/[^<>\s]+?)\]((\s|.)+?)\[\/url\]/i",
-        "<a href='\\1' target='_blank'>\\3</a>", $s);
-
-    // [url]http://www.example.com[/url]
-    $s = preg_replace(
-        "/\[url\]((http|ftp|https|ftps|irc):\/\/[^<>\s]+?)\[\/url\]/i",
-        "<a href='\\1' target='_blank'>\\1</a>", $s);
-
-    // [url]www.example.com[/url]
-    $s = preg_replace(
-        "/\[url\](www\.[^<>\s]+?)\[\/url\]/i",
-        "<a href='http://\\1' target='_blank'>\\1</a>", $s);
-        
-    // [url=www.example.com]Text[/url]
-    $s = preg_replace(
-        "/\[url=(www\.[^<>\s]+?)\]((\s|.)+?)\[\/url\]/i",
-        "<a href='http://\\1' target='_blank'>\\2</a>", $s);
-
-    // [size=4]Text[/size]
-    $s = preg_replace(
-        "/\[size=([1-7])\]((\s|.)+?)\[\/size\]/i",
-        "<font size='\\1'>\\2</font>", $s);
-
-    // [font=Arial]Text[/font]
-    $s = preg_replace(
-        "/\[font=([a-zA-Z ,]+)\]((\s|.)+?)\[\/font\]/i",
-        "<font face=\"\\1\">\\2</font>", $s);
-
-    $s=format_quote($s);
 
     // Linebreaks
     $s = nl2br($s);
