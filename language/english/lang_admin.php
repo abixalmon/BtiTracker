@@ -266,6 +266,13 @@ $language["HACK_BAD_ID"]="Error getting hack's info with this ID.";
 $language["HACK_UNINSTALLED_OK"]="Hack has been UnInstalled with success!<br />\nTo see which hacks are installed go back to <a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=hacks&amp;action=read\">adminCP (Hacks)</a>";
 $language["HACK_OPERATION"]="Operation";
 $language["HACK_SOLUTION"]="Solution";
+// added rev 520
+$language["HACK_WHY_FTP"]="Some of the files the hack's installer needs to modify are not writable. <br />\nThis needs to be changed by logging into FTP and using it to chmod or create the files and folders. <br />\nYour FTP information may be temporarily cached for proper operation of the hack's installer.";
+$language["HACK_FTP_SERVER"]="FTP Server";
+$language["HACK_FTP_PORT"]="FTP Port";
+$language["HACK_FTP_USERNAME"]="FTP Username";
+$language["HACK_FTP_PASSWORD"]="FTP Password";
+$language["HACK_FTP_BASEDIR"]="Local path for xbtit (path from the root when you login using FTP)";
 // USERS TOOLS
 $language["USER_NOT_DELETE"]="You cannot delete Guest user or yourself!";
 $language["USER_NOT_EDIT"]="You cannot edit Guest user or yourself!";

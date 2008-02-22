@@ -9,7 +9,8 @@ function windowunder(link)
 }
 </script>
 <table width=100% class="lista" border="0">
-<tr><td align=center class="header" colspan=2><tag:language.USER_NAME /></td>
+<tr>
+<td align=center class="header" colspan=2><tag:language.USER_NAME /></td>
 <td align=center class="header"><tag:language.PEER_COUNTRY /></td>
 <td align=center class="header"><tag:language.ACTIVE /></td>
 <if:XBTT>
@@ -18,7 +19,8 @@ function windowunder(link)
 <td align=center class="header"><tag:language.DOWNLOADED /></td>
 <td align=center class="header"><tag:language.UPLOADED /></td>
 <td align=center class="header"><tag:language.RATIO /></td>
-<td align=center class="header"><tag:language.FINISHED /></td></tr>
+<td align=center class="header"><tag:language.FINISHED /></td>
+</tr>
 <!-- peers' listing -->
 <loop:history>
 <tr>
@@ -32,12 +34,9 @@ function windowunder(link)
 <td class="lista" style="text-align:right;"><tag:history[].DOWNLOADED /></td>
 <td class="lista" style="text-align:right;"><tag:history[].UPLOADED /></td>
 <td class="lista" style="text-align:center;"><tag:history[].RATIO /></td>
-<td class="lista" style="text-align:center;"><tag:history[].FINISHED /></td></tr>
+<td class="lista" style="text-align:center;"><tag:history[].FINISHED /></td>
+</tr>
 </loop:history>
-
 </table>
-<tag:BACK2 /></td>
-
-  </tr>
-</table>
+<tag:BACK2 />
 </if:NOHISTORY>

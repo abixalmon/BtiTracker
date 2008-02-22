@@ -37,7 +37,7 @@ if (!defined("IN_BTIT"))
 if (!defined("IN_ACP"))
       die("non direct access!");
 
-
+$admintpl->set("ftp",false,true);
 switch ($action)
  {
 
@@ -152,6 +152,41 @@ switch ($action)
 
       break;
 
+    case 'ftp_session':
+        if (isset($_POST["add_hack_folder"]))
+            $hack_folder=$_POST["add_hack_folder"];
+
+        if (isset($_POST["confirm"]) && $_POST["confirm"]==$language["FRM_CONFIRM"])
+          {
+           $ftp_data=array();
+           $ftp_data["server"]=$_POST["ftp_server"];
+           $ftp_data["port"]=$_POST["ftp_port"];
+           $ftp_data["username"]=$_POST["ftp_user"];
+           $ftp_data["pass"]=$_POST["ftp_pwd"];
+           $ftp_data["basedir"]=$_POST["ftp_basedir"];
+
+           $_SESSION["ftp_data"]=$ftp_data;
+
+           unset($ftp_data);
+           redirect("index.php?page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=hacks&action=test&add_hack_folder=".urlencode($hack_folder));
+        }
+        else
+           redirect("index.php?page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=hacks&action=ftp&hack=".urlencode($hack_folder));
+
+        die();
+
+      break;
+
+    case 'ftp':
+        if (isset($_GET["hack"]))
+            $hack_folder=urldecode($_GET["hack"]);
+         $admintpl->set("language",$language);
+         $admintpl->set("hack_folder",$hack_folder);
+         $admintpl->set("form_action","index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=hacks&amp;action=ftp_session");
+         $admintpl->set("hack_title_action","<b>".$language["HACK_INSTALL"].":&nbsp;FTP Data</b>");
+         $admintpl->set("ftp",true,true);
+      break;
+
     case 'install':
 
         if (isset($_POST["confirm"]) && $_POST["confirm"]!=$language["HACK_INSTALL"])
@@ -164,6 +199,8 @@ switch ($action)
 
         if (isset($_POST["add_hack_folder"]))
             $hack_folder=$_POST["add_hack_folder"];
+        elseif (isset($_GET["add_hack_folder"]))
+            $hack_folder=urldecode($_GET["add_hack_folder"]);
 
 
         // used to define the current path (hack path)
@@ -181,6 +218,7 @@ switch ($action)
         // we will test again, then if ok, we install the hack
         if ($newhack->install_hack($new_hack_array,true))
           {
+
                if ($newhack->install_hack($new_hack_array))
                  {
                   do_sqlquery("INSERT INTO {$TABLE_PREFIX}hacks SET ".
@@ -209,6 +247,8 @@ switch ($action)
 
         if (isset($_POST["add_hack_folder"]))
             $hack_folder=$_POST["add_hack_folder"];
+        elseif (isset($_GET["add_hack_folder"]))
+            $hack_folder=urldecode($_GET["add_hack_folder"]);
 
 
         // used to define the current path (hack path)

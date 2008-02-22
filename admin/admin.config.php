@@ -45,11 +45,8 @@ switch ($action)
     case 'write':
       if ($_POST["write"]==$language["FRM_CONFIRM"])
         {
-        // save a couple settings
-        $ol=$btit_settings["site_offline"];
-        $olm=$btit_settings["offline_msg"];
 
-        $btit_settings=array();
+        //$btit_settings=array();
         $btit_settings["name"]=$_POST["trackername"];
         $btit_settings["url"]=$_POST["trackerurl"];
 //        $btit_settings["announce"]=serialize(explode("\n",$_POST["announceurl"]));
@@ -93,10 +90,6 @@ switch ($action)
         $btit_settings["forumlimit"]=$_POST["forumlimit"];
         $btit_settings["last10limit"]=$_POST["last10limit"];
         $btit_settings["mostpoplimit"]=$_POST["mostpoplimit"];
-
-        // restore
-        $btit_settings["site_offline"]=$ol;
-        $btit_settings["offline_msg"]=$olm;
 
 
         if (isset($_POST["xbtt_use"]))
@@ -203,7 +196,8 @@ switch ($action)
 
         // some $btit_settings are stored in database, some other not like in template
         // we will convert and set to correct value in the array.
-        $btit_settings["announce"]=implode("\n",unserialize($btit_settings["announce"]));
+        if (is_array(unserialize($btit_settings["announce"])))
+          $btit_settings["announce"]=implode("\n",unserialize($btit_settings["announce"]));
         $btit_settings["external"]=($btit_settings["external"]=="true"?"checked=\"checked\"":"");
         $btit_settings["gzip"]=($btit_settings["gzip"]=="true"?"checked=\"checked\"":"");
         $btit_settings["debug"]=($btit_settings["debug"]=="true"?"checked=\"checked\"":"");

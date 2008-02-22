@@ -29,7 +29,6 @@
 // EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 ////////////////////////////////////////////////////////////////////////////////////
-
 class update_hacks
       {
 
@@ -37,14 +36,37 @@ class update_hacks
       var $errors=array();
       var $hack_path;
       var $errors_count;
+      var $ftp_server;
+      var $ftp_port;
+      var $ftp_username;
+      var $ftp_password;
+      var $ftp_basedir;
+      var $rftp;
+      var $ftp_files_to_copy=array();
+      var $ftp_login_need;
+      var $ftp_files_to_chmod=array();
+      var $files_to_backup=array();
 
       function update_hacks()
             {
+            
+            include(dirname(__FILE__)."/class.archive.php");
+
             // reset all var
             $this->file=array();
             $this->errors=array();
             $this->hack_path="";
             $this->errors_count=0;
+            unset($this->ftp_server);
+            unset($this->ftp_port);
+            unset($this->ftp_username);
+            unset($this->ftp_password);
+            unset($this->ftp_basedir);
+            $this->rftp=null;
+            $this->ftp_files_to_copy=array();
+            $this->ftp_login_need=false;
+            $this->ftp_files_to_chmod=array();
+            $this->files_to_backup=array();
       }
 
       // private
@@ -56,6 +78,216 @@ class update_hacks
           $this->errors_count++;
        }
 
+      function ftp_open()
+        {
+          if (!isset($this->ftp_server) || !isset($this->ftp_port) || !isset($this->ftp_username) || !isset($this->ftp_password))
+             {
+             $this->_err_message("Missed FTP data!",$folder_name,"Correct FTP server, port");
+             return false;
+          }
+
+          $this->rftp = @ftp_connect($this->ftp_server, $this->ftp_port, 30);
+          if (!$this->rftp)
+             {
+             unset($_SESSION);
+             $this->_err_message("Ftp Connection Failed!","FTP","Correct FTP server, port");
+             return false;
+          }
+          $uftp = @ftp_login($this->rftp, $this->ftp_username, $this->ftp_password);
+          if (!$uftp)
+             {
+             $this->_err_message("Ftp Login  Failed!","FTP","Correct credentials");
+             @ftp_close($this->rftp);
+             return false;
+          }
+          @ftp_pasv($this->rftp,true);
+          return true; // connected
+      }
+
+      function ask_for_ftp_form()
+         {
+         global $CURUSER;
+         if (isset($_POST["add_hack_folder"]))
+             $hack_folder=$_POST["add_hack_folder"];
+         header("Location: index.php?page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=hacks&action=ftp&hack=".urlencode($hack_folder));
+         die;
+
+      }
+
+
+      function ftp_session_begin()
+         {
+             if ($this->ftp_login_need==false)
+                return true;
+
+             if (!$_SESSION["ftp_data"])
+                $this->ask_for_ftp_form();
+
+             $this->ftp_server=$_SESSION["ftp_data"]["server"];
+             $this->ftp_port=$_SESSION["ftp_data"]["port"];
+             $this->ftp_username=$_SESSION["ftp_data"]["username"];
+             $this->ftp_password=$_SESSION["ftp_data"]["pass"];
+             $this->ftp_basedir=$_SESSION["ftp_data"]["basedir"];
+
+             if ($this->ftp_basedir=="/" || $this->ftp_basedir=="./")
+                $this->ftp_basedir="";
+
+             return $this->ftp_open();
+      }
+
+      function ftp_session_end()
+         {
+             if ($this->ftp_login_need==false)
+                return true;
+
+             if (!$_SESSION["ftp_data"])
+                return false;
+
+             return @ftp_close($this->rftp);
+      }
+
+
+      function convert_real_to_relative($realfile)
+        {
+
+            global $THIS_BASEPATH;
+            if (strpos($realfile,":")!==false)
+               $realfile=substr($realfile,strpos($realfile,":")+1);
+
+            $realfile=(str_replace("\\","/",$realfile));
+
+
+            $realfile = str_replace($THIS_BASEPATH."/",$this->ftp_basedir,$realfile);
+
+            return $realfile;
+
+      }
+
+
+      function ftp_fchmod($f, $val)
+        {
+
+          // chmod is ONLY for *nix server
+          $os=(strpos(strtolower(PHP_OS),"win")===false);
+          if (!$os)
+            return true;
+
+          if (is_array($f))
+             {
+             foreach($f as $nf)
+               {
+
+                 if (ftp_site($this->rftp,sprintf("chmod %u %s",$val, $nf))===false) // chmod faild
+                    {
+                    $this->_err_message("Ftp \"chmod $val\" Failed!",$nf,"Manually chmod to $val");
+                    return false;
+                 }
+            }
+          }
+          else
+            {
+            if (ftp_site($this->rftp,sprintf("chmod %u %s",$val, $f))===false) // chmod faild
+               {
+               $this->_err_message("Ftp \"chmod $val\" Failed!",$f,"Manually chmod to $val");
+               return false;
+            }
+          }
+          return true;
+      }
+
+      function ftp_fdelete($files)
+        {
+            if (empty($files))
+               return;
+
+            if (is_array($files))
+             {
+             foreach ($files as $f)
+               {
+                 $this->ftp_fdelete($f["newpath"]."/".$f["newfile"]);
+                 return;
+             }
+            }
+
+          if (!file_exists($files))
+             {
+             if (is_array($files))
+                $this->_err_message("Ftp deleting file Failed!",$files,"don't exists!");
+                return false;
+          }
+
+
+          if (!ftp_delete($this->rftp,$this->convert_real_to_relative($files)))
+             {
+             $this->_err_message("Ftp deleting file Failed!",$files,"$files is readable?");
+             return false;
+          }
+
+          return true;
+      }
+
+      function ftp_copy($ori_file,$dest_file)
+        {
+          if (!file_exists($ori_file))
+             {
+             $this->_err_message("Ftp copying file Failed!",$dest_file,"$ori_file exists?");
+             return false;
+          }
+          // need to call open before...
+          $fpo=@fopen($ori_file,"r");
+          if (!$fpo)
+             {
+             $this->_err_message("Ftp copying file Failed (opening)!",$dest_file,"$ori_file is readable?");
+             return false;
+          }
+          
+          if (in_array(substr($ori_file,-3),array("tpl","php","txt")))
+             $ftp_mode=FTP_ASCII;
+          else
+             $ftp_mode=FTP_BINARY;
+
+
+          if (!ftp_fput($this->rftp,$this->convert_real_to_relative($dest_file), $fpo,$ftp_mode))
+             {
+             $this->_err_message("Ftp copying file Failed!",$dest_file,"$ori_file is readable?");
+             fclose($fpo);
+             //return false;
+          }
+          fclose($fpo);
+          // try to chmod file to 0777
+          $response=@$this->ftp_fchmod($this->convert_real_to_relative($dest_file),"777");
+
+          if (!$response) // chmod faild
+             {
+             $this->_err_message("Ftp chmod file Failed!",$dest_file,"$ori_file");
+             return false;
+          }
+          else
+             return true;
+      }
+
+
+      function ftp_make_new_folder($folder_name)
+        {
+          if (is_array($folder_name))
+             {
+             foreach($folder_name as $newfolder)
+               {
+                 if (!@ftp_mkdir($this->rftp,$this->convert_real_to_relative($newfolder)))
+                    return false;
+                 if (!$this->ftp_fchmod($this->convert_real_to_relative($newfolder),"777"))
+                    return false;
+            }
+          }
+          else
+              {
+                if (!@ftp_mkdir($this->rftp,$this->convert_real_to_relative($folder_name)))
+                   return false;
+                 if (!$this->ftp_fchmod($this->convert_real_to_relative($folder_name),"777"))
+                    return false;
+           }
+          return true;
+      }
 
       // open the xml input file and return the full stream
       function open_hack($filename_and_folder)
@@ -189,7 +421,7 @@ class update_hacks
 
       // private:
       // try to open input file and if success return file's stream
-      function open_read_file($file_to_hack)
+      function open_read_file($file_to_hack, $ind)
          {
             // globals var
             global $THIS_BASEPATH,$CURRENT_FOLDER;
@@ -210,6 +442,15 @@ class update_hacks
              {
               // try to make it readable...
               $ok=@chmod($file_to_hack,0744);
+              if (!is_readable($file_to_hack))
+                {
+                 $this->ftp_login_need=true;
+                 $index=count($this->ftp_files_to_chmod);
+                 $this->ftp_files_to_chmod[$index]["index"]=$ind;
+                 $this->ftp_files_to_chmod[$index]["file"]=$file_to_hack;
+                 $this->ftp_files_to_chmod[$index]["mode"]="744";
+                 $ok=false;
+              }
            }
            else $ok=true;
 
@@ -235,8 +476,9 @@ class update_hacks
            else
              {
              //$this->errors[]["message"]="File $file_to_hack is not readable!";
-             $this->_err_message("File seems to be not readable!",$file_to_hack,"Check chmod+chown for $file_to_hack");
-             return false;
+             //$this->_err_message("File seems to be not readable!",$file_to_hack,"Check chmod+chown for $file_to_hack");
+             //return false;
+             // we will try now using ftp...
            }
 
       }
@@ -251,6 +493,91 @@ class update_hacks
         $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
         $this->file[$j]["operation"]="Sql";
 
+      }
+
+      function chmod_ftp_files()
+        {
+          if (count($this->ftp_files_to_chmod)==0)
+             return true;
+
+          foreach ($this->ftp_files_to_chmod as $ftc)
+            {
+              $file = $ftc["file"];
+              $mode = $ftc["mode"];
+              $index= $ftc["index"];
+              if (!file_exists($file))
+                {
+                  $this->_err_message("Error: file don't exists!",$file,"Check it");
+                  $this->file[$index]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
+                  return false;
+              }
+              if (!$this->ftp_fchmod($this->convert_real_to_relative($file),$mode))
+                {
+                 //$this->errors[]["message"]="Error: $new_file_path is not writable";
+                 //$this->_err_message("Error: file is not writable!",$file,"Manually set permissions (766 is good)");
+                 $this->file[$index]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
+                 return false;
+              }
+              else
+                 $this->file[$index]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
+          }
+          return true;
+      }
+
+      function copy_ftp_files()
+        {
+          if (count($this->ftp_files_to_copy)==0)
+             return true;
+
+          foreach ($this->ftp_files_to_copy as $ftc)
+            {
+              $original_file = $ftc["origine"];
+              if (substr($ftc["newpath"],strlen($ftc["newpath"])-1,1)=="/")
+                $new_file_path = substr($ftc["newpath"],0,strlen($ftc["newpath"])-1);
+              else
+                $new_file_path = $ftc["newpath"];
+              $new_file_name = $ftc["newfile"];
+              $index = $ftc["index"];
+
+              if (!file_exists($new_file_path))
+                {
+                  if (!$this->ftp_make_new_folder($this->convert_real_to_relative($new_file_path)))
+                    {
+                     //$this->errors[]["message"]="Error: $new_file_path was not created";
+                     $this->_err_message("Error: file was not created in $new_file_path!",$new_file_name,"Check $new_file_path Permission (766 is good)");
+                     $this->file[$index]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
+                     return false;
+                  }
+                  else
+                     $this->file[$index]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
+              }
+
+              if (!is_writable($new_file_path))
+                {
+                  if (!$this->ftp_fchmod($this->convert_real_to_relative($new_file_path),"777"))
+                    {
+                     //$this->errors[]["message"]="Error: $new_file_path is not writable";
+                     //$this->_err_message("Error: file is not writable!",$new_file_name,"Check $new_file_path Permission (766 is good)");
+                     $this->file[$index]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
+                     return false;
+                  }
+                  else
+                     $this->file[$index]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
+
+                  $this->ftp_fchmod($this->convert_real_to_relative($new_file_path),"766");
+              }
+
+              if (!$this->ftp_copy($original_file,$new_file_path."/".$new_file_name))
+                {
+                   $this->_err_message("Can't copy file!",$new_file_name,"Check $new_file_path Permission (766 is good)");
+                   $this->file[$index]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
+                   return false;
+              }
+
+              $this->file[$index]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
+          }
+
+          return true;
       }
 
       // this function will apply_hack,
@@ -286,7 +613,7 @@ class update_hacks
                     eval("\$this->file[\$j][\"name\"]=".$hack_array[$i]["file"][$j]["name"].";");
                     if (strtoupper($this->file[$j]["name"])!="DATABASE")
                       {
-                        $file_content=$this->open_read_file($this->file[$j]["name"]);
+                        $file_content=$this->open_read_file($this->file[$j]["name"],$j);
                         if (!$file_content)
                           continue; // file not found, we don't make other operations on this file...
                     }
@@ -310,46 +637,25 @@ class update_hacks
                               @mysql_connect($dbhost,$dbuser,$dbpass) or die("Error connecting to $dbhost!");
                               @mysql_select_db($database) or ($this->db_error());
                               // if we just test then that's all, else we will run the query
+                              $thequery=str_replace("\"","\\\"",$hack_array[$i]["file"][$j]["operations"][$k]["data"]);
                               if (!$test)
-                                 @mysql_query(str_replace("{\$db_prefix}","$TABLE_PREFIX",$hack_array[$i]["file"][$j]["operations"][$k]["data"]));
+                                 @mysql_query(str_replace("{\$db_prefix}","$TABLE_PREFIX",$thequery));
                             break;
 
                           case 'copy':
                             eval("\$new_file_path=".$hack_array[$i]["file"][$j]["operations"][$k]["where"].";");
                             eval("\$new_file_name=".$hack_array[$i]["file"][$j]["operations"][$k]["data"].";");
 
+                            // this part need to be done using ftp
+                            $this->ftp_login_need=true;
 
-                            if (!file_exists($new_file_path))
-                              {
-                                if (!@mkdir($new_file_path,0777))
-                                  {
-                                   //$this->errors[]["message"]="Error: $new_file_path was not created";
-                                   $this->_err_message("Error: file was not created in $new_file_path!",$new_file_name,"Check $new_file_path Permission (766 is good)");
-                                   $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
-                                }
-                                else
-                                   $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
+                            $index=count($this->ftp_files_to_copy);
+                            
+                            $this->ftp_files_to_copy[$index]["index"]=$j;
+                            $this->ftp_files_to_copy[$index]["origine"]=$this->file[$j]["name"];
+                            $this->ftp_files_to_copy[$index]["newpath"]=$new_file_path;
+                            $this->ftp_files_to_copy[$index]["newfile"]=$new_file_name;
 
-                                @chmod($new_file_path,0766);
-                                @chown($new_file_path,"root");
-                            }
-
-                            if (!is_writable($new_file_path))
-                              {
-                                if (!@chmod($new_file_path,0777))
-                                  {
-                                   //$this->errors[]["message"]="Error: $new_file_path is not writable";
-                                   $this->_err_message("Error: file is not writable!",$new_file_name,"Check $new_file_path Permission (766 is good)");
-                                   $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
-                                }
-                                else
-                                   $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
-
-                                @chmod($new_file_path,0766);
-                                @chown($new_file_path,"root");
-                            }
-                            else
-                               $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
                             break;
 
                           // when add or remove we must search
@@ -376,6 +682,10 @@ class update_hacks
                               $end_hack_str.="// hack: ".$hack_array[$i]["title"]."\n";
                               $end_hack_str.="// operation #$k\n";
                             }
+
+                            $begin_hack_str="";
+                            $end_hack_str="";
+
                             $string_to_search=str_replace("\r\n","\n", $hack_array[$i]["file"][$j]["operations"][$k]["search"]);
                             $file_content=str_replace("\r\n","\n", $file_content); // convert file containt into unix style
                             $pos=@strpos($file_content,$string_to_search);
@@ -386,7 +696,7 @@ class update_hacks
                                   {
                                     // we must find if before or after
                                     $where=str_replace("\"","",$hack_array[$i]["file"][$j]["operations"][$k]["where"]);
-                                    $newpos=($where=="before"?$pos-1:$pos+strlen($string_to_search)+1);
+                                    $newpos=($where=="before"?$pos:$pos+strlen($string_to_search));
                                     $file_content=substr($file_content,0,$newpos).$begin_hack_str.str_replace("\r\n","\n", $hack_array[$i]["file"][$j]["operations"][$k]["data"]).$end_hack_str.substr($file_content,$newpos);
                                 }
                                 elseif ($action=="replace")
@@ -398,14 +708,14 @@ class update_hacks
                                   { // we're removing...
                                     $newpos=$pos+strlen($string_to_search);
                                     if (substr(str_replace("\"","",$hack_array[$i]["file"][$j]["name"]),-4)==".tpl")
-                                      $file_content=substr($file_content,0,$pos).$begin_hack_str."<!-- *** REMOVED *** -->\n".substr($file_content,$newpos);
+                                      $file_content=substr($file_content,0,$pos).$begin_hack_str."<!-- *** REMOVED hack: ".$hack_array[$i]["title"]." operation #$k *** -->\n".substr($file_content,$newpos);
                                     else
-                                      $file_content=substr($file_content,0,$pos).$begin_hack_str."// *** REMOVED ***\n".substr($file_content,$newpos);
+                                      $file_content=substr($file_content,0,$pos).$begin_hack_str."/*** REMOVED hack: ".$hack_array[$i]["title"]." operation #$k ***/\n".substr($file_content,$newpos);
                                 }
                             }
                             else // we don't find the searched text
                               //$this->errors[]["message"]="Sorry <br />\n\"".nl2br(htmlspecialchars($string_to_search))."\"<br />\nto search was not found in file: ".$this->file[$j]["name"].".";
-                              $this->_err_message("Sorry search string: \"".substr(nl2br(htmlspecialchars($string_to_search)),0,20)."...\" (first 20 chars) was not found)",$this->file[$j]["name"],"Ask Hack's Developer");
+                              $this->_err_message("Sorry search string: \"".substr(nl2br(htmlspecialchars($string_to_search)),0,200)."...\" (first 20 chars) was not found)",$this->file[$j]["name"],"Ask Hack's Developer");
                             break;
                         } // end switch action
                       } // end for operations
@@ -424,6 +734,7 @@ class update_hacks
                          // we have saved the originale
                            {
                            // we need to copy the file somewhere?
+                           /* copy is now doing using ftp
                            if (!$test && isset($new_file_name) && isset($new_file_path))
                              {
                              // destination is writable
@@ -439,9 +750,10 @@ class update_hacks
                                 }
                              }
                            }
-                           elseif ($action!="copy") // "normal" operation
+                           else */
+                           if ($action!="copy") // "normal" operation
                              {
-                               if ($this->write_new_file($this->file[$j]["name"],$file_content,$test))
+                               if ($this->write_new_file($this->file[$j]["name"],$file_content,$j,$test))
                                  $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
                                else
                                  $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
@@ -450,7 +762,7 @@ class update_hacks
                     }
                     elseif ($action!="copy" && strtoupper($this->file[$j]["name"])!="DATABASE")
                      {
-                       if ($this->write_new_file($this->file[$j]["name"],$file_content,true))
+                       if ($this->write_new_file($this->file[$j]["name"],$file_content,$j,true))
                          $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
                        else
                          $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
@@ -458,6 +770,27 @@ class update_hacks
                    // end test control :)
 
                   } // end for files    
+
+                  // check for ftp need
+                  if (!$this->ftp_session_begin())
+                     return false;
+
+                  // any files to chmod??
+                  if (!$this->chmod_ftp_files())
+                     return false;
+
+                  // we try to copy new files using ftp
+                  if (!$this->copy_ftp_files())
+                     return false;
+
+                  // was only test??? then we deleted files copied before.
+                  if ($test)
+                     @$this->ftp_fdelete($this->ftp_files_to_copy);
+
+                  $this->ftp_session_end();
+
+                  $this->save_original("",$test,true);
+
                 } // end if files
                 else
                   //$this->errors[]["message"]="Sorry no files defined.";
@@ -513,7 +846,7 @@ class update_hacks
                     eval("\$this->file[\$j][\"name\"]=".$hack_array[$i]["file"][$j]["name"].";");
                     if (strtoupper($this->file[$j]["name"])!="DATABASE")
                       {
-                        $file_content=$this->open_read_file($this->file[$j]["name"]);
+                        $file_content=$this->open_read_file($this->file[$j]["name"],$j);
                         if (!$file_content)
                           continue; // file not found, we don't make other operations on this file...
                     }
@@ -554,6 +887,7 @@ class update_hacks
                               $end_hack_str.="<!-- operation #$k -->\n";
                               // removing the hack, so we search what has be added or replacement
                               $string_to_search=$begin_hack_str.($action=="remove"?"<!-- *** REMOVED *** -->\n":str_replace("\r\n","\n", $hack_array[$i]["file"][$j]["operations"][$k]["data"]).$end_hack_str);
+                              $string_to_search_1=($action=="remove"?"<!-- *** REMOVED hack: ".$hack_array[$i]["title"]." operation #$k *** -->\n":str_replace("\r\n","\n", $hack_array[$i]["file"][$j]["operations"][$k]["data"]));
                             }
                             else
                               {
@@ -565,9 +899,19 @@ class update_hacks
                               $end_hack_str.="// operation #$k\n";
                               // removing the hack, so we search what has be added or replacement
                               $string_to_search=$begin_hack_str.($action=="remove"?"// *** REMOVED ***\n":str_replace("\r\n","\n", $hack_array[$i]["file"][$j]["operations"][$k]["data"]).$end_hack_str);
+                              $string_to_search_1=($action=="remove"?"/*** REMOVED hack: ".$hack_array[$i]["title"]." operation #$k ***/\n":str_replace("\r\n","\n", $hack_array[$i]["file"][$j]["operations"][$k]["data"]));
                             }
                             $file_content=str_replace("\r\n","\n", $file_content); // convert file containt into unix style
                             $pos=@strpos($file_content, $string_to_search);
+
+                            // not found position using "old" method, let us try with new one (without comments!)
+                            if ($pos===false)
+                               {
+                                 $string_to_search=$string_to_search_1;
+                                 $pos=@strpos($file_content, $string_to_search);
+                             }
+
+
                             // we find the position
                             if ($pos!==false)
                               {
@@ -589,7 +933,7 @@ class update_hacks
                             }
                             else // we don't find the searched text
                               //$this->errors[]["message"]="Sorry <br />\n\"".nl2br(htmlspecialchars($string_to_search))."\"<br />\nto search was not found in file: ".$this->file[$j]["name"].".";
-                              $this->_err_message("Sorry search string: \"".substr(nl2br(htmlspecialchars($string_to_search)),0,20)."...\" (first 20 chars) was not found)",$this->file[$j]["name"],"Ask Hack's Developer");
+                              $this->_err_message("Sorry search string: \"".substr(nl2br(htmlspecialchars($string_to_search)),0,200)."...\" (first 20 chars) was not found)",$this->file[$j]["name"],"Ask Hack's Developer");
                             break;
                         } // end switch action
                       } // end for operations
@@ -609,25 +953,25 @@ class update_hacks
                          if ($this->save_original($this->file[$j]["name"],$test));
                          // we have saved the originale
                            {
-                           // we need to copy the file somewhere?
+                           // file was copied somewhere?
                            if (!$test && isset($new_file_name) && isset($new_file_path))
                              {
                              // destination is writable
                              if ($this->file[$j]["status"]=="<span style=\"font-weight: bold; color:green;\">OK</span>")
                                {
-                                if (@copy($this->file[$j]["name"],"$new_file_path/$new_file_name"))
+                                if (@unlink("$new_file_path/$new_file_name"))
                                   $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
                                 else
                                   {
                                     $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
                                     //$this->errors[]["message"]="Error: copying ".$this->file[$j]["name"]." in new position $new_file_path/$new_file_name";
-                                    $this->_err_message("Error copying file in $new_file_path/$new_file_name",$this->file[$j]["name"],"Check chmod+chown for $new_file_path");
+                                    $this->_err_message("Error deleting file in $new_file_path/$new_file_name",$this->file[$j]["name"],"Check chmod+chown for $new_file_path");
                                 }
                              }
                            }
                            elseif ($action!="copy")  // "normal" operation
                              {
-                               if ($this->write_new_file($this->file[$j]["name"],$file_content,$test))
+                               if ($this->write_new_file($this->file[$j]["name"],$file_content,$j,$test))
                                  $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
                                else
                                  $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
@@ -636,14 +980,27 @@ class update_hacks
                     }
                     elseif ($action!="copy" && strtoupper($this->file[$j]["name"])!="DATABASE")
                      {
-                       if ($this->write_new_file($this->file[$j]["name"],$file_content,true))
+                       if ($this->write_new_file($this->file[$j]["name"],$file_content,$j,true))
                          $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
                        else
                          $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
                     }
                    // end test control :)
 
+
                   } // end for files    
+                  
+                  if (!$this->ftp_session_begin())
+                     return false;
+
+                  // any files to chmod??
+                  if (!$this->chmod_ftp_files())
+                     return false;
+
+                  $this->ftp_session_end();
+
+                  $this->save_original("",$test,true);
+
                 } // end if files
                 else
                   //$this->errors[]["message"]="Sorry no files defined.";
@@ -667,7 +1024,7 @@ class update_hacks
       // private
       // will write the input $new_content in $file_with_path
       // return false in case of error
-      function write_new_file($file_with_path, $new_content, $for_test=false)
+      function write_new_file($file_with_path, $new_content, $ind, $for_test=false)
         {
 
         // globals var
@@ -676,11 +1033,19 @@ class update_hacks
         // is the file writable?
         if (!is_writable($file_with_path))
           {
-          if (!@chmod($file_with_path,0777))
+          @chmod($file_with_path,0777);
+          if (!is_writable($file_with_path))
             {
               //$this->errors[]["message"]="unable to write new content in $file_with_path!";
-              $this->_err_message("Unable to write new content in file",$file_with_path,"Check chmod+chown for $file_with_path");
-              return false;
+              //$this->_err_message("Unable to write new content in file",$file_with_path,"Check chmod+chown for $file_with_path");
+              //return false;
+              // we will do this via ftp
+              $this->ftp_login_need=true;
+              $index=count($this->ftp_files_to_chmod);
+              $this->ftp_files_to_chmod[$index]["index"]=$ind;
+              $this->ftp_files_to_chmod[$index]["file"]=$file_with_path;
+              $this->ftp_files_to_chmod[$index]["mode"]="777";
+
           }
         }
         // it's only for testing, but seems to be writable
@@ -711,8 +1076,9 @@ class update_hacks
       // will save the input $file_with_path in a new
       // create folder called "backup" in folder which the
       // script has origin, or use the already existing one
-      function save_original($file_with_path, $in_test=false)
+      function save_original($file_with_path,$in_test=false, $pack=false)
         {
+
         // globals var
         global $THIS_BASEPATH,$CURRENT_FOLDER;
 
@@ -720,66 +1086,57 @@ class update_hacks
         if ($this->hack_path=="")
           $this->hack_path="$THIS_BASEPATH/hacks";
 
-        // if there is no backup folder
-        if (!file_exists($this->hack_path."/backup"))
+        if (!is_writable($this->hack_path))
           {
-          // we can create it?
+          @chmod($this->hack_path,0777);
           if (!is_writable($this->hack_path))
             {
-            if (!@chmod($this->hack_path,0777))
-              {
-                //$this->errors[]["message"]="unable to write in $this->hack_path's folder!";
-                $this->_err_message("Unable to write in $this->hack_path","Folder","Check chmod+chown for $this->hack_path");
-                return false;
-            }
-            else
-              if (@mkdir($this->hack_path."/backup",0777))
-              {
-                //$this->errors[]["message"]="unable to create backup folder!";
-                $this->_err_message("Unable to create backup folder","Folder","Check chmod+chown for $this->hack_path");
-                return false;
-            }
-          }
-          else
-            {
-            if (!@mkdir($this->hack_path."/backup",0777))
-              {
-                //$this->errors[]["message"]="unable to create backup folder!";
-                $this->_err_message("Unable to create backup folder","Folder","Check chmod+chown for $this->hack_path");
-                return false;
-            }
-          }
-        }
-        // the backup folder exist or has been created
-        if (!is_writable($this->hack_path."/backup"))
-          {
-          if (!@chmod($this->hack_path."/backup",0777))
-            {
-              //$this->errors[]["message"]="unable to write in $this->hack_path/backup's folder!";
-              $this->_err_message("$this->hack_path/backup is not writable","Folder","Check chmod+chown for $this->hack_path/backup");
+              $this->ftp_login_need=true;
+              $new=true;
+              foreach($this->ftp_files_to_chmod as $ftcm)
+                {
+                 if (in_array($this->hack_path,$ftcm))
+                   $new=false;
+              }
+              if ($new)
+                {
+                  $index=count($this->ftp_files_to_chmod);
+                  $this->ftp_files_to_chmod[$index]["file"]=$this->hack_path;
+                  $this->ftp_files_to_chmod[$index]["mode"]="777";
+              }
               return false;
           }
         }
-        if (!$in_test)
+
+        if ($in_test)
+           return true;
+
+        if (!$pack)
           {
-            // ok, all writable we copy the original file in the backup position
-            $fname=basename($file_with_path).".".date("d-m-Y_H-i-s");
-            if (!@copy($file_with_path,$this->hack_path."/backup/$fname"))
-              {
-                //$this->errors[]["message"]="unable to copy $file_with_path in $this->hack_path/backup/$fname!";
-                $this->_err_message("Unable to copy file in $this->hack_path/backup","$fname","Check chmod+chown for $this->hack_path/backup");
-                return false;
-              }
+           $this->files_to_backup[]=$file_with_path;
+           return true;
         }
-        @chmod($this->hack_path."/backup",0766);
-        @chown($this->hack_path."/backup","root");
-        @chmod($this->hack_path."/backup/$fname",0766);
-        @chown($this->hack_path."/backup/$fname","root");
-        // all gone fine
+
+
+        // no files to backup???
+        if (count($this->files_to_backup)==0)
+           return true;
+
+        $archive=new tar_file($this->hack_path."/backup-".date("d-m-Y_H-i-s").".tar");
+        $archive->set_options(array("basedir"=>"$THIS_BASEPATH"));
+        foreach ($this->files_to_backup as $ftb)
+           $archive->add_files($ftb);
+        $archive->create_archive();
+
+        if (count($archive->errors) > 0)
+          {
+          $this->_err_message("Unable to write in $this->hack_path","Folder","Check chmod+chown for $this->hack_path");
+          return false;
+        }
+
         return true;
-      }
-
-
+        
+  }
 
 }
 
