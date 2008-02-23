@@ -42,7 +42,7 @@ if (!defined("IN_ACP"))
 switch ($action)
   {
     case "read":
-        $resf=get_result("SELECT f.*,uread.level as readlevel,uwrite.level as writelevel, ucreate.level as createlevel FROM {$TABLE_PREFIX}forums f INNER JOIN {$TABLE_PREFIX}users_level  as uread on uread.id_level=minclassread INNER JOIN {$TABLE_PREFIX}users_level as uwrite on uwrite.id_level=minclasswrite INNER JOIN {$TABLE_PREFIX}users_level as ucreate on ucreate.id_level=minclasscreate WHERE id_parent=0 ORDER BY f.sort,f.id",true);
+        $resf=get_result("SELECT f.*,uread.level as readlevel,uwrite.level as writelevel, ucreate.level as createlevel FROM {$TABLE_PREFIX}forums f INNER JOIN {$TABLE_PREFIX}users_level  as uread on uread.id_level=minclassread INNER JOIN {$TABLE_PREFIX}users_level as uwrite on uwrite.id_level=minclasswrite INNER JOIN {$TABLE_PREFIX}users_level as ucreate on ucreate.id_level=minclasscreate WHERE id_parent=0 AND uread.can_be_deleted='no' AND uwrite.can_be_deleted='no' AND ucreate.can_be_deleted='no' ORDER BY f.sort,f.id",true);
         $forums=array();
         $i=0;
         foreach($resf as $id=>$result)
@@ -56,7 +56,7 @@ switch ($action)
               $forums[$i]["createlevel"]=$result["createlevel"];
               $forums[$i]["edit"]="<a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=forum&amp;action=edit&amp;id=".$result["id"]."\">".image_or_link("$STYLEPATH/images/edit.png","",$language["EDIT"])."</a>";
               $forums[$i]["delete"]="<a onclick=\"return confirm('".AddSlashes($language["DELETE_CONFIRM"])."')\" href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=forum&amp;action=delete&amp;id=".$result["id"]."\">".image_or_link("$STYLEPATH/images/delete.png","",$language["DELETE"])."</a>";
-              $res_subf=get_result("SELECT f.*,uread.level as readlevel,uwrite.level as writelevel, ucreate.level as createlevel FROM {$TABLE_PREFIX}forums f INNER JOIN {$TABLE_PREFIX}users_level  as uread on uread.id_level=minclassread INNER JOIN {$TABLE_PREFIX}users_level as uwrite on uwrite.id_level=minclasswrite INNER JOIN {$TABLE_PREFIX}users_level as ucreate on ucreate.id_level=minclasscreate WHERE f.id_parent=".$result["id"]." ORDER BY f.sort,f.id",true);
+              $res_subf=get_result("SELECT f.*,uread.level as readlevel,uwrite.level as writelevel, ucreate.level as createlevel FROM {$TABLE_PREFIX}forums f INNER JOIN {$TABLE_PREFIX}users_level  as uread on uread.id_level=minclassread INNER JOIN {$TABLE_PREFIX}users_level as uwrite on uwrite.id_level=minclasswrite INNER JOIN {$TABLE_PREFIX}users_level as ucreate on ucreate.id_level=minclasscreate WHERE f.id_parent=".$result["id"]." AND uread.can_be_deleted='no' AND uwrite.can_be_deleted='no' AND ucreate.can_be_deleted='no' ORDER BY f.sort,f.id",true);
               $i++;
               foreach($res_subf as $ids=>$sub_f)
                   {

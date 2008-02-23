@@ -48,7 +48,7 @@ $img_count=0;
 
 // 3 functions for the bbcode. Have to be declared outside the function to be able to call bbcode more than once.
 function dosize($matches) {
-    return "<span style=\"font-size: ".$matches[1]."\">".$matches[2]."</span>";
+    return "<span style=\"font-size: ".(50*$matches[1])."%\">".$matches[2]."</span>";
 }
 function noparsed($matches) { 
     return str_replace(array("[","]","://"), array("&#91;","&#93;","&#58;&#47;&#47;"),$matches[1]); 
