@@ -157,7 +157,7 @@ function bbcode($content) {
     
     // Size. 1,2,3,4 = 75, 125, 175, 225.  Algo: 25 + 50 * size
     while(preg_match("/\[size=([1-7])\](.+?)\[\/size\]/i",$content))
-        $content = preg_replace_callback("/\[size=(1|2|3|4)\](.+?)\[\/size\]/i","dosize",$content);
+        $content = preg_replace_callback("/\[size=([1-7])\](.+?)\[\/size\]/i","dosize",$content);
     
     //Lists
     while(preg_match("/\[list(=(a|1))?\](.+?)\[\/list\]/i",$content)) 
