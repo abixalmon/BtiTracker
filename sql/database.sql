@@ -940,7 +940,11 @@ INSERT INTO `{$db_prefix}settings` (`key`, `value`) VALUES
 ('newslimit', '3'),
 ('forumlimit', '5'),
 ('last10limit', '5'),
-('mostpoplimit', '5');
+('mostpoplimit', '5'),
+('xbtt_url', 'http://localhost:2710'),
+('cache_duration', '0'),
+('cut_name', '0'),
+('mail_type', 'php');
 
 -- --------------------------------------------------------
 

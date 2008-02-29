@@ -271,10 +271,20 @@ else {
 $torrenttpl->set("NOT_XBTT",!$XBBT_USE,TRUE);
 
 $row["speed"]=$speed;
+if (($XBTT_USE && !$PRIVATE_ANNOUNCE) || $row["external"]=="yes") 
+   {
+$row["downloaded"]=$row["finished"]." " . $language["X_TIMES"];
+$row["peers"]=($row["leechers"]+$row["seeds"])." ".$language["PEERS"];
+$row["seeds"]=$language["SEEDERS"].": ".$row["seeds"];
+$row["leechers"]=$language["LEECHERS"].": " . $row["leechers"];
+   }
+else
+   {
 $row["downloaded"]="<a href=\"index.php?page=torrent_history&amp;id=".$row["info_hash"]."\">" . $row["finished"] . "</a> " . $language["X_TIMES"];
 $row["peers"]="<a href=\"index.php?page=peers&amp;id=".$row["info_hash"]."\">" . ($row["leechers"]+$row["seeds"]) . "</a> ".$language["PEERS"];
 $row["seeds"]=$language["SEEDERS"].": <a href=\"index.php?page=peers&amp;id=".$row["info_hash"]."\">" . $row["seeds"] . "</a>";
 $row["leechers"]=$language["LEECHERS"].": <a href=\"index.php?page=peers&amp;id=".$row["info_hash"]."\">" . $row["leechers"] ."</a>";
+   }
 if ($row["external"]=="yes")
    {
      $torrenttpl->set("EXTERNAL",TRUE,TRUE);
