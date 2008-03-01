@@ -140,10 +140,13 @@ require_once("$THIS_BASEPATH/include/blocks.php");
 
 
 $morescript="
+<!--[if lt IE 7.]>
+<script defer type=\"text/javascript\" src=\"$BASEURL/jscript/pngfix.js\"></script>\n
+<![endif]-->
   <script type=\"text/javascript\" src=\"$BASEURL/jscript/ajax.js\"></script>\n
   <script type=\"text/javascript\" src=\"$BASEURL/jscript/ajax-poller.js\"></script>\n
   <script type=\"text/javascript\" src=\"$BASEURL/jscript/animatedcollapse.js\"></script>\n
-    <script type=\"text/javascript\" src=\"$BASEURL/jscript/DV.js\"></script>\n
+  <script type=\"text/javascript\" src=\"$BASEURL/jscript/DV.js\"></script>\n
   <script language=\"Javascript\" type=\"text/javascript\">
 
   <!--
