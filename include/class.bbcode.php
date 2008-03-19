@@ -103,7 +103,7 @@ function bbcode($content) {
 
     
     // URL's
-    $urlchars =  "a-zA-Z0-9\/\-\?\&\.\=\_\~\#\'\%\;"; // I think all the valid characters in a url
+    $urlchars =  "a-zA-Z0-9\/\-\+\?\&\.\=\_\~\#\'\%\;"; // I think all the valid characters in a url
     // [url=uri]text[/url]
     $content = preg_replace("(\[(URL|url)\=((http|ftp|https):\/\/[$urlchars]*)\](.+?)\[\/(URL|url)\])", '<a href="$2">$4</a>', $content);
     // For people too lazy to put http:// on the uri. /Shouldn't/ be XSSable

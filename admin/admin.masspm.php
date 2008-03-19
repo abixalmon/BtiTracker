@@ -62,6 +62,7 @@ $default_subject= "Global Notice";
 $sender= $CURUSER['uid'];
 // sender name is used ONLY when smf is used as forum
 $sender_name= $CURUSER['username'];
+$sender_smf_id=$CURUSER['smf_fid'];
 //This will be added to the end of each message to deactivate set value to false EG $footer = false; by adding a \r in the footer before message will insert a new line
 $footer= "\n\nthis is an automated system please do not reply!!!";
 
@@ -190,7 +191,7 @@ if ($_GET["action"]=="post")
         }
 
     //do database call
-        $result_id = do_sqlquery("SELECT u.id, username, $udownloaded as downloaded, $uuploaded as uploaded FROM $utables where u.id > 1$where",true);
+        $result_id = do_sqlquery("SELECT u.id, smf_fid, username, $udownloaded as downloaded, $uuploaded as uploaded FROM $utables where u.id > 1$where",true);
        while ($id_collect = mysql_fetch_array ($result_id))
         {
           if(!$list_users)
@@ -221,7 +222,7 @@ if ($_GET["action"]=="post")
                 if($pm)
                 {
                       do_sqlquery("INSERT INTO {$TABLE_PREFIX}messages (sender, receiver, added, subject, msg) VALUES ($sender,$user_id,UNIX_TIMESTAMP(),$subject,$msg)");
-                      send_smf_pm($sender,$sender_name,$user_id,$subject,$msg);
+                      send_smf_pm($sender_smf_id,$sender_name,$id_collect['smf_fid'],$subject,$msg);
                 }
 
                 }
@@ -238,7 +239,7 @@ if ($_GET["action"]=="post")
                 if($pm)
                   {
                       do_sqlquery("INSERT INTO {$TABLE_PREFIX}messages (sender, receiver, added, subject, msg) VALUES ($sender,$user_id,UNIX_TIMESTAMP(),$subject,$msg)");
-                      send_smf_pm($sender,$sender_name,$user_id,$subject,$msg);
+                      send_smf_pm($sender_smf_id,$sender_name,$id_collect['smf_fid'],$subject,$msg);
                 }
             }
             else continue;
@@ -254,7 +255,7 @@ if ($_GET["action"]=="post")
                 if($pm)
                   {
                       do_sqlquery("INSERT INTO {$TABLE_PREFIX}messages (sender, receiver, added, subject, msg) VALUES ($sender,$user_id,UNIX_TIMESTAMP(),$subject,$msg)");
-                      send_smf_pm($sender,$sender_name,$user_id,$subject,$msg);
+                      send_smf_pm($sender_smf_id,$sender_name,$id_collect['smf_fid'],$subject,$msg);
                 }
             }
             else continue;
@@ -269,7 +270,7 @@ if ($_GET["action"]=="post")
           if($pm)
             {
               do_sqlquery("INSERT INTO {$TABLE_PREFIX}messages (sender, receiver, added, subject, msg) VALUES ($sender,$user_id,UNIX_TIMESTAMP(),$subject,$msg)");
-              send_smf_pm($sender,$sender_name,$user_id,$subject,$msg);
+              send_smf_pm($sender_smf_id,$sender_name,$id_collect['smf_fid'],$subject,$msg);
            }
           }
           $i = $i+ 1;
@@ -279,7 +280,7 @@ if ($_GET["action"]=="post")
     if($pm_sender)
       {
         do_sqlquery("INSERT INTO {$TABLE_PREFIX}messages (sender, receiver, added, subject, msg) VALUES ($sender,".$CURUSER['uid'].",UNIX_TIMESTAMP(),$subject,$msg)");
-        send_smf_pm($sender,$sender_name,$CURUSER['uid'],$subject,$msg);
+        send_smf_pm($sender_smf_id,$sender_name,$CURUSER['smf_fid'],$subject,$msg);
     }
     $block_title=$language["MASS_SENT"];
     $admintpl->set("language",$language);
