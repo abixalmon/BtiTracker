@@ -60,6 +60,8 @@ $list_users= true;
 $default_subject= "Global Notice";
 //Who will the PM be sent from, you can register an acounnt here called system then change to $sender=100; where 100 is the systems UID number
 $sender= $CURUSER['uid'];
+// sender name is used ONLY when smf is used as forum
+$sender_name= $CURUSER['username'];
 //This will be added to the end of each message to deactivate set value to false EG $footer = false; by adding a \r in the footer before message will insert a new line
 $footer= "\n\nthis is an automated system please do not reply!!!";
 
@@ -217,7 +219,11 @@ if ($_GET["action"]=="post")
                 if($list_users)
                       $l_users[] ="<a href=\"index.php?page=userdetails&amp;id=$user_id\">".$id_collect['username']."</a>";
                 if($pm)
+                {
                       do_sqlquery("INSERT INTO {$TABLE_PREFIX}messages (sender, receiver, added, subject, msg) VALUES ($sender,$user_id,UNIX_TIMESTAMP(),$subject,$msg)");
+                      send_smf_pm($sender,$sender_name,$user_id,$subject,$msg);
+                }
+
                 }
             else continue;
             }
@@ -230,8 +236,11 @@ if ($_GET["action"]=="post")
                 if($list_users)
                       $l_users[] ="<a href=\"index.php?page=userdetails&amp;id=$user_id\">".$id_collect['username']."</a>";
                 if($pm)
+                  {
                       do_sqlquery("INSERT INTO {$TABLE_PREFIX}messages (sender, receiver, added, subject, msg) VALUES ($sender,$user_id,UNIX_TIMESTAMP(),$subject,$msg)");
+                      send_smf_pm($sender,$sender_name,$user_id,$subject,$msg);
                 }
+            }
             else continue;
             }
           //if ratio X + lower
@@ -243,8 +252,11 @@ if ($_GET["action"]=="post")
                 if($list_users)
                       $l_users[] ="<a href=\"index.php?page=userdetails&amp;id=$user_id\">".$id_collect['username']."</a>";
                 if($pm)
+                  {
                       do_sqlquery("INSERT INTO {$TABLE_PREFIX}messages (sender, receiver, added, subject, msg) VALUES ($sender,$user_id,UNIX_TIMESTAMP(),$subject,$msg)");
+                      send_smf_pm($sender,$sender_name,$user_id,$subject,$msg);
                 }
+            }
             else continue;
             }
 
@@ -255,15 +267,20 @@ if ($_GET["action"]=="post")
           if($list_users)
               $l_users[] ="<a href=\"index.php?page=userdetails&amp;id=$user_id\">".$id_collect['username']."</a>";
           if($pm)
+            {
               do_sqlquery("INSERT INTO {$TABLE_PREFIX}messages (sender, receiver, added, subject, msg) VALUES ($sender,$user_id,UNIX_TIMESTAMP(),$subject,$msg)");
+              send_smf_pm($sender,$sender_name,$user_id,$subject,$msg);
+           }
           }
           $i = $i+ 1;
     }
     }
     // PM sender if true
     if($pm_sender)
+      {
         do_sqlquery("INSERT INTO {$TABLE_PREFIX}messages (sender, receiver, added, subject, msg) VALUES ($sender,".$CURUSER['uid'].",UNIX_TIMESTAMP(),$subject,$msg)");
-
+        send_smf_pm($sender,$sender_name,$CURUSER['uid'],$subject,$msg);
+    }
     $block_title=$language["MASS_SENT"];
     $admintpl->set("language",$language);
     $masspm["subject"]=$original_subject;

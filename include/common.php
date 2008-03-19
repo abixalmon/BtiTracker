@@ -43,6 +43,20 @@ if (!function_exists("bcsub"))
 
 }
 
+function send_smf_pm($sender_id,$sender_name,$dest_id,$subject,$msg)
+{
+   global $FORUMLINK,$db_prefix;
+
+   if($FORUMLINK=="smf")
+     {
+       do_sqlquery("INSERT INTO {$db_prefix}personal_messages (ID_MEMBER_FROM, fromName, msgtime, subject, body) VALUES ($sender_id, ".sqlesc($sender_name).", UNIX_TIMESTAMP(), ".sqlesc($subject).", ".sqlesc($msg).")");
+       $pm_id=mysql_insert_id();
+       do_sqlquery("INSERT INTO {$db_prefix}pm_recipients (ID_PM, ID_MEMBER) VALUES ($pm_id, $dest_id)");
+       do_sqlquery("UPDATE {$db_prefix}members SET instantMessages=instantMessages+1, unreadMessages=unreadMessages+1 WHERE ID_MEMBER=$dest_id");
+   }
+
+}
+
 
 function send_mail($rec_email,$subject,$message, $IsHtml=false, $cc=array(), $bcc=array())
 {
