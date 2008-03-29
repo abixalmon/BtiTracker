@@ -79,7 +79,7 @@ function parseimage($matches) {
 
     $img_count++;
 
-    return "\n<div id=\"img{$img_count}\" style=\"font-size:'1'\">\n<img name=\"img{$img_count}\" onload='resize(this);' src='$matches[1]' border='0' alt='' /></div>";
+    return "\n<div id=\"img{$img_count}\" style=\"font-size:'1'; display:inline;\">\n<img name=\"img{$img_count}\" onload='resize(this);' src='$matches[1]' border='0' alt='' /></div>";
     //return "\n<div id=\"img{$img_count}\" style=\"font-size:'1'\"><b>$alt</b></div>\n<a href='$matches[1]' target='_blank'><img name=\"img{$img_count}\" onload='resize(this);' src='$matches[1]' border='0' alt='$alt' /></a><br />";
 
 

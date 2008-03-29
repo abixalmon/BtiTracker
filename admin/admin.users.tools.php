@@ -221,6 +221,7 @@ switch ($action)
          $idflag=intval(0+$_POST["flag"]);
          $email=AddSlashes($_POST["email"]);
          $avatar=unesc($_POST["avatar"]);
+         $username=unesc($_POST["username"]);
 
          // new level of the user
          $rlev=mysql_query("SELECT id,id_level FROM {$TABLE_PREFIX}users_level WHERE level='".mysql_escape_string(unesc($_POST["level"]))."'");
@@ -261,6 +262,7 @@ switch ($action)
          $set[]="time_offset=".sqlesc(intval($_POST["timezone"]));
          $set[]="email='$email'";
          $set[]="avatar=".sqlesc(htmlspecialchars($avatar));
+         $set[]="username=".sqlesc($username);
          if (isset($_POST["topicsperpage"])) // when smf it's not set
             $set[]="topicsperpage=".intval(0+$_POST["topicsperpage"]);
          if (isset($_POST["postsperpage"])) // when smf it's not set
