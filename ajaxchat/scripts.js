@@ -75,7 +75,7 @@ function handlehHttpReceiveChat() {
      var results = document.getElementById("outputList");
      results.innerHTML = httpReceiveChat.responseText;
 
-     setTimeout('receiveChatText();',4000); //executes the next data query in 4 seconds
+     setTimeout('receiveChatText();',30000); //executes the next data query in 4 seconds
 
   }
 }

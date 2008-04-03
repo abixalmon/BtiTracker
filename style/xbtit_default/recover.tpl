@@ -48,6 +48,11 @@ function form_control()
         <td align="right" class="header"><tag:language.IMAGE_CODE />:</td>
       <td align="left" class="lista"><input type="text" name="private_key" id="captcha" maxlength="6" size="6" value="" />&nbsp;&nbsp;<tag:recover_captcha /></td>
       </tr>
+      <else:CAPTCHA>
+      <tr>
+         <td align="left" class="header"><tag:language.SECURITY_CODE />:</td>
+         <td align="left" class="lista"><tag:scode_question /><input type="text" id="captcha" name="scode_answer" maxlength="6" size="6" value="" /></td>
+      </tr>
       </if:CAPTCHA>
           <tr>
         <td colspan="2" align="center" class="header"><input type="submit" value="<tag:language.FRM_CONFIRM />" class="btn" /></td>

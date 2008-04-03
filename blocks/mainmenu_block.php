@@ -29,33 +29,36 @@
 // EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 ////////////////////////////////////////////////////////////////////////////////////
+   global $CURUSER;
 
 ?>
-<table cellpadding="0" cellspacing="0" width="100%">
+<table cellpadding="4" cellspacing="1" width="100%" border="0" align="center" style="border-bottom:0px solid;">
   <tr>
 <?php
 
-   global $CURUSER;
 
 if (!$CURUSER)
    {
 
        // anonymous=guest
-   print("<td class=\"header\" align=\"center\">".$language["WELCOME"]." ".$language["GUEST"]."\n");
+   print("<td class=\"lista\" align=\"center\" style=\"text-align:center;\">".$language["WELCOME"]." ".$language["GUEST"]."\n");
    print("<a href=\"login.php\">(".$language["LOGIN"].")</a></td>");
    }
 elseif ($CURUSER["uid"]==1)
        // anonymous=guest
     {
-   print("<td class=\"header\" align=\"center\">".$language["WELCOME"]." " . $CURUSER["username"] ." \n");
+   print("<td class=\"lista\" align=\"center\" style=\"text-align:center;\">".$language["WELCOME"]." " . $CURUSER["username"] ." \n");
    print("<a href=\"index.php?page=login\">(".$language["LOGIN"].")</a></td>\n");
     }
 else
     {
-    print("<td class=\"header\" align=\"center\">".$language["WELCOME_BACK"]." " . $CURUSER["username"] ." \n");
-    print("<a href=\"logout.php\">(".$language["LOGOUT"].")</a></td>\n");
+    print("<td class=\"lista\" align=\"center\" style=\"text-align:center;\">".$language["WELCOME_BACK"]." " . $CURUSER["username"] ." \n");
+    print("<a href=\"logout.php\">(".$language["LOGOUT"].")</a></td></tr></table>\n");
     }
-
+?>
+<table cellpadding="1" cellspacing="1" width="100%">
+  <tr>
+<?php
 print("<td class=\"header\" align=\"center\"><a href=\"index.php\">".$language["MNU_INDEX"]."</a></td>\n");
 
 if ($CURUSER["view_torrents"]=="yes")

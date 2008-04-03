@@ -42,10 +42,10 @@ require_once(load_language("lang_account.php"));
             ?>
             <form action="index.php?page=login" name="login" method="post">
             <table class="lista" border="0" align="center" width="100%">
-            <tr><td align="right" class="header"><?php echo $language["USER_NAME"]?>:</td><td class="lista"><input type="text" size="9" name="uid" value="<?php $user ?>" maxlength="40" /></td></tr>
-            <tr><td align="right" class="header"><?php echo $language["USER_PWD"]?>:</td><td class="lista"><input type="password" size="9" name="pwd" maxlength="40" /></td></tr>
-            <tr><td colspan="2"  class="header" align="center"><input type="submit" value="<?php echo $language["FRM_LOGIN"]?>" /></td></tr>
-            <tr><td class="header" align="center"><a href="index.php?page=signup"><?php echo $language["ACCOUNT_CREATE"]?></a></td><td class="header" align="center"><a href="index.php?page=recover"><?php echo $language["RECOVER_PWD"]?></a></td></tr>
+            <tr><td style="text-align:center;" align="center" class="poller"><?php echo $language["USER_NAME"]?>:</td></tr><tr><td class="poller" style="text-align:center;" align="center"><input type="text" size="9" name="uid" value="<?php $user ?>" maxlength="40" /></td></tr>
+            <tr><td style="text-align:center;" align="center" class="poller"><?php echo $language["USER_PWD"]?>:</td></tr><tr><td class="poller" style="text-align:center;" align="center"><input type="password" size="9" name="pwd" maxlength="40" /></td></tr>
+            <tr><td colspan="2" class="poller" style="text-align:center;" align="center"><input type="submit" value="<?php echo $language["FRM_LOGIN"]?>" /></td></tr>
+            <tr><td class="lista" style="text-align:center;" align="center"><a href="index.php?page=signup"><?php echo $language["ACCOUNT_CREATE"]?></a></td></tr><tr><td class="lista" style="text-align:center;" align="center"><a href="index.php?page=recover"><?php echo $language["RECOVER_PWD"]?></a></td></tr>
             </table>
             </form>
             <?php

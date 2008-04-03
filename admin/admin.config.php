@@ -291,9 +291,9 @@ switch ($action)
         // validation dropdown
         $btit_settings["validation_combo"]="
                     <select name=\"validation\" size=\"1\">
-                    <option value=\"none\"".($btit_settings["validation"]=="none"?" selected=\"selected\"":"").">none</option>
-                    <option value=\"user\"".($btit_settings["validation"]=="user"?" selected=\"selected\"":"").">user</option>
-                    <option value=\"admin\"".($btit_settings["validation"]=="admin"?" selected=\"selected\"":"").">admin</option>
+                    <option value=\"none\"".($btit_settings["validation"]=="none"?" selected=\"selected\"":"").">".$language["NONE"]."</option>
+                    <option value=\"user\"".($btit_settings["validation"]=="user"?" selected=\"selected\"":"").">".$language["USER"]."</option>
+                    <option value=\"admin\"".($btit_settings["validation"]=="admin"?" selected=\"selected\"":"").">Admin</option>
                     </select>";
 
         // cut torrent's name

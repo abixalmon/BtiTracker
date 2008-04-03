@@ -391,6 +391,7 @@ $language["UPLOADED"]="Uploaded";
 $language["UPLOADER"]="Uploader";
 $language["UPLOADS"]="Uploads";
 $language["URL"]="URL";
+$language["USER"]="User";
 $language["USER_CP"]="My Panel";
 $language["USER_CP_1"]="User Control Panel";
 $language["USER_DETAILS"]="User Details";
