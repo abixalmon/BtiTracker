@@ -803,7 +803,7 @@ function format_comment($text, $strip_html = true)
     $s = preg_replace("/\[\*\]/", "<li>", $s);
 
     // Linebreaks
-    $s = nl2br($s);
+    //$s = nl2br($s);
 
     // Maintain spacing
     $s = str_replace("  ", " &nbsp;", $s);
