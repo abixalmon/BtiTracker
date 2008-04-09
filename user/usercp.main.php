@@ -133,6 +133,8 @@ else
      {
      list($pagertop, $pagerbottom, $limit) = pager(($utorrents==0?15:$utorrents), $numtorrent, "index.php?page=usercp&amp;uid=$uid&amp;");
 
+     $usercptpl->set("pagertop",$pagertop);
+
      $resuploaded = do_sqlquery("SELECT f.filename, UNIX_TIMESTAMP(f.data) as added, f.size, $tseeds as seeds, $tleechs as leechers, $tcompletes as finished, f.info_hash as hash FROM $ttables WHERE uploader=$uid ORDER BY data DESC $limit", true);
   }
   if ($resuploaded && mysql_num_rows($resuploaded)>0)
@@ -162,6 +164,7 @@ else
   else
       {
         $usercptpl->set("RESULTS",false,true);
+        $usercptpl->set("pagertop","");
  }
 
 ?>

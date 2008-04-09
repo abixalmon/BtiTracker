@@ -183,10 +183,11 @@ $resuploaded = do_sqlquery("SELECT count(*) FROM {$TABLE_PREFIX}files f WHERE up
 $ruploaded=mysql_fetch_row($resuploaded);
 $numtorrent=$ruploaded[0];
 unset($ruploaded);
+$userdetailtpl->set("pagertop","");
 if ($numtorrent>0)
    {
-   list($pagertop, $pagerbottom, $limit) = pager(($utorrents==0?15:$utorrents), $numtorrent, $_SERVER["PHP_SELF"]."?id=$id&amp;");
-//   print("$pagertop");
+   list($pagertop, $pagerbottom, $limit) = pager(($utorrents==0?15:$utorrents), $numtorrent, $_SERVER["PHP_SELF"]."?page=userdetails&amp;id=$id&amp;pagename=uploaded&amp;",array("pagename" => "uploaded"));
+   $userdetailtpl->set("pagertop",$pagertop);
    $resuploaded = do_sqlquery("SELECT f.info_hash, f.filename, UNIX_TIMESTAMP(f.data) as added, f.size, $tseeds as seeds, $tleechs as leechers, $tcompletes as finished FROM $ttables WHERE uploader=$id AND anonymous = \"false\" ORDER BY data DESC $limit",true);
 }
 
@@ -249,6 +250,9 @@ else
       $anq=do_sqlquery("SELECT count(*) FROM {$TABLE_PREFIX}peers p INNER JOIN {$TABLE_PREFIX}files f ON f.info_hash = p.infohash WHERE p.ip='".($row["cip"])."'",true);
   }
 $sanq=mysql_fetch_row($anq);
+
+$userdetailtpl->set("pagertopact","");
+
 // active torrents
 if ($sanq[0]>0)
    {
@@ -256,7 +260,8 @@ if ($sanq[0]>0)
    $tortpl=array();
    $i=0;
 
-    list($pagertop, $pagerbottom, $limit) = pager(($utorrents==0?15:$utorrents), mysql_num_rows($anq), "index.php?page=userdetails&amp;id=$id&amp;",array("pagename" => "activepage"));
+    list($pagertop, $pagerbottom, $limit) = pager(($utorrents==0?15:$utorrents), $sanq[0], "index.php?page=userdetails&amp;id=$id&amp;pagename=active&amp;",array("pagename" => "active"));
+    $userdetailtpl->set("pagertopact",$pagertop);
     if ($XBTT_USE)
             $anq=do_sqlquery("SELECT '127.0.0.1' as ip, f.info_hash as infohash, f.filename, f.size, IF(p.left=0,'seeder','leecher') as status, p.downloaded, p.uploaded, $tseeds as seeds, $tleechs as leechers, $tcompletes as finished
                         FROM xbt_files_users p INNER JOIN xbt_files x ON p.fid=x.fid INNER JOIN {$TABLE_PREFIX}files f ON f.bin_hash = x.info_hash
@@ -333,12 +338,15 @@ else
     $anq=do_sqlquery("SELECT count(h.infohash) FROM {$TABLE_PREFIX}history h INNER JOIN {$TABLE_PREFIX}files f ON h.infohash=f.info_hash WHERE h.uid=$id AND h.date IS NOT NULL",true);
 $sanq=mysql_fetch_row($anq);
 
+$userdetailtpl->set("pagertophist","");
+
 if ($sanq[0]>0)
    {
     $userdetailtpl->set("RESULTS_2",true,true);
     $torhistory=array();
     $i=0;
-    list($pagertop, $pagerbottom, $limit) = pager(($utorrents==0?15:$utorrents), mysql_num_rows($anq), "index.php?page=userdetails&amp;id=$id&amp;",array("pagename" => "historypage"));
+    list($pagertop, $pagerbottom, $limit) = pager(($utorrents==0?15:$utorrents), $sanq[0], "index.php?page=userdetails&amp;id=$id&amp;pagename=history&amp;",array("pagename" => "history"));
+    $userdetailtpl->set("pagertophist",$pagertop);
     if ($XBTT_USE)
        $anq=do_sqlquery("SELECT f.filename, f.size, f.info_hash, IF(h.active=1,'yes','no'), 'unknown' as agent, h.downloaded, h.uploaded, $tseeds as seeds, $tleechs as leechers, $tcompletes as finished
        FROM $ttables INNER JOIN xbt_files_users h ON h.fid=x.fid WHERE h.uid=$id AND h.completed=1 ORDER BY h.mtime DESC $limit",true);

@@ -65,6 +65,7 @@ function popusers(url)
   </tr>
 </if:INTERNAL_FORUM>
 </table>
+<tag:pagertop />
 <table width="100%" class="lista">
   <tr>
     <td class="block" align="center" colspan="8"><b><tag:language.UPLOADED /> <tag:language.MNU_TORRENT /></b></td>

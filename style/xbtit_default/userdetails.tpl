@@ -127,7 +127,7 @@
 </table>
 
 <br />
-
+<tag:pagertop />
 <table width="100%" class="lista">
 
   <tr>
@@ -187,7 +187,7 @@
 </table>
 
 <br />
-
+<tag:pagertopact />
 <table width="100%" class="lista">
 
   <tr>
@@ -260,7 +260,7 @@
 </table>
 
 <br />
-
+<tag:pagertophist />
 <table width="100%" class="lista">
 
   <tr>
