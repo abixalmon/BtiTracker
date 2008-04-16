@@ -82,22 +82,28 @@ class update_hacks
         {
           if (!isset($this->ftp_server) || !isset($this->ftp_port) || !isset($this->ftp_username) || !isset($this->ftp_password))
              {
-             unset($_SESSION);
-             $this->_err_message("Missed FTP data!",$folder_name,"Correct FTP server, port");
+             session_unset();
+             session_destroy();
+             $_SESSION=array();
+             $this->_err_message("Missed FTP data!","FTP","Correct FTP server, port");
              return false;
           }
 
           $this->rftp = @ftp_connect($this->ftp_server, $this->ftp_port, 30);
           if (!$this->rftp)
              {
-             unset($_SESSION);
+             session_unset();
+             session_destroy();
+             $_SESSION=array();
              $this->_err_message("Ftp Connection Failed!","FTP","Correct FTP server, port");
              return false;
           }
           $uftp = @ftp_login($this->rftp, $this->ftp_username, $this->ftp_password);
           if (!$uftp)
              {
-             unset($_SESSION);
+             session_unset();
+             session_destroy();
+             $_SESSION=array();
              $this->_err_message("Ftp Login  Failed!","FTP","Correct credentials");
              @ftp_close($this->rftp);
              return false;
@@ -443,7 +449,7 @@ class update_hacks
            if (!is_readable($file_to_hack))
              {
               // try to make it readable...
-              $ok=@chmod($file_to_hack,0744);
+              $ok=@chmod($file_to_hack,0755);
               if (!is_readable($file_to_hack))
                 {
                  $this->ftp_login_need=true;
@@ -566,7 +572,7 @@ class update_hacks
                   else
                      $this->file[$index]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
 
-                  $this->ftp_fchmod($this->convert_real_to_relative($new_file_path),"766");
+                  $this->ftp_fchmod($this->convert_real_to_relative($new_file_path),"755");
               }
 
               if (!$this->ftp_copy($original_file,$new_file_path."/".$new_file_name))
@@ -1069,7 +1075,7 @@ class update_hacks
             return false;
         }
         @fclose($fp);
-        @chmod($file_with_path,0766);
+        @chmod($file_with_path,0755);
         @chown($file_with_path,"root");
         return true;
       }

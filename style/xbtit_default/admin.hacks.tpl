@@ -21,7 +21,7 @@
   </tr>
   <tr>
     <td class="lista" colspan="2"><tag:language.HACK_FTP_BASEDIR /></td>
-    <td class="lista" colspan="2"><input type="text" name="ftp_basedirt" size="40" />
+    <td class="lista" colspan="2"><input type="text" name="ftp_basedir" size="40" />
     </td>
   </tr>
   <tr>
