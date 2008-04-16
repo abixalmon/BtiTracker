@@ -51,7 +51,7 @@ else
 
 if (isset($_GET["action"]))
  {
-  if ($CURUSER["admin_access"]=="yes" && $_GET["action"]=="delete")
+  if ($CURUSER["delete_torrents"]=="yes" && $_GET["action"]=="delete")
     {
      do_sqlquery("DELETE FROM {$TABLE_PREFIX}comments WHERE id=$cid");
      redirect("index.php?page=torrent-details&id=$id#comments");

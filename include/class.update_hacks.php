@@ -82,6 +82,7 @@ class update_hacks
         {
           if (!isset($this->ftp_server) || !isset($this->ftp_port) || !isset($this->ftp_username) || !isset($this->ftp_password))
              {
+             unset($_SESSION);
              $this->_err_message("Missed FTP data!",$folder_name,"Correct FTP server, port");
              return false;
           }
@@ -96,6 +97,7 @@ class update_hacks
           $uftp = @ftp_login($this->rftp, $this->ftp_username, $this->ftp_password);
           if (!$uftp)
              {
+             unset($_SESSION);
              $this->_err_message("Ftp Login  Failed!","FTP","Correct credentials");
              @ftp_close($this->rftp);
              return false;

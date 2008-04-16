@@ -130,7 +130,10 @@ INSERT INTO `btit_language` (`id`, `language`, `language_url`) VALUES
 (11, 'Finnish','language/finnish'),
 (12, 'Vietnamese','language/vietnamese'),
 (13, 'Greek','language/greek'),
-(14, 'Bulgarian','language/bulgarian');
+(14, 'Bulgarian','language/bulgarian'),
+(15, 'Spanish','language/spanish'),
+(16, 'Portuguese-BR','language/portuguese-BR'),
+(17, 'Portuguese-PT','language/portuguese-PT');
 
 --- new modules system
 CREATE TABLE `btit_modules` (

@@ -71,7 +71,10 @@ switch ($action)
         }
         else
          {
-            $curu=get_result("SELECT u.*,ul.level FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON ul.id=u.id_level WHERE u.id=$uid LIMIT 1");
+            if ($XBTT_USE)
+                $curu=get_result("SELECT u.username, u.cip, ul.level, u.joined, u.lastconnect, (u.downloaded+x.downloaded) as downloaded, (u.uploaded+x.uploaded) as uploaded FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON ul.id=u.id_level LEFT JOIN xbt_users x ON x.uid=x.id WHERE id =$uid LIMIT 1");
+            else
+                $curu=get_result("SELECT u.username, u.cip, ul.level, u.joined, u.lastconnect, u.downloaded, u.uploaded FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON ul.id=u.id_level WHERE u.id=$uid LIMIT 1");
             if (count($curu)>0)
               {
               $profile=array();
@@ -97,8 +100,13 @@ switch ($action)
         $uid=isset($_GET["uid"])?intval($_GET["uid"]):0;
         if ($uid==$CURUSER["uid"] || $uid==1) // cannot edit guest/myself
            stderr($language["ERROR"],$language["USER_NOT_EDIT"]);
-
-        $curu=get_result("SELECT * FROM {$TABLE_PREFIX}users WHERE id=$uid LIMIT 1");
+        if ($XBTT_USE)
+            $curu=get_result("SELECT u.username, u.email, u.avatar, u.id_level,u.language, u.style, u.flag,
+                              u.time_offset, u.topicsperpage, u.postsperpage, u.torrentsperpage,
+                              (u.downloaded+x.downloaded) as downloaded, (u.uploaded+x.uploaded) as uploaded
+                              FROM {$TABLE_PREFIX}users u LEFT JOIN xbt_users x ON x.uid=x.id WHERE id =$uid LIMIT 1");
+        else
+            $curu=get_result("SELECT * FROM {$TABLE_PREFIX}users WHERE id=$uid LIMIT 1");
         if (count($curu)>0)
           {
           $profile=array();
@@ -110,10 +118,13 @@ switch ($action)
           $ranktpl="";
           foreach($rres as $rank)
             {
+            if ($rank["id"]<=$CURUSER["id_level"])
+               {
                $ranktpl.="\n<option ";
                if ($rank["id"]==$curu[0]["id_level"])
                     $ranktpl.="selected=\"selected\" ";
                $ranktpl.="value=\"".$rank["level"]."\">".unesc($rank["level"])."</option>";
+            }
           }
           unset($rres);
 
@@ -269,13 +280,26 @@ switch ($action)
             $set[]="postsperpage=".intval(0+$_POST["postsperpage"]);
          $set[]="torrentsperpage=".intval(0+$_POST["torrentsperpage"]);
          $set[]="torrentsperpage=".intval(0+$_POST["torrentsperpage"]);
-         $set[]="uploaded=".(float)($_POST["uploaded"]);
-         $set[]="downloaded=".(float)($_POST["downloaded"]);
+         
+         if ($XBTT_USE){
+             $xbtset=array();
+             $xbtset[]="uploaded=".(float)($_POST["uploaded"]);
+             $xbtset[]="downloaded=".(float)($_POST["downloaded"]);
+             $updatesetxbt=implode(",",$xbtset);
+             $set[]="uploaded=0";
+             $set[]="downloaded=0";
+         }
+         else {
+             $set[]="uploaded=".(float)($_POST["uploaded"]);
+             $set[]="downloaded=".(float)($_POST["downloaded"]);
+         }
 
          $updateset=implode(",",$set);
 
          if ($updateset!="")
            {
+            if ($XBTT_USE && $updatesetxbt!="")
+                do_sqlquery("UPDATE xbt_users SET $updatesetxbt WHERE uid='".$uid."'",true);                    
             do_sqlquery("UPDATE {$TABLE_PREFIX}users SET $updateset WHERE id='".$uid."'",true);
 
             success_msg($language["SUCCESS"], $language["INF_CHANGED"]."<br /><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."\">".$language["MNU_ADMINCP"]."</a>");
