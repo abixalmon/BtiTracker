@@ -109,7 +109,6 @@ $topicsres = do_sqlquery("SELECT t.*,(SELECT COUNT(*) FROM {$TABLE_PREFIX}posts 
 $postsperpage = $CURUSER["postsperpage"];
   if (!$postsperpage) $postsperpage = 15;
 
-
 if ($numtopics > 0)
   {
     $forumtpl->set("NO_TOPICS",false,true);
@@ -131,8 +130,8 @@ if ($numtopics > 0)
       if ($tpages > 1)
       {
         $topicpages = "&nbsp;(<img src=\"images/multipage.gif\" alt=\"multipage\" />";
-        for ($i = 1; $i <= ($tpages<=3?$tpages:3); ++$i)
-          $topicpages .= "&nbsp;<a href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=$topicid&amp;pages=$i\">$i</a>";
+        for ($x = 1; $x <= ($tpages<=3?$tpages:3); ++$x)
+          $topicpages .= "&nbsp;<a href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=$topicid&amp;pages=$x\">$x</a>";
         $topicpages .= ($tpages<=3?")":"&nbsp;<a href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=$topicid&amp;pages=$tpages\">&raquo;</a>)");
       }
       else
