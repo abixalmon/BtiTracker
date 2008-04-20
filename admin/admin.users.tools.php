@@ -72,9 +72,9 @@ switch ($action)
         else
          {
             if ($XBTT_USE)
-                $curu=get_result("SELECT u.username, u.cip, ul.level, u.joined, u.lastconnect, (u.downloaded+x.downloaded) as downloaded, (u.uploaded+x.uploaded) as uploaded FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON ul.id=u.id_level LEFT JOIN xbt_users x ON x.uid=x.id WHERE id =$uid LIMIT 1");
+                $curu=get_result("SELECT u.username, u.cip, ul.level, u.joined, u.lastconnect, (u.downloaded+x.downloaded) as downloaded, (u.uploaded+x.uploaded) as uploaded FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON ul.id=u.id_level LEFT JOIN xbt_users x ON x.uid=u.id WHERE id =$uid LIMIT 1",true);
             else
-                $curu=get_result("SELECT u.username, u.cip, ul.level, u.joined, u.lastconnect, u.downloaded, u.uploaded FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON ul.id=u.id_level WHERE u.id=$uid LIMIT 1");
+                $curu=get_result("SELECT u.username, u.cip, ul.level, u.joined, u.lastconnect, u.downloaded, u.uploaded FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON ul.id=u.id_level WHERE u.id=$uid LIMIT 1",true);
             if (count($curu)>0)
               {
               $profile=array();
@@ -104,9 +104,9 @@ switch ($action)
             $curu=get_result("SELECT u.username, u.email, u.avatar, u.id_level,u.language, u.style, u.flag,
                               u.time_offset, u.topicsperpage, u.postsperpage, u.torrentsperpage,
                               (u.downloaded+x.downloaded) as downloaded, (u.uploaded+x.uploaded) as uploaded
-                              FROM {$TABLE_PREFIX}users u LEFT JOIN xbt_users x ON x.uid=x.id WHERE id =$uid LIMIT 1");
+                              FROM {$TABLE_PREFIX}users u LEFT JOIN xbt_users x ON x.uid=u.id WHERE id =$uid LIMIT 1",true);
         else
-            $curu=get_result("SELECT * FROM {$TABLE_PREFIX}users WHERE id=$uid LIMIT 1");
+            $curu=get_result("SELECT * FROM {$TABLE_PREFIX}users WHERE id=$uid LIMIT 1",true);
         if (count($curu)>0)
           {
           $profile=array();
