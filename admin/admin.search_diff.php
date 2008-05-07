@@ -46,7 +46,7 @@ function report($id, $name, $down, $up, $rank, $first, $last) {
 
     global $CURUSER, $language;
 
-    IF ($down > 0 ) $ratio = substr($up / $down,0,5); else $ratio = "oo";
+    IF ($down > 0 ) $ratio = substr($up / $down,0,5); else $ratio = '&#8734;';
 
     if ($down > $up) $diff="<b><font color=red>&#8595&nbsp;".makesize($down-$up)."</font></b>";
     elseif ($up > $down) $diff="<b><font color=blue>&#8593&nbsp;".makesize($up-$down)."</font></b>";

@@ -30,288 +30,272 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-if (!defined("IN_BTIT"))
-      die("non direct access!");
+if (!defined('IN_BTIT'))
+	die('non direct access!');
+if (!defined('IN_ACP'))
+	die('non direct access!');
 
-if (!defined("IN_ACP"))
-      die("non direct access!");
-
-
-include(load_language("lang_usercp.php"));
-
-error_reporting(E_ALL);
-
-switch ($action)
-  {
-
-     case 'delete':
-        $uid=isset($_GET["uid"])?intval($_GET["uid"]):0;  
-        if ($uid==$CURUSER["uid"] || $uid==1) // cannot delete guest/myself
-           stderr($language["ERROR"],$language["USER_NOT_DELETE"]);
-
-        if (isset($_GET["sure"]) && $_GET["sure"]=="1")
-        {
-            do_sqlquery("DELETE FROM {$TABLE_PREFIX}users WHERE id=$uid",true);
-            if($GLOBALS["FORUMLINK"]=="smf")
-            {
-                $language2=$language;
-                $basedir=substr(str_replace("\\", "/", dirname(__FILE__)), 0, strrpos(str_replace("\\", "/", dirname(__FILE__)), '/'));
-                include($basedir."/smf/Settings.php");
-                $language=$language2;
-                $smf_fid=isset($_GET["smf_fid"])?intval($_GET["smf_fid"]):0;
-                
-                do_sqlquery("DELETE FROM {$db_prefix}members WHERE ID_MEMBER=$smf_fid",true);
-            }  
-
-            if ($XBTT_USE)
-               do_sqlquery("DELETE FROM xbt_users WHERE uid=$uid",true);
-
-            redirect((isset($_GET["returnto"])?urldecode($_GET["returnto"]):"index.php"));
-            die();
-        }
-        else
-         {
-            if ($XBTT_USE)
-                $curu=get_result("SELECT u.username, u.cip, ul.level, u.joined, u.lastconnect, (u.downloaded+x.downloaded) as downloaded, (u.uploaded+x.uploaded) as uploaded FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON ul.id=u.id_level LEFT JOIN xbt_users x ON x.uid=u.id WHERE id =$uid LIMIT 1",true);
-            else
-                $curu=get_result("SELECT u.username, u.cip, ul.level, u.joined, u.lastconnect, u.downloaded, u.uploaded FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON ul.id=u.id_level WHERE u.id=$uid LIMIT 1",true);
-            if (count($curu)>0)
-              {
-              $profile=array();
-              $profile["username"]=unesc($curu[0]["username"]);
-              $profile["last_ip"]=unesc($curu[0]["cip"]);
-              $profile["level"]=unesc($curu[0]["level"]);
-              $profile["joined"]=unesc($curu[0]["joined"]);
-              $profile["lastaccess"]=unesc($curu[0]["lastconnect"]);
-              $profile["downloaded"]=makesize($curu[0]["downloaded"]);
-              $profile["uploaded"]=makesize($curu[0]["uploaded"]);
-              $profile["return"]="document.location.href='".(isset($_GET["returnto"])?urldecode($_GET["returnto"]):"index.php")."'";
-              $profile["confirm_delete"]="document.location.href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=users&amp;action=delete&amp;uid=$uid&amp;smf_fid=".intval($_GET["smf_fid"])."&amp;sure=1&amp;returnto=".(isset($_GET["returnto"])?htmlspecialchars($_GET["returnto"]):"index.php")."'";
-              $admintpl->set("user",$profile);
-              $admintpl->set("edit_user",false,true);
-              $admintpl->set("language",$language);
-              $block_title=$language["ACCOUNT_EDIT"];
-
-          }
-        }
-       break;
-        
-     case 'edit':
-        $uid=isset($_GET["uid"])?intval($_GET["uid"]):0;
-        if ($uid==$CURUSER["uid"] || $uid==1) // cannot edit guest/myself
-           stderr($language["ERROR"],$language["USER_NOT_EDIT"]);
-        if ($XBTT_USE)
-            $curu=get_result("SELECT u.username, u.email, u.avatar, u.id_level,u.language, u.style, u.flag,
-                              u.time_offset, u.topicsperpage, u.postsperpage, u.torrentsperpage,
-                              (u.downloaded+x.downloaded) as downloaded, (u.uploaded+x.uploaded) as uploaded
-                              FROM {$TABLE_PREFIX}users u LEFT JOIN xbt_users x ON x.uid=u.id WHERE id =$uid LIMIT 1",true);
-        else
-            $curu=get_result("SELECT * FROM {$TABLE_PREFIX}users WHERE id=$uid LIMIT 1",true);
-        if (count($curu)>0)
-          {
-          $profile=array();
-          $profile["username"]=unesc($curu[0]["username"]);
-          $profile["email"]=unesc($curu[0]["email"]);
-          $profile["avatar_field"]=unesc($curu[0]["avatar"]);
-          //rank list
-          $rres=rank_list();
-          $ranktpl="";
-          foreach($rres as $rank)
-            {
-            if ($rank["id"]<=$CURUSER["id_level"])
-               {
-               $ranktpl.="\n<option ";
-               if ($rank["id"]==$curu[0]["id_level"])
-                    $ranktpl.="selected=\"selected\" ";
-               $ranktpl.="value=\"".$rank["level"]."\">".unesc($rank["level"])."</option>";
-            }
-          }
-          unset($rres);
-
-          $admintpl->set("rank_combo",$ranktpl);
-
-          //language list
-          $lres=language_list();
-          $langtpl="";
-          foreach($lres as $langue)
-            {
-               $langtpl.="\n<option ";
-               if ($langue["id"]==$curu[0]["language"])
-                    $langtpl.="selected=\"selected\" ";
-               $langtpl.="value=\"".$langue["id"]."\">".unesc($langue["language"])."</option>";
-          }
-          unset($lres);
-
-          $admintpl->set("language_combo",$langtpl);
-
-          //style list
-          $sres=style_list();
-          $styletpl="";
-          foreach($sres as $style)
-            {
-              $styletpl.="\n<option ";
-              if ($style["id"]==$curu[0]["style"])
-                    $styletpl.="selected=\"selected\" ";
-              $styletpl.="value=\"".$style["id"]."\">".unesc($style["style"])."</option>";
-          }
-          unset($sres);
-
-          $admintpl->set("style_combo",$styletpl);
-
-          //flag list
-          $fres=flag_list();
-          $flagtpl="";
-          foreach($fres as $flag)
-            {
-              $flagtpl.="\n<option ";
-              if ($flag["id"]==$curu[0]["flag"])
-                    $flagtpl.="selected=\"selected\" ";
-              $flagtpl.="value=\"".$flag["id"]."\">".unesc($flag["name"])."</option>";
-            }
-          unset($fres);
-          $admintpl->set("flag_combo",$flagtpl);
-
-          //timezone list
-          $tres=timezone_list();
-          $tztpl="";
-          foreach($tres as $timezone)
-            {
-              $tztpl.="\n<option ";
-              if ($timezone["difference"]==$curu[0]["time_offset"])
-                    $tztpl.="selected=\"selected\" ";
-              $tztpl.="value=\"".$timezone["difference"]."\">".unesc($timezone["timezone"])."</option>";
-            }
-          unset($tres);
-          $admintpl->set("tz_combo",$tztpl);
-
-          if ($FORUMLINK=="" || $FORUMLINK=="internal")
-            {
-              $admintpl->set("INTERNAL_FORUM",true,true);
-              $profile["topicsperpage"]=$curu[0]["topicsperpage"];
-              $profile["postsperpage"]=$curu[0]["postsperpage"];
-            }
-          else
-            {
-              $admintpl->set("INTERNAL_FORUM",false,true);
-              $profile["topicsperpage"]="";
-              $profile["postsperpage"]="";
-            }
-
-          $profile["torrentsperpage"]=$curu[0]["torrentsperpage"];
-          $profile["frm_cancel"]="index.php?page=usercp&amp;uid=".$uid."";
-
-          if ($curu[0]["avatar"]!="")
-              $profile["avatar"]=$curu[0]["avatar"];
-          else
-              $profile["avatar"]="$STYLEURL/images/default_avatar.gif";
-
-          $profile["avatar"]="<img onload=\"resize_avatar(this);\" src=\"".htmlspecialchars($profile["avatar"])."\" alt=\"\" />";
-          $profile["uploaded"]=$curu[0]["uploaded"];
-          $profile["downloaded"]=$curu[0]["downloaded"];
-          $profile["down"]=makesize($curu[0]["downloaded"]);
-          $profile["up"]=makesize($curu[0]["uploaded"]);
-          $profile["ratio"]=($curu[0]["downloaded"]>0?$curu[0]["uploaded"]/$curu[0]["downloaded"]:"");
-          $profile["frm_action"]="index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=users&amp;action=save&amp;uid=$uid";
-
-          $admintpl->set("profile",$profile);
-          $admintpl->set("edit_user",true,true);
-          $admintpl->set("language",$language);
-          $block_title=$language["ACCOUNT_EDIT"];
-        }
-
-       break;
-
-     case 'save':
-       if ($_POST["confirm"]==$language["FRM_CONFIRM"])
-         {
-
-         $uid=isset($_GET["uid"])?intval($_GET["uid"]):0;
-
-         $idlangue=intval(0+$_POST["language"]);
-         $idstyle=intval(0+$_POST["style"]);
-         $idflag=intval(0+$_POST["flag"]);
-         $email=AddSlashes($_POST["email"]);
-         $avatar=unesc($_POST["avatar"]);
-         $username=unesc($_POST["username"]);
-
-         // new level of the user
-         $rlev=mysql_query("SELECT id,id_level FROM {$TABLE_PREFIX}users_level WHERE level='".mysql_escape_string(unesc($_POST["level"]))."'");
-         $reslev=mysql_fetch_assoc($rlev);
-         if ($CURUSER["id_level"] >= $reslev["id_level"])
-             $level=intval($reslev["id"]);
-         else
-             $level=0;
-
-         // check avatar image extension if someone have better idea ;)
-         if ($avatar && $avatar!="" && !in_array(substr($avatar,strlen($avatar)-4),array(".gif",".jpg",".bmp",".png")))
-            stderr($language["ERROR"], $language["ERR_AVATAR_EXT"]);
-         $set=array();
-         if ($idlangue>0)
-             $set[]="language=$idlangue";
-         if ($idstyle>0)
-            $set[]="style=$idstyle";
-         if ($idflag>0)
-            $set[]="flag=$idflag";
-         if ($level>0)
-         {
-             if($GLOBALS["FORUMLINK"]=="smf")
-             {
-                 $forlev=$level+10;
-                 $language2=$language;
-                 $basedir=substr(str_replace("\\", "/", dirname(__FILE__)), 0, strrpos(str_replace("\\", "/", dirname(__FILE__)), '/'));
-                 include($basedir."/smf/Settings.php");
-                 $language=$language2;
-                
-                 $sql_query=mysql_query("SELECT smf_fid AS fid FROM {$TABLE_PREFIX}users WHERE id=$uid");
-                 $smf=mysql_fetch_assoc($sql_query);
-                 if($smf["fid"]>0)
-                     do_sqlquery("UPDATE {$db_prefix}members SET ID_GROUP=$forlev WHERE ID_MEMBER=".$smf["fid"],true);
-             }  
-             $set[]="id_level='$level'";
-         }
-
-         $set[]="time_offset=".sqlesc(intval($_POST["timezone"]));
-         $set[]="email='$email'";
-         $set[]="avatar=".sqlesc(htmlspecialchars($avatar));
-         $set[]="username=".sqlesc($username);
-         if (isset($_POST["topicsperpage"])) // when smf it's not set
-            $set[]="topicsperpage=".intval(0+$_POST["topicsperpage"]);
-         if (isset($_POST["postsperpage"])) // when smf it's not set
-            $set[]="postsperpage=".intval(0+$_POST["postsperpage"]);
-         $set[]="torrentsperpage=".intval(0+$_POST["torrentsperpage"]);
-         $set[]="torrentsperpage=".intval(0+$_POST["torrentsperpage"]);
-         
-         if ($XBTT_USE){
-             $xbtset=array();
-             $xbtset[]="uploaded=".(float)($_POST["uploaded"]);
-             $xbtset[]="downloaded=".(float)($_POST["downloaded"]);
-             $updatesetxbt=implode(",",$xbtset);
-             $set[]="uploaded=0";
-             $set[]="downloaded=0";
-         }
-         else {
-             $set[]="uploaded=".(float)($_POST["uploaded"]);
-             $set[]="downloaded=".(float)($_POST["downloaded"]);
-         }
-
-         $updateset=implode(",",$set);
-
-         if ($updateset!="")
-           {
-            if ($XBTT_USE && $updatesetxbt!="")
-                do_sqlquery("UPDATE xbt_users SET $updatesetxbt WHERE uid='".$uid."'",true);                    
-            do_sqlquery("UPDATE {$TABLE_PREFIX}users SET $updateset WHERE id='".$uid."'",true);
-
-            success_msg($language["SUCCESS"], $language["INF_CHANGED"]."<br /><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."\">".$language["MNU_ADMINCP"]."</a>");
-            stdfoot(true,false);
-            die();
-         }
-       }
-       redirect("index.php?page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]);
-       exit();
-       break;
-
-
-
+include(load_language('lang_usercp.php'));
+# get uid
+$uid=isset($_GET['uid'])?(int)$_GET['uid']:0;
+# test uid
+if ($uid==$CURUSER['uid'] || $uid==1) {
+	if ($action=='delete') # cannot delete guest/myself
+		stderr($language['ERROR'],$language['USER_NOT_DELETE']);
+	# cannot edit guest/myself
+	stderr($language['ERROR'],$language['USER_NOT_EDIT']);
 }
+
+# get uid info
+if ($XBTT_USE)
+	$curu=get_result('SELECT u.username, u.cip, ul.level, ul.id_level as base_level, u.email, u.avatar, u.joined, u.lastconnect, u.id_level, u.language, u.style, u.flag, u.time_offset, u.topicsperpage, u.postsperpage, u.torrentsperpage, (u.downloaded+x.downloaded) as downloaded, (u.uploaded+x.uploaded) as uploaded FROM '.$TABLE_PREFIX.'users u INNER JOIN '.$TABLE_PREFIX.'users_level ul ON ul.id=u.id_level LEFT JOIN xbt_users x ON x.uid=u.id WHERE id='.$uid.' LIMIT 1',true);
+else
+	$curu=get_result('SELECT u.username, u.cip, ul.level, ul.id_level as base_level, u.email, u.avatar, u.joined, u.lastconnect, u.id_level, u.language, u.style, u.flag, u.time_offset, u.topicsperpage, u.postsperpage, u.torrentsperpage, u.downloaded, u.uploaded FROM '.$TABLE_PREFIX.'users u INNER JOIN '.$TABLE_PREFIX.'users_level ul ON ul.id=u.id_level WHERE u.id='.$uid.' LIMIT 1',true);
+
+# test for bad id
+if (!isset($curu[0]))
+  stderr($language['ERROR'],$language['BAD_ID']);
+# save memory address sums
+$curu=$curu[0];
+# test levels
+if ($CURUSER['id_level'] < $curu['base_level']) {
+	if ($action=='delete') # cannot delete guest/myself
+		stderr($language['ERROR'],$language['USER_NOT_DELETE_HIGHER']);
+	# cannot edit guest/myself
+	stderr($language['ERROR'],$language['USER_NOT_EDIT_HIGHER']);
+}
+# find smf_id
+if (!isset($curu['smf_id']) && $curu['smf_id']==0) {
+	if (isset($_GET['smf_fid']))
+		$smf_fid=$_GET['smf_fid'];
+	else {
+		$smf_fid=false;
+	}
+} else $smf_fid=$curu['smf_fid'];
+
+# init vars
+if (isset($_GET['returnto'])) {
+	$ret_decode=urldecode($_GET['returnto']);
+	$ret_url=htmlspecialchars($_GET['returnto']);
+} else {
+	$ret_decode='index.php';
+	$ret_url='index.php';
+}
+$edit=true;
+$profile=array();
+$newname='';
+
+switch ($action) {
+	case 'delete':
+		if (isset($_GET['sure']) && $_GET['sure']==1) {
+			quickQuery('DELETE FROM '.$TABLE_PREFIX.'users WHERE id='.$uid.' LIMIT 1;',true);
+			if ($FORUMLINK=='smf')
+        quickQuery('DELETE FROM '.$db_prefix.'members WHERE ID_MEMBER='.$smf_fid.' LIMIT 1;');
+			if ($XBTT_USE)
+				quickQuery('DELETE FROM xbt_users WHERE uid='.$uid.' LIMIT 1;');
+
+			write_log('Deleted '.unesc($curu['level']).' '.$profile['username'],'modified');
+			redirect($ret_decode);
+		} else {
+			$edit=false;
+			$block_title=$language['ACCOUNT_EDIT'];
+			$profile['username']=unesc($curu['username']);
+			$profile['last_ip']=unesc($curu['cip']);
+			$profile['level']=unesc($curu['level']);
+			$profile['joined']=unesc($curu['joined']);
+			$profile['lastaccess']=unesc($curu['lastconnect']);
+			$profile['downloaded']=makesize($curu['downloaded']);
+			$profile['uploaded']=makesize($curu['uploaded']);
+			$profile['return']='document.location.href=\''.$ret_decode.'\'';
+			$profile["confirm_delete"]='document.location.href=\'index.php?page=admin&amp;user='.$CURUSER['uid']."&amp;code=".$CURUSER['random'].'&amp;do=users&amp;action=delete&amp;uid='.$uid.'&amp;smf_fid='.$smf_fid.'&amp;sure=1&amp;returnto='.$ret_url.'\'';
+		}
+		break;
+        
+	case 'edit':
+		# init vars
+		$profile['username']=unesc($curu['username']);
+		$profile['email']=unesc($curu['email']);
+		$profile['uploaded']=$curu['uploaded'];
+		$profile['downloaded']=$curu['downloaded'];
+		$profile['down']=makesize($curu['downloaded']);
+		$profile['up']=makesize($curu['uploaded']);
+		$profile['ratio']=($curu['downloaded']>0?$curu['uploaded']/$curu['downloaded']:'');
+		# init options
+		$opts['name']='level';
+		$opts['complete']=true;
+		$opts['id']='id';
+		$opts['value']='level';
+		$opts['default']=$curu['id_level'];
+		# rank list
+		$ranks=rank_list();
+		$admintpl->set('rank_combo',get_combo($ranks, $opts));
+		# lang list
+		$opts['name']='language';
+		$opts['value']='language';
+		$opts['default']=$curu['language'];
+		$langs=language_list();
+		$admintpl->set('language_combo',get_combo($langs, $opts));
+		//style list
+		$opts['name']='style';
+		$opts['value']='style';
+		$opts['default']=$curu['style'];
+		$styles=style_list();
+		$admintpl->set('style_combo',get_combo($styles, $opts));
+		//timezone list
+		$opts['name']='timezone';
+		$opts['id']='difference';
+		$opts['value']='timezone';
+		$opts['default']=$curu['time_offset'];
+		$tzones=timezone_list();
+		$admintpl->set('tz_combo',get_combo($tzones, $opts));
+		//flag list
+		$opts['complete']=false;
+		$opts['value']='name';
+		$opts['id']='id';
+		$opts['default']=$curu['flag'];
+		$flags=flag_list();
+		$admintpl->set('flag_combo',get_combo($flags, $opts));
+		# posts/topics per page
+		if ($FORUMLINK=='' || $FORUMLINK=='internal') {
+			$admintpl->set('INTERNAL_FORUM',true,true);
+			$profile['topicsperpage']=$curu['topicsperpage'];
+			$profile['postsperpage']=$curu['postsperpage'];
+		}	else {
+			$admintpl->set('INTERNAL_FORUM',false,true);
+			$profile['topicsperpage']='';
+			$profile["postsperpage"]='';
+		}
+		# torrents per page
+		$profile['torrentsperpage']=$curu['torrentsperpage'];
+		# avatar
+		$profile['avatar']=($curu['avatar']!='')?$curu['avatar']:$STYLEURL.'/images/default_avatar.gif';
+		$profile['avatar_field']=unesc($curu['avatar']);
+		$profile['avatar']='<img onload="resize_avatar(this);" src="'.htmlspecialchars($profile['avatar']).'" alt="" />';
+		# form stuff
+		$profile['frm_action']='index.php?page=admin&amp;user='.$CURUSER['uid'].'&amp;code='.$CURUSER['random'].'&amp;do=users&amp;action=save&amp;uid='.$uid;
+		$profile['frm_cancel']='index.php?page=usercp&amp;uid='.$uid;
+		# title
+		$block_title=$language['ACCOUNT_EDIT'];
+		break;
+	
+	case 'save':
+		if ($_POST['confirm']==$language['FRM_CONFIRM']) {
+			$idlangue=(int)$_POST['language'];
+			$idstyle=(int)$_POST['style'];
+			$idflag=(int)$_POST['flag'];
+			$level=(int)$_POST['level'];
+			$time=(int)$_POST['timezone']; # this is wrong, half hour based time zones won't work
+			$topicsperpage=(isset($_POST['topicsperpage']))?(int)$_POST['topicsperpage']:$curu['topicsperpage'];
+			$postsperpage=(isset($_POST['postsperpage']))?(int)$_POST['postsperpage']:$curu['postsperpage'];
+			$torrentsperpage=(int)$_POST['torrentsperpage'];
+			$uploaded=(float)$_POST['uploaded'];
+			$downloaded=(float)$_POST['downloaded'];
+			$email=AddSlashes($_POST['email']);
+			$avatar=unesc($_POST['avatar']);
+			$username=unesc($_POST['username']);
+			$pass=$_POST['pass'];
+			$chpass=(isset($_POST['chpass']) && $pass!='');
+			# check avatar image extension if someone have better idea ;)
+			if ($avatar && $avatar!='' && !in_array(substr($avatar,strlen($avatar)-4),array('.gif','.jpg','.bmp','.png')))
+				stderr($language['ERROR'], $language['ERR_AVATAR_EXT']);
+			# new level of the user
+			$rlev=do_sqlquery('SELECT level as name, id_level as base_level FROM '.$TABLE_PREFIX.'users_level WHERE id='.$level.' LIMIT 1;');
+			$reslev=mysql_fetch_assoc($rlev);
+			# block users from giving other users ranks higher than themselves
+			if ( ($CURUSER['id_level'] < $reslev['base_level']) )
+				$level=0;
+			if ($idlangue>0 && $idlangue != $curu['language'])
+				$set[]='language='.$idlangue;
+			if ($idstyle>0 && $idstyle != $curu['style'])
+				$set[]='style='.$idstyle;
+			if ($idflag>0 && $idflag != $curu['flag'])
+				$set[]='flag='.$idflag;
+			if ($level>0 && $level != $curu['id_level']) {
+				if($FORUMLINK=='smf') {
+					# find the coresponding level in smf
+					$smf_group=get_result('SELECT ID_GROUP FROM '.$db_prefix.'membergroups WHERE groupName="'.$reslev['name'].'" LIMIT 1;', true, $CACHE_DURATION);
+					# if there is one update it
+					if (isset($smf_group[0]))
+						$smfset='ID_GROUP='.$smf_group[0]['ID_GROUP'];
+				}
+				$set[]='id_level='.$level;
+			}
+			if ($time != $curu['time_offset'])
+				$set[]='time_offset='.$time;
+			if ($email != $curu['email'])
+				$set[]='email='.sqlesc($email);
+			if ($avatar != $curu['avatar'])
+				$set[]='avatar='.sqlesc(htmlspecialchars($avatar));
+			if ($username != $curu['username']) {
+				$sql_name=sqlesc($username);
+				$dupe=get_result('SELECT id FROM '.$TABLE_PREFIX.'users WHERE username='.$sql_name.' LIMIT 1;');
+				if (!isset($dupe[0])) {
+					$set[]='username='.$sql_name;
+					$newname=' ( now: '.$username;
+					if ($FORUMLINK=='smf') {
+						$dupe=get_result('SELECT ID_MEMBER FROM '.$db_prefix.'members WHERE memberName='.$sql_name.' LIMIT 1;');
+						if (!isset($dupe[0]))
+							$smfset[]='memberName='.$sql_name;
+						else
+							$newname.=', dupe name in smf';
+					}
+					$newname.=' )';
+				}
+			}
+			if ($topicsperpage != $curu['topicsperpage']) 
+				$set[]='topicsperpage='.$topicsperpage;
+			if ($postsperpage != $curu['postsperpage'])
+				$set[]='postsperpage='.$postsperpage;
+			if ($torrentsperpage != $curu['torrentsperpage'])
+				$set[]='torrentsperpage='.$torrentsperpage;
+			if ($XBTT_USE){
+				if ($downloaded != $curu['downloaded']) {
+					$xbtset[]='downloaded='.$downloaded;
+					$set[]='downloaded=0';
+				}
+				if ($uploaded != $curu['uploaded']) {
+					$xbtset[]='uploaded='.$uploaded;
+					$set[]='uploaded=0';
+				}
+			} else {
+				if ($uploaded != $curu['uploaded'])
+					$set[]='uploaded='.$uploaded;
+				if ($downloaded != $curu['downloaded'])
+					$set[]='downloaded='.$downloaded;
+			}
+			if ($chpass) {
+				$set[]='password='.sqlesc(md5($pass));
+				$passhash=smf_passgen($username, $pass);
+        $smfset[]='passwd='.sqlesc($passhash[0]);
+				$smfset[]='passwordSalt='.sqlesc($passhash[1]);
+			}
+
+			$updateset=(isset($set))?implode(',',$set):'';
+			$updatesetxbt=(isset($xbtset))?implode(',',$xbtset):'';
+			$updatesetsmf=(isset($smfset))?implode(',',$smfset):'';
+			if ($updateset!='') {
+				if ($XBTT_USE && $updatesetxbt!='')
+					quickQuery('UPDATE xbt_users SET '.$updatesetxbt.' WHERE uid='.$uid.' LIMIT 1;');
+        if (($FORUMLINK=='smf') && ($updatesetsmf!='') && (!is_bool($smf_fid)))
+					quickQuery('UPDATE '.$db_prefix.'members SET '.$updatesetsmf.' WHERE ID_MEMBER='.$smf_fid.' LIMIT 1;');
+				quickQuery('UPDATE '.$TABLE_PREFIX.'users SET '.$updateset.' WHERE id='.$uid.' LIMIT 1;');
+
+
+
+				success_msg($language['SUCCESS'], $language['INF_CHANGED'].'<br /><a href="index.php?page=admin&amp;user='.$CURUSER['uid'].'&amp;code='.$CURUSER['random'].'">'.$language['MNU_ADMINCP'].'</a>');
+				write_log('Modified user <a href="'.$btit_settings['url'].'/index.php?page=torrent-userdetails&amp;id='.$uid.'">'.$curu['username'].'</a> '.$newname.' ( '.count($set).' changes on uid '.$uid.' )','modified');
+				stdfoot(true,false);
+				die();
+			} else {
+				stderr($language['ERROR'],$language['USER_NO_CHANGE']);
+			}
+		}
+		redirect('index.php?page=admin&user='.$CURUSER['uid'].'&code='.$CURUSER['random']);
+		break;
+}
+
+# set template info
+$admintpl->set('profile',$profile);
+$admintpl->set('language',$language);
+$admintpl->set('edit_user',$edit,true);
 ?>

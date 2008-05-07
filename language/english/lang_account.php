@@ -8,11 +8,11 @@ $language['USER_LANGUE']='Language';
 $language['IMAGE_CODE']='Image Code';
 $language['INSERT_USERNAME']='You must insert a username!';
 $language['INSERT_PASSWORD']='You must insert a password!';
-$language['DIF_PASSWORDS']='The passwords don\'t match!';
+$language['DIF_PASSWORDS']='The passwords don&rsquo;t match!';
 $language['ERR_NO_EMAIL']='You must enter a valid email address';
 $language['USER_EMAIL_AGAIN']='Repeat email';
 $language['ERR_NO_EMAIL_AGAIN']='Repeat email';
-$language['DIF_EMAIL']='The emails don\'t match!';
+$language['DIF_EMAIL']='The emails don&rsquo;t match!';
 $language['SECURITY_CODE']='Answer the question';
 # Password strength
 $language['WEEK']='Weak';

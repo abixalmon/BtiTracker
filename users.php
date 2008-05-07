@@ -164,7 +164,7 @@ while ($row_user=mysql_fetch_array($rusers))
 if (intval($row_user["downloaded"])>0)
   $ratio=number_format($row_user["uploaded"]/$row_user["downloaded"],2);
 else
-  $ratio="oo";
+  $ratio='&#8734;';
 
 $users[$i]["ratio"] = $ratio;
                        

@@ -14,16 +14,13 @@
     <td class="header"><tag:language.MASSPM_INFO /></td>
     <td><tag:masspm.info /></td>
   </tr>
-  <tr>
-    <td colspan="2" align="center" class="lista">Mass PM by vibes</td>
-  </tr>
 </table>
 <else:masspm_post>
 <form method="post" name="masspm" action="<tag:frm_action />">
   <if:frm_error>
   <table class="lista" width="100%" align="center">
     <tr>
-      <td class="lista" align="center" style="color:red; font-weight:bold;"><tag:language.MASS_PM_ERROR /></td>
+      <td class="lista" align="center" style="color:red; font-weight:bold;"><tag:frm_message /></td>
     </tr>
   </table>
   </if:frm_error>

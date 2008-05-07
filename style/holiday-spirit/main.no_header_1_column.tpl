@@ -6,18 +6,18 @@
   <link rel="stylesheet" href="<tag:main_css />" type="text/css" />
   <tag:more_css />
   <tag:main_jscript />
-  </head>
-  <body>
-    <div id="main">
-    <div id="bodyarea" style="padding: 1ex 0ex 0ex 0ex;">  
-<table border="0" align="center" cellpadding="0" cellspacing="0" width="100%">
-    <tr>
-<td valign="top" width="5" style="background: url(images/index_r6_c1_md1.png); background-repeat: repeat-x;" rowspan="2"></td>
-    <td valign="top"><tag:main_content /></td>
-<td valign="top" width="5" style="background: url(images/index_r6_c1_md1.png); background-repeat: repeat-x;" rowspan="2"></td>	
+</head>
+<body>
+<div id="main">
+  <div id="bodyarea" style="padding: 1ex 0ex 0ex 0ex;">  
+    <table border="0" align="center" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <td valign="top" width="5" rowspan="2"></td>
+        <td valign="top"><tag:main_content /></td>
+        <td valign="top" width="5" rowspan="2"></td>	
       </tr>
     </table>
-      </div>
-		</div>
-  </body>
+  </div>
+</div>
+</body>
 </html>

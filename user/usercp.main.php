@@ -68,7 +68,7 @@ else
       $ratio=number_format($sr,2)."&nbsp;&nbsp;<img src=\"$s\" alt=\"\" />";
      }
     else
-       $ratio="oo";
+       $ratio='&#8734;';
 
   $ucptpl=array();
   $ucptpl["username"]=unesc($CURUSER["username"]);

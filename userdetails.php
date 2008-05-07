@@ -119,7 +119,7 @@ if (intval($row["downloaded"])>0)
   $ratio=number_format($sr,2)."&nbsp;&nbsp;<img src=\"$s\" alt=\"\" />";
  }
 else
-   $ratio="oo";
+   $ratio='&#8734;';
 
 $utorrents = intval($CURUSER["torrentsperpage"]);
 
@@ -296,7 +296,7 @@ if ($sanq[0]>0)
                  if ($torlist->downloaded>0)
                       $peerratio=number_format($torlist->uploaded/$torlist->downloaded,2);
                  else
-                      $peerratio="oo";
+                      $peerratio='&#8734;';
                  $tortpl[$i]["peerratio"]=unesc($peerratio);
                  $tortpl[$i]["seedscolor"]=linkcolor($torlist->seeds);
                  $tortpl[$i]["seeds"]="<a href=\"javascript:poppeer('index.php?page=peers&amp;id=".$torlist->infohash."')\">$torlist->seeds</a>";
@@ -316,7 +316,7 @@ if ($sanq[0]>0)
                  if ($torlist->downloaded>0)
                       $peerratio=number_format($torlist->uploaded/$torlist->downloaded,2);
                  else
-                      $peerratio="oo";
+                      $peerratio='&#8734;';
                  $tortpl[$i]["peerratio"]=unesc($peerratio);
                  $tortpl[$i]["seedscolor"]=linkcolor($torlist->seeds);
                  $tortpl[$i]["seeds"]="<a href=\"index.php?page=peers&amp;id=".$torlist->infohash."\">$torlist->seeds</a>";
@@ -370,7 +370,7 @@ if ($sanq[0]>0)
                 if ($torlist->downloaded>0)
                      $peerratio=number_format($torlist->uploaded/$torlist->downloaded,2);
                 else
-                     $peerratio="oo";
+                     $peerratio='&#8734;';
                 $torhistory[$i]["ratio"]=unesc($peerratio);
                 $torhistory[$i]["seedscolor"]=linkcolor($torlist->seeds);
                 $torhistory[$i]["seeds"]="<a href=\"javascript:poppeer('index.php?page=peers&amp;id=".$torlist->info_hash."')\">$torlist->seeds</a>";
@@ -391,7 +391,7 @@ if ($sanq[0]>0)
                 if ($torlist->downloaded>0)
                      $peerratio=number_format($torlist->uploaded/$torlist->downloaded,2);
                 else
-                     $peerratio="oo";
+                     $peerratio='&#8734;';
                 $torhistory[$i]["ratio"]=unesc($peerratio);
                 $torhistory[$i]["seedscolor"]=linkcolor($torlist->seeds);
                 $torhistory[$i]["seeds"]="<a href=\"index.php?page=peers&amp;id=".$torlist->info_hash."\">$torlist->seeds</a>";
