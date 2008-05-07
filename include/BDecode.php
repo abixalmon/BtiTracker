@@ -69,8 +69,7 @@ class BDecode {
 					$ret[0] = -$ret[0];
 				}
 				return $ret;
-			}
-			return array(false);
+			} else return array(false);
 		}
 	}
 
