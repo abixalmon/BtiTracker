@@ -97,7 +97,7 @@ function load_template($tpl_name) {
 
   if (@file_exists($STYLEPATH.'/'.$tpl_name))
     return $STYLEPATH.'/'.$tpl_name;
-  return $THIS_BASEPATH.'/style/xbtit_default'.$tpl_name;
+  return $THIS_BASEPATH.'/style/xbtit_default/'.$tpl_name;
 }
 
 function load_language($mod_language_name) {
