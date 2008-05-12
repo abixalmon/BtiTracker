@@ -39,37 +39,40 @@ if (!function_exists('bcsub')) {
 }
 
 function send_pm($sender,$recepient,$subject,$msg) {
-  global $FORUMLINK, $TABLE_PREFIX, $db_prefix, $CACHE_DURATION;
+	global $FORUMLINK, $TABLE_PREFIX, $db_prefix, $CACHE_DURATION;
 
-  if ($FORUMLINK=='smf') {
+	if ($FORUMLINK=='smf') {
 		# smf forum
-		# get smf_id of recepient
-    $recepient=get_result('SELECT smf_id FROM '.$TABLE_PREFIX.'users WHERE id='.$recepient.' LIMIT 1;', true, $CACHE_DURATION);
-    if (!isset($recepient[0]))
-      return false;
-		# valid smf_id
-    $recepient=$recepient[0];
-		# get smf_id of sender
+		# get smf_fid of recepient
+		$recepient=get_result('SELECT smf_fid FROM '.$TABLE_PREFIX.'users WHERE id='.$recepient.' LIMIT 1;', true, $CACHE_DURATION);
+		if (!isset($recepient[0]))
+			return false;
+		# valid user
+		$recepient=$recepient[0]['smf_fid'];
+		if ($recepient==0)
+			return false;
+		#valid smf_fid
+		# get smf_fid of sender
 		# if sender id is invalid or 0, use System
-    $sender=($sender==0)?0:get_result('SELECT smf_id, username FROM '.$TABLE_PREFIX.'users WHERE id='.$sender.' LIMIT 1;', true, $CACHE_DURATION);
-    if (!isset($sender[0])) {
-			$sender['smf_id']=0;
+		$sender=($sender==0)?0:get_result('SELECT smf_fid, username FROM '.$TABLE_PREFIX.'users WHERE id='.$sender.' LIMIT 1;', true, $CACHE_DURATION);
+		if (!isset($sender[0])) {
+			$sender['smf_fid']=0;
 			$sender['username']='System';
 		} else $sender=$sender[0];
 		# insert message
-    quickQuery('INSERT INTO '.$db_prefix.'personal_messages (ID_MEMBER_FROM, fromName, msgtime, subject, body) VALUES ('.$sender['smf_id'].', '.$sender['username'].', UNIX_TIMESTAMP(), '.$subject.', '.$msg.');');
+		quickQuery('INSERT INTO '.$db_prefix.'personal_messages (ID_MEMBER_FROM, fromName, msgtime, subject, body) VALUES ('.$sender['smf_fid'].', '.sqlesc($sender['username']).', UNIX_TIMESTAMP(), '.$subject.', '.$msg.');');
 		# get id of message
-    $pm_id=mysql_insert_id();
+		$pm_id=mysql_insert_id();
 		# insert recepient for message
-    quickQuery('INSERT INTO '.$db_prefix.'pm_recipients (ID_PM, ID_MEMBER) VALUES ('.$pm_id.', '.$recepient.');');
+		quickQuery('INSERT INTO '.$db_prefix.'pm_recipients (ID_PM, ID_MEMBER) VALUES ('.$pm_id.', '.$recepient.');');
 		# notify recepient
-    quickQuery('UPDATE '.$db_prefix.'members SET instantMessages=instantMessages+1, unreadMessages=unreadMessages+1 WHERE ID_MEMBER='.$recepient.' LIMIT 1;');
-    return true;
-  } elseif ($FORUMLINK=='' || $FORUMLINK=='internal') {
+		quickQuery('UPDATE '.$db_prefix.'members SET instantMessages=instantMessages+1, unreadMessages=unreadMessages+1 WHERE ID_MEMBER='.$recepient.' LIMIT 1;');
+		return true;
+	} elseif ($FORUMLINK=='' || $FORUMLINK=='internal') {
 		# internal forum
 		# insert pm
-	  quickQuery('INSERT INTO '.$TABLE_PREFIX.'messages (sender, receiver, added, subject, msg) VALUES ('.$sender.', '.$recepient.', UNIX_TIMESTAMP(), '.$subject.', '.$msg.')');
-  	return true;
+		quickQuery('INSERT INTO '.$TABLE_PREFIX.'messages (sender, receiver, added, subject, msg) VALUES ('.$sender.', '.$recepient.', UNIX_TIMESTAMP(), '.$subject.', '.$msg.')');
+		return true;
 	}
 	return false;
 }

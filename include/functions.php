@@ -112,7 +112,7 @@ function load_language($mod_language_name) {
   return $THIS_BASEPATH.'/language/english/'.$mod_language_name;
 }
 
-function get_combo(&$select, $opts=array()) {
+function get_combo($select, $opts=array()) {
   $name=(isset($opts['name']))?' name="'.$opts['name'].'"':'';
   $complete=(isset($opts['complete']))?(bool)$opts['complete']:false;
   $default=(isset($opts['default']))?$opts['default']:NULL;
@@ -123,7 +123,7 @@ function get_combo(&$select, $opts=array()) {
   if ($complete)
     $combo.='<select'.$name.'>';
 
-  foreach ($select as &$option) {
+  foreach ($select as $option) {
     $combo.="\n".'<option ';
     if ( (!is_null($default)) && ($option[$id]==$default) )
       $combo.='selected="selected" ';

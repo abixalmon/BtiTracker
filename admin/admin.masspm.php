@@ -57,7 +57,7 @@ $footer="\n\n".'This is an automated system please do not reply!!!'; # "\n" = ne
 
 ## !!!!!*****DEBUG MODE*****!!!!!
 # Do we actually send the PM's ? usage: true or false
-$pm = true;
+$pm = false;
 # Recommended modes for debug: $pm = false; $list_users = true;
 
 # END OF SETTINGS, DO NOT EDIT BELOW USNLESS YOU KNOW WHAT YOU ARE DOING!!!!
@@ -146,7 +146,7 @@ switch ($action) {
 				}
 				# correct ratio value
 				if ($XBTT_USE) {
-					$utables=$TABLE_PREFIX.'users u LEFT JOIN xbt_users x ON x.uid=u.id';
+					$tables=$TABLE_PREFIX.'users u LEFT JOIN xbt_users x ON x.uid=u.id';
 					if ($ratio)
 						$where.=' AND ((u.downloaded+IFNULL(x.downloaded,0))/(u.uploaded+IFNULL(x.uploaded,0.1)))'.$pick;	
 				} else {
@@ -172,7 +172,7 @@ switch ($action) {
 				$masspm_post=true;
 				$masspm['subject']=$original_subject;
 				$masspm['body']=format_comment($original_msg);
-				$masspm['info']='<b>'.$i++.'</b> '.$language['USERS_FOUND'].' '.$rank_details.' '.$ratio_d.' !!<br /><br />'.$language['USERS_PMED'].'<br />'.implode(' - ',$l_users);
+				$masspm['info']='<b>'.$i.'</b> '.$language['USERS_FOUND'].' '.$rank_details.' '.$ratio_d.' !! '.((!$pm)?' [ DEBUG MODE ] ':'').'<br /><br />'.$language['USERS_PMED'].'<br />'.implode(' - ',$l_users);
 				break;
 			}			
 		}
@@ -180,12 +180,12 @@ switch ($action) {
 	case 'write':
 		switch ($error) {
 		  case 'return':
-			  $error_msg=$language['MASS_PM_ERROR'];
+				$error_msg=$language['MASS_PM_ERROR'];
 				$error=true;
 				break;
 
 		  default:
-			  $error=false;
+				$error=false;
 		}
 		# init options
 		$opts['name']='level';
