@@ -60,7 +60,7 @@ $footer="\n\n".'This is an automated system please do not reply!!!'; # "\n" = ne
 $pm = false;
 # Recommended modes for debug: $pm = false; $list_users = true;
 
-# END OF SETTINGS, DO NOT EDIT BELOW USNLESS YOU KNOW WHAT YOU ARE DOING!!!!
+# END OF SETTINGS, DO NOT EDIT BELOW UNLESS YOU KNOW WHAT YOU ARE DOING!!!!
 
 # init some variable...
 $ratio=0;

@@ -48,13 +48,13 @@ if ($uid==$CURUSER['uid'] || $uid==1) {
 
 # get uid info
 if ($XBTT_USE)
-	$curu=get_result('SELECT u.username, u.cip, ul.level, ul.id_level as base_level, u.email, u.avatar, u.joined, u.lastconnect, u.id_level, u.language, u.style, u.flag, u.time_offset, u.topicsperpage, u.postsperpage, u.torrentsperpage, (u.downloaded+x.downloaded) as downloaded, (u.uploaded+x.uploaded) as uploaded FROM '.$TABLE_PREFIX.'users u INNER JOIN '.$TABLE_PREFIX.'users_level ul ON ul.id=u.id_level LEFT JOIN xbt_users x ON x.uid=u.id WHERE id='.$uid.' LIMIT 1',true);
+	$curu=get_result('SELECT u.username, u.cip, ul.level, ul.id_level as base_level, u.email, u.avatar, u.joined, u.lastconnect, u.id_level, u.language, u.style, u.flag, u.time_offset, u.topicsperpage, u.postsperpage, u.torrentsperpage, (u.downloaded+x.downloaded) as downloaded, (u.uploaded+x.uploaded) as uploaded FROM '.$TABLE_PREFIX.'users u INNER JOIN '.$TABLE_PREFIX.'users_level ul ON ul.id=u.id_level LEFT JOIN xbt_users x ON x.uid=u.id WHERE u.id='.$uid.' LIMIT 1',true);
 else
 	$curu=get_result('SELECT u.username, u.cip, ul.level, ul.id_level as base_level, u.email, u.avatar, u.joined, u.lastconnect, u.id_level, u.language, u.style, u.flag, u.time_offset, u.topicsperpage, u.postsperpage, u.torrentsperpage, u.downloaded, u.uploaded FROM '.$TABLE_PREFIX.'users u INNER JOIN '.$TABLE_PREFIX.'users_level ul ON ul.id=u.id_level WHERE u.id='.$uid.' LIMIT 1',true);
 
 # test for bad id
 if (!isset($curu[0]))
-  stderr($language['ERROR'],$language['BAD_ID']);
+	stderr($language['ERROR'],$language['BAD_ID']);
 # save memory address sums
 $curu=$curu[0];
 # test levels
@@ -90,7 +90,7 @@ switch ($action) {
 		if (isset($_GET['sure']) && $_GET['sure']==1) {
 			quickQuery('DELETE FROM '.$TABLE_PREFIX.'users WHERE id='.$uid.' LIMIT 1;',true);
 			if ($FORUMLINK=='smf')
-        quickQuery('DELETE FROM '.$db_prefix.'members WHERE ID_MEMBER='.$smf_fid.' LIMIT 1;');
+				quickQuery('DELETE FROM '.$db_prefix.'members WHERE ID_MEMBER='.$smf_fid.' LIMIT 1;');
 			if ($XBTT_USE)
 				quickQuery('DELETE FROM xbt_users WHERE uid='.$uid.' LIMIT 1;');
 
@@ -107,10 +107,10 @@ switch ($action) {
 			$profile['downloaded']=makesize($curu['downloaded']);
 			$profile['uploaded']=makesize($curu['uploaded']);
 			$profile['return']='document.location.href=\''.$ret_decode.'\'';
-			$profile["confirm_delete"]='document.location.href=\'index.php?page=admin&amp;user='.$CURUSER['uid']."&amp;code=".$CURUSER['random'].'&amp;do=users&amp;action=delete&amp;uid='.$uid.'&amp;smf_fid='.$smf_fid.'&amp;sure=1&amp;returnto='.$ret_url.'\'';
+			$profile['confirm_delete']='document.location.href=\'index.php?page=admin&amp;user='.$CURUSER['uid'].'&amp;code='.$CURUSER['random'].'&amp;do=users&amp;action=delete&amp;uid='.$uid.'&amp;smf_fid='.$smf_fid.'&amp;sure=1&amp;returnto='.$ret_url.'\'';
 		}
 		break;
-        
+
 	case 'edit':
 		# init vars
 		$profile['username']=unesc($curu['username']);
@@ -163,7 +163,7 @@ switch ($action) {
 		}	else {
 			$admintpl->set('INTERNAL_FORUM',false,true);
 			$profile['topicsperpage']='';
-			$profile["postsperpage"]='';
+			$profile['postsperpage']='';
 		}
 		# torrents per page
 		$profile['torrentsperpage']=$curu['torrentsperpage'];
@@ -266,7 +266,7 @@ switch ($action) {
 			if ($chpass) {
 				$set[]='password='.sqlesc(md5($pass));
 				$passhash=smf_passgen($username, $pass);
-        $smfset[]='passwd='.sqlesc($passhash[0]);
+				$smfset[]='passwd='.sqlesc($passhash[0]);
 				$smfset[]='passwordSalt='.sqlesc($passhash[1]);
 			}
 
@@ -276,7 +276,7 @@ switch ($action) {
 			if ($updateset!='') {
 				if ($XBTT_USE && $updatesetxbt!='')
 					quickQuery('UPDATE xbt_users SET '.$updatesetxbt.' WHERE uid='.$uid.' LIMIT 1;');
-        if (($FORUMLINK=='smf') && ($updatesetsmf!='') && (!is_bool($smf_fid)))
+				if (($FORUMLINK=='smf') && ($updatesetsmf!='') && (!is_bool($smf_fid)))
 					quickQuery('UPDATE '.$db_prefix.'members SET '.$updatesetsmf.' WHERE ID_MEMBER='.$smf_fid.' LIMIT 1;');
 				quickQuery('UPDATE '.$TABLE_PREFIX.'users SET '.$updateset.' WHERE id='.$uid.' LIMIT 1;');
 

@@ -149,22 +149,26 @@ function cut_string($ori_string,$cut_after) {
 }
 
 function print_debug($level=4, $key=' - ') {
-  global $time_start, $gzip, $num_queries, $cached_querys;
-  $time_end=get_microtime();
-  switch ($level) {
-    case '4':
-      $return[]='[ Memory: '.makesize(memory_get_usage()).'|'.makesize(memory_get_peak_usage()).' ]';
-    case '3':
-      $return[]='[ GZIP: '.$gzip.' ]';
-    case '2':
-      $return[]='[ Script Execution: '.number_format(($time_end-$time_start),4).' sec. ]';
-    case '1':
-      $return[]='[ Queries: '.$num_queries.'|'.$cached_querys.' ]';
-      break;
-    default:
-      return '';
-  }
-  return implode($key, array_reverse($return));
+	global $time_start, $gzip, $num_queries, $cached_querys;
+	$time_end=get_microtime();
+	switch ($level) {
+		case '4':
+			$memory='[ Memory: '.makesize(memory_get_usage());
+			if (function_exists('memory_get_peak_usage')) {
+				$memory.='|'.makesize(memory_get_peak_usage());
+			}
+			$return[]=$memory.' ]';
+		case '3':
+			$return[]='[ GZIP: '.$gzip.' ]';
+		case '2':
+			$return[]='[ Script Execution: '.number_format(($time_end-$time_start),4).' sec. ]';
+		case '1':
+			$return[]='[ Queries: '.$num_queries.'|'.$cached_querys.' ]';
+			break;
+		default:
+			return '';
+	}
+	return implode($key, array_reverse($return));
 }
 
 function print_version() {

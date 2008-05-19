@@ -56,6 +56,7 @@ function send_pm($sender,$recepient,$subject,$msg) {
 		# if sender id is invalid or 0, use System
 		$sender=($sender==0)?0:get_result('SELECT smf_fid, username FROM '.$TABLE_PREFIX.'users WHERE id='.$sender.' LIMIT 1;', true, $CACHE_DURATION);
 		if (!isset($sender[0])) {
+			$sender=array();
 			$sender['smf_fid']=0;
 			$sender['username']='System';
 		} else $sender=$sender[0];
