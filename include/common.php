@@ -39,59 +39,59 @@ if (!function_exists('bcsub')) {
 }
 
 function send_pm($sender,$recepient,$subject,$msg) {
-	global $FORUMLINK, $TABLE_PREFIX, $db_prefix, $CACHE_DURATION;
+    global $FORUMLINK, $TABLE_PREFIX, $db_prefix, $CACHE_DURATION;
 
-	if ($FORUMLINK=='smf') {
-		# smf forum
-		# get smf_fid of recepient
-		$recepient=get_result('SELECT smf_fid FROM '.$TABLE_PREFIX.'users WHERE id='.$recepient.' LIMIT 1;', true, $CACHE_DURATION);
-		if (!isset($recepient[0]))
-			return false;
-		# valid user
-		$recepient=$recepient[0]['smf_fid'];
-		if ($recepient==0)
-			return false;
-		#valid smf_fid
-		# get smf_fid of sender
-		# if sender id is invalid or 0, use System
-		$sender=($sender==0)?0:get_result('SELECT smf_fid, username FROM '.$TABLE_PREFIX.'users WHERE id='.$sender.' LIMIT 1;', true, $CACHE_DURATION);
-		if (!isset($sender[0])) {
-			$sender=array();
-			$sender['smf_fid']=0;
-			$sender['username']='System';
-		} else $sender=$sender[0];
-		# insert message
-		quickQuery('INSERT INTO '.$db_prefix.'personal_messages (ID_MEMBER_FROM, fromName, msgtime, subject, body) VALUES ('.$sender['smf_fid'].', '.sqlesc($sender['username']).', UNIX_TIMESTAMP(), '.$subject.', '.$msg.');');
-		# get id of message
-		$pm_id=mysql_insert_id();
-		# insert recepient for message
-		quickQuery('INSERT INTO '.$db_prefix.'pm_recipients (ID_PM, ID_MEMBER) VALUES ('.$pm_id.', '.$recepient.');');
-		# notify recepient
-		quickQuery('UPDATE '.$db_prefix.'members SET instantMessages=instantMessages+1, unreadMessages=unreadMessages+1 WHERE ID_MEMBER='.$recepient.' LIMIT 1;');
-		return true;
-	} elseif ($FORUMLINK=='' || $FORUMLINK=='internal') {
-		# internal forum
-		# insert pm
-		quickQuery('INSERT INTO '.$TABLE_PREFIX.'messages (sender, receiver, added, subject, msg) VALUES ('.$sender.', '.$recepient.', UNIX_TIMESTAMP(), '.$subject.', '.$msg.')');
-		return true;
-	}
-	return false;
+    if ($FORUMLINK=='smf') {
+        # smf forum
+        # get smf_fid of recepient
+        $recepient=get_result('SELECT smf_fid FROM '.$TABLE_PREFIX.'users WHERE id='.$recepient.' LIMIT 1;', true, $CACHE_DURATION);
+        if (!isset($recepient[0]))
+            return false;
+        # valid user
+        $recepient=$recepient[0]['smf_fid'];
+        if ($recepient==0)
+            return false;
+        #valid smf_fid
+        # get smf_fid of sender
+        # if sender id is invalid or 0, use System
+        $sender=($sender==0)?0:get_result('SELECT smf_fid, username FROM '.$TABLE_PREFIX.'users WHERE id='.$sender.' LIMIT 1;', true, $CACHE_DURATION);
+        if (!isset($sender[0])) {
+            $sender=array();
+            $sender['smf_fid']=0;
+            $sender['username']='System';
+        } else $sender=$sender[0];
+        # insert message
+        quickQuery('INSERT INTO '.$db_prefix.'personal_messages (ID_MEMBER_FROM, fromName, msgtime, subject, body) VALUES ('.$sender['smf_fid'].', '.sqlesc($sender['username']).', UNIX_TIMESTAMP(), '.$subject.', '.$msg.');');
+        # get id of message
+        $pm_id=mysql_insert_id();
+        # insert recepient for message
+        quickQuery('INSERT INTO '.$db_prefix.'pm_recipients (ID_PM, ID_MEMBER) VALUES ('.$pm_id.', '.$recepient.');');
+        # notify recepient
+        quickQuery('UPDATE '.$db_prefix.'members SET instantMessages=instantMessages+1, unreadMessages=unreadMessages+1 WHERE ID_MEMBER='.$recepient.' LIMIT 1;');
+        return true;
+    } elseif ($FORUMLINK=='' || $FORUMLINK=='internal') {
+        # internal forum
+        # insert pm
+        quickQuery('INSERT INTO '.$TABLE_PREFIX.'messages (sender, receiver, added, subject, msg) VALUES ('.$sender.', '.$recepient.', UNIX_TIMESTAMP(), '.$subject.', '.$msg.')');
+        return true;
+    }
+    return false;
 }
 
 function write_file($file, $content) {
   if ($fp=@fopen($file,'w')) {
     @fputs($fp,$content);
     @fclose($fp);
-		return true;
+        return true;
   }
-	return false;
+    return false;
 }
 
 function send_mail($rec_email,$subject,$message, $IsHtml=false, $cc=array(), $bcc=array()) {
   global $THIS_BASEPATH, $btit_settings;
 
-	if (!method_exists('PHPMailer','IsMail'))
-	  include($THIS_BASEPATH.'/phpmailer/class.phpmailer.php');
+    if (!method_exists('PHPMailer','IsMail'))
+      include($THIS_BASEPATH.'/phpmailer/class.phpmailer.php');
   $mail=new PHPMailer();
 
   if ($btit_settings['mail_type']=='php') {
@@ -150,7 +150,7 @@ function get_remote_file($http_url,$mode='r') {
 
   if ($fp) {
     fputs($fp,"GET $path"."$query HTTP/1.0\r\nHost: www.google.com\r\nConnection: close\r\n\r\n");
-	  $stream='';
+      $stream='';
     while (!feof($fp))
       $stream .= fgets($fp, 4096);
     @fclose($fp);
@@ -170,7 +170,7 @@ function get_remote_file($http_url,$mode='r') {
     }
     return $stream;
   }
-	return false;
+    return false;
 }
 
 function get_fresh_config($qrystr) {
@@ -191,7 +191,7 @@ function get_fresh_config($qrystr) {
   mysql_free_result($mr);
 
   // write new cache
-	write_file($cache_file, serialize($return));
+    write_file($cache_file, serialize($return));
 
   return $return;
 }
@@ -249,7 +249,7 @@ function get_result($qrystr,$display_error=false,$cachetime=0) {
       $num_queries++;
       $cached_querys++;
       return unserialize(file_get_contents($cache_file));
-		}
+        }
 
   $return=array();
   $mr=do_sqlquery($qrystr,$display_error);
@@ -301,10 +301,10 @@ function validip($ip) {
 
     foreach ($reserved_ips as $r)
       if ((ip2long($ip) >= ip2long($r[0])) && (ip2long($ip) <= ip2long($r[1])))
-			  return false; 
-		return true;
+              return false; 
+        return true;
   }
-	return false;
+    return false;
 }
 
 // Patched function to detect REAL IP address if it's valid
@@ -330,7 +330,7 @@ function getip() {
 function hex2bin ($input, $assume_safe=true) {
   if ($assume_safe !== true && ! ((strlen($input)%2) == 0 || preg_match ('/^[0-9a-f]+$/i', $input)))
     return '';
-  return pack('H*', input);
+  return pack('H*', $input);
 }
 
 // Runs a query with no regard for the result
@@ -348,7 +348,7 @@ function quickQuery($query) {
 #========================================
 function StdDecodePeerId($id_data, $id_name) {
   $version_str='';
-  for ($i=0, $len= s($id_data); $i<=$len; $i++) {
+  for ($i=0; $i<=strlen($id_data); $i++){
     $c = $id_data[$i];
     if ($id_name=='BitTornado' || $id_name=='ABC') {
       if ($c!='-' && ctype_digit($c))
@@ -361,16 +361,16 @@ function StdDecodePeerId($id_data, $id_name) {
       if ($c!='-' && ctype_alnum($c)) {
         $version_str .= $c;
         if($i==0)
-				  $version_str = (int)$version_str.'.'; 
+                  $version_str = (int)$version_str.'.'; 
       } else{
         $version_str .= '.';
         break;
       }
     } else {
       if ($c!='-' && ctype_alnum($c))
-			  $version_str .= $c.'.';
+              $version_str .= $c.'.';
       else
-			  break;
+              break;
     }
   }
   $version_str=substr($version_str,0,strlen($version_str)-1);
@@ -382,7 +382,7 @@ function MainlineDecodePeerId($id_data, $id_name) {
   for ($i=0,$len=strlen($id_data); $i<=$len; $i++) {
     $c=$id_data[$i];
     if ($c!='-' && ctype_alnum($c))
-		  $version_str.=$c.'.';
+          $version_str.=$c.'.';
   }
   $version_str=substr($version_str,0,strlen($version_str)-1);
   return $id_name.' '.$version_str;
@@ -398,37 +398,37 @@ function DecodeVersionString ($ver_data, $id_name) {
 
 function getagent($httpagent, $peer_id='') {
   if($peer_id!='')
-	  $peer_id=hex2bin($peer_id);
+      $peer_id=hex2bin($peer_id);
   if(substr($peer_id,0,3)=='-AX')
-	  return StdDecodePeerId(substr($peer_id,4,4),'BitPump'); # AnalogX BitPump
+      return StdDecodePeerId(substr($peer_id,4,4),'BitPump'); # AnalogX BitPump
   if(substr($peer_id,0,3)=='-BB')
-	  return StdDecodePeerId(substr($peer_id,3,5),'BitBuddy'); # BitBuddy
+      return StdDecodePeerId(substr($peer_id,3,5),'BitBuddy'); # BitBuddy
   if(substr($peer_id,0,3)=='-BC')
-	  return StdDecodePeerId(substr($peer_id,4,4),'BitComet'); # BitComet
+      return StdDecodePeerId(substr($peer_id,4,4),'BitComet'); # BitComet
   if(substr($peer_id,0,3)=='-BS')
-	  return StdDecodePeerId(substr($peer_id,3,7),'BTSlave'); # BTSlave
+      return StdDecodePeerId(substr($peer_id,3,7),'BTSlave'); # BTSlave
   if(substr($peer_id,0,3)=='-BX')
-	  return StdDecodePeerId(substr($peer_id,3,7),'BittorrentX'); # BittorrentX
+      return StdDecodePeerId(substr($peer_id,3,7),'BittorrentX'); # BittorrentX
   if(substr($peer_id,0,3)=='-CT')
-	  return "Ctorrent $peer_id[3].$peer_id[4].$peer_id[6]"; # CTorrent
+      return "Ctorrent $peer_id[3].$peer_id[4].$peer_id[6]"; # CTorrent
   if(substr($peer_id,0,3)=='-KT')
-	  return StdDecodePeerId(substr($peer_id,3,7),'KTorrent'); # KTorrent
+      return StdDecodePeerId(substr($peer_id,3,7),'KTorrent'); # KTorrent
   if(substr($peer_id,0,3)=='-LT')
-	  return StdDecodePeerId(substr($peer_id,3,7),'libtorrent'); # libtorrent
+      return StdDecodePeerId(substr($peer_id,3,7),'libtorrent'); # libtorrent
   if(substr($peer_id,0,3)=='-LP')
-	  return StdDecodePeerId(substr($peer_id,4,4),'Lphant'); # Lphant
+      return StdDecodePeerId(substr($peer_id,4,4),'Lphant'); # Lphant
   if(substr($peer_id,0,3)=='-MP')
-	  return StdDecodePeerId(substr($peer_id,3,7),'MooPolice'); # MooPolice
+      return StdDecodePeerId(substr($peer_id,3,7),'MooPolice'); # MooPolice
   if(substr($peer_id,0,3)=='-MT')
-	  return StdDecodePeerId(substr($peer_id,3,7),'Moonlight'); # MoonlightTorrent
+      return StdDecodePeerId(substr($peer_id,3,7),'Moonlight'); # MoonlightTorrent
   if(substr($peer_id,0,3)=='-PO')
-	  return StdDecodePeerId(substr($peer_id,3,7),'PO Client'); # PO Client
+      return StdDecodePeerId(substr($peer_id,3,7),'PO Client'); # PO Client
   if(substr($peer_id,0,3)=='-QT')
-	  return StdDecodePeerId(substr($peer_id,3,7),'Qt 4 Torrent'); # Qt 4 Torrent
+      return StdDecodePeerId(substr($peer_id,3,7),'Qt 4 Torrent'); # Qt 4 Torrent
   if(substr($peer_id,0,3)=='-RT')
-	  return StdDecodePeerId(substr($peer_id,3,7),'Retriever'); # Retriever
+      return StdDecodePeerId(substr($peer_id,3,7),'Retriever'); # Retriever
   if(substr($peer_id,0,3)=='-S2')
-	  return StdDecodePeerId(substr($peer_id,3,7),'S2 Client'); # S2 Client
+      return StdDecodePeerId(substr($peer_id,3,7),'S2 Client'); # S2 Client
   if(substr($peer_id,0,3)=='-SB')
     return StdDecodePeerId(substr($peer_id,3,7),'Swiftbit'); # Swiftbit
   if(substr($peer_id,0,3)=='-SN')
@@ -581,7 +581,7 @@ function getagent($httpagent, $peer_id='') {
     for ($i=0; $i<=strlen(substr($peer_id,4,9)); $i++){
       $c = $peer_id[$i+4];
       if (ctype_alnum($c) || $c == chr(0))
-			  $rufus_chk = true;
+              $rufus_chk = true;
       else break;
     }
     if (isset($rufus_chk))
@@ -618,10 +618,10 @@ function getagent($httpagent, $peer_id='') {
     return 'Experimental 3.2.1b2'; # Experimental 3.2.1b2
   if(substr($peer_id,0,12)==(chr(0)*12) && $peer_id[12]==chr(0) && $peer_id[13]==chr(0))
     return 'Experimental 3.1'; # Experimental 3.1
-  //if(substr($peer_id,0,12)==(chr(0)*12))
-    return 'Mainline (obsolete)'; # Mainline BitTorrent (obsolete)
+
+  //if(substr($peer_id,0,12)==(chr(0)*12)) return 'Mainline (obsolete)'; # Mainline BitTorrent (obsolete)
   //return '$httpagent [$peer_id]';
-  return 'Unknown client';
+  return $httpagent; // 'Unknown client';
 }
 #========================================
 #getAgent function by deliopoulos
