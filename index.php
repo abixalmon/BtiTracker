@@ -138,55 +138,6 @@ $tpl->set("main_css","$style_css");
 
 require_once("$THIS_BASEPATH/include/blocks.php");
 
-
-$morescript="
-<!--[if lt IE 7.]>
-<script defer type=\"text/javascript\" src=\"$BASEURL/jscript/pngfix.js\"></script>\n
-<![endif]-->
-  <script type=\"text/javascript\" src=\"$BASEURL/jscript/ajax.js\"></script>\n
-  <script type=\"text/javascript\" src=\"$BASEURL/jscript/ajax-poller.js\"></script>\n
-  <script type=\"text/javascript\" src=\"$BASEURL/jscript/animatedcollapse.js\"></script>\n
-  <script type=\"text/javascript\" src=\"$BASEURL/jscript/DV.js\"></script>\n
-  <script language=\"Javascript\" type=\"text/javascript\">
-
-  <!--
-    
-  var newwindow;
-  function popdetails(url)
-  {
-    newwindow=window.open(url,'popdetails','height=500,width=500,resizable=yes,scrollbars=yes,status=yes');
-    if (window.focus) {newwindow.focus()}
-  }
-
-  function poppeer(url)
-  {
-    newwindow=window.open(url,'poppeers','height=400,width=650,resizable=yes,scrollbars=yes');
-    if (window.focus) {newwindow.focus()}
-  }
-    
-  function resize(img)
-  {
-    if(img.width>500)
-    {
-      img.height = parseInt(img.height * 500 / img.width);
-      img.width = 500;
-      img.title = 'Click on image for full size view.';
-      document.getElementById(img.name).innerHTML='<strong>Click on image for full size view.</strong><a href=\''+img.src+'\' target=\'_blank\'>'+document.getElementById(img.name).innerHTML+'</a>';
-    }
-  }
-
-  function resize_avatar(img)
-  {
-    if(img.width>80)
-    {
-      img.height = parseInt(img.height * 80 / img.width);
-      img.width = 80;
-    }
-  }
-
-  // -->
-  </script>";
-
 $logo.="<div></div>";
 $slideIt="<span style=\"align:left;\"><a href=\"javascript:collapse2.slideit()\"><img src=\"$STYLEURL/images/slide.png\" border=\"0\" alt=\"\" /></a></span>";
 $header.="<div>".main_menu()."</div>";
@@ -197,19 +148,21 @@ $right_col=right_menu();
 if ($left_col=="" && $right_col=="")
    $no_columns=1;
 
+include 'include/jscss.php';
+
 $tpl->set("main_jscript",$morescript);
 if (!$no_columns && $pageID!='admin' && $pageID!='forum' && $pageID!='torrents') {
   $tpl->set("main_left",$left_col);
   $tpl->set("main_right",$right_col);
 }
 
-$tpl->set("main_logo","$logo");
+$tpl->set("main_logo",$logo);
 
-$tpl->set("main_slideIt","$slideIt");
+$tpl->set("main_slideIt",$slideIt);
 
 $tpl->set("main_header",$header.$err_msg_install);
 
-$tpl->set("more_css","");
+$tpl->set("more_css",$morecss);
 
 
 // assign main content

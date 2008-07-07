@@ -148,16 +148,17 @@ function cut_string($ori_string,$cut_after) {
   return $ori_string;
 }
 
-function print_debug($level=4, $key=' - ') {
+function print_debug($level=3, $key=' - ') {
 	global $time_start, $gzip, $num_queries, $cached_querys;
 	$time_end=get_microtime();
 	switch ($level) {
 		case '4':
-			$memory='[ Memory: '.makesize(memory_get_usage());
-			if (function_exists('memory_get_peak_usage')) {
-				$memory.='|'.makesize(memory_get_peak_usage());
+			if (function_exists('memory_get_usage')) {
+				$memory='[ Memory: '.makesize(memory_get_usage());
+				if (function_exists('memory_get_peak_usage'))
+					$memory.='|'.makesize(memory_get_peak_usage());
+				$return[]=$memory.' ]';
 			}
-			$return[]=$memory.' ]';
 		case '3':
 			$return[]='[ GZIP: '.$gzip.' ]';
 		case '2':
