@@ -86,6 +86,7 @@ switch ($action)
         $btit_settings["imagecode"]=isset($_POST["imagecode"])?"true":"false";
         $btit_settings["forum"]=$_POST["f_link"];
         $btit_settings["clocktype"]=$_POST["clocktype"];
+        $btit_settings["forumblocktype"]=$_POST["forumblocktype"];
         $btit_settings["newslimit"]=$_POST["newslimit"];
         $btit_settings["forumlimit"]=$_POST["forumlimit"];
         $btit_settings["last10limit"]=$_POST["last10limit"];
@@ -218,6 +219,8 @@ switch ($action)
         $btit_settings["imagecode"]=($btit_settings["imagecode"]=="true"?"checked=\"checked\"":"");
         $btit_settings["clockanalog"]=($btit_settings["clocktype"]?"checked=\"checked\"":"");
         $btit_settings["clockdigital"]=(!$btit_settings["clocktype"]?"checked=\"checked\"":"");
+				$btit_settings["forumblockposts"]=($btit_settings["forumblocktype"]?"checked=\"checked\"":"");
+				$btit_settings["forumblocktopics"]=(!$btit_settings["forumblocktype"]?"checked=\"checked\"":"");
         $btit_settings["xbtt_use"]=($btit_settings["xbtt_use"]=="true"?"checked=\"checked\"":"");
         // language dropdown
         $lres=language_list();

@@ -185,6 +185,8 @@ switch ($action) {
 	
 	case 'save':
 		if ($_POST['confirm']==$language['FRM_CONFIRM']) {
+
+
 			$idlangue=(int)$_POST['language'];
 			$idstyle=(int)$_POST['style'];
 			$idflag=(int)$_POST['flag'];
@@ -208,7 +210,6 @@ switch ($action) {
 			# check avatar image extension if someone have better idea ;)
 			if ($avatar && $avatar!='' && !in_array(substr($avatar,strlen($avatar)-4),array('.gif','.jpg','.bmp','.png')))
 				stderr($language['ERROR'], $language['ERR_AVATAR_EXT']);
-			$set=array();
 			if ($idlangue>0 && $idlangue != $curu['language'])
 				$set[]='language='.$idlangue;
 			if ($idstyle>0 && $idstyle != $curu['style'])
@@ -279,7 +280,7 @@ switch ($action) {
 				$smfset[]='passwordSalt='.sqlesc($passhash[1]);
 			}
 
-			$updateset=implode(',',$set);
+			$updateset=(isset($set))?implode(',',$set):'';
 			$updatesetxbt=(isset($xbtset))?implode(',',$xbtset):'';
 			$updatesetsmf=(isset($smfset))?implode(',',$smfset):'';
 			if ($updateset!='') {
@@ -288,6 +289,7 @@ switch ($action) {
 				if (($FORUMLINK=='smf') && ($updatesetsmf!='') && (!is_bool($smf_fid)))
 					quickQuery('UPDATE '.$db_prefix.'members SET '.$updatesetsmf.' WHERE ID_MEMBER='.$smf_fid.' LIMIT 1;');
 				quickQuery('UPDATE '.$TABLE_PREFIX.'users SET '.$updateset.' WHERE id='.$uid.' LIMIT 1;');
+
 				success_msg($language['SUCCESS'], $language['INF_CHANGED'].$note.'<br /><a href="index.php?page=admin&amp;user='.$CURUSER['uid'].'&amp;code='.$CURUSER['random'].'">'.$language['MNU_ADMINCP'].'</a>');
 				write_log('Modified user <a href="'.$btit_settings['url'].'/index.php?page=torrent-userdetails&amp;id='.$uid.'">'.$curu['username'].'</a> '.$newname.' ( '.count($set).' changes on uid '.$uid.' )','modified');
 				stdfoot(true,false);
@@ -295,6 +297,7 @@ switch ($action) {
 			} else stderr($language['ERROR'],$language['USER_NO_CHANGE']);
 		}
 		redirect('index.php?page=admin&user='.$CURUSER['uid'].'&code='.$CURUSER['random']);
+		break;
 }
 
 # set template info

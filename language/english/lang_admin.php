@@ -70,12 +70,15 @@ $language['SETTING_CAPTCHA']='Secure Registration (use ImageCode, GD+Freetype li
 $language['SETTING_FORUM']='Forum link, can be:<br /><li><font color="#FF0000">internal</font> or empty (no value) for internal forum</li><li><font color="#FF0000">smf</font> for integrated <a target="_new" href="http://www.simplemachines.org">Simple Machines Forum</a></li><li>Your own forum solution (Specify url in the box)</li>';
 $language['BLOCKS_SETTING']='Index/Blocks page settings';
 $language['SETTING_CLOCK']='Clock type';
+$language['SETTING_FORUMBLOCK']='Forum Block Type';
 $language['SETTING_NUM_NEWS']='Limit for Latest News block (numeric)';
 $language['SETTING_NUM_POSTS']='Limit for Forum block (numeric)';
 $language['SETTING_NUM_LASTTORRENTS']='Limit for Latest Torrents block (numeric)';
 $language['SETTING_NUM_TOPTORRENTS']='Limit for Most Popular Torrents block (numeric)';
 $language['CLOCK_ANALOG']='Analog';
 $language['CLOCK_DIGITAL']='Digital';
+$language['FORUMBLOCK_POSTS']='Last Posts';
+$language['FORUMBLOCK_TOPICS']='Last Active Topics';
 $language['CONFIG_SAVED']='The configuration has been saved correctly!';
 $language['CACHE_SITE']='Cache interval (numeric seconds, 0 = disabled)';
 $language['ALL_FIELDS_REQUIRED']='All fields are required!';

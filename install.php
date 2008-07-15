@@ -555,7 +555,7 @@ elseif ($action == 'save_tracker') {
         // Now to check they've actually installed it by checking the database
         require (dirname(__FILE__)."/smf/Settings.php");
         
-        $smf=mysql_query("SELECT memberName FROM `{$db_prefix}members` WHERE `ID_MEMBER`=1");
+        $smf=mysql_query("SELECT memberName FROM `{$db_prefix}members` LIMIT 1;");
         if(mysql_num_rows($smf)==0)
             die($install_lang["smf_err_2"]);
         

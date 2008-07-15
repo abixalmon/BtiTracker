@@ -53,6 +53,7 @@ $topics=$row[0]['total_topics'];
 $row=get_result('SELECT COUNT(*) AS total_posts FROM `'.$postsTable.'`;',true,$CACHE_DURATION);
 $posts=$row[0]['total_posts'];
 $postsAvg=($posts==0)?0:number_format(($topics/$posts)*100,0);
+$realLastPosts=$btit_settings['forumblocktype']; # 0=topics, 1=posts
 
 # check number of topics
 if ($topics!=0) {
@@ -62,7 +63,7 @@ if ($topics!=0) {
 	# test forum type
 	if ($FORUMLINK=='smf') {
 		$boards=get_result('SELECT ID_BOARD, memberGroups FROM `'.$db_prefix.'boards`;');
-		$exclude='';
+		$exclude=($realLastPosts)?'':'WHERE t.ID_LAST_MSG=m.ID_MSG';
 		foreach ($boards as $check) {
 			$forumid=$check['ID_BOARD'];
 			$read=explode(',',$check['memberGroups']);
@@ -70,7 +71,7 @@ if ($topics!=0) {
 				$exclude.=(($exclude=='')?'WHERE ':' AND ').'m.ID_BOARD!='.$forumid;
 		}
 		# get posts [ shoult also test for permissions ]
-		$lastPosts=get_result('SELECT m.ID_TOPIC AS tid, m.ID_MSG as pid, t.ID_FIRST_MSG as spid, m.posterTime AS added, m.posterName AS username, m.body as body, m.ID_MEMBER as userid FROM '.$db_prefix.'messages as m LEFT JOIN '.$db_prefix.'topics as t ON m.ID_TOPIC=t.ID_TOPIC '.$exclude.' ORDER BY m.posterTime DESC '.$limit);
+		$lastPosts=get_result('SELECT m.ID_TOPIC AS tid, m.ID_MSG as pid, t.ID_FIRST_MSG as spid, m.posterTime AS added, m.posterName AS username, m.body as body, m.ID_MEMBER as userid FROM '.$db_prefix.'messages as m LEFT JOIN '.$db_prefix.'topics as t ON m.ID_TOPIC=t.ID_TOPIC '.$exclude.' ORDER BY m.posterTime DESC '.$limit, true, $CACHE_DURATION);
 		# format posts
 		foreach ($lastPosts as $post) {
 			# get topic subject
@@ -82,7 +83,7 @@ if ($topics!=0) {
 		}
 	} else {
 		# get posts based if can read
-		$lastPosts=get_result('SELECT t.id as tid, p.id as pid, t.subject, p.added, p.body, p.userid FROM '.$topicsTable.' as t LEFT JOIN '.$postsTable.' as p ON p.topicid=t.id LEFT JOIN '.$TABLE_PREFIX.'forums as f ON f.id=t.id WHERE f.minclassread<='.$CURUSER['id_level'].' ORDER BY p.added DESC '.$limit, true, $CACHE_DURATION);
+		$lastPosts=get_result('SELECT p.topicid, p.id as pid, t.subject, p.added, p.body, p.userid FROM '.$topicsTable.' as t LEFT JOIN '.$postsTable.' as p ON p.topicid=t.id LEFT JOIN '.$TABLE_PREFIX.'forums as f ON f.id=t.id WHERE f.minclassread<='.$CURUSER['id_level'].(($realLastPosts)?'':' AND p.id=t.lastpost').' ORDER BY p.added DESC '.$limit);
 		# format posts
 		foreach($lastPosts as $post) {
 			# get username
