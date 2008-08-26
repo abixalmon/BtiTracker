@@ -35,6 +35,8 @@ $BASEPATH=dirname(__FILE__);
 
 require("$BASEPATH/include/config.php");
 require("$BASEPATH/include/common.php");
+# protection against sql injection, xss attack
+require_once $BASEPATH.'/include/crk_protection.php';
 
 
 // check if we are using standard php tracker or xbtt backend
