@@ -1,9 +1,9 @@
 <?php
-$language["ERR_NO_EMAIL"]="You must provide an email address";
-$language["ERR_INV_EMAIL"]="You must enter a valid email address";
-$language["ERR_NO_CAPTCHA"]="You must enter the ImageCode";
-$language["IMAGE_CODE"]="Image Code";
-$language["SECURITY_CODE"]="Answer the question";
-$language["RECOVER_EMAIL_1"]="\nSomeone, hopefully you, requested that the password for the account associated with this email address (%s) be reset.\n\nThe request originated from %s.\n\nIf you did not do this ignore this email. Please do not reply.\n\nShould you wish to confirm this request, please follow this link:\n\n%s\n\nAfter you do this, your password will be reset and emailed back to you.\n--\n%s";
-$language["RECOVER_EMAIL_2"]="\nAs per your request we have generated a new password for your account.\n\nHere is the information we now have on file for this account:\n\n    User name: %s\n    Password: %s\n\nYou may login at %s\n\n--\n%s";
+$language['ERR_NO_EMAIL']='Debes especificar un email';
+$language['ERR_INV_EMAIL']='Debes escribir una direccion de email valida';
+$language['ERR_NO_CAPTCHA']='Escribe el código de la imagen';
+$language['IMAGE_CODE']='Código de Imagen';
+$language['SECURITY_CODE']='Responde la pregunta';
+$language['RECOVER_EMAIL_1']='\nAlguien quiere reestablecer la contraseña asociada a este email (%s).\n\n La petición fue originada desde %s.\n\nSi no has sido tu, ignora este email.\n\nSi desea confirmar esta petición, haz click en el link:\n\n%s\n\n Después de esto tu contraseña se reseteara y se te enviará por email.\n--\n%s';
+$language['RECOVER_EMAIL_2']='\nTal y como pediste se te ha generado una nueva contraseña para tu cuenta.\n\nAquí tienes la nueva información de tu cuenta:\n\n    Usuario: %s\n    Contraseña: %s\n\nPuedes logearte en %s\n\n--\n%s';
 ?>

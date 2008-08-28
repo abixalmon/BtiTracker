@@ -1,4 +1,4 @@
-ï»¿<?php
-$language["INSERT_USERNAME"]="Â¡Debes insertar un nombre de usuario!";
-$language["INSERT_PASSWORD"]="Â¡Debes insertar una contraseÃ±a!";
+<?php
+$language['INSERT_USERNAME']='¡Debes insertar un nombre de usuario!';
+$language['INSERT_PASSWORD']='¡Debes insertar una contraseña!';
 ?>

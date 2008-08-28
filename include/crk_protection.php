@@ -43,9 +43,15 @@
 ########################################################
 */
 function crk($l) {
-  global $CURUSER;
-  $xip=getip();
-  write_log('Hacking Attempt! User: <a href="'.$btit_settings['url'].'/index.php?page=userdetails&amp;id='.$CURUSER['uid'].'">'.$CURUSER['username'].'</a> IP:'.$xip.' - Attempt: '.htmlspecialchars($l));
+
+  global $CURUSER,$btit_settings;
+
+  $xip=$_SERVER["REMOTE_ADDRESS"];
+  if (function_exists("dbconn"))
+     dbconn();
+  if (function_exists("write_log"))
+     write_log('Hacking Attempt! User: <a href="'.$btit_settings['url'].'/index.php?page=userdetails&amp;id='.$CURUSER['uid'].'">'.$CURUSER['username'].'</a> IP:'.$xip.' - Attempt: '.htmlspecialchars($l));
+
   header('Location: index.php');
   die();
 }
@@ -66,9 +72,9 @@ if (!empty($cepl)) {
 }
 foreach ($ban as $k => $l)
   if (str_replace($k, '',$cepl)!=$cepl&&str_replace($l, '',$cepl)!=$cepl)
-	  crk(sqlesc($cepl));
+      crk(($cepl));
 if (str_replace($ban2,'',$cepl)!=$cepl)
-  crk(sqlesc($cepl));
+  crk(($cepl));
 
 $cepl=implode(' ', $_REQUEST);
 if (!empty($cepl)) {
@@ -78,9 +84,9 @@ if (!empty($cepl)) {
 }
 foreach ($ban as $k => $l)
   if(str_replace($k, '',$cepl)!=$cepl&&str_replace($l, '',$cepl)!=$cepl)
-    crk(sqlesc($cepl));
+    crk(($cepl));
 if (str_replace($ban2,'',$cepl)!=$cepl)
-  crk(sqlesc($cepl));
+  crk(($cepl));
 
 $cepl=implode(' ', $_COOKIE);
 if (!empty($cepl)) {
@@ -90,7 +96,7 @@ if (!empty($cepl)) {
 }
 foreach ($ban as $k => $l)
   if(str_replace($k, '',$cepl)!=$cepl&&str_replace($l, '',$cepl)!=$cepl)
-   crk(sqlesc($cepl));
+   crk(($cepl));
 if (str_replace($ban2,'',$cepl)!=$cepl)
-  crk(sqlesc($cepl));
+  crk(($cepl));
 ?>

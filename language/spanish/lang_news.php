@@ -1,3 +1,3 @@
-﻿<?php
-$language["ERR_NO_TITLE"]="Debes proporcionar un Título para tu noticia";
+<?php
+$language['ERR_NO_TITLE']='Debes proporcionar un T�tulo para tu noticia';
 ?>
