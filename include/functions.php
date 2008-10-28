@@ -149,27 +149,27 @@ function cut_string($ori_string,$cut_after) {
 }
 
 function print_debug($level=3, $key=' - ') {
-	global $time_start, $gzip, $num_queries, $cached_querys;
-	$time_end=get_microtime();
-	switch ($level) {
-		case '4':
-			if (function_exists('memory_get_usage')) {
-				$memory='[ Memory: '.makesize(memory_get_usage());
-				if (function_exists('memory_get_peak_usage'))
-					$memory.='|'.makesize(memory_get_peak_usage());
-				$return[]=$memory.' ]';
-			}
-		case '3':
-			$return[]='[ GZIP: '.$gzip.' ]';
-		case '2':
-			$return[]='[ Script Execution: '.number_format(($time_end-$time_start),4).' sec. ]';
-		case '1':
-			$return[]='[ Queries: '.$num_queries.'|'.$cached_querys.' ]';
-			break;
-		default:
-			return '';
-	}
-	return implode($key, array_reverse($return));
+    global $time_start, $gzip, $num_queries, $cached_querys;
+    $time_end=get_microtime();
+    switch ($level) {
+        case '4':
+            if (function_exists('memory_get_usage')) {
+                $memory='[ Memory: '.makesize(memory_get_usage());
+                if (function_exists('memory_get_peak_usage'))
+                    $memory.='|'.makesize(memory_get_peak_usage());
+                $return[]=$memory.' ]';
+            }
+        case '3':
+            $return[]='[ GZIP: '.$gzip.' ]';
+        case '2':
+            $return[]='[ Script Execution: '.number_format(($time_end-$time_start),4).' sec. ]';
+        case '1':
+            $return[]='[ Queries: '.$num_queries.'|'.$cached_querys.' ]';
+            break;
+        default:
+            return '';
+    }
+    return implode($key, array_reverse($return));
 }
 
 function print_version() {
@@ -226,11 +226,11 @@ function straipos($haystack,$array,$offset=0) {
   for ($i=0,$len=count($array);$i<$len;$i++) {
     $pos = strpos($haystack,$array[$i],$offset);
     if (is_bool($pos))
-		  continue;
+          continue;
     $occ[$pos] = $i;
   }
   if (empty($occ))
-	  return false;
+      return false;
   ksort($occ);
   reset($occ);
   list($key,$value) = each($occ);
@@ -287,7 +287,7 @@ function userlogin() {
   }
 
   // guest
-	$id = (!isset($_COOKIE['uid']))?1:max(1, $_COOKIE['uid']);
+    $id = (!isset($_COOKIE['uid']))?1:max(1, $_COOKIE['uid']);
 
   $res = do_sqlquery("SELECT u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = $id LIMIT 1;") or sqlerr(__FILE__, __LINE__);
   $row = mysql_fetch_array($res);
@@ -443,9 +443,9 @@ function pager($rpp, $count, $href, $opts = array()) {
   $pager = '';
 
   if ($pages>1) {
-    $pager.="\n".'<form name="change_page'.$pagename.'" method="post" action="index.php">'."\n".'<select class="drop_pager" name="pages" onchange="location=document.change_page.pages.options[document.change_page.pages.selectedIndex].value" size="1">';
+    $pager.="\n".'<form name="change_page'.$pagename.'" method="post" action="index.php">'."\n".'<select class="drop_pager" name="pages" onchange="location=document.change_page'.$pagename.'.pages.options[document.change_page'.$pagename.'.pages.selectedIndex].value" size="1">';
     for ($i = 1; $i<=$pages;$i++) 
-	    $pager.="\n<option ".($i==$page?'selected="selected"':'')."value=\"$href$pagename=$i\">$i</option>";
+        $pager.="\n<option ".($i==$page?'selected="selected"':'')."value=\"$href$pagename=$i\">$i</option>";
     $pager.="\n</select>";
   }
 
@@ -471,7 +471,7 @@ function pager($rpp, $count, $href, $opts = array()) {
     }
 
     $pagertop = "$pager\n</form>";
-    $pagerbottom = str_replace("change_page","change_page1",$pager)."\n";
+    $pagerbottom = str_replace("change_page","change_page1",$pagertop)."\n";
   } else {
     $pagertop = "$pager\n</form>";
     $pagerbottom = str_replace("change_page","change_page1",$pagertop)."\n";
@@ -648,7 +648,7 @@ function image_or_link($image,$pers_style='',$link='') {
   if ($image=='')
     return $link;
   if (!file_exists($image))
-	  return $link;
+      return $link;
   // replace realpath with url
   return '<img src="'.str_replace($STYLEPATH,$STYLEURL,$image).'" border="0" '.$pers_style.' alt="'.$link.'"/>';
 }
@@ -743,13 +743,13 @@ function get_block($block_title,$alignement,$block,$use_cache=true,$width100=tru
 
   $cache_file=realpath(dirname(__FILE__).'/..').'/cache/'.md5($block.$CURUSER['id_level']).'.txt';
   $use_cache=($use_cache)?$CACHE_DURATION>0:false;
-	
+    
   if ($use_cache) {
     // read cache
     if (file_exists($cache_file) && (time()-$CACHE_DURATION) < filemtime($cache_file)) {
       $blocktpl->set('block_content', file_get_contents($cache_file));
       return $blocktpl->fetch(load_template('block.tpl'));
-		}
+        }
   }
 
   ob_start();
@@ -785,7 +785,7 @@ function makesize($bytes) {
 }
 
 function redirect($redirecturl) {
-	global $language;
+    global $language;
 
   if (headers_sent()) {
 ?>
@@ -794,10 +794,10 @@ function redirect($redirecturl) {
 </script>
 <meta http-equiv="refresh" content="2;<?php echo $redirecturl; ?>">
 <?php
-		echo sprintf($language['REDIRECT2'], $redirecturl);
-	} else
+        echo sprintf($language['REDIRECT2'], $redirecturl);
+    } else
     header('Location: '.$redirecturl);
-	die();
+    die();
 }
 
 function textbbcode($form,$name,$content='') {
@@ -876,14 +876,14 @@ function gmtime() {
 }
 
 function sqlerr($file='',$line='') {
-	$file=(($file!=''&&$line!='')? '<p>in '.$file.', line '.$line.'</p>' : '');
+    $file=(($file!=''&&$line!='')? '<p>in '.$file.', line '.$line.'</p>' : '');
 ?>
   <table border="0" bgcolor="" align=left cellspacing=0 cellpadding=10 style="background: blue">
     <tr>
-		  <td class=embedded><font color="#FFFFFF"><h1><?php echo ERR_SQL_ERR; ?></h1>
-			<b><?php echo mysql_error().$file;?></b></font></td>
-		</tr>
-	</table>
+          <td class=embedded><font color="#FFFFFF"><h1><?php echo ERR_SQL_ERR; ?></h1>
+            <b><?php echo mysql_error().$file;?></b></font></td>
+        </tr>
+    </table>
 <?php
   die();
 }
@@ -908,41 +908,41 @@ function DateFormat($seconds) {
   while ($seconds>31536000) {
     $years++;
     $seconds -= 31536000;
-	}
+    }
 
   while ($seconds>2419200) {
     $months++;
     $seconds -= 2419200;
-	}
+    }
 
   while ($seconds>604800) {
     $weeks++;
     $seconds -= 604800;
-	}
+    }
 
   while ($seconds>86400) {
     $days++; 
     $seconds -= 86400;
-	}
+    }
 
   while ($seconds>3600) {
     $hours++; 
     $seconds -= 3600;
-	}
+    }
 
   while ($seconds>60) {
     $minutes++; 
     $seconds -= 60;
-	}
+    }
 
   $years=($years==0)?'':($years.' '.(($years==1)?YEAR:YEARS).', ');
-	$months=($months==0)?'':($months.' '.(($months==1)?MONTH:MONTHS).', ');
-	$weeks=($weeks==0)?'':($weeks.' '.(($weeks==1)?WEEK:WEEKS).', ');
-	$days=($days==0)?'':($days.' '.(($days==1)?DAY:DAYS).', ');
-	$hours=($hours==0)?'':($hours.' '.(($hours==1)?HOUR:HOURS).', ');
-	$minutes=($minutes==0)?'':($minutes.' '.(($minutes==1)?MINUTE:MINUTES).' '.WORD_AND.' ');
-	$seconds=($seconds.' '.(($seconds==1)?SECOND:SECONDS));
-	return $years.$months.$weeks.$days.$hours.$minutes.$seconds;
+    $months=($months==0)?'':($months.' '.(($months==1)?MONTH:MONTHS).', ');
+    $weeks=($weeks==0)?'':($weeks.' '.(($weeks==1)?WEEK:WEEKS).', ');
+    $days=($days==0)?'':($days.' '.(($days==1)?DAY:DAYS).', ');
+    $hours=($hours==0)?'':($hours.' '.(($hours==1)?HOUR:HOURS).', ');
+    $minutes=($minutes==0)?'':($minutes.' '.(($minutes==1)?MINUTE:MINUTES).' '.WORD_AND.' ');
+    $seconds=($seconds.' '.(($seconds==1)?SECOND:SECONDS));
+    return $years.$months.$weeks.$days.$hours.$minutes.$seconds;
 }
 
 function smf_passgen($username, $pwd) {
@@ -955,7 +955,7 @@ function smf_passgen($username, $pwd) {
 function set_smf_cookie($id, $passhash, $salt) {
   global $THIS_BASEPATH;
 
-	require $THIS_BASEPATH.'/smf/SSI.php';
+    require $THIS_BASEPATH.'/smf/SSI.php';
   require $THIS_BASEPATH.'/smf/Sources/Subs-Auth.php';
   setLoginCookie(189216000, $id, sha1($passhash . $salt));
 }

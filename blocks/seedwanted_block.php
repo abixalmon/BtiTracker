@@ -30,7 +30,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-global $CURUSER, $BASEURL, $STYLEPATH, $XBTT_USE;
+global $CURUSER, $BASEURL, $STYLEURL, $XBTT_USE;
 
 if (!$CURUSER || $CURUSER["view_torrents"]=="no")
    {
