@@ -63,7 +63,7 @@ $name = str_replace("---"," - - ",$name);
 if (strlen($text) > 500) { $text = substr($text,0,500); }
 
 # to allow for linebreaks a space is inserted every 50 letters
-$text = preg_replace("/([^\s]{50})/","$1 ",$text);
+//$text = preg_replace("/([^\s]{50})/","$1 ",$text);
 
 
 /*

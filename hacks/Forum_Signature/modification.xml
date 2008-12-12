@@ -1,7 +1,7 @@
 <hack>
   <title>Signature on (Internal) Forum</title>
-  <author>Original author: Ksami</author>
-  <version>1.0</version>
+  <author>Lupin</author>
+  <version>1.1</version>
   <!-- database -->
   <file>
     <name>"database"</name>
@@ -63,12 +63,10 @@
     <name>"$DEFAULT_ROOT/user/usercp.main.php"</name>
     <operation>
       <search><![CDATA[
-    $res=do_sqlquery("SELECT u.lip,u.username, $udownloaded as downloaded,$uuploaded as uploaded, UNIX_TIMESTAMP(u.joined) as joined, u.flag, c.name, c.flagpic FROM $utables LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag=c.id WHERE u.id=$uid",true);
-]]></search>
+    $res=do_sqlquery("SELECT]]></search>
       <action>"replace"</action>
       <data><![CDATA[
-    $res=do_sqlquery("SELECT u.signature, u.lip,u.username, $udownloaded as downloaded,$uuploaded as uploaded, UNIX_TIMESTAMP(u.joined) as joined, u.flag, c.name, c.flagpic FROM $utables LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag=c.id WHERE u.id=$uid",true);
-]]></data>
+    $res=do_sqlquery("SELECT u.signature,]]></data>
     </operation>
     <operation>
       <search><![CDATA[$ucptpl["ratio"]=$ratio;]]></search>
@@ -104,18 +102,30 @@
   <name>"$DEFAULT_ROOT/include/functions.php"</name>
   <operation>
     <action>"replace"</action>
-    <search><![CDATA[$res = mysql_query("SELECT u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = $id") or sqlerr(__FILE__, __LINE__);]]></search>
-    <data><![CDATA[$res = mysql_query("SELECT u.signature, u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = $id") or sqlerr(__FILE__, __LINE__);]]></data>
+    <search><![CDATA[$id = (!isset($_COOKIE['uid']))?1:max(1, $_COOKIE['uid']);
+
+  $res = do_sqlquery("SELECT]]></search>
+    <data><![CDATA[$id = (!isset($_COOKIE['uid']))?1:max(1, $_COOKIE['uid']);
+
+  $res = do_sqlquery("SELECT u.signature,]]></data>
   </operation>
   <operation>
     <action>"replace"</action>
-    <search><![CDATA[$res = mysql_query("SELECT u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1") or sqlerr(__FILE__, __LINE__);]]></search>
-    <data><![CDATA[$res = mysql_query("SELECT u.signature, u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1") or sqlerr(__FILE__, __LINE__);]]></data>
+    <search><![CDATA[if (!$row) {
+    $id=1;
+    $res = do_sqlquery("SELECT]]></search>
+    <data><![CDATA[if (!$row) {
+    $id=1;
+    $res = do_sqlquery("SELECT u.signature,]]></data>
   </operation>
   <operation>
     <action>"replace"</action>
-    <search><![CDATA[$res = mysql_query("SELECT u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1") or sqlerr(__FILE__, __LINE__);]]></search>
-    <data><![CDATA[$res = mysql_query("SELECT u.signature, u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1") or sqlerr(__FILE__, __LINE__);]]></data>
+    <search><![CDATA[if (($_COOKIE['pass']!=md5($row['random'].$row['password'].$row['random'])) && $id!=1) {
+    $id=1;
+    $res = do_sqlquery("SELECT]]></search>
+    <data><![CDATA[if (($_COOKIE['pass']!=md5($row['random'].$row['password'].$row['random'])) && $id!=1) {
+    $id=1;
+    $res = do_sqlquery("SELECT u.signature,]]></data>
   </operation>
   </file>
 

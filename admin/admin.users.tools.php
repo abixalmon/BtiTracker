@@ -203,9 +203,9 @@ switch ($action) {
             $pass=$_POST['pass'];
             $chpass=(isset($_POST['chpass']) && $pass!='');
             # new level of the user
-            $rlev=do_sqlquery('SELECT id_level as base_level FROM '.$TABLE_PREFIX.'users_level WHERE id='.$level.' LIMIT 1;');
+            $rlev=do_sqlquery('SELECT id_level as base_level, level as name FROM '.$TABLE_PREFIX.'users_level WHERE id='.$level.' LIMIT 1;');
             $reslev=mysql_fetch_assoc($rlev);
-            if ( ($CURUSER['id_level'] < $reslev['base_level']) || ($CURUSER['id']<$level) )
+            if ( ($CURUSER['id_level'] < $reslev['base_level']))
                 $level=0;
             # check avatar image extension if someone have better idea ;)
             if ($avatar && $avatar!='' && !in_array(substr($avatar,strlen($avatar)-4),array('.gif','.jpg','.bmp','.png')))
