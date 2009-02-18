@@ -151,7 +151,7 @@ if ($left_col=="" && $right_col=="")
 include 'include/jscss.php';
 
 $tpl->set("main_jscript",$morescript);
-if (!$no_columns && $pageID!='admin' && $pageID!='forum' && $pageID!='torrents') {
+if (!$no_columns && $pageID!='admin' && $pageID!='forum' && $pageID!='torrents' && $pageID!='usercp') {
   $tpl->set("main_left",$left_col);
   $tpl->set("main_right",$right_col);
 }
@@ -371,6 +371,7 @@ switch ($pageID) {
 
     // for admin page we will display page with header and only left column (for menu)
     case 'admin':
+    case 'usercp':
         stdfoot(false,false,true);
         break;
             
