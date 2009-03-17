@@ -159,13 +159,12 @@ class update_hacks
         {
 
             global $THIS_BASEPATH;
-            if (strpos($realfile,":")!==false)
-               $realfile=substr($realfile,strpos($realfile,":")+1);
+            //if (strpos($realfile,":")!==false)
+            //   $realfile=substr($realfile,strpos($realfile,":")+1);
 
             $realfile=(str_replace("\\","/",$realfile));
 
-
-            $realfile = str_replace($THIS_BASEPATH."/",$this->ftp_basedir,$realfile);
+            $realfile = str_replace(str_replace("\\","/",$THIS_BASEPATH)."/",$this->ftp_basedir,$realfile);
 
             return $realfile;
 
