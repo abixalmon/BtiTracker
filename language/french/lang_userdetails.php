@@ -3,8 +3,8 @@
 // USERDETAILS.PHP LANGUAGE FILE
 
 $language["USERNAME"]           = "Nom d'utilisateur";
-$language["EMAIL"]              = "Email";
-$language["LAST_IP"]            = "Derniere Ip";
+$language["EMAIL"]              = "Courriel";
+$language["LAST_IP"]            = "Dernière Ip";
 $language["USER_LEVEL"]         = "Rang";
 $language["USER_JOINED"]        = "Inscrit";
 $language["USER_LASTACCESS"]    = "Dernière connexion";
@@ -28,7 +28,7 @@ $language["ACTIVE_TORRENT"]     = "Torrents actifs";
 $language["PEER_STATUS"]        = "Statut";
 $language["NO_ACTIVE_TORR"]     = "Pas de torrents actifs";
 $language["PEER_CLIENT"]        = "Client";
-$language["EDIT"]               = "Editer";
+$language["EDIT"]               = "Èditer";
 $language["DELETE"]             = "Supprimer";
 $language["PM"]                 = "MP";
 $language["BACK"]               = "Retour";

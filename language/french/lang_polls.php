@@ -3,7 +3,7 @@
 $language["POLL_ID"]="Identifiant";
 $language["LATEST_POLL"]="Dernier sondage";
 $language["CAST_VOTE"]="Voter";
-$language["FETCHING_RESULTS"]="Affichage des resultats du sondage. Patientez svp...";
+$language["FETCHING_RESULTS"]="Affichage des résultats du sondage. Patientez svp...";
 $language["POLL_TITLE"]="Titre du sondage";
 $language["POLL_TITLE_MISSING"]="Le titre du sondage est manquant";
 $language["POLLING_SYSTEM"]="Systeme de sondage en AJAX";
@@ -26,7 +26,7 @@ $language["POLL_NEW_OPTIONS"]="Nouvelles options";
 $language["POLL_SAVE"]="Enregistrer";
 $language["POLL_CANCEL"]="Annuler";
 $language["POLL_DELETE"]="Supprimer";
-$language["POLL_DEL_CONFIRM"]="Cliquez sur OK pour supprimer ce sondage";
+$language["POLL_DEL_CONFIRM"]="Cliquez sur \"Accepter\" pour supprimer ce sondage";
 $language["POLL_VOTERS"]="Votants du sondage";
 $language["POLL_IP_ADDRESS"]="Adresses IP";
 $language["POLL_DATE"]="Date";

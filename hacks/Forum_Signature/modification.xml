@@ -136,33 +136,19 @@
     <action>"replace"</action>
     <search><![CDATA[
 if ($XBTT_USE)
-   $query = "SELECT p.*, u.username, IFNULL(ul.level,'".$language['UNKNOWN']."') as user_group, u.avatar, u.uploaded+IFNULL(x.uploaded,0) as uploaded".
-            ", u.downloaded+IFNULL(x.downloaded,0) as downloaded, c.name as name, ue.username as editor, flagpic FROM {$TABLE_PREFIX}posts p".
-            " LEFT JOIN {$TABLE_PREFIX}users u ON p.userid=u.id LEFT JOIN xbt_users x ON x.uid=u.id LEFT JOIN {$TABLE_PREFIX}users_level ul".
-            " ON u.id_level=ul.id LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag = c.id LEFT JOIN {$TABLE_PREFIX}users ue ON p.editedby=ue.id".
-            " WHERE topicid=$topicid ORDER BY id $limit";
-else
-   $query = "SELECT p.*, u.username,IFNULL(ul.level,'".$language['UNKNOWN']."') as user_group, u.avatar, u.uploaded".
-            ", u.downloaded, c.name as name, ue.username as editor, flagpic FROM {$TABLE_PREFIX}posts p".
-            " LEFT JOIN {$TABLE_PREFIX}users u ON p.userid=u.id LEFT JOIN {$TABLE_PREFIX}users_level ul".
-            " ON u.id_level=ul.id LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag = c.id LEFT JOIN {$TABLE_PREFIX}users ue ON p.editedby=ue.id".
-            " WHERE topicid=$topicid ORDER BY id $limit";
-]]>
+   $query = "SELECT]]>
     </search>
     <data><![CDATA[
 if ($XBTT_USE)
-   $query = "SELECT p.*, u.signature, u.username, IFNULL(ul.level,'".$language['UNKNOWN']."') as user_group, u.avatar, u.uploaded+IFNULL(x.uploaded,0) as uploaded".
-            ", u.downloaded+IFNULL(x.downloaded,0) as downloaded, c.name as name, ue.username as editor, flagpic FROM {$TABLE_PREFIX}posts p".
-            " LEFT JOIN {$TABLE_PREFIX}users u ON p.userid=u.id LEFT JOIN xbt_users x ON x.uid=u.id LEFT JOIN {$TABLE_PREFIX}users_level ul".
-            " ON u.id_level=ul.id LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag = c.id LEFT JOIN {$TABLE_PREFIX}users ue ON p.editedby=ue.id".
-            " WHERE topicid=$topicid ORDER BY id $limit";
-else
-   $query = "SELECT p.*, u.signature, u.username,IFNULL(ul.level,'".$language['UNKNOWN']."') as user_group, u.avatar, u.uploaded".
-            ", u.downloaded, c.name as name, ue.username as editor, flagpic FROM {$TABLE_PREFIX}posts p".
-            " LEFT JOIN {$TABLE_PREFIX}users u ON p.userid=u.id LEFT JOIN {$TABLE_PREFIX}users_level ul".
-            " ON u.id_level=ul.id LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag = c.id LEFT JOIN {$TABLE_PREFIX}users ue ON p.editedby=ue.id".
-            " WHERE topicid=$topicid ORDER BY id $limit";
-]]></data>
+   $query = "SELECT u.signature,]]></data>
+  </operation>
+  <operation>
+    <action>"replace"</action>
+    <search><![CDATA[else
+   $query = "SELECT ]]>
+    </search>
+    <data><![CDATA[else
+   $query = "SELECT u.signature,]]></data>
   </operation>
   <operation>
     <action>"add"</action>
@@ -180,8 +166,8 @@ else
   <name>"$DEFAULT_ROOT/userdetails.php"</name>
   <operation>
     <action>"replace"</action>
-    <search><![CDATA[$res=do_sqlquery("SELECT u.avatar,u.email,u.cip,u.username,$udownloaded as downloaded,$uuploaded as uploaded,UNIX_TIMESTAMP(u.joined) as joined,UNIX_TIMESTAMP(u.lastconnect) as lastconnect,ul.level, u.flag, c.name, c.flagpic, u.pid, u.time_offset, u.smf_fid FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON ul.id=u.id_level LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag=c.id WHERE u.id=$id",true);]]></search>
-    <data><![CDATA[$res=do_sqlquery("SELECT u.signature, u.avatar,u.email,u.cip,u.username,$udownloaded as downloaded,$uuploaded as uploaded,UNIX_TIMESTAMP(u.joined) as joined,UNIX_TIMESTAMP(u.lastconnect) as lastconnect,ul.level, u.flag, c.name, c.flagpic, u.pid, u.time_offset, u.smf_fid FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON ul.id=u.id_level LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag=c.id WHERE u.id=$id",true);]]></data>
+    <search><![CDATA[$res=do_sqlquery("SELECT ]]></search>
+    <data><![CDATA[$res=do_sqlquery("SELECT u.signature, ]]></data>
   </operation>
 
   <operation>

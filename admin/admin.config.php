@@ -172,7 +172,13 @@ switch ($action)
         }
 
         foreach($btit_settings as $key=>$value)
+          {
+              if (is_bool($value))
+               $value==true ? $value='true' : $value='false';
+
             $values[]="(".sqlesc($key).",".sqlesc($value).")";
+        }
+
         //die(implode(",",$values));
         mysql_query("DELETE FROM {$TABLE_PREFIX}settings") or stderr($language["ERROR"],mysql_error());
         mysql_query("INSERT INTO {$TABLE_PREFIX}settings (`key`,`value`) VALUES ".implode(",",$values).";") or stderr($language["ERROR"],mysql_error());
@@ -219,8 +225,8 @@ switch ($action)
         $btit_settings["imagecode"]=($btit_settings["imagecode"]=="true"?"checked=\"checked\"":"");
         $btit_settings["clockanalog"]=($btit_settings["clocktype"]?"checked=\"checked\"":"");
         $btit_settings["clockdigital"]=(!$btit_settings["clocktype"]?"checked=\"checked\"":"");
-				$btit_settings["forumblockposts"]=($btit_settings["forumblocktype"]?"checked=\"checked\"":"");
-				$btit_settings["forumblocktopics"]=(!$btit_settings["forumblocktype"]?"checked=\"checked\"":"");
+                $btit_settings["forumblockposts"]=($btit_settings["forumblocktype"]?"checked=\"checked\"":"");
+                $btit_settings["forumblocktopics"]=(!$btit_settings["forumblocktype"]?"checked=\"checked\"":"");
         $btit_settings["xbtt_use"]=($btit_settings["xbtt_use"]=="true"?"checked=\"checked\"":"");
         // language dropdown
         $lres=language_list();

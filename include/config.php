@@ -41,9 +41,9 @@ function get_cached_config($qrystr, $cachetime=0) {
   $num_queries++;
   if ($cachetime>0)
     if (file_exists($cache_file) && (time()-$cachetime) < filemtime($cache_file)) {
-		  $cached_querys++;
+          $cached_querys++;
       return unserialize(file_get_contents($cache_file));
-		}
+        }
 
   mysql_connect($dbhost, $dbuser, $dbpass) or die(mysql_error());
   mysql_select_db($database) or die(mysql_error());
@@ -185,7 +185,7 @@ $BASEURL=$btit_settings['url'];
 // tracker's announce urls, can be more than one
 $TRACKER_ANNOUNCEURLS=array();
 $TRACKER_ANNOUNCEURLS=unserialize($btit_settings['announce']);
-for($i=0,$len=count($TRACKER_ANNOUNCEURLS); $i<$count; $i++)
+for($i=0,$count=count($TRACKER_ANNOUNCEURLS); $i<$count; $i++)
   $TRACKER_ANNOUNCEURLS[$i]=trim(str_replace(array("\r\n","\r","\n"),'',$TRACKER_ANNOUNCEURLS[$i]));
 //Tracker's email (owner email)
 $SITEEMAIL=$btit_settings['email'];
