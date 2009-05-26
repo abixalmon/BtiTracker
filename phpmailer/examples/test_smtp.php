@@ -1,11 +1,5 @@
 <?php
 
-//error_reporting(E_ALL);
-error_reporting(E_STRICT);
-
-date_default_timezone_set('America/Toronto');
-//date_default_timezone_set(date_default_timezone_get());
-
 include_once('class.phpmailer.php');
 //include("class.smtp.php"); // optional, gets called from within class.phpmailer.php if not already loaded
 
@@ -15,7 +9,7 @@ $body             = $mail->getFile('contents.html');
 $body             = eregi_replace("[\]",'',$body);
 
 $mail->IsSMTP(); // telling the class to use SMTP
-$mail->Host       = "mail.worxteam.com"; // SMTP server
+$mail->Host       = "mail.yourdomain.com"; // SMTP server
 
 $mail->From       = "name@yourdomain.com";
 $mail->FromName   = "First Last";

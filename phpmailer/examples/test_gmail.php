@@ -1,10 +1,5 @@
 <?php
 
-//error_reporting(E_ALL);
-error_reporting(E_STRICT);
-
-date_default_timezone_set('America/Toronto');
-
 include("class.phpmailer.php");
 //include("class.smtp.php"); // optional, gets called from within class.phpmailer.php if not already loaded
 

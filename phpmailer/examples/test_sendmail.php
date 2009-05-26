@@ -1,12 +1,5 @@
 <?php
 
-//error_reporting(E_ALL);
-error_reporting(E_STRICT);
-
-
-date_default_timezone_set('America/Toronto');
-//date_default_timezone_set(date_default_timezone_get());
-
 include_once('class.phpmailer.php');
 
 $mail             = new PHPMailer();
