@@ -100,7 +100,7 @@ if (isset($hash) && $hash) $url = $TORRENTSDIR . "/" . $hash . ".btf";
 else $url = 0;
 
 if (isset($_POST["info"]) && $_POST["info"]!="")
-   $comment = mysql_escape_string(htmlspecialchars($_POST["info"]));
+   $comment = mysql_escape_string($_POST["info"]);
 else { // description is now required (same as for edit.php)
 //    $comment = "";
         err_msg($language["ERROR"],$language["EMPTY_DESCRIPTION"]);
