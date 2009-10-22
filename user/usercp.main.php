@@ -129,9 +129,12 @@ else
   $ruploaded=mysql_fetch_row($resuploaded);
   $numtorrent=$ruploaded[0];
   unset($ruploaded);
+
+  $utorrents = intval($CURUSER["torrentsperpage"]);
+
   if ($numtorrent>0)
      {
-     list($pagertop, $pagerbottom, $limit) = pager(($utorrents==0?15:$utorrents), $numtorrent, "index.php?page=usercp&amp;uid=$uid&amp;");
+     list($pagertop, $pagerbottom, $limit) = pager(($utorrents==0?15:$utorrents), $numtorrent, "index.php?page=usercp&amp;uid=$uid&amp;",array("pagename" => "ucp_uploaded"));
 
      $usercptpl->set("pagertop",$pagertop);
 

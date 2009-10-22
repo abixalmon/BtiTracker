@@ -44,25 +44,25 @@ switch($action)
     case 'tables':
         if (isset($_POST["doit"]) && isset($_POST["tname"]))
           {
-            $table_action=$_POST["doit"];
+            $table_action=strtoupper($_POST["doit"]);
             $tables=implode(",",$_POST["tname"]);
             if (isset($_POST["tname"]))
               {
                 switch ($table_action)
                    {
-                    case 'Repair':
+                    case strtoupper($language['DBUTILS_REPAIR']):
                         $dbres=do_sqlquery("REPAIR TABLE $tables");
                         break;
-                    case 'Analyze':
+                    case strtoupper($language['DBUTILS_ANALYSE']):
                         $dbres=do_sqlquery("ANALYZE TABLE $tables");
                         break;
-                    case 'Optimize':
+                    case strtoupper($language['DBUTILS_OPTIMIZE']):
                         $dbres=do_sqlquery("OPTIMIZE TABLE $tables");
                         break;
-                    case 'Check':
+                    case strtoupper($language['DBUTILS_CHECK']):
                         $dbres=do_sqlquery("CHECK TABLE $tables");
                         break;
-                    case 'Delete':
+                    case strtoupper($language['DBUTILS_DELETE']):
                         $dbres=do_sqlquery("DROP TABLE $tables");
                         header("Location: index.php?page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=dbutil&action=status");
                         exit();

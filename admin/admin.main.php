@@ -30,14 +30,25 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-$btit_url_rss="http://www.btiteam.org/smf/index.php?type=rss;action=.xml;board=83;sa=news";
-$btit_url_last="http://www.btiteam.org/last_version.txt";
 
 if (!defined("IN_BTIT"))
       die("non direct access!");
 
 if (!defined("IN_ACP"))
       die("non direct access!");
+
+
+
+if(get_remote_file("http://www.btiteam.org"))
+  {
+  $btit_url_rss="http://www.btiteam.org/smf/index.php?type=rss;action=.xml;board=83;sa=news";
+  $btit_url_last="http://www.btiteam.org/last_version.txt";
+}
+else
+    {      /*if site down*/
+    $btit_url_rss="";
+    $btit_url_last="";
+}
 
 
 $admin=array();

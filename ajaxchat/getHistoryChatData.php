@@ -45,6 +45,12 @@
   define("DELETE_CONFIRM", "If you are really sure you want to delete this click OK, othervise Cancel!");
   $language["ERR_MODERATE_SHOUT"]="You are not authorised to moderate this shout!";
 
+
+global $CURUSER;
+if ($CURUSER["view_user"]!="yes") {
+die("Sorry, Shoutbox is not available...");
+}
+
   # avoid Undefined variable: lastID, seems to be never set...
   $lastID=0;
 
