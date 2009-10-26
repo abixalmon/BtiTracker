@@ -130,7 +130,7 @@ if ($_POST["conferma"]) {
        elseif ($ret==-3)
          stderr($language["ERROR"],$language["ERR_NO_EMAIL"]);
        elseif ($ret==-7)
-         stderr($language["ERROR"],"<font color=\"black\">".$language["ERR_NO_SPACE"]."<strong><font color=\"red\">".preg_replace('/\ /', '_', mysql_escape_string($_POST["user"]))."</strong></font></font><br />");
+         stderr($language["ERROR"],"<font color=\"black\">".$language["ERR_NO_SPACE"]."<strong><font color=\"red\">".preg_replace('/\ /', '_', mysql_real_escape_string($_POST["user"]))."</strong></font></font><br />");
        elseif ($ret==-8)
          stderr($language["ERROR"],$language["ERR_SPECIAL_CHAR"]);
        elseif ($ret==-9)
@@ -224,7 +224,7 @@ function tabella($action,$dati=array()) {
        $remotedns = strtoupper($remotedns);
        preg_match('/^(.+)\.([A-Z]{2,3})$/', $remotedns, $tldm);
        if (isset($tldm[2]))
-              $remotedns = mysql_escape_string($tldm[2]);
+              $remotedns = mysql_real_escape_string($tldm[2]);
      }
 
    foreach($fres as $flag)
@@ -317,10 +317,10 @@ function aggiungiutente() {
 
 global $SITENAME,$SITEEMAIL,$BASEURL,$VALIDATION,$USERLANG,$USE_IMAGECODE, $TABLE_PREFIX, $XBTT_USE, $language,$THIS_BASEPATH, $FORUMLINK, $db_prefix;
 
-$utente=mysql_escape_string($_POST["user"]);
-$pwd=mysql_escape_string($_POST["pwd"]);
-$pwd1=mysql_escape_string($_POST["pwd1"]);
-$email=mysql_escape_string($_POST["email"]);
+$utente=mysql_real_escape_string($_POST["user"]);
+$pwd=mysql_real_escape_string($_POST["pwd"]);
+$pwd1=mysql_real_escape_string($_POST["pwd1"]);
+$email=mysql_real_escape_string($_POST["email"]);
 $idlangue=intval($_POST["language"]);
 $idstyle=intval($_POST["style"]);
 $idflag=intval($_POST["flag"]);
@@ -379,7 +379,7 @@ if (mysql_num_rows($res)>0)
 }
 // duplicate username
 
-if (strpos(mysql_escape_string($utente), " ")==true)
+if (strpos(mysql_real_escape_string($utente), " ")==true)
    {
    return -7;
    exit;
@@ -440,7 +440,7 @@ else
   }
 
 $bannedchar=array("\\", "/", ":", "*", "?", "\"", "@", "$", "'", "`", ",", ";", ".", "<", ">", "!", "£", "%", "^", "&", "(", ")", "+", "=", "#", "~");
-if (straipos(mysql_escape_string($utente), $bannedchar)==true)
+if (straipos(mysql_real_escape_string($utente), $bannedchar)==true)
    {
    return -8;
    exit;

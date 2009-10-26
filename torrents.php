@@ -117,7 +117,7 @@ if (isset($_GET["search"])) {
    if ($_GET["search"]!="")
       $search = "search=" . implode("+",$testocercato);
     for ($k=0; $k < count($testocercato); $k++) {
-        $query_select .= " filename LIKE '%" . mysql_escape_string($testocercato[$k]) . "%'";
+        $query_select .= " filename LIKE '%" . mysql_real_escape_string($testocercato[$k]) . "%'";
         if ($k<count($testocercato)-1)
            $query_select .= " AND ";
     }
@@ -153,14 +153,14 @@ if ($count>0) {
 
     // getting order
     if (isset($_GET["order"]))
-         $order=htmlspecialchars(mysql_escape_string($_GET["order"]));
+         $order=htmlspecialchars(mysql_real_escape_string($_GET["order"]));
     else
         $order="data";
 
     $qry_order=str_replace(array("leechers","seeds","finished"),array($tleechs,$tseeds, $tcompletes),$order);
 
     if (isset($_GET["by"]))
-        $by=htmlspecialchars(mysql_escape_string($_GET["by"]));
+        $by=htmlspecialchars(mysql_real_escape_string($_GET["by"]));
     else
         $by="DESC";
 

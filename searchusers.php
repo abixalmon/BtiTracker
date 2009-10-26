@@ -122,7 +122,7 @@ if ($action!="find")
 }
 else
 {
-  $res=mysql_query("SELECT username FROM {$TABLE_PREFIX}users WHERE id>1 AND username LIKE '%".mysql_escape_string($_POST["user"])."%' ORDER BY username") or die(mysql_error());
+  $res=mysql_query("SELECT username FROM {$TABLE_PREFIX}users WHERE id>1 AND username LIKE '%".mysql_real_escape_string($_POST["user"])."%' ORDER BY username") or die(mysql_error());
   if (!$res or mysql_num_rows($res)==0)
      {
          print("<center>".$language["NO_USERS_FOUND"]."!<br />");

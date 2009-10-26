@@ -135,7 +135,7 @@ switch ($do)
            }
 
             // Update their tracker member record with the now verified email address
-            do_sqlquery("UPDATE {$TABLE_PREFIX}users SET email='".mysql_escape_string($newmail)."' WHERE id='".$id."'");
+            do_sqlquery("UPDATE {$TABLE_PREFIX}users SET email='".mysql_real_escape_string($newmail)."' WHERE id='".$id."'");
 
             // If using SMF, update their record on that too.            
             if($GLOBALS["FORUMLINK"]=="smf")
@@ -144,7 +144,7 @@ switch ($do)
                 $language2=$language;
                 require_once($basedir."/smf/Settings.php");
                 $language=$language2;
-                do_sqlquery("UPDATE {$db_prefix}members SET emailAddress='".mysql_escape_string($newmail)."' WHERE ID_MEMBER=".$getacc["smf_fid"]);
+                do_sqlquery("UPDATE {$db_prefix}members SET emailAddress='".mysql_real_escape_string($newmail)."' WHERE ID_MEMBER=".$getacc["smf_fid"]);
             }
             
             // Print a message stating that their email has been successfully changed

@@ -92,15 +92,15 @@ if (isset($_FILES["torrent"]))
       }
 
 if (isset($_POST["filename"]))
-   $filename = mysql_escape_string(htmlspecialchars($_POST["filename"]));
+   $filename = mysql_real_escape_string(htmlspecialchars($_POST["filename"]));
 else
-    $filename = mysql_escape_string(htmlspecialchars($_FILES["torrent"]["name"]));
+    $filename = mysql_real_escape_string(htmlspecialchars($_FILES["torrent"]["name"]));
 
 if (isset($hash) && $hash) $url = $TORRENTSDIR . "/" . $hash . ".btf";
 else $url = 0;
 
 if (isset($_POST["info"]) && $_POST["info"]!="")
-   $comment = mysql_escape_string($_POST["info"]);
+   $comment = mysql_real_escape_string($_POST["info"]);
 else { // description is now required (same as for edit.php)
 //    $comment = "";
         err_msg($language["ERROR"],$language["EMPTY_DESCRIPTION"]);
@@ -110,11 +110,11 @@ else { // description is now required (same as for edit.php)
 
 // filename not writen by user, we get info directly from torrent.
 if (strlen($filename) == 0 && isset($array["info"]["name"]))
-   $filename = mysql_escape_string(htmlspecialchars($array["info"]["name"]));
+   $filename = mysql_real_escape_string(htmlspecialchars($array["info"]["name"]));
 
 // description not writen by user, we get info directly from torrent.
 if (isset($array["comment"]))
-   $info = mysql_escape_string(htmlspecialchars($array["comment"]));
+   $info = mysql_real_escape_string(htmlspecialchars($array["comment"]));
 else
     $info = "";
 

@@ -35,14 +35,19 @@ error_reporting(E_ALL ^ E_NOTICE);
 #
 // Emulate register_globals off
 #
-if (ini_get('register_globals')) {
-  $superglobals = array($_SERVER, $_ENV,$_FILES, $_COOKIE, $_POST, $_GET);
-  if (isset($_SESSION))
-    array_unshift($superglobals, $_SESSION);
-  foreach ($superglobals as $superglobal)
-    foreach ($superglobal as $global => $value)
-      unset($GLOBALS[$global]);
-  @ini_set('register_globals', false);
+$php_version=explode(".",phpversion());
+if($php_version[0]<=5 && $php_version[1]<=2)
+{
+    if (ini_get('register_globals'))
+    {
+        $superglobals = array($_SERVER, $_ENV,$_FILES, $_COOKIE, $_POST, $_GET);
+        if (isset($_SESSION))
+            array_unshift($superglobals, $_SESSION);
+        foreach ($superglobals as $superglobal)
+            foreach ($superglobal as $global => $value)
+                unset($GLOBALS[$global]);
+        @ini_set('register_globals', false);
+    }
 }
 
 // control if magic_quote_gpc = on
@@ -708,7 +713,7 @@ function information_msg($heading='Error!',$string,$close=false) {
 }
 
 function sqlesc($x) {
-  return '\''.mysql_escape_string($x).'\'';
+  return '\''.mysql_real_escape_string($x).'\'';
 }
 
 function get_content($file) {

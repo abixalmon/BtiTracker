@@ -536,7 +536,7 @@ elseif ($action == 'save_tracker') {
     $forum_type = intval($_POST["forumtype"]);
     if($forum_type==1) $forum="";
     elseif($forum_type==2) $forum="smf";
-    elseif($forum_type==3) $forum=mysql_escape_string($_POST["externalforum"]);
+    elseif($forum_type==3) $forum=mysql_real_escape_string($_POST["externalforum"]);
 
     // getting started
     require (dirname(__FILE__)."/include/settings.php");
@@ -653,8 +653,8 @@ elseif ($action == 'save_owner') {
     }
     // getting variables
     $username = $_POST["username"];
-    $password = mysql_escape_string($_POST["password"]);
-    $password_repeat = mysql_escape_string($_POST["password2"]);
+    $password = mysql_real_escape_string($_POST["password"]);
+    $password_repeat = mysql_real_escape_string($_POST["password2"]);
     $email = $_POST["email"];
     $email_repeat = $_POST["email2"];
     $email = htmlspecialchars(trim($email));

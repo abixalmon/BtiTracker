@@ -167,7 +167,7 @@ header("Content-type: text/plain");
 header("Pragma: no-cache");
 
 // Error: no web browsers allowed
-$agent = mysql_escape_string($_SERVER["HTTP_USER_AGENT"]);
+$agent = mysql_real_escape_string($_SERVER["HTTP_USER_AGENT"]);
 // Deny access made with a browser...
 
 if (ereg("^Mozilla\\/", $agent) || ereg("^Opera\\/", $agent) || ereg("^Links ", $agent) || ereg("^Lynx\\/", $agent))
@@ -301,7 +301,7 @@ if (isset($_GET["numwant"]))
 if (isset($_GET["trackerid"]))
 {
     if (is_numeric($_GET["trackerid"]))
-        $GLOBALS["trackerid"] = mysql_escape_string($_GET["trackerid"]);
+        $GLOBALS["trackerid"] = mysql_real_escape_string($_GET["trackerid"]);
 }
 if (!is_numeric($port) || !is_numeric($downloaded) || !is_numeric($uploaded) || !is_numeric($left))
     show_error("Invalid numerical field(s) from client");
@@ -386,13 +386,13 @@ function start($info_hash, $ip, $port, $peer_id, $left, $downloaded=0, $uploaded
         if ($_GET["ip"]!=long2ip(ip2long($_GET["ip"])))
             showError("Invalid IP address. Must be standard dotted decimal (hostnames not allowed)");
 
-        $ip = mysql_escape_string($_GET["ip"]);
+        $ip = mysql_real_escape_string($_GET["ip"]);
     }
     else
         $ip = getip();
 
-    $ip = mysql_escape_string($ip);
-    $agent = mysql_escape_string($_SERVER["HTTP_USER_AGENT"]);
+    $ip = mysql_real_escape_string($ip);
+    $agent = mysql_real_escape_string($_SERVER["HTTP_USER_AGENT"]);
     $remotedns = gethostbyaddr($ip);
 
     if (isset($_GET["ip"])) $nuIP = $_GET["ip"];
@@ -404,7 +404,7 @@ function start($info_hash, $ip, $port, $peer_id, $left, $downloaded=0, $uploaded
         $remotedns = strtoupper($remotedns);
         preg_match('/^(.+)\.([A-Z]{2,3})$/', $remotedns, $tldm);
     if (!empty($tldm[2]))
-          $remotedns = mysql_escape_string($tldm[2]);
+          $remotedns = mysql_real_escape_string($tldm[2]);
     else
       $remotedns = "AA";
       }
@@ -421,9 +421,9 @@ function start($info_hash, $ip, $port, $peer_id, $left, $downloaded=0, $uploaded
 
 
 
-    $compact = mysql_escape_string(str_pad(pack('Nn', ip2long($ip), $port),6));
-    $peerid = mysql_escape_string('2:ip' . strlen($ip) . ':' . $ip . '7:peer id20:' . hex2bin($peer_id) . "4:porti{$port}e");
-    $no_peerid = mysql_escape_string('2:ip' . strlen($ip) . ':' . $ip . "4:porti{$port}e");
+    $compact = mysql_real_escape_string(str_pad(pack('Nn', ip2long($ip), $port),6));
+    $peerid = mysql_real_escape_string('2:ip' . strlen($ip) . ':' . $ip . '7:peer id20:' . hex2bin($peer_id) . "4:porti{$port}e");
+    $no_peerid = mysql_real_escape_string('2:ip' . strlen($ip) . ':' . $ip . "4:porti{$port}e");
 
 
     $results = @mysql_query("INSERT INTO {$TABLE_PREFIX}peers SET infohash=\"$info_hash\", peer_id=\"$peer_id\", port=\"$port\", ip=\"$ip\", lastupdate=UNIX_TIMESTAMP(), bytes=\"$left\", status=\"$status\", natuser=\"$nat\", client=\"$agent\", dns=\"$remotedns\", downloaded=$downloaded, uploaded=$uploaded, pid=\"$upid\"");
