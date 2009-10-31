@@ -68,7 +68,7 @@ function getData($lastID) {
   include("../include/offset.php");
 
 global $CURUSER;
-if ($CURUSER["view_user"]!="yes") {
+if ($CURUSER["view_users"]!="yes") {
 die("Sorry, Shoutbox is not available...");
 }
 
