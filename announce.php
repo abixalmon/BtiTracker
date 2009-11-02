@@ -170,7 +170,7 @@ header("Pragma: no-cache");
 $agent = mysql_real_escape_string($_SERVER["HTTP_USER_AGENT"]);
 // Deny access made with a browser...
 
-if (ereg("^Mozilla\\/", $agent) || ereg("^Opera\\/", $agent) || ereg("^Links ", $agent) || ereg("^Lynx\\/", $agent))
+if (preg_match("/^Mozilla|^Opera|^Links|^Lynx/i", $agent))
 {
     header("HTTP/1.0 500 Bad Request");
     die("This a a bittorrent application and can't be loaded into a browser");

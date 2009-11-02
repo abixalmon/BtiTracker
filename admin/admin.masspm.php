@@ -148,11 +148,11 @@ switch ($action) {
                 if ($XBTT_USE) {
                     $tables=$TABLE_PREFIX.'users u LEFT JOIN xbt_users x ON x.uid=u.id';
                     if ($ratio)
-                        $where.=' AND ((u.downloaded+IFNULL(x.downloaded,0))/(u.uploaded+IFNULL(x.uploaded,0.1)))'.$pick;   
+                        $where.=' AND ((u.uploaded+IFNULL(x.uploaded,0))/(u.downloaded+IFNULL(x.downloaded,0.1)))'.$pick;
                 } else {
                     $tables=$TABLE_PREFIX.'users u';
                     if ($ratio)
-                        $where.=' AND ((u.downloaded)/(u.uploaded=0))'.$pick;
+                        $where.=' AND ((u.uploaded)/(u.downloaded=0))'.$pick;
                 }
                 # get data
                 $pm_users=get_result('SELECT u.id, u.username FROM '.$tables.' '.$where,true);

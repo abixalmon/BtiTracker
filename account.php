@@ -359,11 +359,16 @@ if (mysql_num_rows($res)>0)
    return -2;
    exit;
 }
+
 // valid email check - by vibes
+/*
 $regex = "^[_+a-z0-9-]+(\.[_+a-z0-9-]+)*"
                 ."@[a-z0-9-]+(\.[a-z0-9-]{1,})*"
                 ."\.([a-z]{2,}){1}$";
-if(!eregi($regex,$email))
+*/
+
+$regex='/\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/i';
+if(!preg_match($regex,$email))
    {
    return -3;
    exit;
