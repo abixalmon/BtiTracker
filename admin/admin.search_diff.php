@@ -136,7 +136,7 @@ if ($changeug=="Work" && isset($_POST["uyedegis"])){
     $dis.="<div align=\"center\">";
     foreach($_POST["uyedegis"] as $uyedegis=>$degeri)
      {
-     do_sqlquery("INSERT INTO {$TABLE_PREFIX}messages (sender, receiver, added, subject, msg) VALUES ('".$gonderen."','".$degeri."',UNIX_TIMESTAMP(),'".$baslik."','".$mesajmetni."')");
+     send_pm($gonderen,$degeri,$baslik,$mesajmetni);
      $dis.="PM send to User <b>".$degeri."</b><br />";
      }
     $dis.="</div>";
