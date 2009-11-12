@@ -68,7 +68,7 @@ while ($row = mysql_fetch_array($res))
 {
   // for user name instead of peer
  if ($XBTT_USE)
-    $resu=do_sqlquery("SELECT u.username,u.id,c.flagpic,c.name FROM {$TABLE_PREFIX}users u LEFT JOIN {$TABLE_PREFIX}countries c ON c.id=u.flag WHERE u.id='".$row["uid"]."'");
+    $resu=TRUE;
  elseif ($PRIVATE_ANNOUNCE)
     $resu=do_sqlquery("SELECT u.username,u.id,c.flagpic,c.name FROM {$TABLE_PREFIX}users u LEFT JOIN {$TABLE_PREFIX}countries c ON c.id=u.flag WHERE u.pid='".$row["pid"]."'");
  else
@@ -76,7 +76,15 @@ while ($row = mysql_fetch_array($res))
 
  if ($resu)
     {
-    $rowuser=mysql_fetch_row($resu);
+    if($XBTT_USE)
+    {
+        $rowuser[0]=$row["username"];
+        $rowuser[1]=$row["uid"];
+        $rowuser[2]=$row["flagpic"];
+        $rowuser[3]=$row["name"];
+    }
+    else
+        $rowuser=mysql_fetch_row($resu);
     if ($rowuser && $rowuser[1]>1)
       {
       if ($GLOBALS["usepopup"]){
