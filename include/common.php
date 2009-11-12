@@ -490,7 +490,7 @@ function getagent($httpagent, $peer_id='') {
         return 'SimpleBT'; # SimpleBT
     if(substr($peer_id,3,9)=='SimpleBT?')
         return 'SimpleBT'; # SimpleBT
-    if(preg_match('MFC_Tear_Sample', $httpagent))
+    if(preg_match('/^MFC_Tear_Sample/', $httpagent))
         return 'SimpleBT';
     if(substr($peer_id,0,5)=='btuga')
         return 'BTugaXP'; # BTugaXP
@@ -559,7 +559,7 @@ function getagent($httpagent, $peer_id='') {
             return 'Spoofing BT Client'; # Spoofing BT Client
         return StdDecodePeerId(substr($peer_id,3,7),'Azureus');
     }
-    if(preg_match('Azureus', $peer_id))
+    if(preg_match('/^Azureus/', $peer_id))
         return 'Azureus 2.0.3.2';
     # BitComet/BitLord/BitVampire/Modded FUTB BitComet
     if(substr($peer_id,0,4)=='exbc' || substr($peer_id,1,3)=='UTB'){
