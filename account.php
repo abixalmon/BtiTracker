@@ -49,7 +49,7 @@ if (isset($_GET["act"])) $act=$_GET["act"];
 if (isset($_GET["language"])) $idlangue=intval($_GET["language"]);
  else $idlangue=max(1,$btit_settings["default_language"]);
 if (isset($_GET["style"])) $idstyle=intval($_GET["style"]);
- else $idstyle="";
+ else $idstyle=max(1,$btit_settings["default_style"]);
 if (isset($_GET["flag"])) $idflag=intval($_GET["flag"]);
  else $idflag="";
 
@@ -156,7 +156,7 @@ function tabella($action,$dati=array()) {
           $dati["username"]="";
           $dati["email"]="";
           $dati["language"]=$idlangue;
-
+          $dati["style"]=$idstyle;
      }
 
    // avoid error with js
