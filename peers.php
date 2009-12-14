@@ -79,7 +79,7 @@ while ($row = mysql_fetch_array($res))
     if($XBTT_USE)
     {
         $rowuser["username"]=$row["username"];
-        $rowuser["uid"]=$row["uid"];
+        $rowuser["id"]=$row["uid"];
         $rowuser["flagpic"]=$row["flagpic"];
         $rowuser["name"]=$row["name"];
     }
