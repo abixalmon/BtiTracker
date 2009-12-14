@@ -78,21 +78,21 @@ while ($row = mysql_fetch_array($res))
     {
     if($XBTT_USE)
     {
-        $rowuser[0]=$row["username"];
-        $rowuser[1]=$row["uid"];
-        $rowuser[2]=$row["flagpic"];
-        $rowuser[3]=$row["name"];
+        $rowuser["username"]=$row["username"];
+        $rowuser["uid"]=$row["uid"];
+        $rowuser["flagpic"]=$row["flagpic"];
+        $rowuser["name"]=$row["name"];
     }
     else
-        $rowuser=mysql_fetch_row($resu);
-    if ($rowuser && $rowuser[1]>1)
+        $rowuser=mysql_fetch_assoc($resu);
+    if ($rowuser && $rowuser["id"]>1)
       {
       if ($GLOBALS["usepopup"]){
-       $peers[$i]["USERNAME"]="<a href=\"javascript: windowunder('index.php?page=userdetails&amp;id=$rowuser[1]')\">".unesc($rowuser[0])."</a>";
-       $peers[$i]["PM"]="<a href=\"javascript: windowunder('index.php?page=usercp&amp;do=pm&amp;action=edit&amp;uid=$CURUSER[uid]&amp;what=new&amp;to=".urlencode(unesc($rowuser[0]))."')\">".image_or_link("$STYLEPATH/images/pm.png","","PM")."</a>";
+       $peers[$i]["USERNAME"]="<a href=\"javascript: windowunder('index.php?page=userdetails&amp;id=".$rowuser["id"]."')\">".unesc($rowuser["username"])."</a>";
+       $peers[$i]["PM"]="<a href=\"javascript: windowunder('index.php?page=usercp&amp;do=pm&amp;action=edit&amp;uid=$CURUSER[uid]&amp;what=new&amp;to=".urlencode(unesc($rowuser["username"]))."')\">".image_or_link("$STYLEPATH/images/pm.png","","PM")."</a>";
   }    else {
-        $peers[$i]["USERNAME"]="<a href=\"index.php?page=userdetails&amp;id=$rowuser[1]\">".unesc($rowuser[0])."</a>";
-        $peers[$i]["PM"]="<a href=\"index.php?page=usercp&amp;do=pm&amp;action=edit&amp;uid=$CURUSER[uid]&amp;what=new&amp;to=".urlencode(unesc($rowuser[0]))."\">".image_or_link("$STYLEPATH/images/pm.png","","PM")."</a>";
+        $peers[$i]["USERNAME"]="<a href=\"index.php?page=userdetails&amp;id=".$rowuser["id"]."\">".unesc($rowuser["username"])."</a>";
+        $peers[$i]["PM"]="<a href=\"index.php?page=usercp&amp;do=pm&amp;action=edit&amp;uid=".$CURUSER["uid"]."&amp;what=new&amp;to=".urlencode(unesc($rowuser["username"]))."\">".image_or_link("$STYLEPATH/images/pm.png","","PM")."</a>";
        }
       }
     else
@@ -103,10 +103,10 @@ while ($row = mysql_fetch_array($res))
   }
   if ($row["flagpic"]!="" && $row["flagpic"]!="unknown.gif")
     $peers[$i]["FLAG"]="<img src=\"images/flag/".$row["flagpic"]."\" alt=\"".unesc($row["name"])."\" />";
-  elseif ($rowuser[2]!="" && !empty($rowuser[2]))
-    $peers[$i]["FLAG"]="<img src=\"images/flag/".$rowuser[2]."\" alt=\"".unesc($rowuser[3])."\" />";
+  elseif ($rowuser["flagpic"]!="" && !empty($rowuser["flagpic"]))
+    $peers[$i]["FLAG"]="<img src=\"images/flag/".$rowuser["flagpic"]."\" alt=\"".unesc($rowuser["name"])."\" />";
   else
-    $peers[$i]["FLAG"]="<img src=\"images/flag/unknown.gif\" alt=\"".UNKNOWN."\" />";
+    $peers[$i]["FLAG"]="<img src=\"images/flag/unknown.gif\" alt=\"".$language["UNKNOWN"]."\" />";
 
 if (!$XBTT_USE)
   $peers[$i]["PORT"]=$row["port"];
