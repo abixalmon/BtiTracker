@@ -83,7 +83,7 @@ if ($topics!=0) {
         }
     } else {
         # get posts based if can read
-        $lastPosts=get_result('SELECT p.topicid as tid, p.id as pid, t.subject, p.added, p.body, p.userid FROM '.$topicsTable.' as t LEFT JOIN '.$postsTable.' as p ON p.topicid=t.id LEFT JOIN '.$TABLE_PREFIX.'forums as f ON f.id=t.id WHERE f.minclassread<='.$CURUSER['id_level'].(($realLastPosts)?'':' AND p.id=t.lastpost').' ORDER BY p.added DESC '.$limit);
+        $lastPosts=get_result('SELECT p.topicid as tid, p.id as pid, t.subject, p.added, p.body, p.userid FROM '.$topicsTable.' as t LEFT JOIN '.$postsTable.' as p ON p.topicid=t.id LEFT JOIN '.$TABLE_PREFIX.'forums as f ON f.id=t.forumid WHERE f.minclassread<='.$CURUSER['id_level'].(($realLastPosts)?'':' AND p.id=t.lastpost').' ORDER BY p.added DESC '.$limit);
         # format posts
         foreach($lastPosts as $post) {
             # get username

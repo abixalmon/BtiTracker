@@ -159,7 +159,7 @@ if (!isset($array["announce"]))
       }
       @mysql_free_result($rc);
 
-      $announce=str_replace(array("\r\n","\r","\n"),"",$array["announce"]);
+      $announce=trim($array["announce"]);
 
       if ($categoria==0)
          {
