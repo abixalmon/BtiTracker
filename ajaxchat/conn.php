@@ -32,7 +32,12 @@
 
 # establishes a connection to a mySQL Database accroding to the details specified in settings.php
 function getDBConnection () {
-    include("../include/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
+
+    $dir=explode("/",str_replace("\\", "/", dirname(__FILE__)));
+    unset($dir[(count($dir)-1)]);
+    $INC_PATH=implode("/",$dir)."/include";
+
+    include($INC_PATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
     
     $conn = mysql_connect($dbhost, $dbuser, $dbpass);
     if (!$conn) {
@@ -48,7 +53,12 @@ function getDBConnection () {
 
 # establishes a connection to a mySQL Database accroding to the details specified in settings.php
 function his_getDBConnection () {
-    include("include/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
+
+    $dir=explode("/",str_replace("\\", "/", dirname(__FILE__)));
+    unset($dir[(count($dir)-1)]);
+    $INC_PATH=implode("/",$dir)."/include";
+
+    include($INC_PATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
     $conn = mysql_connect($dbhost, $dbuser, $dbpass);
     if (!$conn) {
             echo "Connection to DB was not possible!";
