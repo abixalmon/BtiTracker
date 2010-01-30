@@ -191,7 +191,7 @@ td.lista {
 }
 
 td {
-  
+   font-size: 8pt;
 }
 td.header a:link, td.header a:visited, td.header a:active { font-size:8pt; color:#000; text-align:center;}
 td.header a:hover { color:#EE4000; text-decoration:none; /*cursor:auto*/}
