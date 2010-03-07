@@ -47,7 +47,7 @@ if (!$CURUSER || $CURUSER["can_download"]=="no")
 if(ini_get('zlib.output_compression'))
   ini_set('zlib.output_compression','Off');
 
-$infohash=$_GET["id"];
+$infohash=mysql_real_escape_string($_GET["id"]);
 $filepath=$TORRENTSDIR."/".$infohash . ".btf";
 
 if (!is_file($filepath) || !is_readable($filepath))
