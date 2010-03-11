@@ -104,7 +104,7 @@ else
                      echo "\t<td width=60% class=\"lista\" style=\"padding-left:10px;\"><a href=\"javascript:popdetails('index.php?page=torrent-details&amp;id=" . $data['hash'] . "');\" title=\"" . $language["VIEW_DETAILS"] . ": " . $data["filename"] . "\">" . $data["filename"] . "</a></td>";
                 else
                      echo "\t<TD align=\"left\" class=\"lista\" style=\"padding-left:10px;\"><A HREF=\"index.php?page=torrent-details&amp;id=".$data["hash"]."\" title=\"".$language["VIEW_DETAILS"].": ".$data["filename"]."\">".$data["filename"]."</A></td>";
-                echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\"><a href=\"index.php?page=torrents&category=$data[catid]\">" . image_or_link( ($data["image"] == "" ? "" : "$STYLEURL/images/categories/" . $data["image"]), "", $data["cname"]) . "</td>";
+                echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\"><a href=\"index.php?page=torrents&category=$data[catid]\">" . image_or_link( ($data["image"] == "" ? "" : "$STYLEPATH/images/categories/" . $data["image"]), "", $data["cname"]) . "</td>";
                 if (max(0,$CURUSER["WT"])>0)
                 echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\">".$wait." h</td>";
                 include("include/offset.php");

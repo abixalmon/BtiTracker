@@ -69,8 +69,8 @@ function send_pm($sender,$recepient,$subject,$msg) {
         # notify recepient
         quickQuery('UPDATE '.$db_prefix.'members SET instantMessages=instantMessages+1, unreadMessages=unreadMessages+1 WHERE ID_MEMBER='.$recepient.' LIMIT 1;');
         return true;
-    } elseif ($FORUMLINK=='' || $FORUMLINK=='internal') {
-        # internal forum
+    } else {
+        # internal PM system
         # insert pm
         quickQuery('INSERT INTO '.$TABLE_PREFIX.'messages (sender, receiver, added, subject, msg) VALUES ('.$sender.', '.$recepient.', UNIX_TIMESTAMP(), '.$subject.', '.$msg.')');
         return true;
