@@ -1,23 +1,23 @@
 <?php
-$language["ACCOUNT_CREATED"]="Àêàóíòà å ñúçäàäåí óñïåøíî!";
-$language["USER_NAME"]="Ïîòðåáèòåë";
-$language["USER_PWD_AGAIN"]="Ïîâòîðåòå ïàðîëàòà";
-$language["USER_PWD"]="Ïàðîëà";
-$language["USER_STYLE"]="Ñòèë";
-$language["USER_LANGUE"]="Åçèê";
-$language["IMAGE_CODE"]="Èçîáðàæåíèå ñ êîä";
-$language["INSERT_USERNAME"]="Òðÿáâà äà âúâåäåòå èìå!";
-$language["INSERT_PASSWORD"]="Òðÿáâà äà âúâåäåòå ïàðîëà!";
-$language["DIF_PASSWORDS"]="Âúâåäåíèòå ïàðîëè íå ñúâïàäàò!";
-$language["ERR_NO_EMAIL"]="Òðÿáâà äà âúâåäåòå âàëèäåí e-mail àäðåñ";
-$language["USER_EMAIL_AGAIN"]="Ïîâòîðåòå e-mail àäðåñà";
-$language["ERR_NO_EMAIL_AGAIN"]="Ïîâòîðåòå e-mail aäðåñà";
-$language["DIF_EMAIL"]="e-mail àäðåñèòå íå ñúâïàäàò!";
-$language["SECURITY_CODE"]="Îòãîâîðåòå íà âúïðîñà";
+$language["ACCOUNT_CREATED"]="ÐÐºÐ°ÑƒÐ½Ñ‚Ð° Ðµ ÑÑŠÐ·Ð´Ð°Ð´ÐµÐ½ ÑƒÑÐ¿ÐµÑˆÐ½Ð¾!";
+$language["USER_NAME"]="ÐŸÐ¾Ñ‚Ñ€ÐµÐ±Ð¸Ñ‚ÐµÐ»";
+$language["USER_PWD_AGAIN"]="ÐŸÐ¾Ð²Ñ‚Ð¾Ñ€ÐµÑ‚Ðµ Ð¿Ð°Ñ€Ð¾Ð»Ð°Ñ‚Ð°";
+$language["USER_PWD"]="ÐŸÐ°Ñ€Ð¾Ð»Ð°";
+$language["USER_STYLE"]="Ð¡Ñ‚Ð¸Ð»";
+$language["USER_LANGUE"]="Ð•Ð·Ð¸Ðº";
+$language["IMAGE_CODE"]="Ð˜Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ðµ Ñ ÐºÐ¾Ð´";
+$language["INSERT_USERNAME"]="Ð¢Ñ€ÑÐ±Ð²Ð° Ð´Ð° Ð²ÑŠÐ²ÐµÐ´ÐµÑ‚Ðµ Ð¸Ð¼Ðµ!";
+$language["INSERT_PASSWORD"]="Ð¢Ñ€ÑÐ±Ð²Ð° Ð´Ð° Ð²ÑŠÐ²ÐµÐ´ÐµÑ‚Ðµ Ð¿Ð°Ñ€Ð¾Ð»Ð°!";
+$language["DIF_PASSWORDS"]="Ð’ÑŠÐ²ÐµÐ´ÐµÐ½Ð¸Ñ‚Ðµ Ð¿Ð°Ñ€Ð¾Ð»Ð¸ Ð½Ðµ ÑÑŠÐ²Ð¿Ð°Ð´Ð°Ñ‚!";
+$language["ERR_NO_EMAIL"]="Ð¢Ñ€ÑÐ±Ð²Ð° Ð´Ð° Ð²ÑŠÐ²ÐµÐ´ÐµÑ‚Ðµ Ð²Ð°Ð»Ð¸Ð´ÐµÐ½ e-mail Ð°Ð´Ñ€ÐµÑ";
+$language["USER_EMAIL_AGAIN"]="ÐŸÐ¾Ð²Ñ‚Ð¾Ñ€ÐµÑ‚Ðµ e-mail Ð°Ð´Ñ€ÐµÑÐ°";
+$language["ERR_NO_EMAIL_AGAIN"]="ÐŸÐ¾Ð²Ñ‚Ð¾Ñ€ÐµÑ‚Ðµ e-mail aÐ´Ñ€ÐµÑÐ°";
+$language["DIF_EMAIL"]="e-mail Ð°Ð´Ñ€ÐµÑÐ¸Ñ‚Ðµ Ð½Ðµ ÑÑŠÐ²Ð¿Ð°Ð´Ð°Ñ‚!";
+$language["SECURITY_CODE"]="ÐžÑ‚Ð³Ð¾Ð²Ð¾Ñ€ÐµÑ‚Ðµ Ð½Ð° Ð²ÑŠÐ¿Ñ€Ð¾ÑÐ°";
 # Password strength
-$language["WEEK"]="Ñëàáà";
-$language["MEDIUM"]="Ñðåäíà";
-$language["SAFE"]="Ñèãóðíà";
-$language["STRONG"]="Ñèëíà";
+$language["WEEK"]="Ð¡Ð»Ð°Ð±Ð°";
+$language["MEDIUM"]="Ð¡Ñ€ÐµÐ´Ð½Ð°";
+$language["SAFE"]="Ð¡Ð¸Ð³ÑƒÑ€Ð½Ð°";
+$language["STRONG"]="Ð¡Ð¸Ð»Ð½Ð°";
 
 ?>

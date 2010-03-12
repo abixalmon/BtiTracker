@@ -2,9 +2,9 @@
 
 // VIEWNEWS.PHP LANGUAGE FILE
 
-$language["POSTED_BY"]   = "Ïóáëèêóâàíî îò";
-$language["POSTED_DATE"] = "Äàòà íà ïóáëèêóâàíå";
-$language["TITLE"]       = "Çàãëàâèå";
-$language["ADD"]         = "Äîáàâè";
+$language["POSTED_BY"]   = "ÐŸÑƒÐ±Ð»Ð¸ÐºÑƒÐ²Ð°Ð½Ð¾ Ð¾Ñ‚";
+$language["POSTED_DATE"] = "Ð”Ð°Ñ‚Ð° Ð½Ð° Ð¿ÑƒÐ±Ð»Ð¸ÐºÑƒÐ²Ð°Ð½Ðµ";
+$language["TITLE"]       = "Ð—Ð°Ð³Ð»Ð°Ð²Ð¸Ðµ";
+$language["ADD"]         = "Ð”Ð¾Ð±Ð°Ð²Ð¸";
 
 ?>

@@ -1,8 +1,8 @@
 <?php
-$language["PEER_PROGRESS"]="Ïðîãðåñ";
-$language["PEER_COUNTRY"]="Äúðæàâà";
-$language["PEER_PORT"]="Ïîðò";
-$language["PEER_STATUS"]="Ñòàòóñ";
-$language["PEER_CLIENT"]="Êëèåíò";
-$language["NO_PEERS"]="Íÿìà ïèúðè";
+$language["PEER_PROGRESS"]="ÐŸÑ€Ð¾Ð³Ñ€ÐµÑ";
+$language["PEER_COUNTRY"]="Ð”ÑŠÑ€Ð¶Ð°Ð²Ð°";
+$language["PEER_PORT"]="ÐŸÐ¾Ñ€Ñ‚";
+$language["PEER_STATUS"]="Ð¡Ñ‚Ð°Ñ‚ÑƒÑ";
+$language["PEER_CLIENT"]="ÐšÐ»Ð¸ÐµÐ½Ñ‚";
+$language["NO_PEERS"]="ÐÑÐ¼Ð° Ð¿Ð¸ÑŠÑ€Ð¸";
 ?>

@@ -2,20 +2,20 @@
 
 // ENGLISH USERS.PHP FILE
 
-$language["FIND_USER"]       = "Íàìåðè ïîòðåáèòåë";
-$language["USER_LEVEL"]      = "Ïîòðåáèòåëñêî íèâî";
-$language["ALL"]             = "Âñè÷êè";
-$language["SEARCH"]          = "Òúðñåíå";
-$language["USER_NAME"]       = "Èìå";
-$language["USER_LEVEL"]      = "Ïîòðåáèòåëñêî íèâî";
-$language["USER_JOINED"]     = "Ðåãèñòðèðàí íà";
-$language["USER_LASTACCESS"] = "Ïîñëåäåí äîñòúï";
-$language["USER_COUNTRY"]    = "Äúðæàâà";
-$language["RATIO"]           = "Ðåéòèíã";
-$language["USERS_PM"]        = "ËÑ";
-$language["EDIT"]            = "Ðåäàêòèðàé";
-$language["DELETE"]          = "Èçòðèé";
-$language["NO_USERS_FOUND"]  = "Íÿìà íàìåðåíè ïîòðåáèòåëè!";
-$language["UNKNOWN"]         = "Íåïîçíàò";
+$language["FIND_USER"]       = "ÐÐ°Ð¼ÐµÑ€Ð¸ Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð¸Ñ‚ÐµÐ»";
+$language["USER_LEVEL"]      = "ÐŸÐ¾Ñ‚Ñ€ÐµÐ±Ð¸Ñ‚ÐµÐ»ÑÐºÐ¾ Ð½Ð¸Ð²Ð¾";
+$language["ALL"]             = "Ð’ÑÐ¸Ñ‡ÐºÐ¸";
+$language["SEARCH"]          = "Ð¢ÑŠÑ€ÑÐµÐ½Ðµ";
+$language["USER_NAME"]       = "Ð˜Ð¼Ðµ";
+$language["USER_LEVEL"]      = "ÐŸÐ¾Ñ‚Ñ€ÐµÐ±Ð¸Ñ‚ÐµÐ»ÑÐºÐ¾ Ð½Ð¸Ð²Ð¾";
+$language["USER_JOINED"]     = "Ð ÐµÐ³Ð¸ÑÑ‚Ñ€Ð¸Ñ€Ð°Ð½ Ð½Ð°";
+$language["USER_LASTACCESS"] = "ÐŸÐ¾ÑÐ»ÐµÐ´ÐµÐ½ Ð´Ð¾ÑÑ‚ÑŠÐ¿";
+$language["USER_COUNTRY"]    = "Ð”ÑŠÑ€Ð¶Ð°Ð²Ð°";
+$language["RATIO"]           = "Ð ÐµÐ¹Ñ‚Ð¸Ð½Ð³";
+$language["USERS_PM"]        = "Ð›Ð¡";
+$language["EDIT"]            = "Ð ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð°Ð¹";
+$language["DELETE"]          = "Ð˜Ð·Ñ‚Ñ€Ð¸Ð¹";
+$language["NO_USERS_FOUND"]  = "ÐÑÐ¼Ð° Ð½Ð°Ð¼ÐµÑ€ÐµÐ½Ð¸ Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð¸Ñ‚ÐµÐ»Ð¸!";
+$language["UNKNOWN"]         = "ÐÐµÐ¿Ð¾Ð·Ð½Ð°Ñ‚";
 
 ?>
