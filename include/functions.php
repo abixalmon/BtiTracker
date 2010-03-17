@@ -329,6 +329,9 @@ function dbconn($do_clean=false) {
   else
     $conres=mysql_connect($dbhost, $dbuser, $dbpass);
 
+  if($GLOBALS["charset"]=="UTF-8")
+      do_sqlquery("SET NAMES utf8");
+
   if (!$conres) {
     switch (mysql_errno()) {
       case 1040:
