@@ -92,7 +92,6 @@ switch ($action)
         $btit_settings["last10limit"]=$_POST["last10limit"];
         $btit_settings["mostpoplimit"]=$_POST["mostpoplimit"];
 
-
         if (isset($_POST["xbtt_use"]))
           {
           // check base xbtt url
@@ -118,7 +117,7 @@ switch ($action)
             }
             else
               {
-              $btit_settings["xbtt_use"]=isset($_POST["xbtt_use"])?"true":"false";
+              $btit_settings["xbtt_use"]="true";
               $admintpl->set("xbtt_error",false,true);
               // save some settings into xbt_config table
               $xbt_cfg="('anonymous_announce','anonymous_scrape','announce_interval','auto_register')";
@@ -157,6 +156,10 @@ switch ($action)
               $btit_settings["xbtt_use"]="false";
               $admintpl->set("xbtt_error",true,true);
           }
+        }
+        else
+        {
+            $btit_settings["xbtt_use"]="false";
         }
         $btit_settings["xbtt_url"]=$_POST["xbtt_url"];
         $btit_settings["cache_duration"]=$_POST["cache_duration"];
