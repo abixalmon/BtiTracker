@@ -61,7 +61,7 @@ if ($XBTT_USE)
     $tseeds="f.seeds+ifnull(x.seeders,0)";
     $tleechs="f.leechers+ifnull(x.leechers,0)";
     $tcompletes="f.finished+ifnull(x.completed,0)";
-    $ttables="{$TABLE_PREFIX}files f INNER JOIN xbt_files x ON x.info_hash=f.bin_hash";
+    $ttables="{$TABLE_PREFIX}files f LEFT JOIN xbt_files x ON x.info_hash=f.bin_hash";
     $udownloaded="u.downloaded+IFNULL(x.downloaded,0)";
     $uuploaded="u.uploaded+IFNULL(x.uploaded,0)";
     $utables="{$TABLE_PREFIX}users u LEFT JOIN xbt_users x ON x.uid=u.id";

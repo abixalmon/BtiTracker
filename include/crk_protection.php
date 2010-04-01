@@ -46,7 +46,7 @@ function crk($l) {
 
   global $CURUSER,$btit_settings;
 
-  $xip=$_SERVER["REMOTE_ADDRESS"];
+  $xip=$_SERVER["REMOTE_ADDR"];
   if (function_exists("dbconn"))
      dbconn();
   if (function_exists("write_log"))
