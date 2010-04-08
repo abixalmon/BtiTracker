@@ -152,20 +152,61 @@ if ($count>0) {
         $torrentperpage=($ntorrents==0?15:$ntorrents);
 
     // getting order
+    $order_param=3;
     if (isset($_GET["order"]))
-         $order=htmlspecialchars(mysql_real_escape_string($_GET["order"]));
+       {
+         $order_param=(int)$_GET["order"];
+         switch ($order_param)
+           {
+           case 1:
+                $order="cname";
+                break;
+           case 2:
+                $order="filename";
+                break;
+           case 3:
+                $order="data";
+                break;
+           case 4:
+                $order="size";
+                break;
+           case 5:
+                $order="seeds";
+                break;
+           case 6:
+                $order="leechers";
+                break;
+           case 7:
+                $order="finished";
+                break;
+           case 8:
+                $order="dwned";
+                break;
+           case 9:
+                $order="speed";
+                break;
+           default:
+               $order="data";
+               
+         }
+
+    }
     else
         $order="data";
 
     $qry_order=str_replace(array("leechers","seeds","finished"),array($tleechs,$tseeds, $tcompletes),$order);
 
+    $by_param=2;
     if (isset($_GET["by"]))
-        $by=htmlspecialchars(mysql_real_escape_string($_GET["by"]));
+      {
+        $by_param=(int)$_GET["by"];
+        $by=($by_param==1?"ASC":"DESC");
+    }
     else
         $by="DESC";
 
 
-    list($pagertop, $pagerbottom, $limit) = pager($torrentperpage, $count,  $scriptname."&amp;" . $addparam.(strlen($addparam)>0?"&amp;":"")."order=$order&amp;by=$by&amp;");
+    list($pagertop, $pagerbottom, $limit) = pager($torrentperpage, $count,  $scriptname."&amp;" . $addparam.(strlen($addparam)>0?"&amp;":"")."order=$order_param&amp;by=$by_param&amp;");
 
     // Do the query with the uploader nickname
     if ($SHOW_UPLOADER)
@@ -199,22 +240,22 @@ $torrenttpl->set("torrent_selected_active",($active==1?"selected=\"selected\"":"
 $torrenttpl->set("torrent_selected_dead",($active==2?"selected=\"selected\"":""));
 
 $torrenttpl->set("torrent_pagertop",$pagertop);
-$torrenttpl->set("torrent_header_category","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=cname&amp;by=".($order=="cname" && $by=="ASC"?"DESC":"ASC")."\">".$language["CATEGORY"]."</a>".($order=="cname"?$mark:""));
-$torrenttpl->set("torrent_header_filename","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=filename&amp;by=".($order=="filename" && $by=="ASC"?"DESC":"ASC")."\">".$language["FILE"]."</a>".($order=="filename"?$mark:""));
+$torrenttpl->set("torrent_header_category","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=1&amp;by=".($order=="cname" && $by=="ASC"?"2":"1")."\">".$language["CATEGORY"]."</a>".($order=="cname"?$mark:""));
+$torrenttpl->set("torrent_header_filename","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=2&amp;by=".($order=="filename" && $by=="ASC"?"2":"1")."\">".$language["FILE"]."</a>".($order=="filename"?$mark:""));
 $torrenttpl->set("torrent_header_comments",$language["COMMENT"]);
 $torrenttpl->set("torrent_header_rating",$language["RATING"]);
 $torrenttpl->set("WT",intval($CURUSER["WT"])>0,TRUE);
 $torrenttpl->set("torrent_header_waiting",$language["WT"]);
 $torrenttpl->set("torrent_header_download",$language["DOWN"]);
-$torrenttpl->set("torrent_header_added","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=data&amp;by=".($order=="data" && $by=="ASC"?"DESC":"ASC")."\">".$language["ADDED"]."</a>".($order=="data"?$mark:""));
-$torrenttpl->set("torrent_header_size","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=size&amp;by=".($order=="size" && $by=="DESC"?"ASC":"DESC")."\">".$language["SIZE"]."</a>".($order=="size"?$mark:""));
+$torrenttpl->set("torrent_header_added","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=3&amp;by=".($order=="data" && $by=="ASC"?"2":"1")."\">".$language["ADDED"]."</a>".($order=="data"?$mark:""));
+$torrenttpl->set("torrent_header_size","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=4&amp;by=".($order=="size" && $by=="DESC"?"1":"2")."\">".$language["SIZE"]."</a>".($order=="size"?$mark:""));
 $torrenttpl->set("uploader",$SHOW_UPLOADER,TRUE);
 $torrenttpl->set("torrent_header_uploader",$language["UPLOADER"]);
-$torrenttpl->set("torrent_header_seeds","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=seeds&amp;by=".($order=="seeds" && $by=="DESC"?"ASC":"DESC")."\">".$language["SHORT_S"]."</a>".($order=="seeds"?$mark:""));
-$torrenttpl->set("torrent_header_leechers","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=leechers&amp;by=".($order=="leechers" && $by=="DESC"?"ASC":"DESC")."\">".$language["SHORT_L"]."</a>".($order=="leechers"?$mark:""));
-$torrenttpl->set("torrent_header_complete","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=finished&amp;by=".($order=="finished" && $by=="ASC"?"DESC":"ASC")."\">".$language["SHORT_C"]."</a>".($order=="finished"?$mark:""));
-$torrenttpl->set("torrent_header_downloaded","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=dwned&amp;by=".($order=="dwned" && $by=="ASC"?"DESC":"ASC")."\">".$language["DOWNLOADED"]."</a>".($order=="dwned"?$mark:""));
-$torrenttpl->set("torrent_header_speed","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=speed&amp;by=".($order=="speed" && $by=="ASC"?"DESC":"ASC")."\">".$language["SPEED"]."</a>".($order=="speed"?$mark:""));
+$torrenttpl->set("torrent_header_seeds","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=5&amp;by=".($order=="seeds" && $by=="DESC"?"1":"2")."\">".$language["SHORT_S"]."</a>".($order=="seeds"?$mark:""));
+$torrenttpl->set("torrent_header_leechers","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=6&amp;by=".($order=="leechers" && $by=="DESC"?"1":"2")."\">".$language["SHORT_L"]."</a>".($order=="leechers"?$mark:""));
+$torrenttpl->set("torrent_header_complete","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=7&amp;by=".($order=="finished" && $by=="ASC"?"2":"1")."\">".$language["SHORT_C"]."</a>".($order=="finished"?$mark:""));
+$torrenttpl->set("torrent_header_downloaded","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=8&amp;by=".($order=="dwned" && $by=="ASC"?"2":"1")."\">".$language["DOWNLOADED"]."</a>".($order=="dwned"?$mark:""));
+$torrenttpl->set("torrent_header_speed","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=9&amp;by=".($order=="speed" && $by=="ASC"?"2":"1")."\">".$language["SPEED"]."</a>".($order=="speed"?$mark:""));
 $torrenttpl->set("torrent_header_average",$language["AVERAGE"]);
 $torrenttpl->set("XBTT",$XBTT_USE,TRUE);
 $torrenttpl->set("torrent_pagerbottom",$pagerbottom);
