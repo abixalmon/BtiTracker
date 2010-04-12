@@ -355,14 +355,14 @@ function getPeerInfo($user, $hash)
         {
             // Damn, but don't crash just yet.
             $query = "SELECT peer_id,bytes,ip,port,status,lastupdate,sequence from {$TABLE_PREFIX}peers where peer_id=\"$user\" AND infohash=\"$hash\"";
-            $results = mysql_query($query) or showError("Tracker error: invalid torrent");
+            $results = mysql_query($query) or show_error("Tracker error: invalid torrent");
             $data = mysql_fetch_assoc($results);
         }
     }
     else
     {
         $query = "SELECT peer_id,bytes,ip,port,status,lastupdate,sequence from {$TABLE_PREFIX}peers where peer_id=\"$user\" AND infohash=\"$hash\"";
-        $results = mysql_query($query) or showError("Tracker error: invalid torrent");
+        $results = mysql_query($query) or show_error("Tracker error: invalid torrent");
         $data = mysql_fetch_assoc($results);
     }
 
@@ -385,7 +385,7 @@ function start($info_hash, $ip, $port, $peer_id, $left, $downloaded=0, $uploaded
     {
         // compact check: valid IP address:
         if ($_GET["ip"]!=long2ip(ip2long($_GET["ip"])))
-            showError("Invalid IP address. Must be standard dotted decimal (hostnames not allowed)");
+            show_error("Invalid IP address. Must be standard dotted decimal (hostnames not allowed)");
 
         $ip = mysql_real_escape_string($_GET["ip"]);
     }
