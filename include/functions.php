@@ -292,7 +292,7 @@ function userlogin() {
   }
 
   // guest
-    $id = (!isset($_COOKIE['uid']))?1:max(1, $_COOKIE['uid']);
+    $id = (!isset($_COOKIE['uid']))?1:max(1, (int)$_COOKIE['uid']);
 
   $res = do_sqlquery("SELECT u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = $id LIMIT 1;") or sqlerr(__FILE__, __LINE__);
   $row = mysql_fetch_array($res);
