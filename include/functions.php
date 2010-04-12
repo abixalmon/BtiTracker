@@ -202,7 +202,7 @@ function check_online($session_id, $location) {
 
   $location=sqlesc($location);
   $ip=getip();
-  $uid=max(0,$CURUSER['uid']);
+  $uid=max(1,(int)$CURUSER['uid']);
   $suffix=sqlesc($CURUSER['suffixcolor']);
   $prefix=sqlesc($CURUSER['prefixcolor']);
   $uname=sqlesc($CURUSER['username']);
