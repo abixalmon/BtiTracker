@@ -48,7 +48,7 @@ if (!ini_get('register_globals')) {
 }
 $name = $n; # name from the form
 $text = $c; # comment from the form
-$uid = $u;  # userid from the form
+$uid = (int)$u;  # userid from the form
 
 # some weird conversion of the data inputed
 $name = str_replace("\'","'",$name);

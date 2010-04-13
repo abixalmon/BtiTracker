@@ -50,8 +50,8 @@
     </tr>
     <loop:polls>
     <tr id="option<tag:polls[].key />">
-      <td class="lista" align="center"><input type="text" maxlength="255" size="50" name="existing_pollOption<tag:polls[].key />" value="<tag:polls[].option_0 />" /></td>
-      <td class="lista" align="center"><tag:polls[].votes /><input type="hidden" id="existing_pollOrder<tag:polls[].key />" name="existing_pollOrder<tag:polls[].key />" value="<tag:polls[].option_1 />" /></td>
+      <td class="lista" align="center"><input type="text" maxlength="255" size="50" name="existing_pollOption[<tag:polls[].key />]" value="<tag:polls[].option_0 />" /></td>
+      <td class="lista" align="center"><tag:polls[].votes /><input type="hidden" id="existing_pollOrder_<tag:polls[].key />" name="existing_pollOrder[<tag:polls[].key />]" value="<tag:polls[].option_1 />" /></td>
       <td class="lista" align="center"><a href="#down" onclick="moveDown('<tag:polls[].key />');return false"><tag:language.POLL_MOVE /></a></td>
     </tr>
     </loop:polls>
@@ -66,10 +66,10 @@
   </table>
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
-      <td class="header" align="center"><input type="submit" class="btn" name="save" value="<tag:language.POLL_SAVE />" class="formButton" /></td>
-      <td class="header" align="center"><input type="submit" class="btn" name="cancel" value="<tag:language.POLL_CANCEL />" class="formButton" /></td>
+      <td class="header" align="center"><input type="submit" class="btn" name="save" value="<tag:language.POLL_SAVE />" /></td>
+      <td class="header" align="center"><input type="submit" class="btn" name="cancel" value="<tag:language.POLL_CANCEL />" /></td>
       <if:poll_delete>
-      <td class="header" align="center"><input type="submit" class="btn" name="delete" value="<tag:language.POLL_DELETE />" onclick="return confirm('<tag:language.POLL_DEL_CONFIRM />')" class="formButton" /></td>
+      <td class="header" align="center"><input type="submit" class="btn" name="delete" value="<tag:language.POLL_DELETE />" onclick="return confirm('<tag:language.POLL_DEL_CONFIRM />')" /></td>
       </if:poll_delete>
     </tr>
   </table>
