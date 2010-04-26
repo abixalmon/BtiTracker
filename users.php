@@ -120,7 +120,7 @@ else
           else
               $order="joined";
 
-
+          $by_param=1;
           if (isset($_GET["by"]))
            {
               $by_param=(int)$_GET["by"];
