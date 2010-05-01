@@ -618,7 +618,14 @@ function getagent($httpagent, $peer_id='') {
 
     #if(substr($peer_id,0,12)==(chr(0)*12)) return 'Mainline (obsolete)'; # Mainline BitTorrent (obsolete)
     #return '$httpagent [$peer_id]';
-    return $httpagent; # 'Unknown client';
+
+    // Unknown Client - If HTTP Agent is empty
+    // (mainly for the benefit of the customised version of the XBT backend so that it displays useful information to update missing clients)
+    if($httpagent=="")
+        return "Unknown Client (".substr($peer_id,0,8).")";
+
+    // Unknown Client - If HTTP Agent is NOT empty
+    return $httpagent;
 }
 #========================================
 #getAgent function by deliopoulos
