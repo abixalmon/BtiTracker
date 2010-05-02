@@ -445,7 +445,7 @@ function getagent($httpagent, $peer_id='') {
     if(substr($peer_id,0,3)=='-UR')
         return StdDecodePeerId(substr($peer_id,3,7),'UR Client'); # unidentified clients with versions
     if(substr($peer_id,0,3)=='-UT')
-        return StdDecodePeerId(substr($peer_id,3,7),'µTorrent'); # uTorrent
+        return StdDecodePeerId(substr($peer_id,3,7),'uTorrent'); # uTorrent
     if(substr($peer_id,0,3)=='-XT')
         return StdDecodePeerId(substr($peer_id,3,7),'XanTorrent'); # XanTorrent
     if(substr($peer_id,0,3)=='-ZT')
@@ -624,11 +624,11 @@ function getagent($httpagent, $peer_id='') {
         return 'Experimental 3.1'; # Experimental 3.1
 
     if(substr($peer_id,1,2)=="UM")
-        return StdDecodePeerId(substr($peer_id,3,4),"µTorrent for Mac");
+        return StdDecodePeerId(substr($peer_id,3,4),"uTorrent for Mac");
     if(substr($peer_id,1,2)=="SD")
         return "Thunder";
     if(substr($peer_id,1,2)=="XL")
-        return "XùnLéi";
+        return "XunLei";
     if(substr($peer_id,1,2)=="CD")
         return "Enhanced CTorrent " . substr($peer_id,4,1) . "." . substr($peer_id,6,1);
     if(substr($peer_id,1,2)=="qB")
