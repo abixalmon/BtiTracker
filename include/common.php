@@ -445,7 +445,7 @@ function getagent($httpagent, $peer_id='') {
     if(substr($peer_id,0,3)=='-UR')
         return StdDecodePeerId(substr($peer_id,3,7),'UR Client'); # unidentified clients with versions
     if(substr($peer_id,0,3)=='-UT')
-        return StdDecodePeerId(substr($peer_id,3,7),'uTorrent'); # uTorrent
+        return StdDecodePeerId(substr($peer_id,3,7),'µTorrent'); # uTorrent
     if(substr($peer_id,0,3)=='-XT')
         return StdDecodePeerId(substr($peer_id,3,7),'XanTorrent'); # XanTorrent
     if(substr($peer_id,0,3)=='-ZT')
@@ -527,7 +527,11 @@ function getagent($httpagent, $peer_id='') {
     if(substr($peer_id,1,2)=='ML')
         return MainlineDecodePeerId(substr($peer_id,3,5),'MLDonkey'); # MLDonkey
     if($peer_id[0]=='A')
+    {
+        if(substr($peer_id,0,8)=="AZ2500BT")
+            return "BitTyrant";
         return StdDecodePeerId(substr($peer_id,1,9),'ABC'); # ABC
+    }
     if($peer_id[0]=='R')
         return StdDecodePeerId(substr($peer_id,1,5),'Tribler'); # Tribler
     if($peer_id[0]=='M') {
@@ -557,7 +561,7 @@ function getagent($httpagent, $peer_id='') {
             return 'Spoofing BT Client'; # Spoofing BT Client
         if(preg_match('/^Python/', $httpagent, $matches))
             return 'Spoofing BT Client'; # Spoofing BT Client
-        return StdDecodePeerId(substr($peer_id,3,7),'Azureus');
+        return StdDecodePeerId(substr($peer_id,3,7),((substr($peer_id, 3, 2)>=31)?'Vuze':'Azureus'));
     }
     if(preg_match('/^Azureus/', $peer_id))
         return 'Azureus 2.0.3.2';
@@ -602,6 +606,9 @@ function getagent($httpagent, $peer_id='') {
             return 'BitSpirit v2';
         return 'BitSpirit';
     }
+    if(substr($peer_id,1,2)=="SP")
+        return StdDecodePeerId(substr($peer_id,3,4),"BitSpirit");
+
     # eXeem beta
     if(substr($peer_id,0,3)=='-eX') {
         $version_str = '';
@@ -616,8 +623,52 @@ function getagent($httpagent, $peer_id='') {
     if(substr($peer_id,0,12)==(chr(0)*12) && $peer_id[12]==chr(0) && $peer_id[13]==chr(0))
         return 'Experimental 3.1'; # Experimental 3.1
 
-    #if(substr($peer_id,0,12)==(chr(0)*12)) return 'Mainline (obsolete)'; # Mainline BitTorrent (obsolete)
-    #return '$httpagent [$peer_id]';
+    if(substr($peer_id,1,2)=="UM")
+        return StdDecodePeerId(substr($peer_id,3,4),"µTorrent for Mac");
+    if(substr($peer_id,1,2)=="SD")
+        return "Thunder";
+    if(substr($peer_id,1,2)=="XL")
+        return "XùnLéi";
+    if(substr($peer_id,1,2)=="CD")
+        return "Enhanced CTorrent " . substr($peer_id,4,1) . "." . substr($peer_id,6,1);
+    if(substr($peer_id,1,2)=="qB")
+        return StdDecodePeerId(substr($peer_id,3,4),"qBittorrent");
+    if(substr($peer_id,1,2)=="AG")
+        return StdDecodePeerId(substr($peer_id,3,4),"Ares");
+    if(substr($peer_id, 1, 2) == "BF")
+    {
+        if(substr($peer_id, 3, 4) == "6110")
+            $ver="0.10";
+        elseif(substr($peer_id, 3, 4) == "6C05")
+            $ver="0.20";
+        elseif(substr($peer_id, 3, 4) == "6C0F")
+            $ver="0.21";
+        elseif(substr($peer_id, 3, 4) == "7114")
+            $ver="0.22";
+        elseif(substr($peer_id, 3, 4) == "7127")
+            $ver="0.30";
+        elseif(substr($peer_id, 3, 4) == "7128")
+            $ver="0.31";
+        elseif(substr($peer_id, 3, 4) == "7224")
+            $ver="0.32";
+        else $ver="";
+
+    return "BitFlu ".$ver;
+}
+    if(substr($peer_id,1,2)=="DE")
+        return StdDecodePeerId(substr($peer_id,3,3),"Deluge");
+    if(substr($peer_id,1,2)=="HL")
+        return StdDecodePeerId(substr($peer_id,3,4),"Halite");
+    if(substr($peer_id,1,2)=="TT")
+        return StdDecodePeerId(substr($peer_id,3,3),"TuoTu");
+    if(substr($peer_id,1,2)=="BE")
+        return StdDecodePeerId(substr($peer_id,3,2),"BitTorrent SDK");
+    if(substr($peer_id,1,2)=="LH")
+        return StdDecodePeerId(substr($peer_id,3,4),"LH-ABC");
+    if(substr($peer_id,1,2)=="FC")
+        return StdDecodePeerId(substr($peer_id,3,2),"File Croc");
+    if(substr($peer_id,1,2)=="OS")
+        return StdDecodePeerId(substr($peer_id,3,3),"OneSwarm");
 
     // Unknown Client - If HTTP Agent is empty
     // (mainly for the benefit of the customised version of the XBT backend so that it displays useful information to update missing clients)
