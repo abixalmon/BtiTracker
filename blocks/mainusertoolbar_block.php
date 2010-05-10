@@ -41,6 +41,7 @@ global $CURUSER, $FORUMLINK, $db_prefix,$XBTT_USE;
 <?php
 $style=style_list();
 $langue=language_list();
+/*
 if ($XBTT_USE)
    {
     $udownloaded="u.downloaded+IFNULL(x.downloaded,0)";
@@ -56,11 +57,11 @@ else
 
 $resuser=do_sqlquery("SELECT $udownloaded as downloaded,$uuploaded as uploaded FROM $utables WHERE u.id=".$CURUSER["uid"]);
 $rowuser= mysql_fetch_array($resuser);
-
+*/
 print("<td style=\"text-align:center;\" align=\"center\">".$language["USER_LEVEL"].": ".$CURUSER["level"]."</td>\n");
-print("<td class=\"green\" align=\"center\">&uarr;&nbsp;".makesize($rowuser['uploaded']));
-print("</td><td class=\"red\" align=\"center\">&darr;&nbsp;".makesize($rowuser['downloaded']));
-print("</td><td class=\"yellow\" align=\"center\">(SR ".($rowuser['downloaded']>0?number_format($rowuser['uploaded']/$rowuser['downloaded'],2):"---").")</td>\n");
+print("<td class=\"green\" align=\"center\">&uarr;&nbsp;".makesize($CURUSER['uploaded']));
+print("</td><td class=\"red\" align=\"center\">&darr;&nbsp;".makesize($CURUSER['downloaded']));
+print("</td><td class=\"yellow\" align=\"center\">(SR ".($CURUSER['downloaded']>0?number_format($CURUSER['uploaded']/$CURUSER['downloaded'],2):"---").")</td>\n");
 if ($CURUSER["admin_access"]=="yes")
    print("\n<td align=\"center\" style=\"text-align:center;\"><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."\">".$language["MNU_ADMINCP"]."</a></td>\n");
 

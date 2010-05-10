@@ -68,7 +68,7 @@ dbconn(true);
 
 
 // get user's style
-$resheet=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}style where id=".$CURUSER["style"]."");
+$resheet=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}style where id=".$CURUSER["style"]." LIMIT 1",TRUE,$btit_settings["cache_duration"]);
 if (!$resheet)
    {
 
@@ -93,9 +93,9 @@ $no_columns=(isset($_GET["nocolumns"]) && intval($_GET["nocolumns"])==1?true:fal
 
 // getting user language
 if ($idlang==0)
-   $reslang=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}language WHERE id=".$CURUSER["language"]);
+   $reslang=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}language WHERE id=".$CURUSER["language"]." LIMIT 1",TRUE,$btit_settings["cache_duration"]);
 else
-   $reslang=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}language WHERE id=$idlang");
+   $reslang=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}language WHERE id=$idlang"." LIMIT 1",TRUE,$btit_settings["cache_duration"]);
 
 if (!$reslang)
    {
@@ -170,7 +170,7 @@ switch ($pageID) {
 
     case 'modules':
         $module_name=htmlspecialchars($_GET["module"]);
-        $modules=get_result("SELECT * FROM {$TABLE_PREFIX}modules WHERE name=".sqlesc($module_name),true,$btit_settings["cache"]);
+        $modules=get_result("SELECT * FROM {$TABLE_PREFIX}modules WHERE name=".sqlesc($module_name)." LIMIT 1",true,$btit_settings["cache_duration"]);
         if (count($modules)<1) // MODULE NOT SET
            stderr($language["ERROR"],$language["MODULE_NOT_PRESENT"]);
 

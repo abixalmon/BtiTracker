@@ -294,7 +294,20 @@ function userlogin() {
   // guest
     $id = (!isset($_COOKIE['uid']))?1:max(1, (int)$_COOKIE['uid']);
 
-  $res = do_sqlquery("SELECT u.downloaded, u.uploaded, u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = $id LIMIT 1;",true,$btit_settings['cache_duration']);
+  if ($btit_settings['xbtt_use'])
+  {
+    $udownloaded="u.downloaded+IFNULL(x.downloaded,0)";
+    $uuploaded="u.uploaded+IFNULL(x.uploaded,0)";
+    $utables="{$TABLE_PREFIX}users u LEFT JOIN xbt_users x ON x.uid=u.id";
+  }
+  else
+  {
+    $udownloaded="u.downloaded";
+    $uuploaded="u.uploaded";
+    $utables="{$TABLE_PREFIX}users u";
+  }
+
+  $res = do_sqlquery("SELECT $udownloaded as downloaded, $uuploaded as uploaded, u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = $id LIMIT 1;",true,$btit_settings['cache_duration']);
   $row = mysql_fetch_array($res);
   if (!$row) {
     $id=1;

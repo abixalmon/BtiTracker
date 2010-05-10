@@ -93,13 +93,13 @@ if (max(0,$CURUSER["WT"])>0)
     if (max(0,$CURUSER["WT"])>0)
         {
           $wait=0;
-          $resuser=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}users WHERE id=".$CURUSER["uid"]);
-          $rowuser=mysql_fetch_array($resuser);
-          if (max(0,$rowuser['downloaded'])>0) $ratio=number_format($rowuser['uploaded']/$rowuser['downloaded'],2);
+          //$resuser=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}users WHERE id=".$CURUSER["uid"]);
+          //$rowuser=mysql_fetch_array($resuser);
+          if (max(0,$CURUSER['downloaded'])>0) $ratio=number_format($CURUSER['uploaded']/$CURUSER['downloaded'],2);
           else $ratio=0.0;
-          $res2 =do_sqlquery("SELECT * FROM {$TABLE_PREFIX}files WHERE info_hash='".$data["hash"]."'");
-          $added=mysql_fetch_array($res2);
-          $vz = sql_timestamp_to_unix_timestamp($added["data"]);
+          //$res2 =do_sqlquery("SELECT * FROM {$TABLE_PREFIX}files WHERE info_hash='".$data["hash"]."'");
+          //$added=mysql_fetch_array($res2);
+          $vz = $data['added']; // sql_timestamp_to_unix_timestamp($added["data"]);
           $timer = floor((time() - $vz) / 3600);
           if($ratio<1.0 && $rowuser['id']!=$added["uploader"]){
               $wait=$CURUSER["WT"];

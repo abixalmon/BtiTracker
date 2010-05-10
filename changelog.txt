@@ -1,3 +1,7 @@
+xbtit v.2.1
+-----------
+fixed all known bugs and security problems
+
 xbtit v.2
 ---------
 There is really a lot of changes, all files are different, it's not possible to upgrade a modified Btit 1.4.x without doing standard database upgrade (using upgrade.php) and then applying hacks again on your new installed clean xbtit. Please note that you'll have an easy way to install hacks, but all existing hacks need to be packaging (at the moment not one is done). 
