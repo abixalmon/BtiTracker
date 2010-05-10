@@ -281,6 +281,7 @@ if ($count>0) {
        $torrents[$i]["filename"]="<a href=\"index.php?page=torrent-details&amp;id=".$data["hash"]."\" title=\"".$language["VIEW_DETAILS"].": ".$data["filename"]."\">".($data["filename"]!=""?$filename:$data["hash"])."</a>".($data["external"]=="no"?"":" (<span style=\"color:red\">EXT</span>)");
 
    // search for comments
+   /*
    $commentres = get_result("SELECT COUNT(*) as comments FROM {$TABLE_PREFIX}comments WHERE info_hash='" . $data["hash"] . "'",true);
    $commentdata = $commentres[0];
 
@@ -292,9 +293,13 @@ if ($count>0) {
            $torrents[$i]["comments"]="<a href=\"index.php?page=torrent-details&amp;id=".$data["hash"]."#comments\" title=\"".$language["VIEW_DETAILS"].": ".$data["filename"]."\">".$commentdata["comments"]."</a>";
       }
    else
+   */
+
+   // commented out to lower unsed queries (standard template)
        $torrents[$i]["comments"]="---";
 
    // Rating
+   /*
    $vres = get_result("SELECT sum(rating) as totrate, count(*) as votes FROM {$TABLE_PREFIX}ratings WHERE infohash = '" . $data["hash"] . "'",true);
    $vrow = $vres[0];
    if ($vrow && $vrow["votes"]>=1)
@@ -323,21 +328,26 @@ if ($count>0) {
        $totrate=$language["NA"];
 
    $torrents[$i]["rating"]="$totrate";
+   */
    // end rating
+
+   // commented out to lower unsed queries (standard template)
+   $torrents[$i]["rating"]=$language["NA"];
+
 
    //waitingtime
    // display only if the curuser have some WT restriction
    if (intval($CURUSER["WT"])>0)
       {
       $wait=0;
-      $resuser=get_result("SELECT * FROM {$TABLE_PREFIX}users WHERE id=".$CURUSER["uid"],true,$CACHE_DURATION);
-      $rowuser=$resuser[0];
+      //$resuser=get_result("SELECT * FROM {$TABLE_PREFIX}users WHERE id=".$CURUSER["uid"],true,$CACHE_DURATION);
+      //$rowuser=$resuser[0];
       $wait=0;
-      if (intval($rowuser['downloaded'])>0) $ratio=number_format($rowuser['uploaded']/$rowuser['downloaded'],2);
+      if (intval($CURUSER['downloaded'])>0) $ratio=number_format($CURUSER['uploaded']/$CURUSER['downloaded'],2);
       else $ratio=0.0;
       $vz = $data["added"];
       $timer = floor((time() - $vz) / 3600);
-      if($ratio<1.0 && $rowuser['id']!=$data["uploader"]){
+      if($ratio<1.0 && $CURUSER['uid']!=$data["uploader"]){
           $wait=$CURUSER["WT"];
       }
       $wait -=$timer;
