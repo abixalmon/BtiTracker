@@ -101,7 +101,7 @@ if (max(0,$CURUSER["WT"])>0)
           //$added=mysql_fetch_array($res2);
           $vz = $data['added']; //sql_timestamp_to_unix_timestamp($data["data"]);
           $timer = floor((time() - $vz) / 3600);
-          if($ratio<1.0 && $CURUSER['uid']!=$added["uploader"]){
+          if($ratio<1.0 && $CURUSER['uid']!=$data["uploader"]){
               $wait=$CURUSER["WT"];
           }
           $wait -=$timer;
