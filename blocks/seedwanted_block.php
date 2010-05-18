@@ -30,7 +30,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-global $CURUSER, $BASEURL, $STYLEURL, $XBTT_USE;
+global $CURUSER, $BASEURL, $STYLEURL, $XBTT_USE,$btit_settings;
 
 if (!$CURUSER || $CURUSER["view_torrents"]=="no")
    {
@@ -44,9 +44,9 @@ else
   else
      $sql = "SELECT info_hash as hash, seeds, leechers, dlbytes AS dwned, finished, filename, url, info, UNIX_TIMESTAMP(data) AS added, c.image, c.name AS cname, category AS catid, size, external, uploader FROM {$TABLE_PREFIX}files as f LEFT JOIN {$TABLE_PREFIX}categories as c ON c.id = f.category WHERE leechers >0 AND seeds = 0 AND external='no' ORDER BY leechers DESC LIMIT $limit";
 
-   $row = do_sqlquery($sql,true);
+   $row = get_result($sql,true,$btit_settings['cache_duration']);
 
-   if (mysql_num_rows($row)>0)
+   if (count($row)>0)
      {
        block_begin("Seeder Wanted");
 
@@ -69,7 +69,7 @@ else
 
        if ($row)
        {
-           while ($data=mysql_fetch_array($row))
+           foreach ($row as $id=>$data)
            {
            echo "<tr>\n";
 
@@ -83,12 +83,8 @@ else
 
          //waitingtime
              if (max(0,$CURUSER["WT"])>0){
-             //$resuser=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}users WHERE id=".$CURUSER["uid"]);
-             //$rowuser=mysql_fetch_array($resuser);
              if (max(0,$CURUSER['downloaded'])>0) $ratio=number_format($CURUSER['uploaded']/$CURUSER['downloaded'],2);
              else $ratio=0.0;
-             //$res2 =do_sqlquery("SELECT * FROM {$TABLE_PREFIX}files WHERE info_hash='".$data["hash"]."'");
-             //$added=mysql_fetch_array($res2);
              $vz = $data['added']; // sql_timestamp_to_unix_timestamp($added["data"]);
              $timer = floor((time() - $vz) / 3600);
              if($ratio<1.0 && $CURUSER['uid']!=$data["uploader"]){

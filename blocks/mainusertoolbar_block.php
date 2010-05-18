@@ -30,7 +30,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-global $CURUSER, $FORUMLINK, $db_prefix,$XBTT_USE;
+global $CURUSER, $FORUMLINK, $db_prefix,$XBTT_USE,$btit_settings;
 
   if (isset($CURUSER) && $CURUSER && $CURUSER["uid"]>1)
   {
@@ -41,23 +41,7 @@ global $CURUSER, $FORUMLINK, $db_prefix,$XBTT_USE;
 <?php
 $style=style_list();
 $langue=language_list();
-/*
-if ($XBTT_USE)
-   {
-    $udownloaded="u.downloaded+IFNULL(x.downloaded,0)";
-    $uuploaded="u.uploaded+IFNULL(x.uploaded,0)";
-    $utables="{$TABLE_PREFIX}users u LEFT JOIN xbt_users x ON x.uid=u.id";
-   }
-else
-    {
-    $udownloaded="u.downloaded";
-    $uuploaded="u.uploaded";
-    $utables="{$TABLE_PREFIX}users u";
-}
 
-$resuser=do_sqlquery("SELECT $udownloaded as downloaded,$uuploaded as uploaded FROM $utables WHERE u.id=".$CURUSER["uid"]);
-$rowuser= mysql_fetch_array($resuser);
-*/
 print("<td style=\"text-align:center;\" align=\"center\">".$language["USER_LEVEL"].": ".$CURUSER["level"]."</td>\n");
 print("<td class=\"green\" align=\"center\">&uarr;&nbsp;".makesize($CURUSER['uploaded']));
 print("</td><td class=\"red\" align=\"center\">&darr;&nbsp;".makesize($CURUSER['downloaded']));
@@ -68,14 +52,14 @@ if ($CURUSER["admin_access"]=="yes")
 print("<td style=\"text-align:center;\" align=\"center\"><a href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."\">".$language["USER_CP"]."</a></td>\n");
 
 if($FORUMLINK=="smf")
-    $resmail=do_sqlquery("SELECT unreadMessages FROM {$db_prefix}members WHERE ID_MEMBER=".$CURUSER["smf_fid"]);
+    $resmail=get_result("SELECT unreadMessages as ur FROM {$db_prefix}members WHERE ID_MEMBER=".$CURUSER["smf_fid"],true,$btit_settings['cache_duration']);
 else
-    $resmail=do_sqlquery("SELECT COUNT(*) FROM {$TABLE_PREFIX}messages WHERE readed='no' AND receiver=$CURUSER[uid]");
-if ($resmail && mysql_num_rows($resmail)>0)
+    $resmail=get_result("SELECT COUNT(*) as ur FROM {$TABLE_PREFIX}messages WHERE readed='no' AND receiver=$CURUSER[uid]",true,$btit_settings['cache_duration']);
+if ($resmail && count($resmail)>0)
    {
-    $mail=mysql_fetch_row($resmail);
-    if ($mail[0]>0)
-       print("<td style=\"text-align:center;\" align=\"center\"><a href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."&amp;do=pm&amp;action=list\">".$language["MAILBOX"]."</a> (<font color=\"#FF0000\"><b>$mail[0]</b></font>)</td>\n");
+    $mail=$resmail[0];
+    if ($mail['ur']>0)
+       print("<td style=\"text-align:center;\" align=\"center\"><a href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."&amp;do=pm&amp;action=list\">".$language["MAILBOX"]."</a> (<font color=\"#FF0000\"><b>".$mail['ur']."</b></font>)</td>\n");
     else
         print("<td style=\"text-align:center;\" align=\"center\"><a href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."&amp;do=pm&amp;action=list\">".$language["MAILBOX"]."</a></td>\n");
    }

@@ -30,7 +30,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-global $CURUSER;
+global $CURUSER,$btit_settings;
 if (!$CURUSER || $CURUSER["view_torrents"]=="no")
    {
     // do nothing
@@ -41,13 +41,13 @@ else
 
    block_begin(BLOCK_INFO);
    if ($XBTT_USE)
-      $res=do_sqlquery("select count(*) as tot, sum(f.seeds)+sum(ifnull(x.seeders,0)) as seeds, sum(f.leechers)+sum(ifnull(x.leechers,0)) as leechs  FROM {$TABLE_PREFIX}files f LEFT JOIN xbt_files x ON f.bin_hash=x.info_hash");
+      $res=get_result("select count(*) as tot, sum(f.seeds)+sum(ifnull(x.seeders,0)) as seeds, sum(f.leechers)+sum(ifnull(x.leechers,0)) as leechs  FROM {$TABLE_PREFIX}files f LEFT JOIN xbt_files x ON f.bin_hash=x.info_hash",true,$btit_settings['cache_duration']);
    else
-       $res=do_sqlquery("select count(*) as tot, sum(seeds) as seeds, sum(leechers) as leechs  FROM {$TABLE_PREFIX}files");
+       $res=get_result("select count(*) as tot, sum(seeds) as seeds, sum(leechers) as leechs  FROM {$TABLE_PREFIX}files",true,$btit_settings['cache_duration']);
 
    if ($res)
       {
-      $row=mysql_fetch_array($res);
+      $row=$res[0];
       $torrents=$row["tot"];
       $seeds=0+$row["seeds"];
       $leechers=0+$row["leechs"];
@@ -58,10 +58,10 @@ else
       $torrents=0;
       }
 
-   $res=do_sqlquery("select count(*) as tot FROM {$TABLE_PREFIX}users where id>1");
+   $res=get_result("select count(*) as tot FROM {$TABLE_PREFIX}users where id>1",true,$btit_settings['cache_duration']);
    if ($res)
       {
-      $row=mysql_fetch_array($res);
+      $row=$res[0];
       $users=$row["tot"];
       }
    else
@@ -74,10 +74,10 @@ else
    $peers=$seeds+$leechers;
 
    if ($XBTT_USE)
-      $res=do_sqlquery("select sum(u.downloaded+x.downloaded) as dled, sum(u.uploaded+x.uploaded) as upld FROM {$TABLE_PREFIX}users u LEFT JOIN xbt_users x ON x.uid=u.id",true);
+      $res=get_result("select sum(u.downloaded+x.downloaded) as dled, sum(u.uploaded+x.uploaded) as upld FROM {$TABLE_PREFIX}users u LEFT JOIN xbt_users x ON x.uid=u.id",true,$btit_settings['cache_duration']);
    else
-      $res=do_sqlquery("select sum(downloaded) as dled, sum(uploaded) as upld FROM {$TABLE_PREFIX}users",true);
-   $row=mysql_fetch_array($res);
+      $res=get_result("select sum(downloaded) as dled, sum(uploaded) as upld FROM {$TABLE_PREFIX}users",true,$btit_settings['cache_duration']);
+   $row=$res[0];
    $dled=0+$row["dled"];
    $upld=0+$row["upld"];
    $traffic=makesize($dled+$upld);

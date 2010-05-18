@@ -31,7 +31,7 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 
-global $STYLEURL;
+global $STYLEURL,$btit_settings;
 
 if ($GLOBALS["ajax_poller"])
 {
@@ -46,20 +46,21 @@ if ($GLOBALS["ajax_poller"])
   <div id="mainContainer">
       <div id="mainContent">
     <?php
-    $poll = mysql_query("SELECT * FROM {$TABLE_PREFIX}poller WHERE active='yes' ORDER BY ID DESC LIMIT 1");
-    if($pollid = mysql_fetch_array($poll))
-    $pollerId = $pollid["ID"];  // Id of poller
+    $poll = get_result("SELECT * FROM {$TABLE_PREFIX}poller WHERE active='yes' ORDER BY ID DESC LIMIT 1",true,$btit_settings['cache_duration']);
+    if($poll)
+    $pollerId = $poll[0]["ID"];  // Id of poller
     ?>
     <!-- START OF POLLER -->
     <div class="poller">
       <div class="poller_question" style="padding-left:5px; padding-right:5px;" id="poller_question<?php echo $pollerId; ?>">
       <?php      
       // Retreving poll from database
-      $res = mysql_query("select * from {$TABLE_PREFIX}poller where ID='$pollerId'");
-      if($inf = mysql_fetch_array($res)){
+      $res = get_result("select * from {$TABLE_PREFIX}poller where ID='$pollerId' LIMIT 1",true,$btit_settings['cache_duration']);
+      if($res){
+        $inf=$res[0];
         echo "<div class=\"pollerTitle\">".$inf["pollerTitle"]."</div>";  // Output poller title
-        $resOptions = mysql_query("select * from {$TABLE_PREFIX}poller_option where pollerID='$pollerId' order by pollerOrder") or die(mysql_error());  // Find poll options, i.e. radio buttons
-        while($infOptions = mysql_fetch_array($resOptions)){
+        $resOptions = get_result("select * from {$TABLE_PREFIX}poller_option where pollerID='$pollerId' order by pollerOrder",true,$btit_settings['cache_duration']);  // Find poll options, i.e. radio buttons
+        foreach($resOptions as $id=>$infOptions){
           if($infOptions["defaultChecked"])$checked=" checked=\"checked\""; else $checked = "";
           echo "<div class=\"pollerOption\"><input$checked type=\"radio\" value=\"".$infOptions["ID"]."\" name=\"vote[".$inf["ID"]."]\" id=\"pollerOption".$infOptions["ID"]."\" /><label for=\"pollerOption".$infOptions["ID"]."\" id=\"optionLabel".$infOptions["ID"]."\">".$infOptions["optionText"]."</label></div>";  
         }
@@ -80,22 +81,22 @@ if ($GLOBALS["ajax_poller"])
     <!-- END OF POLLER -->
       <?php
 
-        $uid_query = mysql_query("SELECT COUNT(ID) FROM {$TABLE_PREFIX}poller_vote WHERE memberID='".$CURUSER['uid']."' AND pollerID='".$pollerId."'");
-        $ip_query = mysql_query("SELECT COUNT(ID) FROM {$TABLE_PREFIX}poller_vote WHERE ipAddress='".ip2long($_SERVER['REMOTE_ADDR'])."' AND pollerID='".$pollerId."'");
+        $uid_query = get_result("SELECT COUNT(ID) FROM {$TABLE_PREFIX}poller_vote WHERE memberID='".$CURUSER['uid']."' AND pollerID='".$pollerId."'",true,$btit_settings['cache_duration']);
+        $ip_query = get_result("SELECT COUNT(ID) FROM {$TABLE_PREFIX}poller_vote WHERE ipAddress='".ip2long($_SERVER['REMOTE_ADDR'])."' AND pollerID='".$pollerId."'",true,$btit_settings['cache_duration']);
 
           if ($GLOBALS["ipcheck_poller"]==false)
       {
-        if ($uid_query!=0)
-          $uidcount = mysql_fetch_array($uid_query);
+        if ($uid_query)
+          $uidcount = $uid_query[0];
         $uid = $uidcount["COUNT(ID)"];
         $ip = 0;
       }
           elseif ($GLOBALS["ipcheck_poller"]==true)
        {
-        if ($uid_query!=0)
-          $uidcount = mysql_fetch_array($uid_query);
-        if ($ip_query!=0)
-          $ipcount = mysql_fetch_array($ip_query);
+        if ($uid_query)
+          $uidcount = $uid_query[0];
+        if ($ip_query)
+          $ipcount = $ip_query[0];
         $uid = $uidcount["COUNT(ID)"];
         $ip = $ipcount["COUNT(ID)"];
       }

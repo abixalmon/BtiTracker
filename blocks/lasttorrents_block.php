@@ -30,7 +30,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-global $CURUSER;
+global $CURUSER,$btit_settings;
 if (!$CURUSER || $CURUSER["view_torrents"]=="no")
    {
     // do nothing
@@ -50,7 +50,7 @@ else
   else
      $sql = "SELECT info_hash as hash, seeds, leechers, dlbytes AS dwned, format(finished,0) as finished, filename, url, info, UNIX_TIMESTAMP(data) AS added, c.image, c.name AS cname, category AS catid, size, external, uploader FROM {$TABLE_PREFIX}files as f LEFT JOIN {$TABLE_PREFIX}categories as c ON c.id = f.category WHERE leechers + seeds > 0 ORDER BY data DESC LIMIT " . $GLOBALS["block_last10limit"];
 
-     $row = do_sqlquery($sql) or err_msg($language["ERROR"],$language["CANT_DO_QUERY"].mysql_error());
+     $row = get_result($sql,true,$btit_settings['cache_duration']);
   ?>
   <tr>
       <td align="center" width="20" class="header">&nbsp;<?php echo $language["DOWN"]; ?>&nbsp;</td>
@@ -70,7 +70,7 @@ if (max(0,$CURUSER["WT"])>0)
 
   if ($row)
   {
-      while ($data=mysql_fetch_array($row))
+      foreach ($row as $id=>$data)
       {
       echo "<tr>";
           if ( strlen($data["hash"]) > 0 )
