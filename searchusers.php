@@ -42,7 +42,7 @@ dbconn();
 
 
 // get user's style
-$resheet=mysql_query("SELECT * FROM {$TABLE_PREFIX}style where id=".$CURUSER["style"]."") or die(mysql_error());
+$resheet=get_result("SELECT * FROM {$TABLE_PREFIX}style where id=".$CURUSER["style"]."",true,$btit_settings['cache_duration']);
 if (!$resheet)
    {
 
@@ -52,7 +52,7 @@ if (!$resheet)
    }
 else
     {
-        $resstyle=mysql_fetch_array($resheet);
+        $resstyle=$resheet[0];
         $STYLEPATH="$THIS_BASEPATH/".$resstyle["style_url"];
         $style="$BASEURL/".$resstyle["style_url"]."/main.css";
         $STYLEURL="$BASEURL/".$resstyle["style_url"];
@@ -63,9 +63,9 @@ $idlang=intval($_GET["language"]);
 
 // getting user language
 if ($idlang==0)
-   $reslang=mysql_query("SELECT * FROM {$TABLE_PREFIX}language WHERE id=".$CURUSER["language"]) or die(mysql_error());
+   $reslang=get_result("SELECT * FROM {$TABLE_PREFIX}language WHERE id=".$CURUSER["language"],true,$btit_settings['cache_duration']);
 else
-   $reslang=mysql_query("SELECT * FROM {$TABLE_PREFIX}language WHERE id=$idlang") or die(mysql_error());
+   $reslang=get_result("SELECT * FROM {$TABLE_PREFIX}language WHERE id=$idlang",true,$btit_settings['cache_duration']);
 
 if (!$reslang)
    {
@@ -73,7 +73,7 @@ if (!$reslang)
    }
 else
     {
-        $rlang=mysql_fetch_array($reslang);
+        $rlang=$reslang[0];
         $USERLANG="$THIS_BASEPATH/".$rlang["language_url"];
     }
 
@@ -122,8 +122,8 @@ if ($action!="find")
 }
 else
 {
-  $res=mysql_query("SELECT username FROM {$TABLE_PREFIX}users WHERE id>1 AND username LIKE '%".mysql_real_escape_string($_POST["user"])."%' ORDER BY username") or die(mysql_error());
-  if (!$res or mysql_num_rows($res)==0)
+  $res=get_result("SELECT username FROM {$TABLE_PREFIX}users WHERE id>1 AND username LIKE '%".mysql_real_escape_string($_POST["user"])."%' ORDER BY username",true,$btit_settings['cache_duration']);
+  if (!$res or count($res)==0)
      {
          print("<center>".$language["NO_USERS_FOUND"]."!<br />");
          print("<a href=searchusers.php>".$language["RETRY"]."</a></center>");
@@ -146,7 +146,7 @@ function SendIT(){
 <?php
      print("\n<td class=\"lista\">
      <select name=\"name\" size=\"1\">");
-     while($result=mysql_fetch_array($res))
+     foreach($res as $id=>$result)
          print("\n<option value=\"".$result["username"]."\">".$result["username"]."</option>");
      print("\n</select>\n</td>");
      print("\n<td class=\"lista\"><input type=\"button\" name=\"confirm\" onclick=\"javascript:SendIT();\" value=\"".$language["FRM_CONFIRM"]."\" /></td>");

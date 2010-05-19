@@ -118,7 +118,7 @@ switch ($do)
        $idlevel=$CURUSER["id_level"];
 
        // Get the members random number, current email and temp email from their record
-       $getacc=mysql_fetch_assoc(do_sqlquery("SELECT random, email, temp_email".(($GLOBALS["FORUMLINK"]=="smf") ? ", smf_fid" : "")." from {$TABLE_PREFIX}users WHERE id=".$id));
+       $getacc=mysql_fetch_assoc(do_sqlquery("SELECT random, email, temp_email".(($GLOBALS["FORUMLINK"]=="smf") ? ", smf_fid" : "")." from {$TABLE_PREFIX}users WHERE id=".$id,true));
        $oldmail=$getacc["email"];
        $dbrandom=$getacc["random"];
        $mailcheck=$getacc["temp_email"];
@@ -135,7 +135,7 @@ switch ($do)
            }
 
             // Update their tracker member record with the now verified email address
-            do_sqlquery("UPDATE {$TABLE_PREFIX}users SET email='".mysql_real_escape_string($newmail)."' WHERE id='".$id."'");
+            do_sqlquery("UPDATE {$TABLE_PREFIX}users SET email='".mysql_real_escape_string($newmail)."' WHERE id='".$id."'",true);
 
             // If using SMF, update their record on that too.            
             if($GLOBALS["FORUMLINK"]=="smf")
@@ -144,7 +144,7 @@ switch ($do)
                 $language2=$language;
                 require_once($basedir."/smf/Settings.php");
                 $language=$language2;
-                do_sqlquery("UPDATE {$db_prefix}members SET emailAddress='".mysql_real_escape_string($newmail)."' WHERE ID_MEMBER=".$getacc["smf_fid"]);
+                do_sqlquery("UPDATE {$db_prefix}members SET emailAddress='".mysql_real_escape_string($newmail)."' WHERE ID_MEMBER=".$getacc["smf_fid"],true);
             }
             
             // Print a message stating that their email has been successfully changed

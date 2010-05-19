@@ -70,9 +70,8 @@ if (isset($_POST["uid"]) && isset($_POST["pwd"]))
   {
     if ($FORUMLINK=="smf")
         $smf_pass = sha1(strtolower($user) . $pwd);
-    $res = do_sqlquery("SELECT u.id, u.random, u.password".(($FORUMLINK=="smf") ? ", u.smf_fid, s.passwd, s.passwordSalt" : "")." FROM {$TABLE_PREFIX}users u ".(($FORUMLINK=="smf") ? "LEFT JOIN {$db_prefix}members s ON u.smf_fid=s.ID_MEMBER" : "" )." WHERE u.username ='".AddSlashes($user)."'")
-        or die(mysql_error());
-    $row = mysql_fetch_array($res);
+        $res = do_sqlquery("SELECT u.id, u.random, u.password".(($FORUMLINK=="smf") ? ", u.smf_fid, s.passwd, s.passwordSalt" : "")." FROM {$TABLE_PREFIX}users u ".(($FORUMLINK=="smf") ? "LEFT JOIN {$db_prefix}members s ON u.smf_fid=s.ID_MEMBER" : "" )." WHERE u.username ='".AddSlashes($user)."'",true);
+        $row = mysql_fetch_array($res);
 
     if (!$row)
         {

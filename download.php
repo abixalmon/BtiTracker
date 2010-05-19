@@ -60,9 +60,8 @@ if (!is_file($filepath) || !is_readable($filepath))
 $f=urldecode($_GET["f"]);
 
 // pid code begin
-$result=do_sqlquery("SELECT pid FROM {$TABLE_PREFIX}users WHERE id=".$CURUSER['uid']);
-$row = mysql_fetch_assoc($result);
-$pid=$row["pid"];
+$row =get_result("SELECT pid FROM {$TABLE_PREFIX}users WHERE id=".$CURUSER['uid'],true,$btit_settings['cache_duration']);
+$pid=$row[0]["pid"];
 if (!$pid)
    {
    $pid=md5(uniqid(rand(),true));
@@ -71,8 +70,8 @@ if (!$pid)
       do_sqlquery("UPDATE xbt_users SET torrent_pass='".$pid."' WHERE uid='".$CURUSER['uid']."'");
 }
 
-$result=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}files WHERE info_hash='".$infohash."'");
-$row = mysql_fetch_assoc($result);
+$result=get_result("SELECT * FROM {$TABLE_PREFIX}files WHERE info_hash='".$infohash."'",true,$btit_settings['cache_duration']);
+$row = $result[0];
 
 if ($row["external"]=="yes" || !$PRIVATE_ANNOUNCE)
    {

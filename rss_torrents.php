@@ -73,9 +73,9 @@ print("<?xml version=\"1.0\" encoding=\"".$GLOBALS["charset"]."\"?>");
 <?php
 
   $getItems = "SELECT f.info_hash as id, f.comment as description, f.filename, $tseeds AS seeders, $tleechs as leechers, UNIX_TIMESTAMP( f.data ) as added, c.name as cname, f.size FROM $ttables LEFT JOIN {$TABLE_PREFIX}categories c ON c.id = f.category ORDER BY data DESC LIMIT 20";
-  $doGet=do_sqlquery($getItems) or die(mysql_error());;
+  $doGet=get_result($getItems,true,$btit_settings['cache_duration']);
 
-  while($item=mysql_fetch_array($doGet))
+  foreach($doGet as $id=>$item)
    {
     $id=$item['id'];
     $filename=($item['filename']);

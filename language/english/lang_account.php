@@ -19,4 +19,5 @@ $language['WEEK']='Weak';
 $language['MEDIUM']='Medium';
 $language['SAFE']='Safe';
 $language['STRONG']='Strong';
+$language["ERR_GENERIC"]='Generic Error: '.mysql_error();
 ?>

@@ -170,8 +170,9 @@ if (!isset($array["announce"]))
 
       if ((strlen($hash) != 40) || !verifyHash($hash))
       {
-         echo("<center><font color=\"red\">".$language["ERR_HASH"]."</font></center>");
-         endOutput();
+          err_msg($language["ERROR"],$language["ERR_HASH"]);
+          stdfoot();
+          exit();
       }
 //      if ($announce!=$BASEURL."/announce.php" && $EXTERNAL_TORRENTS==false)
       if (!in_array($announce,$TRACKER_ANNOUNCEURLS) && $EXTERNAL_TORRENTS==false)

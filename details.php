@@ -93,7 +93,7 @@ if(!$CURUSER || $CURUSER["view_torrents"]!="yes")
 }
 
 
-$res = get_result("SELECT f.info_hash, f.filename, f.url, UNIX_TIMESTAMP(f.data) as data, f.size, f.comment, f.uploader, c.name as cat_name, $tseeds, $tleechs, $tcompletes, f.speed, f.external, f.announce_url,UNIX_TIMESTAMP(f.lastupdate) as lastupdate,UNIX_TIMESTAMP(f.lastsuccess) as lastsuccess, f.anonymous, u.username FROM $ttables LEFT JOIN {$TABLE_PREFIX}categories c ON c.id=f.category LEFT JOIN {$TABLE_PREFIX}users u ON u.id=f.uploader WHERE f.info_hash ='" . $id . "'",true);
+$res = get_result("SELECT f.info_hash, f.filename, f.url, UNIX_TIMESTAMP(f.data) as data, f.size, f.comment, f.uploader, c.name as cat_name, $tseeds, $tleechs, $tcompletes, f.speed, f.external, f.announce_url,UNIX_TIMESTAMP(f.lastupdate) as lastupdate,UNIX_TIMESTAMP(f.lastsuccess) as lastsuccess, f.anonymous, u.username FROM $ttables LEFT JOIN {$TABLE_PREFIX}categories c ON c.id=f.category LEFT JOIN {$TABLE_PREFIX}users u ON u.id=f.uploader WHERE f.info_hash ='" . $id . "'",true, $btit_settings['cache_duration']);
 //die("SELECT f.info_hash, f.filename, f.url, UNIX_TIMESTAMP(f.data) as data, f.size, f.comment, f.uploader, c.name as cat_name, $tseeds, $tleechs, $tcompletes, f.speed, f.external, f.announce_url,UNIX_TIMESTAMP(f.lastupdate) as lastupdate,UNIX_TIMESTAMP(f.lastsuccess) as lastsuccess, f.anonymous, u.username FROM $ttables LEFT JOIN {$TABLE_PREFIX}categories c ON c.id=f.category LEFT JOIN {$TABLE_PREFIX}users u ON u.id=f.uploader WHERE f.info_hash ='" . $id . "'");
 if (count($res)<1)
    stderr($language["ERROR"],"Bad ID!",$GLOBALS["usepopup"]);
@@ -143,8 +143,8 @@ if (isset($row["cat_name"]))
 else
     $row["cat_name"]=unesc($language["NONE"]);
 
-$vres = do_sqlquery("SELECT sum(rating) as totrate, count(*) as votes FROM {$TABLE_PREFIX}ratings WHERE infohash = '$id'");
-$vrow = @mysql_fetch_array($vres);
+$vres = get_result("SELECT sum(rating) as totrate, count(*) as votes FROM {$TABLE_PREFIX}ratings WHERE infohash = '$id'",true, $btit_settings['cache_duration']);
+$vrow = $vres[0];
 if ($vrow && $vrow["votes"]>=1)
    {
    $totrate=round($vrow["totrate"]/$vrow["votes"],1);
@@ -171,12 +171,12 @@ else
     $totrate=$language["NA"];
 
 unset($vrow);
-mysql_free_result($vres);
+unset($vres);
 
 if ($row["username"]!=$CURUSER["username"] && $CURUSER["uid"]>1)
    {
    $ratings = array(5 => $language["FIVE_STAR"] ,4 =>$language["FOUR_STAR"] ,3 =>$language["THREE_STAR"] ,2 =>$language["TWO_STAR"] ,1 =>$language["ONE_STAR"] );
-   $xres = do_sqlquery("SELECT rating, added FROM {$TABLE_PREFIX}ratings WHERE infohash = '$id' AND userid = " . $CURUSER["uid"]);
+   $xres = do_sqlquery("SELECT rating, added FROM {$TABLE_PREFIX}ratings WHERE infohash = '$id' AND userid = " . $CURUSER["uid"],true);
    $xrow = @mysql_fetch_array($xres);
    if ($xrow)
        $s = $totrate. " (".$language["YOU_RATE"]." \"" . $ratings[$xrow["rating"]] . "\")";
@@ -297,8 +297,8 @@ else
    $torrenttpl->set("EXTERNAL",false,TRUE);
 
 // comments...
-$subres = do_sqlquery("SELECT c.id, text, UNIX_TIMESTAMP(added) as data, user, u.id as uid FROM {$TABLE_PREFIX}comments c LEFT JOIN {$TABLE_PREFIX}users u ON c.user=u.username WHERE info_hash = '" . $id . "' ORDER BY added DESC");
-if (!$subres || mysql_num_rows($subres)==0) {
+$subres = get_result("SELECT c.id, text, UNIX_TIMESTAMP(added) as data, user, u.id as uid FROM {$TABLE_PREFIX}comments c LEFT JOIN {$TABLE_PREFIX}users u ON c.user=u.username WHERE info_hash = '" . $id . "' ORDER BY added DESC",true,$btit_settings['cache_duration']);
+if (!$subres || count($subres)==0) {
      if($CURUSER["uid"]>1)
        $torrenttpl->set("INSERT_COMMENT",TRUE,TRUE);
      else
@@ -316,7 +316,7 @@ else {
        $torrenttpl->set("INSERT_COMMENT",false,TRUE);
      $comments=array();
      $count=0;
-     while ($subrow = mysql_fetch_array($subres)) {
+     foreach ($subres as $id=>$subrow) {
        $comments[$count]["user"]="<a href=\"index.php?page=userdetails&amp;id=".$subrow["uid"]."\">" . unesc($subrow["user"]);
        $comments[$count]["date"]=date("d/m/Y H.i.s",$subrow["data"]-$offset);
        // only users able to delete torrents can delete comments...
@@ -326,7 +326,7 @@ else {
        $count++;
         }
      unset($subrow);
-     mysql_free_result($subres);
+     unset($subres);
 }
 
 $torrenttpl->set("current_username",$CURUSER["username"]);

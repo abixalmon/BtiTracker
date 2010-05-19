@@ -71,9 +71,8 @@ if ($act=="signup" && isset($CURUSER["uid"]) && $CURUSER["uid"]!=1) {
 }
 
 
-$res=do_sqlquery("SELECT count(*) FROM {$TABLE_PREFIX}users WHERE id>1",true);
-$nusers=mysql_fetch_row($res);
-$numusers=$nusers[0];
+$nusers=get_result("SELECT count(*) as tu FROM {$TABLE_PREFIX}users WHERE id>1",true,$btit_settings['cache_duration']);
+$numusers=$nusers[0]['tu'];
 
 if ($act=="signup" && $MAX_USERS!=0 && $numusers>=$MAX_USERS)
    {
@@ -92,8 +91,8 @@ if ($act=="confirm") {
       else {
           if($FORUMLINK=="smf")
           {
-              $get=mysql_fetch_assoc(mysql_query("SELECT smf_fid FROM {$TABLE_PREFIX}users WHERE id_level=3 AND random=$random2"));
-              do_sqlquery("UPDATE {$db_prefix}members SET ID_GROUP=13 WHERE ID_MEMBER=".$get["smf_fid"]);  
+              $get=get_result("SELECT smf_fid FROM {$TABLE_PREFIX}users WHERE id_level=3 AND random=$random2",true,$btit_settings['cache_duration']);
+              do_sqlquery("UPDATE {$db_prefix}members SET ID_GROUP=13 WHERE ID_MEMBER=".$get[0]["smf_fid"],true);
           }
           success_msg($language["ACCOUNT_CREATED"],$language["ACCOUNT_CONGRATULATIONS"]);
           stdfoot();
@@ -127,8 +126,12 @@ if ($_POST["conferma"]) {
           }
        elseif ($ret==-1)
          stderr($language["ERROR"],$language["ERR_MISSING_DATA"]);
+       elseif ($ret==-2)
+         stderr($language["ERROR"],$language["ERR_EMAIL_ALREADY_EXISTS"]);
        elseif ($ret==-3)
          stderr($language["ERROR"],$language["ERR_NO_EMAIL"]);
+       elseif ($ret==-4)
+        stderr($language["ERROR"],$language["ERR_USER_ALREADY_EXISTS"]);
        elseif ($ret==-7)
          stderr($language["ERROR"],"<font color=\"black\">".$language["ERR_NO_SPACE"]."<strong><font color=\"red\">".preg_replace('/\ /', '_', mysql_real_escape_string($_POST["user"]))."</strong></font></font><br />");
        elseif ($ret==-8)
@@ -353,7 +356,7 @@ if ($utente=="" || $pwd=="" || $email=="") {
    exit;
 }
 
-$res=do_sqlquery("SELECT email FROM {$TABLE_PREFIX}users WHERE email='$email'");
+$res=do_sqlquery("SELECT email FROM {$TABLE_PREFIX}users WHERE email='$email'",true);
 if (mysql_num_rows($res)>0)
    {
    return -2;
@@ -376,7 +379,7 @@ if(!preg_match($regex,$email))
 // valid email check end
 
 // duplicate username
-$res=do_sqlquery("SELECT username FROM {$TABLE_PREFIX}users WHERE username='$utente'");
+$res=do_sqlquery("SELECT username FROM {$TABLE_PREFIX}users WHERE username='$utente'",true);
 if (mysql_num_rows($res)>0)
    {
    return -4;
@@ -464,25 +467,25 @@ $newuid=mysql_insert_id();
 
 // Continue to create smf members if they disable smf mode
 // $test=do_sqlquery("SELECT COUNT(*) FROM {$db_prefix}members");
-$test=do_sqlquery("SHOW TABLES LIKE '{$db_prefix}members'");
+$test=do_sqlquery("SHOW TABLES LIKE '{$db_prefix}members'",true);
 
 if ($FORUMLINK=="smf" || mysql_num_rows($test))
 {
     $smfpass=smf_passgen($utente, $pwd);
     $flevel=$idlevel+10;
 
-    do_sqlquery("INSERT INTO {$db_prefix}members (memberName, dateRegistered, ID_GROUP, realName, passwd, emailAddress, memberIP, memberIP2, is_activated, passwordSalt) VALUES ('$utente', UNIX_TIMESTAMP(), $flevel, '$utente', '$smfpass[0]', '$email', '".getip()."', '".getip()."', 1, '$smfpass[1]')");
+    do_sqlquery("INSERT INTO {$db_prefix}members (memberName, dateRegistered, ID_GROUP, realName, passwd, emailAddress, memberIP, memberIP2, is_activated, passwordSalt) VALUES ('$utente', UNIX_TIMESTAMP(), $flevel, '$utente', '$smfpass[0]', '$email', '".getip()."', '".getip()."', 1, '$smfpass[1]')",true);
     $fid=mysql_insert_id();
-    do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = $fid WHERE `variable` = 'latestMember'");
-    do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = '$utente' WHERE `variable` = 'latestRealName'");
-    do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = UNIX_TIMESTAMP() WHERE `variable` = 'memberlist_updated'");
-    do_sqlquery("UPDATE {$TABLE_PREFIX}users SET smf_fid=$fid WHERE id=$newuid");
+    do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = $fid WHERE `variable` = 'latestMember'",true);
+    do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = '$utente' WHERE `variable` = 'latestRealName'",true);
+    do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = UNIX_TIMESTAMP() WHERE `variable` = 'memberlist_updated'",true);
+    do_sqlquery("UPDATE {$TABLE_PREFIX}users SET smf_fid=$fid WHERE id=$newuid",true);
 }
 
 // xbt
 if ($XBTT_USE)
    {
-   $resin=do_sqlquery("INSERT INTO xbt_users (uid, torrent_pass) VALUES ($newuid,'$pid')");
+   $resin=do_sqlquery("INSERT INTO xbt_users (uid, torrent_pass) VALUES ($newuid,'$pid')",true);
    }
 if ($VALIDATION=="user")
    {

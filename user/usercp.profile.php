@@ -47,7 +47,7 @@ switch ($action)
            // Password confirmation required to update user record
            (isset($_POST["passconf"])) ? $password=md5($_POST["passconf"]) : $password="";
                       
-           $res=mysql_query("SELECT password FROM {$TABLE_PREFIX}users WHERE id=".$CURUSER["uid"]);
+           $res=do_sqlquery("SELECT password FROM {$TABLE_PREFIX}users WHERE id=".$CURUSER["uid"],true);
            if(mysql_num_rows($res)>0)
                $user=mysql_fetch_assoc($res);           
 
@@ -88,7 +88,7 @@ switch ($action)
                        $random = rand($floor, $ceiling);
 
                        // Update the members record with the random number and store the email they want to change to
-                       do_sqlquery("UPDATE {$TABLE_PREFIX}users SET random='".$random."', temp_email='".$email."' WHERE id='".$id."'");
+                       do_sqlquery("UPDATE {$TABLE_PREFIX}users SET random='".$random."', temp_email='".$email."' WHERE id='".$id."'",true);
 
                        // Send the verification email
                        @ini_set("sendmail_from","");
@@ -129,7 +129,7 @@ switch ($action)
                elseif ($updateset!="")
                // <--- Reverify Mail Hack by Petr1fied - End
                   {
-                  do_sqlquery("UPDATE {$TABLE_PREFIX}users SET $updateset WHERE id='".$uid."'") or die(mysql_error());
+                  do_sqlquery("UPDATE {$TABLE_PREFIX}users SET $updateset WHERE id='".$uid."'",true);
 
                   success_msg($language["SUCCESS"], $language["INF_CHANGED"]."<br /><a href=\"index.php?page=usercp&amp;uid=".$uid."\">".$language["BCK_USERCP"]."</a>");
                   stdfoot(true,false);

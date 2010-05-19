@@ -134,9 +134,8 @@ else
 
          $scriptname = htmlspecialchars($_SERVER["PHP_SELF"]."?page=users");
 
-         $res=do_sqlquery("select COUNT(*) FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id>1 $where") or die(mysql_error());
-         $row = mysql_fetch_row($res);
-         $count = $row[0];
+         $res=get_result("select COUNT(*) as tu FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id>1 $where",true,$btit_settings['cache_duration']);
+         $count = $res[0]['tu'];
          list($pagertop, $pagerbottom, $limit) = pager(20, $count,  $scriptname."&amp;" . $addparams.(strlen($addparam)>0?"&amp;":"")."order=$order_param&amp;by=$by_param&amp;");
 
         if ($by=="ASC")
@@ -152,9 +151,9 @@ $userstpl->set("language", $language);
 $userstpl->set("users_search", $search);
 $userstpl->set("users_search_level", $level==0 ? " selected=\"selected\" " : "");
 
-$res=do_sqlquery("SELECT id,level FROM {$TABLE_PREFIX}users_level WHERE id_level>1 ORDER BY id_level");
+$res=get_result("SELECT id,level FROM {$TABLE_PREFIX}users_level WHERE id_level>1 ORDER BY id_level",true,$btit_settings['cache_duration']);
 $select="";
-while($row=mysql_fetch_array($res))
+foreach($res as $id=>$row)
   {    // start while
   $select.="<option value='".$row["id"]."'";
   if ($level==$row["id"])
@@ -180,7 +179,7 @@ if ($CURUSER["delete_users"]=="yes")
           
 $query="select prefixcolor, suffixcolor, u.id, $udownloaded as downloaded, $uuploaded as uploaded, IF($udownloaded>0,$uuploaded/$udownloaded,0) as ratio, username, level, UNIX_TIMESTAMP(joined) AS joined,UNIX_TIMESTAMP(lastconnect) AS lastconnect, flag, flagpic, c.name as name, u.smf_fid FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag=c.id WHERE u.id>1 $where ORDER BY $order $by $limit";
 
-$rusers=do_sqlquery($query,true);
+$rusers=get_result($query,true,$btit_settings['cache_duration']);
 $userstpl->set("no_users", ($count==0), TRUE);
 
 include ("$CURRENTPATH/offset.php");
@@ -188,7 +187,7 @@ include ("$CURRENTPATH/offset.php");
 $users=array();
 $i=0;
 
-while ($row_user=mysql_fetch_array($rusers))
+foreach ($rusers as $id=>$row_user)
   {     // start while
   $users[$i]["username"] = "<a href=\"index.php?page=userdetails&amp;id=".$row_user["id"]."\">".unesc($row_user["prefixcolor"]).unesc($row_user["username"]).unesc($row_user["suffixcolor"])."</a>";
   $users[$i]["userlevel"] = $row_user["level"];

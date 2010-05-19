@@ -48,10 +48,8 @@ if ($CURUSER["view_news"]=="no")
 
 if ($limit>0)
   $limitqry="LIMIT $limit";
-$res=do_sqlquery("SELECT n.id, n.title, n.news,UNIX_TIMESTAMP(n.date) as news_date, u.username FROM {$TABLE_PREFIX}news n INNER JOIN {$TABLE_PREFIX}users u on u.id=n.user_id ORDER BY date DESC $limitqry");
+$res=get_result("SELECT n.id, n.title, n.news,UNIX_TIMESTAMP(n.date) as news_date, u.username FROM {$TABLE_PREFIX}news n INNER JOIN {$TABLE_PREFIX}users u on u.id=n.user_id ORDER BY date DESC $limitqry",true,$btit_settings['cache_duration']);
 
-// $row = mysql_fetch_row($res);
-// $count = $row[0];
 
 // load language file
 require(load_language("lang_viewnews.php"));
@@ -65,13 +63,13 @@ $viewnewstpl -> set("can_delete_news", $CURUSER["delete_news"]=="yes", TRUE);
 $viewnews=array();
 $i=0;
 
-$viewnewstpl -> set("news_exists", (mysql_num_rows($res) > 0),TRUE);
-$viewnewstpl -> set("insert_news_link", (mysql_num_rows($res) == 0?"<a href=\"index.php?page=news&amp;act=add\"><img border=\"0\" alt=\"".$language["ADD"]."\" src=\"$BASEURL/images/new.gif\" /></a>":""));
+$viewnewstpl -> set("news_exists", (count($res) > 0),TRUE);
+$viewnewstpl -> set("insert_news_link", (count($res) == 0?"<a href=\"index.php?page=news&amp;act=add\"><img border=\"0\" alt=\"".$language["ADD"]."\" src=\"$BASEURL/images/new.gif\" /></a>":""));
 
 include("$THIS_BASEPATH/include/offset.php");
 
 
-while ($rows=mysql_fetch_array($res))
+foreach ($res as $rows)
   {
   
       $viewnews[$i]["add_edit_news"] = "<a href=\"index.php?page=news&amp;act=add\">".$language["ADD"]."</a>&nbsp;&nbsp;&nbsp;<a href=\"index.php?page=news&amp;act=edit&amp;id=".$rows["id"]."\">".$language["EDIT"]."</a>";

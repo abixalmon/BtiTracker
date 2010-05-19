@@ -47,12 +47,13 @@ else
 }
 
     $uid = intval($CURUSER["uid"]);
-    $res=do_sqlquery("SELECT u.lip,u.username, $udownloaded as downloaded,$uuploaded as uploaded, UNIX_TIMESTAMP(u.joined) as joined, u.flag, c.name, c.flagpic FROM $utables LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag=c.id WHERE u.id=$uid",true);
+    //$res=do_sqlquery("SELECT u.lip,u.username, $udownloaded as downloaded,$uuploaded as uploaded, UNIX_TIMESTAMP(u.joined) as joined, u.flag, c.name, c.flagpic FROM $utables LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag=c.id WHERE u.id=$uid",true);
+    $res=get_result("SELECT c.name, c.flagpic FROM {$TABLE_PREFIX}countries c WHERE id=".$CURUSER["flag"],true,$btit_settings['cache_duration']);
     $row = mysql_fetch_array($res);
 
-    if (max(0,$row["downloaded"])>0)
+    if (max(0,$CURUSER["downloaded"])>0)
      {
-       $sr = $row["uploaded"]/$row["downloaded"];
+       $sr = $CURUSER["uploaded"]/$CURUSER["downloaded"];
        if ($sr >= 4)
          $s = "images/smilies/thumbsup.gif";
        else if ($sr >= 2)
@@ -77,13 +78,13 @@ else
   else
      $ucptpl["avatar"]="";
   $ucptpl["email"]=htmlspecialchars($CURUSER["email"]);
-  $ucptpl["lastip"]=long2ip($row["lip"]);
+  $ucptpl["lastip"]=long2ip($CURUSER["lip"]);
   $ucptpl["userlevel"]=unesc($CURUSER["level"]);
   $ucptpl["userjoin"]=($CURUSER["joined"]==0 ? "N/A" : get_date_time($CURUSER["joined"]));
   $ucptpl["lastaccess"]=($CURUSER["lastconnect"]==0 ? "N/A" : get_date_time($CURUSER["lastconnect"]));
-  $ucptpl["country"]=($row["flag"]==0 ? "":unesc($row['name']))."&nbsp;&nbsp;<img src=\"images/flag/".(!$row["flagpic"] || $row["flagpic"]==""?"unknown.gif":$row["flagpic"])."\" alt='".($row["flag"]==0 ? "unknow":unesc($row['name']))."' />";
-  $ucptpl["download"]=makesize($row["downloaded"]);
-  $ucptpl["upload"]=makesize($row["uploaded"]);
+  $ucptpl["country"]=($CURUSER["flag"]==0 ? "":unesc($row['name']))."&nbsp;&nbsp;<img src=\"images/flag/".(!$row["flagpic"] || $row["flagpic"]==""?"unknown.gif":$row["flagpic"])."\" alt='".($CURUSER["flag"]==0 ? "unknow":unesc($row['name']))."' />";
+  $ucptpl["download"]=makesize($CURUSER["downloaded"]);
+  $ucptpl["upload"]=makesize($CURUSER["uploaded"]);
   $ucptpl["ratio"]=$ratio;
   $usercptpl->set("ucp",$ucptpl);
   $usercptpl->set("AVATAR",$CURUSER["avatar"] && $CURUSER["avatar"]!="",true);
@@ -92,18 +93,18 @@ else
   // Only show if forum is internal
   if ( $GLOBALS["FORUMLINK"] == '' || $GLOBALS["FORUMLINK"] == 'internal' )
      {
-     $sql = do_sqlquery("SELECT count(*) FROM {$TABLE_PREFIX}posts p INNER JOIN {$TABLE_PREFIX}users u ON p.userid = u.id WHERE u.id = " . $CURUSER["uid"]);
-     $ssql=mysql_fetch_array($sql);
-     $posts = $ssql[0];
-     unset($ssql);
-     $memberdays = max(1, round( ( time() - $row['joined'] ) / 86400 ));
+     $sql = get_result("SELECT count(*) as tp FROM {$TABLE_PREFIX}posts p INNER JOIN {$TABLE_PREFIX}users u ON p.userid = u.id WHERE u.id = " . $CURUSER["uid"],true,$btit_settings['cache_duration']);
+     $posts = $sql[0]['tp'];
+     unset($sql);
+     $memberdays = max(1, round( ( time() - $CURUSER['joined'] ) / 86400 ));
      $posts_per_day = number_format(round($posts / $memberdays,2),2);
      $usercptpl->set("INTERNAL_FORUM",true,true);
      $usercptpl->set("posts",$posts."&nbsp;[" . sprintf($language["POSTS_PER_DAY"], $posts_per_day) . "]");
   }
   elseif ($GLOBALS["FORUMLINK"]=="smf")
      {
-     $forum=mysql_fetch_assoc(mysql_query("SELECT dateRegistered, posts FROM {$db_prefix}members WHERE ID_MEMBER=".$CURUSER["smf_fid"]));
+     $forum=get_result("SELECT dateRegistered, posts FROM {$db_prefix}members WHERE ID_MEMBER=".$CURUSER["smf_fid"],true,$btit_settings['cache_duration']);
+     $forum=$forum[0];
      $memberdays = max(1, round( ( time() - $forum["dateRegistered"] ) / 86400 ));
      $posts_per_day = number_format(round($forum["posts"] / $memberdays,2),2);
      $usercptpl->set("INTERNAL_FORUM",true,true);
@@ -125,9 +126,8 @@ else
       $ttables="{$TABLE_PREFIX}files f";
       }
 
-  $resuploaded = do_sqlquery("SELECT count(*) FROM {$TABLE_PREFIX}files WHERE uploader=$uid ORDER BY data DESC",true);
-  $ruploaded=mysql_fetch_row($resuploaded);
-  $numtorrent=$ruploaded[0];
+  $resuploaded = get_result("SELECT count(*) as tf FROM {$TABLE_PREFIX}files WHERE uploader=$uid ORDER BY data DESC",true,$btit_settings['cache_duration']);
+  $numtorrent=$resuploaded[0]['tf'];
   unset($ruploaded);
 
   $utorrents = intval($CURUSER["torrentsperpage"]);
@@ -138,15 +138,15 @@ else
 
      $usercptpl->set("pagertop",$pagertop);
 
-     $resuploaded = do_sqlquery("SELECT f.filename, UNIX_TIMESTAMP(f.data) as added, f.size, $tseeds as seeds, $tleechs as leechers, $tcompletes as finished, f.info_hash as hash FROM $ttables WHERE uploader=$uid ORDER BY data DESC $limit", true);
+     $resuploaded = get_result("SELECT f.filename, UNIX_TIMESTAMP(f.data) as added, f.size, $tseeds as seeds, $tleechs as leechers, $tcompletes as finished, f.info_hash as hash FROM $ttables WHERE uploader=$uid ORDER BY data DESC $limit",true,$btit_settings['cache_duration']);
   }
-  if ($resuploaded && mysql_num_rows($resuploaded)>0)
+  if ($resuploaded && count($resuploaded)>0)
      {
          include("include/offset.php");
          $usercptpl->set("RESULTS",true,true);
          $uptortpl=array();
          $i=0;
-         while ($rest=mysql_fetch_assoc($resuploaded))
+         foreach ($resuploaded as $id=>$rest)
                  {
                   $uptortpl[$i]["filename"]=cut_string(unesc($rest["filename"]),intval($btit_settings["cut_name"]));
                   $uptortpl[$i]["added"]=date("d/m/Y",$rest["added"]-$offset);

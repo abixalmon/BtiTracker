@@ -107,7 +107,7 @@ $ceiling = 999999;
 srand((double)microtime()*1000000);
 $random = rand($floor, $ceiling);
 
-do_sqlquery("UPDATE {$TABLE_PREFIX}users SET random='$random' WHERE id='".$arr["id"]."'") or sqlerr();
+do_sqlquery("UPDATE {$TABLE_PREFIX}users SET random='$random' WHERE id='".$arr["id"]."'",true);
 if (mysql_affected_rows()==0)
     stderr($language["ERROR"],"".$language["ERR_DB_ERR"].",".$arr["id"].",".$email.",".$random."");
 
@@ -133,8 +133,8 @@ elseif ($act == "generate")
 if (!$id || !$random || empty($random) || $random==0)
     stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);
 
-$res = do_sqlquery("SELECT username, email, random".(($GLOBALS["FORUMLINK"]=="smf") ? ", smf_fid" : "")." FROM {$TABLE_PREFIX}users WHERE id = $id");
-$arr = mysql_fetch_array($res) or httperr();
+$res = do_sqlquery("SELECT username, email, random".(($GLOBALS["FORUMLINK"]=="smf") ? ", smf_fid" : "")." FROM {$TABLE_PREFIX}users WHERE id = $id",true);
+$arr = mysql_fetch_array($res);
 
 if ($random!=$arr["random"])
     stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);
@@ -148,7 +148,7 @@ if ($random!=$arr["random"])
     for ($i = 0; $i < 10; $i++)
       $newpassword .= $chars[mt_rand(0, strlen($chars) - 1)];
 
-    do_sqlquery("UPDATE {$TABLE_PREFIX}users SET password='".md5($newpassword)."' WHERE id=$id AND random=$random");
+    do_sqlquery("UPDATE {$TABLE_PREFIX}users SET password='".md5($newpassword)."' WHERE id=$id AND random=$random",true);
 
     if (!mysql_affected_rows())
         stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);
@@ -156,7 +156,7 @@ if ($random!=$arr["random"])
     if($GLOBALS["FORUMLINK"]=="smf")
     {
         $passhash=smf_passgen($arr["username"], $newpassword);
-        do_sqlquery("UPDATE {$db_prefix}members SET passwd='$passhash[0]', passwordSalt='$passhash[1]' WHERE ID_MEMBER=".$arr["smf_fid"]);
+        do_sqlquery("UPDATE {$db_prefix}members SET passwd='$passhash[0]', passwordSalt='$passhash[1]' WHERE ID_MEMBER=".$arr["smf_fid"],true);
     }
 
 
@@ -174,8 +174,8 @@ elseif ($act=="recover_ok")
   if (!$id || !$random || empty($random) || $random==0)
        stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);
 
-  $res = do_sqlquery("SELECT username, email, random".(($GLOBALS["FORUMLINK"]=="smf") ? ", smf_fid" : "")." FROM {$TABLE_PREFIX}users WHERE id = $id");
-  $arr = mysql_fetch_array($res) or httperr();
+  $res = do_sqlquery("SELECT username, email, random".(($GLOBALS["FORUMLINK"]=="smf") ? ", smf_fid" : "")." FROM {$TABLE_PREFIX}users WHERE id = $id",true);
+  $arr = mysql_fetch_array($res);
 
   if ($random!=$arr["random"])
        stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);

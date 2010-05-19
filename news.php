@@ -52,7 +52,7 @@ if ($action=="del")
    {
        if ($CURUSER["delete_news"]=="yes")
           {
-              do_sqlquery("DELETE FROM {$TABLE_PREFIX}news WHERE id=".$_GET["id"]);
+              do_sqlquery("DELETE FROM {$TABLE_PREFIX}news WHERE id=".$_GET["id"],true);
               redirect("index.php");
               exit();
           }
@@ -68,14 +68,14 @@ elseif ($action=="edit")
        {
        if ($CURUSER["edit_news"]=="yes")
           {
-              $rnews=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}news WHERE id=".intval($_GET["id"]));
+              $rnews=get_result("SELECT * FROM {$TABLE_PREFIX}news WHERE id=".intval($_GET["id"]),true,$btit_settings['cache_duration']);
               if (!$rnews)
                  {
                  stderr($language["ERROR"],$language["ERR_BAD_NEWS_ID"]);
                  stdfoot();
                  exit();
                  }
-              $row=mysql_fetch_array($rnews);
+              $row=$rnews[0];
               if ($row)
                  {
                    $news=unesc($row["news"]);
@@ -157,9 +157,9 @@ if (!isset($_POST["conferma"])) ;
                 $nid=intval($_POST["id"]);
                 $action=$_POST['action'];
                 if ($action=="edit")
-                   do_sqlquery("UPDATE {$TABLE_PREFIX}news SET news=$news, title=$title WHERE id=$nid") or die(mysql_error());
+                   do_sqlquery("UPDATE {$TABLE_PREFIX}news SET news=$news, title=$title WHERE id=$nid",true);
                 else
-                    do_sqlquery("INSERT INTO {$TABLE_PREFIX}news (news,title,user_id,date) VALUES ($news, $title, $uid, NOW())") or die(mysql_error());
+                    do_sqlquery("INSERT INTO {$TABLE_PREFIX}news (news,title,user_id,date) VALUES ($news, $title, $uid, NOW())",true);
                 redirect("index.php");
                 exit();
               }
@@ -182,7 +182,7 @@ global $CURUSER, $CURRENTPATH, $TABLE_PREFIX;
 $limit = $GLOBALS['block_newslimit'];
 if ($limit>0)
   $limitqry="LIMIT $limit";
-$res=do_sqlquery("SELECT {$TABLE_PREFIX}news.id, title, news, UNIX_TIMESTAMP(date) AS news_date, username FROM {$TABLE_PREFIX}news INNER JOIN {$TABLE_PREFIX}users ON {$TABLE_PREFIX}news.user_id={$TABLE_PREFIX}users.id ORDER BY date DESC $limitqry");
+$res=get_result("SELECT {$TABLE_PREFIX}news.id, title, news, UNIX_TIMESTAMP(date) AS news_date, username FROM {$TABLE_PREFIX}news INNER JOIN {$TABLE_PREFIX}users ON {$TABLE_PREFIX}news.user_id={$TABLE_PREFIX}users.id ORDER BY date DESC $limitqry",true,$btit_settings['cache_duration']);
 
     $newstpl=new bTemplate();
     $newstpl->set("language",$language);
@@ -201,7 +201,7 @@ if ($res)
     $newstpl->set("DELETE_NEWS",$CURUSER["delete_news"]=="yes",true);
     include("$CURRENTPATH/offset.php");
 
-         while ($rows=mysql_fetch_array($res)) {
+         foreach ($res as $id=>$rows) {
           $news_model[$i]["add"]="index.php?page=news&amp;act=add";
           $news_model[$i]["edit"]="index.php?page=news&amp;act=edit&amp;id=".$rows['id']."";
           $news_model[$i]["delete"]="index.php?page=news&amp;act=del&amp;id=".$rows['id']."";

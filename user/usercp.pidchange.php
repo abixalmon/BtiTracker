@@ -38,10 +38,10 @@ switch ($action)
 {
     case 'post':
           $pid=md5(uniqid(rand(),true));
-          $res=do_sqlquery("UPDATE {$TABLE_PREFIX}users SET pid='".$pid."' WHERE id='".$CURUSER['uid']."'");
+          $res=do_sqlquery("UPDATE {$TABLE_PREFIX}users SET pid='".$pid."' WHERE id='".$CURUSER['uid']."'",true);
           if ($res)
              {
-             do_sqlquery("UPDATE xbt_users SET torrent_pass='".$pid."' WHERE uid='".$CURUSER['uid']."'");
+             do_sqlquery("UPDATE xbt_users SET torrent_pass='".$pid."' WHERE uid='".$CURUSER['uid']."'",true);
              redirect("index.php?page=usercp&uid=".$uid."");
              exit();
              }
@@ -56,13 +56,13 @@ switch ($action)
     case '':
     case 'change':
     default:
-    $result=do_sqlquery("SELECT pid FROM {$TABLE_PREFIX}users WHERE id=".$CURUSER['uid']);
+    $result=do_sqlquery("SELECT pid FROM {$TABLE_PREFIX}users WHERE id=".$CURUSER['uid'],true);
     $row = mysql_fetch_assoc($result);
     $pid=$row["pid"];
     if (!$pid)
       {
         $pid=md5(uniqid(rand(),true));
-        $res=do_sqlquery("UPDATE {$TABLE_PREFIX}users SET pid='".$pid."' WHERE id='".$CURUSER['uid']."'");
+        $res=do_sqlquery("UPDATE {$TABLE_PREFIX}users SET pid='".$pid."' WHERE id='".$CURUSER['uid']."'",true);
       }
     else
       {

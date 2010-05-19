@@ -47,9 +47,9 @@ switch ($action)
 {
     case 'post':
            if($FORUMLINK=="smf")
-               $res=do_sqlquery("SELECT smf_fid AS id FROM {$TABLE_PREFIX}users WHERE username=".sqlesc($_POST["receiver"]));
+               $res=do_sqlquery("SELECT smf_fid AS id FROM {$TABLE_PREFIX}users WHERE username=".sqlesc($_POST["receiver"]),true);
            else
-               $res=do_sqlquery("SELECT id FROM {$TABLE_PREFIX}users WHERE username=".sqlesc($_POST["receiver"]));
+               $res=do_sqlquery("SELECT id FROM {$TABLE_PREFIX}users WHERE username=".sqlesc($_POST["receiver"]),true);
            if (!$res || mysql_num_rows($res)==0)
          {
                err_msg($language["ERROR"],$language["ERR_USER_NOT_FOUND"]);
@@ -99,15 +99,21 @@ switch ($action)
 
              if ($subject=="''")
                 $subject="'no subject'";
+
+             /*
              if($FORUMLINK=="smf")
              {
-                 do_sqlquery("INSERT INTO {$db_prefix}personal_messages (ID_MEMBER_FROM, fromName, msgtime, subject, body) VALUES (".$CURUSER["smf_fid"].", '".$CURUSER["username"]."', UNIX_TIMESTAMP(), $subject, $msg)");
+                 do_sqlquery("INSERT INTO {$db_prefix}personal_messages (ID_MEMBER_FROM, fromName, msgtime, subject, body) VALUES (".$CURUSER["smf_fid"].", '".$CURUSER["username"]."', UNIX_TIMESTAMP(), $subject, $msg)",true);
                  $pm_id=mysql_insert_id();
                  do_sqlquery("INSERT INTO {$db_prefix}pm_recipients (ID_PM, ID_MEMBER) VALUES ($pm_id, $rec)");
                  do_sqlquery("UPDATE {$db_prefix}members SET instantMessages=instantMessages+1, unreadMessages=unreadMessages+1 WHERE ID_MEMBER=$rec");
              }
              else
                  do_sqlquery("INSERT INTO {$TABLE_PREFIX}messages (sender, receiver, added, subject, msg) VALUES ($send,$rec,UNIX_TIMESTAMP(),$subject,$msg)") or die(mysql_error());
+             */
+
+             // replaced by send_pm function
+             send_pm($CURUSER['uid'],$rec,$subject, $msg);
              redirect("index.php?page=usercp&uid=".$uid."&do=pm&action=list");
              exit();
            }
@@ -126,7 +132,7 @@ switch ($action)
                 exit;
                 }
            foreach($_POST["msg"] as $selected=>$msg)
-                   do_sqlquery("DELETE FROM {$TABLE_PREFIX}messages WHERE id='".$msg."' AND readed='yes'");
+                   do_sqlquery("DELETE FROM {$TABLE_PREFIX}messages WHERE id='".$msg."' AND readed='yes'",true);
            redirect("index.php?page=usercp&uid=".$uid."&do=pm&action=list&what=".($what=="in"?"inbox":"outbox"));
            exit();
     break;
@@ -135,7 +141,7 @@ switch ($action)
             if($FORUMLINK=="smf")
                 redirect("index.php?page=forum&action=pm".(($_GET["type"]=="out")?";f=outbox":""));
             $id=intval($_GET["id"]);
-            do_sqlquery("DELETE FROM {$TABLE_PREFIX}messages WHERE receiver=".$uid." AND id=".$id." AND readed='yes'") or die(mysql_error());
+            do_sqlquery("DELETE FROM {$TABLE_PREFIX}messages WHERE receiver=".$uid." AND id=".$id." AND readed='yes'",true);
             redirect("index.php?page=usercp&uid=".$uid."&do=pm&action=list&what=inbox");
             exit();
     break;
@@ -152,10 +158,10 @@ switch ($action)
 
            if($FORUMLINK=="smf")
            {
-               $res=do_sqlquery("SELECT pm.ID_PM id, pmr.ID_MEMBER receiver, pm.msgtime added, pm.subject, pm.body msg, IF(pmr.is_read=1,'yes','no') readed, u.username receivername FROM {$db_prefix}personal_messages pm LEFT JOIN {$db_prefix}pm_recipients pmr ON pm.ID_PM=pmr.ID_PM LEFT JOIN {$TABLE_PREFIX}users u ON pmr.ID_MEMBER=u.smf_fid WHERE pm.ID_MEMBER_FROM=".$CURUSER["smf_fid"]." AND pm.deletedBySender!=1 ORDER BY added DESC");
+               $res=do_sqlquery("SELECT pm.ID_PM id, pmr.ID_MEMBER receiver, pm.msgtime added, pm.subject, pm.body msg, IF(pmr.is_read=1,'yes','no') readed, u.username receivername FROM {$db_prefix}personal_messages pm LEFT JOIN {$db_prefix}pm_recipients pmr ON pm.ID_PM=pmr.ID_PM LEFT JOIN {$TABLE_PREFIX}users u ON pmr.ID_MEMBER=u.smf_fid WHERE pm.ID_MEMBER_FROM=".$CURUSER["smf_fid"]." AND pm.deletedBySender!=1 ORDER BY added DESC",true);
            }
            else
-               $res=do_sqlquery("select m.*, IF(m.receiver=0,'System',u.username) as receivername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.receiver WHERE sender=$uid ORDER BY added DESC");
+               $res=do_sqlquery("select m.*, IF(m.receiver=0,'System',u.username) as receivername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.receiver WHERE sender=$uid ORDER BY added DESC",true);
            if (!$res || mysql_num_rows($res)==0)
              {
                 $usercptpl->set("NO_MESSAGES",true,true);
@@ -188,10 +194,10 @@ switch ($action)
 
            if($FORUMLINK=="smf")
            {
-               $res=do_sqlquery("SELECT pm.ID_PM id, pm.ID_MEMBER_FROM sender, pmr.ID_MEMBER receiver, pm.msgtime added, pm.subject, pm.body msg, IF(pmr.is_read=1,'yes','no') readed, pm.fromName sendername FROM {$db_prefix}personal_messages pm LEFT JOIN {$db_prefix}pm_recipients pmr ON pm.ID_PM=pmr.ID_PM WHERE pmr.ID_MEMBER=".$CURUSER["smf_fid"]." AND pmr.deleted!=1 ORDER BY added DESC");
+               $res=do_sqlquery("SELECT pm.ID_PM id, pm.ID_MEMBER_FROM sender, pmr.ID_MEMBER receiver, pm.msgtime added, pm.subject, pm.body msg, IF(pmr.is_read=1,'yes','no') readed, pm.fromName sendername FROM {$db_prefix}personal_messages pm LEFT JOIN {$db_prefix}pm_recipients pmr ON pm.ID_PM=pmr.ID_PM WHERE pmr.ID_MEMBER=".$CURUSER["smf_fid"]." AND pmr.deleted!=1 ORDER BY added DESC",true);
            }
            else
-               $res=do_sqlquery("select m.*, IF(m.sender=0,'System',u.username) as sendername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.sender WHERE receiver=$uid ORDER BY added DESC");
+               $res=do_sqlquery("select m.*, IF(m.sender=0,'System',u.username) as sendername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.sender WHERE receiver=$uid ORDER BY added DESC",true);
            if (!$res || mysql_num_rows($res)==0)
              {
                 $usercptpl->set("NO_MESSAGES",true,true);
@@ -229,7 +235,7 @@ switch ($action)
            if (urldecode($_GET['to'])==$CURUSER["username"])
               stderr($language["ERROR"],$language["ERR_PM_GUEST"]);
 
-           $res=do_sqlquery("select m.*, IF(m.sender=0,'System',u.username) as sendername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.sender WHERE receiver=$uid AND m.id=$id");
+           $res=do_sqlquery("select m.*, IF(m.sender=0,'System',u.username) as sendername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.sender WHERE receiver=$uid AND m.id=$id",true);
 
            if (!$res)
              {                        
@@ -258,9 +264,9 @@ switch ($action)
 
            $id=intval($_GET["id"]);
            if ($what=="inbox")
-              $res=do_sqlquery("select m.*, IF(m.sender=0,'System',u.username) as sendername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.sender WHERE receiver=$uid AND m.id=$id");
+              $res=do_sqlquery("select m.*, IF(m.sender=0,'System',u.username) as sendername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.sender WHERE receiver=$uid AND m.id=$id",true);
            elseif ($what=="outbox")
-               $res=do_sqlquery("select m.*, IF(m.receiver=0,'System',u.username) as sendername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.receiver WHERE sender=$uid AND m.id=$id");
+               $res=do_sqlquery("select m.*, IF(m.receiver=0,'System',u.username) as sendername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.receiver WHERE sender=$uid AND m.id=$id",true);
 
            if (mysql_num_rows($res) == "0")
              {
@@ -285,7 +291,7 @@ switch ($action)
                 $pmreadtpl["quote_link"]="location.href='index.php?page=usercp&amp;do=pm&amp;action=edit&amp;what=quote&amp;uid=".$uid."&amp;id=".$id."'";
                 $pmreadtpl["answer_link"]="location.href='index.php?page=usercp&amp;do=pm&amp;action=edit&amp;uid=".$uid."&amp;id=".$id."'";
                 $pmreadtpl["delete_link"]="location.href='index.php?page=usercp&amp;do=pm&amp;action=delete&amp;uid=".$uid."&amp;id=".$id."'";
-                do_sqlquery("UPDATE {$TABLE_PREFIX}messages SET readed='yes' WHERE id=$id");
+                do_sqlquery("UPDATE {$TABLE_PREFIX}messages SET readed='yes' WHERE id=$id",true);
               }
             $usercptpl->set("pmread",$pmreadtpl);
              }

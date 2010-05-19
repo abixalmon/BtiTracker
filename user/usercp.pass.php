@@ -57,17 +57,17 @@ switch ($action)
           }
             else
                 {
-                $respwd = do_sqlquery("SELECT * FROM {$TABLE_PREFIX}users WHERE id=$uid AND password='".md5($_POST["old_pwd"])."' AND username=".sqlesc($CURUSER["username"])."");
+                $respwd = do_sqlquery("SELECT * FROM {$TABLE_PREFIX}users WHERE id=$uid AND password='".md5($_POST["old_pwd"])."' AND username=".sqlesc($CURUSER["username"])."",true);
                 if (!$respwd || mysql_num_rows($respwd)==0)
                    err_msg($language["ERROR"],$language["ERR_RETR_DATA"]);
                 else {
                     $arr=mysql_fetch_assoc($respwd);
-                    do_sqlquery("UPDATE {$TABLE_PREFIX}users SET password='".md5($_POST["new_pwd"])."' WHERE id=$uid AND password='".md5($_POST["old_pwd"])."' AND username=".sqlesc($CURUSER["username"])."") or die(mysql_error());
+                    do_sqlquery("UPDATE {$TABLE_PREFIX}users SET password='".md5($_POST["new_pwd"])."' WHERE id=$uid AND password='".md5($_POST["old_pwd"])."' AND username=".sqlesc($CURUSER["username"])."",true);
                     
                 if($GLOBALS["FORUMLINK"]=="smf")
                 {
                     $passhash=smf_passgen($CURUSER["username"], $_POST["new_pwd"]);
-                    do_sqlquery("UPDATE {$db_prefix}members SET passwd='$passhash[0]', passwordSalt='$passhash[1]' WHERE ID_MEMBER=".$arr["smf_fid"]) or die(mysql_error());
+                    do_sqlquery("UPDATE {$db_prefix}members SET passwd='$passhash[0]', passwordSalt='$passhash[1]' WHERE ID_MEMBER=".$arr["smf_fid"],true);
                 }
                     
             success_msg($language["PWD_CHANGED"], "".$language["NOW_LOGIN"]."<br /><a href=\"index.php?page=login\">Go</a>");

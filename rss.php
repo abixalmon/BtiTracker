@@ -96,10 +96,10 @@ $validcharset=array(
 
 if ($CURUSER["view_torrents"]=="yes")
 {
-  $getItems = "SELECT f.info_hash as id, f.comment as description, f.filename, $tseeds AS seeders, $tleechs as leechers, UNIX_TIMESTAMP( f.data ) as added, c.name as cname, f.size FROM $ttables LEFT JOIN {$TABLE_PREFIX}categories c ON c.id = f.category $where ORDER BY data DESC LIMIT 20";
-  $doGet=do_sqlquery($getItems,true) or die(mysql_error());;
+  $getItems = "SELECT f.info_hash as id, f.comment as description, f.filename, $tseeds AS seeders, $tleechs as leechers, UNIX_TIMESTAMP( f.data ) as added, c.name as cname, f.size FROM $ttables LEFT JOIN {$TABLE_PREFIX}categories c ON c.id = f.category ORDER BY data DESC LIMIT 20";
+  $doGet=get_result($getItems,true,$btit_settings['cache_duration']);
 
-  while($item=mysql_fetch_array($doGet))
+  foreach($doGet as $id=>$item)
    {
     $id=$item['id'];
     $filename=strip_tags($item['filename']);
@@ -125,9 +125,9 @@ if ($CURUSER["view_torrents"]=="yes")
 if ($CURUSER["view_forum"]=="yes")
 {
   $getItems = "select t.id as topicid, p.id as postid, f.name, u.username,t.subject,p.added, p.body from {$TABLE_PREFIX}topics t inner join {$TABLE_PREFIX}posts p on p.topicid=t.id inner join {$TABLE_PREFIX}forums f on t.forumid=f.id inner join {$TABLE_PREFIX}users u on u.id=p.userid ORDER BY added DESC LIMIT 50";
-  $doGet=do_sqlquery($getItems,true) or die(mysql_error());
+  $doGet=get_result($getItems,true,$btit_settings['cache_duration']);
 
-  while($item=mysql_fetch_array($doGet))
+  foreach($doGet as $id=>$item)
    {
     $topicid=$item['topicid'];
     $postid=$item['postid'];

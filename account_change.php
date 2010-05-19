@@ -55,11 +55,11 @@ if (!$CURUSER || $CURUSER["uid"]==1)
   exit;
  }
 
-if (isset($_GET["style"]))
-   do_sqlquery("UPDATE {$TABLE_PREFIX}users SET style=$style WHERE id=".$CURUSER["uid"]);
+if ($style!=0)
+   do_sqlquery("UPDATE {$TABLE_PREFIX}users SET style=$style WHERE id=".$CURUSER["uid"],true);
 
-if (isset($_GET["langue"]))
-   do_sqlquery("UPDATE {$TABLE_PREFIX}users SET language=$langue WHERE id=".$CURUSER["uid"]);
+if ($langue!=0)
+   do_sqlquery("UPDATE {$TABLE_PREFIX}users SET language=$langue WHERE id=".$CURUSER["uid"],true);
 
 redirect($url);
 ?>
