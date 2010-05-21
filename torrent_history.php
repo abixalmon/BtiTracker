@@ -42,7 +42,7 @@ $scriptname = htmlspecialchars($_SERVER["PHP_SELF"]."?history&id=$id");
 $addparam = "";
 
 // control if torrent exist in our db
-$res = get_result("SELECT size FROM {$TABLE_PREFIX}files WHERE info_hash='$id'",true,$btit_settings['cache_duration']);;
+$res = get_result("SELECT size FROM {$TABLE_PREFIX}files WHERE info_hash='$id'",true,$btit_settings['cache_duration']);
 
 if ($res) {
    $row=$res[0];

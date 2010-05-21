@@ -33,23 +33,11 @@
 if (!defined("IN_BTIT"))
       die("non direct access!");
 
-if ($XBTT_USE)
-   {
-    $udownloaded="u.downloaded+IFNULL(x.downloaded,0)";
-    $uuploaded="u.uploaded+IFNULL(x.uploaded,0)";
-    $utables="{$TABLE_PREFIX}users u LEFT JOIN xbt_users x ON x.uid=u.id";
-   }
-else
-    {
-    $udownloaded="u.downloaded";
-    $uuploaded="u.uploaded";
-    $utables="{$TABLE_PREFIX}users u";
-}
 
     $uid = intval($CURUSER["uid"]);
     //$res=do_sqlquery("SELECT u.lip,u.username, $udownloaded as downloaded,$uuploaded as uploaded, UNIX_TIMESTAMP(u.joined) as joined, u.flag, c.name, c.flagpic FROM $utables LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag=c.id WHERE u.id=$uid",true);
     $res=get_result("SELECT c.name, c.flagpic FROM {$TABLE_PREFIX}countries c WHERE id=".$CURUSER["flag"],true,$btit_settings['cache_duration']);
-    $row = mysql_fetch_array($res);
+    $row = $res[0];
 
     if (max(0,$CURUSER["downloaded"])>0)
      {
