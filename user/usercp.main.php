@@ -116,7 +116,7 @@ if (!defined("IN_BTIT"))
 
   $resuploaded = get_result("SELECT count(*) as tf FROM {$TABLE_PREFIX}files WHERE uploader=$uid ORDER BY data DESC",true,$btit_settings['cache_duration']);
   $numtorrent=$resuploaded[0]['tf'];
-  unset($ruploaded);
+  unset($resuploaded);
 
   $utorrents = intval($CURUSER["torrentsperpage"]);
 

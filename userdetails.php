@@ -181,7 +181,7 @@ elseif ($GLOBALS["FORUMLINK"]=="smf")
 
 $resuploaded = get_result("SELECT count(*) as tf FROM {$TABLE_PREFIX}files f WHERE uploader=$id AND f.anonymous = \"false\" ORDER BY data DESC",true,$btit_settings['cache_duration']);
 $numtorrent=$resuploaded[0]['tf'];
-unset($ruploaded);
+unset($resuploaded);
 $userdetailtpl->set("pagertop","");
 if ($numtorrent>0)
    {
@@ -196,7 +196,7 @@ if ($resuploaded && $numtorrent>0)
    $userdetailtpl->set("RESULTS",true,true);
    $uptortpl=array();
    $i=0;
-   foreach ($resuploaded as $id=>$rest)
+   foreach ($resuploaded as $ud_id=>$rest)
          {
            $rest["filename"]=unesc($rest["filename"]);
            $filename=cut_string($rest["filename"],intval($btit_settings["cut_name"]));
@@ -278,7 +278,7 @@ if ($anq[0]['tp']>0)
      }
 //    print("<div align=\"center\">$pagertop</div>");
 
-    foreach ($anq as $id=>$torlist)
+    foreach ($anq as $ud_id=>$torlist)
         {
          if ($torlist['ip'] !="")
            {
@@ -352,7 +352,7 @@ if ($sanq[0]['th']>0)
       $anq=get_result("SELECT f.filename, f.size, f.info_hash, h.active, h.agent, h.downloaded, h.uploaded, $tseeds as seeds, $tleechs as leechers, $tcompletes as finished
       FROM $ttables INNER JOIN {$TABLE_PREFIX}history h ON h.infohash=f.info_hash WHERE h.uid=$id AND h.date IS NOT NULL ORDER BY date DESC $limit",true,$btit_settings['cache_duration']);
 //    print("<div align=\"center\">$pagertop</div>");
-    foreach ($anq as $id=>$torlist)
+    foreach ($anq as $ud_id=>$torlist)
         {
             $torlist['filename']=unesc($torlist['filename']);
             $filename=cut_string($torlist['filename'],intval($btit_settings["cut_name"]));

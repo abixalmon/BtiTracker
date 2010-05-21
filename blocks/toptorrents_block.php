@@ -151,7 +151,7 @@ if (max(0,$CURUSER["WT"])>0)
   }
   else
   {
-    echo "<tr><td class=\"lista\" colspan=\"9\" align=\"center\" style=\"text-align: center;\">" . NO_TORRENTS . "</td></tr>";
+    echo "<tr><td class=\"lista\" colspan=\"9\" align=\"center\" style=\"text-align: center;\">" . $language["NO_TORRENTS"] . "</td></tr>";
   }
 
   print("</table>");

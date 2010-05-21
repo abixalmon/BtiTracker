@@ -435,10 +435,10 @@ if ($count>0) {
   else {
        $id = $data['hash'];
        if ($XBTT_USE)
-          $subres = do_sqlquery("SELECT sum(IFNULL(xfu.left,0)) as to_go, count(xfu.uid) as numpeers FROM xbt_files_users xfu INNER JOIN xbt_files xf ON xf.fid=xfu.fid WHERE xf.info_hash=UNHEX('$id') AND xfu.active=1",true,$btit_settings['cache_duration']);
+          $subres = get_result("SELECT sum(IFNULL(xfu.left,0)) as to_go, count(xfu.uid) as numpeers FROM xbt_files_users xfu INNER JOIN xbt_files xf ON xf.fid=xfu.fid WHERE xf.info_hash=UNHEX('$id') AND xfu.active=1",true,$btit_settings['cache_duration']);
        else
-           $subres = do_sqlquery("SELECT sum(IFNULL(bytes,0)) as to_go, count(*) as numpeers FROM {$TABLE_PREFIX}peers where infohash='$id'",true,$btit_settings['cache_duration']);
-       $subres2 = do_sqlquery("SELECT size FROM {$TABLE_PREFIX}files WHERE info_hash ='$id'",true,$btit_settings['cache_duration']);
+           $subres = get_result("SELECT sum(IFNULL(bytes,0)) as to_go, count(*) as numpeers FROM {$TABLE_PREFIX}peers where infohash='$id'",true,$btit_settings['cache_duration']);
+       $subres2 = get_result("SELECT size FROM {$TABLE_PREFIX}files WHERE info_hash ='$id'",true,$btit_settings['cache_duration']);
        $torrent = $subres2[0];
        $subrow = $subres[0];
        $tmp=0+$subrow["numpeers"];
