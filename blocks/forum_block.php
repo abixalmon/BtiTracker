@@ -46,10 +46,9 @@ if ($FORUMLINK=='smf') {
 }
 
 # init topics, posts, and average
-$row=get_result('SELECT COUNT(*) AS total_topics FROM `'.$topicsTable.'`;',true,$btit_settings['cache_duration']);
-$topics=$row[0]['total_topics'];
-$row=get_result('SELECT COUNT(*) AS total_posts FROM `'.$postsTable.'`;',true,$btit_settings['cache_duration']);
-$posts=$row[0]['total_posts'];
+$row=get_result("SELECT (SELECT COUNT(*) FROM `".$topicsTable."`) AS `tc`, (SELECT COUNT(*) FROM `".$postsTable."`) AS `pc`",true,$btit_settings['cache_duration']);
+$topics=$row[0]['tc'];
+$posts=$row[0]['pc'];
 $postsAvg=($posts==0)?0:number_format(($topics/$posts)*100,0);
 $realLastPosts=$btit_settings['forumblocktype']; # 0=topics, 1=posts
 

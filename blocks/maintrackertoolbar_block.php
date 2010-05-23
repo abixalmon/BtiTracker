@@ -54,7 +54,7 @@ else
       $torrents=0;
       }
 
-   $res=get_result("select count(*) as tot FROM {$TABLE_PREFIX}users where id>1",true,$btit_settings['cache_duration'],true,$btit_settings['cache_duration']);
+   $res=get_result("select count(*) as tot FROM {$TABLE_PREFIX}users where id>1",true,$btit_settings['cache_duration']);
    if ($res)
       {
       $row=$res[0];
