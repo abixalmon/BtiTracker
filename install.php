@@ -41,7 +41,7 @@ define("BTIT_INSTALL", TRUE);
 
 // getting globals
 $GLOBALS["btit-tracker"]         = "xbtit";
-$GLOBALS["current_btit_version"] = "v2.0.0";
+$GLOBALS["current_btit_version"] = "v2.1.0";
 $GLOBALS["btit_installer"]       = "xbtit Installer ::";
 
 // getting needed files

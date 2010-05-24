@@ -282,6 +282,8 @@ ALTER TABLE `btit_users`
 CHANGE `avatar` `avatar` VARCHAR( 200 ) default NULL,
 ADD `smf_fid` int(10) NOT NULL default '0';
 
+ALTER TABLE `btit_users` ADD INDEX (`smf_fid`);
+
 # update guest PID ;)
 UPDATE btit_users SET pid='00000000000000000000000000000000' WHERE id=1;
 
