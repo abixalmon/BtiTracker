@@ -102,30 +102,30 @@
   <name>"$DEFAULT_ROOT/include/functions.php"</name>
   <operation>
     <action>"replace"</action>
-    <search><![CDATA[$id = (!isset($_COOKIE['uid']))?1:max(1, $_COOKIE['uid']);
+    <search><![CDATA[}
 
-  $res = do_sqlquery("SELECT]]></search>
-    <data><![CDATA[$id = (!isset($_COOKIE['uid']))?1:max(1, $_COOKIE['uid']);
+  $res = get_result("SELECT]]></search>
+    <data><![CDATA[}
 
-  $res = do_sqlquery("SELECT u.signature,]]></data>
+  $res = get_result("SELECT u.signature,]]></data>
   </operation>
   <operation>
     <action>"replace"</action>
     <search><![CDATA[if (!$row) {
     $id=1;
-    $res = do_sqlquery("SELECT]]></search>
+    $res = get_result("SELECT]]></search>
     <data><![CDATA[if (!$row) {
     $id=1;
-    $res = do_sqlquery("SELECT u.signature,]]></data>
+    $res = get_result("SELECT u.signature,]]></data>
   </operation>
   <operation>
     <action>"replace"</action>
     <search><![CDATA[if (($_COOKIE['pass']!=md5($row['random'].$row['password'].$row['random'])) && $id!=1) {
     $id=1;
-    $res = do_sqlquery("SELECT]]></search>
+    $res = get_result("SELECT]]></search>
     <data><![CDATA[if (($_COOKIE['pass']!=md5($row['random'].$row['password'].$row['random'])) && $id!=1) {
     $id=1;
-    $res = do_sqlquery("SELECT u.signature,]]></data>
+    $res = get_result("SELECT u.signature,]]></data>
   </operation>
   </file>
 

@@ -429,4 +429,6 @@ $language['FIRST_UNREAD']='Goto the first unread post';
 $language['MODULE_UNACTIVE']='The module required is not active!';
 $language['MODULE_NOT_PRESENT']='The module required do not exists!';
 $language['MODULE_LOAD_ERROR']='The module required seems to be wrong!';
+$language['RESET_PID'] = 'Reset PID';
+
 ?>
