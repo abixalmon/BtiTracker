@@ -26,12 +26,12 @@ function form_control()
   <table align="center" class="lista" border="0" cellpadding="10">
     <if:FALSE_USER>
     <tr>
-      <td align="center" class="lista" colspan="2"><span style="color:#FF0000;"><tag:login_username_incorrent /></span></td>
+      <td align="center" class="lista" colspan="2"><span style="color:#FF0000;"><tag:login_username_incorrect /></span></td>
     </tr>
     </if:FALSE_USER>
     <if:FALSE_PASSWORD>
     <tr>
-      <td align="center" class="lista" colspan="2"><span style="color:#FF0000;"><tag:login_password_incorrent /></span></td>
+      <td align="center" class="lista" colspan="2"><span style="color:#FF0000;"><tag:login_password_incorrect /></span></td>
     </tr>
     </if:FALSE_PASSWORD>
     <tr>

@@ -37,7 +37,7 @@ include(dirname(__FILE__)."/btemplate/bTemplate.php");
 if (isset($_GET["style"]))
     $style=intval($_GET["style"]);
 else
-    $style=1;
+    $style=0;
 if (isset($_GET["returnto"]))
    $url=urldecode($_GET["returnto"]);
 else
@@ -45,7 +45,7 @@ else
 if (isset($_GET["langue"]))
    $langue=intval($_GET["langue"]);
 else
-   $langue=1;
+   $langue=0;
 
 dbconn();
 

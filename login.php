@@ -77,14 +77,14 @@ if (isset($_POST["uid"]) && isset($_POST["pwd"]))
         {
           $logintpl->set("FALSE_USER",true,true);
           $logintpl->set("FALSE_PASSWORD",false,true);
-          $logintpl->set("login_username_incorrent",$language["ERR_USERNAME_INCORRECT"]);
+          $logintpl->set("login_username_incorrect",$language["ERR_USERNAME_INCORRECT"]);
           login();
         }
     elseif (md5($row["random"].$row["password"].$row["random"]) != md5($row["random"].md5($pwd).$row["random"]))
         {
           $logintpl->set("FALSE_USER",false,true);
           $logintpl->set("FALSE_PASSWORD",true,true);
-          $logintpl->set("login_password_incorrent",$language["ERR_PASSWORD_INCORRECT"]);
+          $logintpl->set("login_password_incorrect",$language["ERR_PASSWORD_INCORRECT"]);
           login();
         }
     else
