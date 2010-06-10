@@ -236,20 +236,23 @@ switch ($action) {
             if ($username != $curu['username']) {
                 $sql_name=sqlesc($curu['username']);
                 $username=sqlesc($username);
-                $dupe=get_result('SELECT id FROM '.$TABLE_PREFIX.'users WHERE username='.$sql_name.' LIMIT 1;');
+                $dupe=get_result('SELECT id FROM '.$TABLE_PREFIX.'users WHERE username='.$username.' LIMIT 1;');
                 if (!isset($dupe[0])) {
                     $set[]='username='.$username;
                     $newname=' ( now: '.$username;
-                    $dupe=get_result('SELECT ID_MEMBER FROM '.$db_prefix.'members WHERE memberName='.$sql_name.' LIMIT 1;');
-                    if (!isset($dupe[0])) {
-                        $smfset[]='memberName='.$username;
-                    } else
-                        $newname.=', dupe name in smf memberName';
-                    $dupe=get_result('SELECT ID_MEMBER FROM '.$db_prefix.'members WHERE realName='.$sql_name.' LIMIT 1;');
-                    if (!isset($dupe[0])) {
-                        $smfset[]='realName='.$username;
-                    } else
-                        $newname.=', dupe name in smf realName';
+                    if ($FORUMLINK=='smf')
+                    {
+                        $dupe=get_result('SELECT ID_MEMBER FROM '.$db_prefix.'members WHERE memberName='.$username.' LIMIT 1;');
+                        if (!isset($dupe[0])) {
+                            $smfset[]='memberName='.$username;
+                        } else
+                            $newname.=', dupe name in smf memberName';
+                        $dupe=get_result('SELECT ID_MEMBER FROM '.$db_prefix.'members WHERE realName='.$username.' LIMIT 1;');
+                        if (!isset($dupe[0])) {
+                            $smfset[]='realName='.$username;
+                        } else
+                            $newname.=', dupe name in smf realName';
+                    }
                     $newname.=' )';
                 } else $note.=' Dupe name in XBTIT.';
             }
