@@ -338,7 +338,7 @@ else
 
 $userdetailtpl->set("pagertophist","");
 
-if ($sanq[0]['th']>0)
+if ($anq[0]['th']>0)
    {
     $userdetailtpl->set("RESULTS_2",true,true);
     $torhistory=array();
