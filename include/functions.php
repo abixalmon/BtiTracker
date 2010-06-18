@@ -292,8 +292,6 @@ function userlogin() {
     die();
   }
 
-  // guest
-    $id = (!isset($_COOKIE['uid']))?1:max(1, (int)$_COOKIE['uid']);
 
   if ($btit_settings['xbtt_use'])
   {
@@ -307,6 +305,8 @@ function userlogin() {
     $uuploaded="u.uploaded";
     $utables="{$TABLE_PREFIX}users u";
   }
+  // guest
+  $id = (!isset($_COOKIE['uid']))?1:max(1, (int)$_COOKIE['uid']);
 
   $res = get_result("SELECT u.lip, u.cip, $udownloaded as downloaded, $uuploaded as uploaded, u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = $id LIMIT 1;",true,$btit_settings['cache_duration']);
   $row = $res[0];

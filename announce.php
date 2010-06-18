@@ -64,7 +64,11 @@ if ($XBTT_USE)
     } else
        $pid = "";
 
-    $query_string=implode_with_keys("&", $_GET);
+    if (isset($_SERVER['QUERY_STRING']))
+        $query_string = substr($_SERVER['QUERY_STRING'], strpos($_SERVER['QUERY_STRING'], "?")+1);
+    else
+        $query_string=implode_with_keys("&", $_GET);
+
 
     if ($pid!="") // private announce
     {
@@ -103,9 +107,9 @@ function summaryAdd($column, $value, $abs = false)
 
 // connect to db
 if ($GLOBALS["persist"])
-    $conres=mysql_pconnect($dbhost, $dbuser, $dbpass) or show_error("Tracker errore - mysql_connect: " . mysql_error());
+    $conres=mysql_pconnect($dbhost, $dbuser, $dbpass) or show_error("Tracker error - mysql_connect: " . mysql_error());
 else
-    $conres=mysql_connect($dbhost, $dbuser, $dbpass) or show_error("Tracker errore - mysql_connect: " . mysql_error());
+    $conres=mysql_connect($dbhost, $dbuser, $dbpass) or show_error("Tracker error - mysql_connect: " . mysql_error());
 
     mysql_select_db($database) or show_error("Tracker error - $database - ".mysql_error());
 

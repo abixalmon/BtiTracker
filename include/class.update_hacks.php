@@ -1075,7 +1075,7 @@ class update_hacks
         }
         @fclose($fp);
         @chmod($file_with_path,0755);
-        @chown($file_with_path,"root");
+        @chown($file_with_path,$this->ftp_username);
         return true;
       }
 
