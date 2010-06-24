@@ -70,7 +70,7 @@ switch ($action)
         // we must check if user is currently a peer
         if ($XBTT_USE)
           {
-        $rp=do_sqlquery("SELECT COUNT(*) FROM xbt_files_users xfu INNER JOIN xbt_users xu ON xfu.uid=xu.uid WHERE xu.torrent_pass='$pid'",true);
+        $rp=do_sqlquery("SELECT COUNT(*) FROM xbt_files_users xfu INNER JOIN xbt_users xu ON xfu.uid=xu.uid WHERE xu.torrent_pass='$pid' AND xfu.active=1",true);
         $ispeer=mysql_fetch_row($rp);
         if ($ispeer[0] > "0") $usercptpl->set("IS_PEER",true,true);
         mysql_free_result($rp);
