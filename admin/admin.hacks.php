@@ -36,10 +36,82 @@ if (!defined("IN_BTIT"))
 
 if (!defined("IN_ACP"))
       die("non direct access!");
-
+$admintpl->set("test_ok2",false,true);
+$admintpl->set("manual_install",true,true);
+$admintpl->set("manual_install2",false,true);
 $admintpl->set("ftp",false,true);
+
 switch ($action)
  {
+    case 'manual':
+        $admintpl->set("language",$language);
+        $admintpl->set("manual_install",false,true);
+        $admintpl->set("test",false,true);
+        require_once($THIS_BASEPATH."/include/class.update_hacks.php");    
+        $filename=urldecode($_GET["folder"])."/modification.xml";
+        $fd=fopen($filename, "r");
+        $xml=fread($fd,filesize($filename));
+        fclose($fd);
+        $get=new update_hacks();
+        $result=$get->hack_to_array($xml);
+        $admintpl->set("title",str_replace(array("'", "\""), array("",""), $result[0]["title"]));
+        $admintpl->set("version",str_replace(array("'", "\""), array("",""), $result[0]["version"]));
+        $admintpl->set("author",str_replace(array("'", "\""), array("",""), $result[0]["author"]));
+        $HTMLOUT="\n\n";
+
+        foreach($result[0]["file"] as $k => $v)
+        {
+            $name=str_replace(array("'","\""), array("", ""),$v["name"]);
+            if($name=="database")
+            {
+                foreach($v["operations"] as $key => $value)
+                {
+                    $action=str_replace(array("'","\""), array("", ""),$value["action"]);
+                    if($action=="sql")
+                    {
+                        $lines=count(explode("\n",$value["data"]));
+                        $HTMLOUT.="<br /><span style='font-family:arial; font-size:12pt; color:#000000;'>".$language["MHI_RUN_QUERY"].":</span><br />\n";
+                        $HTMLOUT.="<textarea rows='$lines' cols='120'>".str_replace("{\$db_prefix}",$TABLE_PREFIX,$value["data"])."</textarea><br />\n";
+                    }
+                }
+                $HTMLOUT.="<br />";
+            }
+            else
+            {
+                $firstpass=0;
+                foreach($v["operations"] as $key => $value)
+                {
+                    $action=str_replace(array("'","\""), array("", ""),$value["action"]);
+                    $where=str_replace(array("\$DEFAULT_ROOT","'", "\$DEFAULT_LANGUAGE_PATH", "\$DEFAULT_STYLE_PATH", "\$CURRENT_FOLDER"), (array("","","","")),       str_replace(array("\$DEFAULT_ROOT/","'", "\"", "\$DEFAULT_LANGUAGE_PATH/", "\$DEFAULT_STYLE_PATH/", "\$CURRENT_FOLDER/"), array("","","","language/english/", "style/xbtit_default/", ""), $value["where"]));
+                    $name=str_replace(array("\$DEFAULT_ROOT","'", "\$DEFAULT_LANGUAGE_PATH", "\$DEFAULT_STYLE_PATH", "\$CURRENT_FOLDER"), (array("","","","")),       str_replace(array("\$DEFAULT_ROOT/","'", "\"", "\$DEFAULT_LANGUAGE_PATH/", "\$DEFAULT_STYLE_PATH/", "\$CURRENT_FOLDER/"), array("","","","language/english/", "style/xbtit_default/", ""), $v["name"]));
+                    $data=$value["data"];
+                    $lines=count(explode("\n", $value["search"]));
+                    $lines2=count(explode("\n", $value["data"]));
+                    if($action=="add" || $action=="replace")
+                    {
+                        $HTMLOUT.="\n<span style='font-family:arial; font-size:14pt; color:#000000;'>".(($firstpass==0)?$language["MHI_IN"]:$language["MHI_ALSO_IN"])." <span style='color:#0000FF'>".$name . "</span> ".$language["MHI_FIND_THIS"].":</span>";
+                        $HTMLOUT.="\n<br /><textarea rows='$lines' cols='120'>".$value["search"]."</textarea><br /><br />";
+                        if($action=="add")
+                            $HTMLOUT.="\n<span style='font-family:arial; font-size:14pt; color:#000000;'>".$language["MHI_ADD_THIS"]." " . $where . " ".$language["MHI_IT"].":</span>";
+                        elseif($action=="replace")
+                            $HTMLOUT.="\n<span style='font-family:arial; font-size:14pt; color:#000000;'>".$language["MHI_REPLACE"].":</span>";
+                        $HTMLOUT.="\n<br /><textarea rows='$lines2' cols='120'>".$data."</textarea><br /><br />";
+                        $firstpass=1;
+                    }
+                    elseif($action=="copy")
+                    {
+                        $where=str_replace(array("'","\"","\$DEFAULT_ROOT/", "\$DEFAULT_LANGUAGE_PATH", "\$DEFAULT_STYLE_PATH", "\$CURRENT_FOLDER/"), array("","","","language/english", "style/xbtit_default",""), $value["where"]);
+                        $data=str_replace(array("'","\""), array("",""), $value["data"]);
+                        $HTMLOUT.="\n<span style='font-family:arial; font-size:14pt; color:#000000;'>".$language["MHI_COPY"]." <span style='font-family:arial; font-size:14pt; color:#0000FF;'>$name</span> ".$language["MHI_AS"]." <span style='font-family:arial; font-size:14pt; color:#0000FF;'> ". $where . (($where!="")?"/":"")."$data</span></span><br />";
+                    }
+                }
+            }
+        } 
+        $admintpl->set("HTMLOUT",$HTMLOUT);
+
+    break;
+
+
 
     case 'uninstall_ok':
 
@@ -269,12 +341,15 @@ switch ($action)
             $admintpl->set("test_result",$newhack->file);
             $admintpl->set("test",true,true);
             $admintpl->set("test_ok",true,true);
+            $admintpl->set("test_ok2",false,true);
         }
         else
           {
             $admintpl->set("test_result",$newhack->errors);
             $admintpl->set("test",true,true);
             $admintpl->set("test_ok",false,true);
+            $admintpl->set("test_ok2",true,true);
+            $admintpl->set("hack_manual_link", "index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=hacks&amp;action=manual&folder=".urlencode(str_replace("\\", "/", $CURRENT_FOLDER)));
         }
         $admintpl->set("language",$language);
         $admintpl->set("hack_folder",$hack_folder);

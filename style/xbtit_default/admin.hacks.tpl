@@ -85,10 +85,14 @@ function valid_folder(value) {
 </if:test_ok>
 </table>
 </form>
+<if:test_ok2>
+<br /><span style='font-size:12pt'><a href=<tag:hack_manual_link />><tag:language.MHI_VIEW_INSRUCT /></a></span><br /><br />
+</if:test_ok2>
 <br />
 <a href="<tag:hack_main_link />"><tag:language.ACP_HACKS_CONFIG /></a>
 <br />
 <else:test>
+<if:manual_install>
 <table class="lista" width="100%" cellspacing="1" cellpadding="6">
   <tr>
     <td class="header" align="center"><tag:language.HACK_TITLE /></td>
@@ -127,5 +131,14 @@ function valid_folder(value) {
   </tr>
 </table>
 </form>
+
+<else:manual_install>
+
+
+<div align='center'><b><span style='font-family:arial; font-size:16pt; color:#000000;'><tag:language.MHI_MAN_INSRUCT_FOR />:</span></b><br /><br /><span style='font-family:arial; font-size:16pt; color:#0000FF;'><b><tag:title /> v<tag:version /> <tag:language.BY /> <tag:author /></b></span></div><br /><br />
+
+<tag:HTMLOUT />
+</if:manual_install>
+
 </if:test>
 </if:ftp>

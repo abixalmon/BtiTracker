@@ -101,6 +101,7 @@ if($files_present==$lang[0])
 (isset($_GET["confirm"]) ? $confirm=$_GET["confirm"] : $confirm="");
 (isset($_GET["start"]) ? $start=intval($_GET["start"]) : $start=2);
 (isset($_GET["counter"]) ? $counter=intval($_GET["counter"]) : $counter=0);
+(isset($_GET["lastacc"]) ? $lastacc=intval($_GET["lastacc"]) : $lastacc=0);
 
 if($act=="")
 {
@@ -430,6 +431,13 @@ elseif($act=="member_import" && $confirm=="yes")
         $end=$start+99;
     $newstart=$end+1;
     
+    if($lastacc==0)
+    {
+        $last=mysql_query("SELECT `id` FROM `[$TABLE_PREFIX]users` ORDER BY `id` DESC LIMIT 1");
+        $acc=mysql_fetch_assoc($res);
+        $lastacc=$acc["id"];
+    }
+    
     // Import Tracker accounts to the forum
     $query="SELECT u.id, u.username, u.id_level +10 id_level, u.password, u.email, UNIX_TIMESTAMP(u.joined) joined, u.lip, COUNT(p.userid) posts FROM {$TABLE_PREFIX}users u LEFT JOIN {$TABLE_PREFIX}posts p ON u.id=p.userid WHERE u.id >=$start AND u.id <=$end GROUP BY u.id ORDER BY u.id ASC";
     $list=mysql_query($query);
@@ -444,7 +452,11 @@ elseif($act=="member_import" && $confirm=="yes")
             @mysql_query("INSERT INTO {$db_prefix}members (ID_MEMBER, memberName, dateRegistered, ID_GROUP, realName, passwd, emailAddress, memberIP, memberIP2, is_activated, passwordSalt, posts) VALUES (".$account["id"].", '".$account["username"]."', ".$account["joined"].", ".$account["id_level"].", '".$account["username"]."', '".$account["password"]."', '".$account["email"]."', '".long2ip($account["lip"])."', '".long2ip($account["lip"])."', 1, '',".$account["posts"].")");
             @mysql_query("UPDATE {$TABLE_PREFIX}users SET smf_fid=".$account["id"]." WHERE id=".$account["id"]);
         }
-        print("<script LANGUAGE=\"javascript\">window.location.href='".$_SERVER["PHP_SELF"]."?act=member_import&confirm=yes&start=$newstart&counter=$counter'</script>");
+        print("<script LANGUAGE=\"javascript\">window.location.href='".$_SERVER["PHP_SELF"]."?act=member_import&confirm=yes&start=$newstart&counter=$counter&lastacc=$lastacc'</script>");
+    }
+    elseif($lastacc > $end)
+    {
+        print("<script LANGUAGE=\"javascript\">window.location.href='".$_SERVER["PHP_SELF"]."?act=member_import&confirm=yes&start=$newstart&counter=$counter&lastacc=$lastacc'</script>");
     }
     
     $last=mysql_fetch_assoc(mysql_query("SELECT ID_MEMBER, memberName FROM {$db_prefix}members ORDER BY ID_MEMBER DESC LIMIT 1"));
