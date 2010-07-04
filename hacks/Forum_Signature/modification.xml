@@ -63,17 +63,10 @@
   <file>
     <name>"$DEFAULT_ROOT/user/usercp.main.php"</name>
     <operation>
-      <search><![CDATA[
-    $res=do_sqlquery("SELECT]]></search>
-      <action>"replace"</action>
-      <data><![CDATA[
-    $res=do_sqlquery("SELECT u.signature,]]></data>
-    </operation>
-    <operation>
       <search><![CDATA[$ucptpl["ratio"]=$ratio;]]></search>
       <action>"add"</action>
       <where>"after"</where>
-      <data><![CDATA[      $ucptpl["signature"]=format_comment($row["signature"]);]]></data>
+      <data><![CDATA[      $ucptpl["signature"]=format_comment($CURUSER["signature"]);]]></data>
     </operation>
   </file>
 
@@ -103,10 +96,10 @@
   <name>"$DEFAULT_ROOT/include/functions.php"</name>
   <operation>
     <action>"replace"</action>
-    <search><![CDATA[}
+    <search><![CDATA[(int)$_COOKIE['uid']);
 
   $res = get_result("SELECT]]></search>
-    <data><![CDATA[}
+    <data><![CDATA[(int)$_COOKIE['uid']);
 
   $res = get_result("SELECT u.signature,]]></data>
   </operation>
@@ -167,8 +160,8 @@ if ($XBTT_USE)
   <name>"$DEFAULT_ROOT/userdetails.php"</name>
   <operation>
     <action>"replace"</action>
-    <search><![CDATA[$res=do_sqlquery("SELECT ]]></search>
-    <data><![CDATA[$res=do_sqlquery("SELECT u.signature, ]]></data>
+    <search><![CDATA[$res=get_result("SELECT ]]></search>
+    <data><![CDATA[$res=get_result("SELECT u.signature, ]]></data>
   </operation>
 
   <operation>
