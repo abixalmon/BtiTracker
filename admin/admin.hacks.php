@@ -38,7 +38,6 @@ if (!defined("IN_ACP"))
       die("non direct access!");
 $admintpl->set("test_ok2",false,true);
 $admintpl->set("manual_install",true,true);
-$admintpl->set("manual_install2",false,true);
 $admintpl->set("ftp",false,true);
 
 switch ($action)
@@ -48,7 +47,7 @@ switch ($action)
         $admintpl->set("manual_install",false,true);
         $admintpl->set("test",false,true);
         require_once($THIS_BASEPATH."/include/class.update_hacks.php");    
-        $filename=urldecode($_GET["folder"])."/modification.xml";
+        $filename=urldecode(base64_decode($_GET["folder"]))."/modification.xml";
         $fd=fopen($filename, "r");
         $xml=fread($fd,filesize($filename));
         fclose($fd);
@@ -349,7 +348,7 @@ switch ($action)
             $admintpl->set("test",true,true);
             $admintpl->set("test_ok",false,true);
             $admintpl->set("test_ok2",true,true);
-            $admintpl->set("hack_manual_link", "index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=hacks&amp;action=manual&folder=".urlencode(str_replace("\\", "/", $CURRENT_FOLDER)));
+            $admintpl->set("hack_manual_link", "index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=hacks&amp;action=manual&folder=".urlencode(base64_encode(str_replace("\\", "/", $CURRENT_FOLDER))));
         }
         $admintpl->set("language",$language);
         $admintpl->set("hack_folder",$hack_folder);
