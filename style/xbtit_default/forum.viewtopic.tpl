@@ -37,7 +37,7 @@
           </td>
         </tr>
         <tr>
-          <td class="post" align="left" valign="top">
+          <td class="blocklist" align="left" valign="top">
           <!-- poster infos -->
             <table width="140">
               <tr>

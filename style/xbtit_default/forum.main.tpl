@@ -14,7 +14,7 @@
   <loop:forums>
   <tr>
     <td class="lista"><tag:forums[].status /></td>
-    <td class="lista"><tag:forums[].name /><tag:forums[].description /><tag:forums[].subforums /></td>
+    <td class="lista" valign="middle" style="padding-left:10px;overflow:auto;"><tag:forums[].name /><tag:forums[].description /><tag:forums[].subforums /></td>
     <td class="lista" style="text-align:center;" align="center"><tag:forums[].topics /></td>
     <td class="lista" style="text-align:center;" align="center"><tag:forums[].posts /></td>
     <td class="lista" align="center"><tag:forums[].lastpost /></td>

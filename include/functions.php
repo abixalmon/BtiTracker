@@ -191,7 +191,12 @@ function print_designer() {
      $design_copyright='[&nbsp;&nbsp;<u>Design By</u>: '.$design_copyright.'&nbsp;&nbsp;]&nbsp;';
   } else
      $design_copyright='';
-  return '<a href="#">Back To Top</a><br />'.$design_copyright;
+  return $design_copyright;
+}
+function print_top()
+{
+  global $TABLE_PREFIX;
+  return '<a href=\'#\'>Back To Top</a>';
 }
 
 // check online passed session and user's location
@@ -604,10 +609,38 @@ function rank_list() {
 
   return get_result('SELECT * FROM '.$TABLE_PREFIX.'users_level ORDER BY id_level;', true, $CACHE_DURATION);
 }
-           
+
+# This will show your site name & your url, where you place your tags! 
+# <tag:site_name /> and <tag:tracker_url /> . 
+function print_sitename()
+{
+  global $SITENAME;
+
+return $SITENAME;
+}
+function print_trackerurl()
+{
+  global $BASEURL;	
+
+return $BASEURL;
+}
+# this will show the users name where you place the <tag:user_name />
+function print_username()
+{
+   global $CURUSER;
+  $username=($CURUSER['username']); 
+  return $username;
+}
+# End
+# Begin standard foot tags!
+
 function stdfoot($normalpage=true, $update=true, $adminpage=false, $torrentspage=false, $forumpage=false) {
   global $STYLEPATH, $tpl, $no_columns;
 
+  $tpl->set('to_top',print_top());
+  $tpl->set('tracker_url',print_trackerurl());
+  $tpl->set('site_name',print_sitename());
+  $tpl->set('user_name',print_username());
   $tpl->set('main_footer',bottom_menu()."<br />\n");
   $tpl->set('xbtit_version',print_version());
   $tpl->set('style_copyright',print_designer());

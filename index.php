@@ -138,9 +138,14 @@ $tpl->set("main_css","$style_css");
 
 require_once("$THIS_BASEPATH/include/blocks.php");
 
+
 $logo.="<div></div>";
-$slideIt="<span style=\"align:left;\"><a href=\"javascript:collapse2.slideit()\"><img src=\"$STYLEURL/images/slide.png\" border=\"0\" alt=\"\" /></a></span>";
+$dropdown=dropdown_menu();
+$extra=extra_menu();
+$slideIt="<span style=\"align:left;\"><a href=\"javascript:collapse2.slideit()\"><img src=\"$STYLEURL/images/slide.png\" border=\"0\" alt=\"click\" /></a></span>";
 $header.="<div>".main_menu()."</div>";
+
+
 
 $left_col=side_menu();
 $right_col=right_menu();
@@ -150,6 +155,7 @@ if ($left_col=="" && $right_col=="")
 
 include 'include/jscss.php';
 
+
 $tpl->set("main_jscript",$morescript);
 if (!$no_columns && $pageID!='admin' && $pageID!='forum' && $pageID!='torrents' && $pageID!='usercp') {
   $tpl->set("main_left",$left_col);
@@ -157,6 +163,10 @@ if (!$no_columns && $pageID!='admin' && $pageID!='forum' && $pageID!='torrents' 
 }
 
 $tpl->set("main_logo",$logo);
+
+$tpl->set("main_dropdown",$dropdown);
+
+$tpl->set("main_extra",$extra);
 
 $tpl->set("main_slideIt",$slideIt);
 

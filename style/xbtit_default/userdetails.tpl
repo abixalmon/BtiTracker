@@ -2,9 +2,9 @@
 
   <tr>
 
-    <td class="header"><tag:language.USERNAME /></td>
+    <td width="20%" class="header"><tag:language.USERNAME /></td>
 
-    <td class="lista"><tag:userdetail_username /><tag:userdetail_send_pm /><tag:userdetail_edit /><tag:userdetail_delete /></td>
+    <td width="80%" class="lista"><tag:userdetail_username /><tag:userdetail_send_pm /><tag:userdetail_edit /><tag:userdetail_delete /></td>
 
     <if:userdetail_has_avatar>
 

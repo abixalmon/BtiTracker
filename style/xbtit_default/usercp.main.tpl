@@ -12,8 +12,8 @@ function popusers(url)
     <td align="center" class="lista" colspan="3"><br /><tag:language.UCP_NOTE_1 /><br /><tag:language.UCP_NOTE_2 /><br /><br /></td>
   </tr>
   <tr>
-    <td class="header" align="left"><tag:language.USER_NAME />:</td>
-    <td class="lista" align="left"><tag:ucp.username /></td>
+    <td width="20%" class="header" align="left"><tag:language.USER_NAME />:</td>
+    <td width="80%" class="lista" align="left"><tag:ucp.username /></td>
   <if:AVATAR>
     <td class="lista" align="center" valign="middle" rowspan="4"><tag:ucp.avatar /></td>
   </if:AVATAR>

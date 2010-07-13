@@ -54,6 +54,56 @@
       </td>
     </tr>
     </if:top_blocks>
+    <!--<tr>
+      <td width="30%" valign="top">-->
+    <if:dropdown_blocks>
+    <tr>
+      <td colspan="3" valign="top">
+      <loop:dropdown>
+        <table align="center" class="lista" width="100%">
+          <tr>
+            <td class="block" valign="top" align="center"><tag:dropdown[].title /></td>
+          </tr>
+          <tr>
+            <td>
+              &nbsp;&nbsp;<tag:language.ENABLED />&nbsp;&nbsp;<tag:dropdown[].check />
+              &nbsp;<tag:dropdown[].combo />
+              &nbsp;<tag:dropdown[].pos />
+              &nbsp;Min.<tag:dropdown[].combo_min_view />
+              &nbsp;Max.<tag:dropdown[].combo_max_view />
+            </td>
+          </tr>
+        </table>
+        <br />
+      </loop:dropdown>
+      </td>
+    </tr>
+    </if:dropdown_blocks>
+    <!--<tr>
+      <td width="30%" valign="top">-->
+	<if:extra_blocks>
+    <tr>
+      <td colspan="3" valign="top">
+      <loop:extras>
+        <table align="center" class="lista" width="100%">
+          <tr>
+            <td class="block" valign="top" align="center"><tag:extras[].title /></td>
+          </tr>
+          <tr>
+            <td>
+              &nbsp;&nbsp;<tag:language.ENABLED />&nbsp;&nbsp;<tag:extras[].check />
+              &nbsp;<tag:extras[].combo />
+              &nbsp;<tag:extras[].pos />
+              &nbsp;Min.<tag:extras[].combo_min_view />
+              &nbsp;Max.<tag:extras[].combo_max_view />
+            </td>
+          </tr>
+        </table>
+        <br />
+      </loop:extras>
+      </td>
+    </tr>
+    </if:extra_blocks>
     <tr>
       <td width="30%" valign="top">
       <if:left_blocks>

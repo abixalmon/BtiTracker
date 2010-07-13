@@ -431,4 +431,14 @@ $language['MODULE_NOT_PRESENT']='The module required do not exists!';
 $language['MODULE_LOAD_ERROR']='The module required seems to be wrong!';
 $language['RESET_PID'] = 'Reset PID';
 
+# Language definitions added by TreetopClimber.
+$language['EXTRA']='extra';
+$language['DROPDOWN']='dropdown';
+$language['TORRENT_MENU']='Torrent Menu';
+$language['USER_MENU']='User Menu';
+$language['ADMIN_ACCESS']='Admin Access';
+$language['STAFF_ACCESS']='Staff';
+$language['UPLOAD_LINK']='Torrent Upload';
+# End
+
 ?>

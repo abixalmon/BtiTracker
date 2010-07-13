@@ -34,11 +34,7 @@ function popusers(url)
   <table class="lista" width="100%" align="center">
     <tr>
      <td class="header" align="center"><tag:language.READED /></td>
-     <if:OUTBOX>
-     <td class="header" align="center"><tag:language.RECEIVER /></td>
-     <else:OUTBOX>
      <td class="header" align="center"><tag:language.SENDER /></td>
-     </if:OUTBOX>
      <td class="header" align="center"><tag:language.DATE /></td>
      <td class="header" align="center"><tag:language.SUBJECT /></td>
 

@@ -168,9 +168,7 @@
     </tr>
     <tr>
       <td class="header"><tag:language.SETTING_CLOCK /></td>
-      <td class="lista">&nbsp;<tag:language.CLOCK_ANALOG />&nbsp;<input type="radio" name="clocktype" value="true"<tag:config.clockanalog /> />&nbsp;<tag:language.CLOCK_DIGITAL />&nbsp;<input type="radio" name="clocktype" value="false"<tag:config.clockdigital /> /></td>
-      <td class="header"><tag:language.SETTING_FORUMBLOCK /></td>
-      <td class="lista">&nbsp;<tag:language.FORUMBLOCK_POSTS />&nbsp;<input type="radio" name="forumblocktype" value="true"<tag:config.forumblockposts /> />&nbsp;<tag:language.FORUMBLOCK_TOPICS />&nbsp;<input type="radio" name="forumblocktype" value="false"<tag:config.forumblocktopics /> /></td>
+      <td class="lista" colspan="3">&nbsp;<tag:language.CLOCK_ANALOG />&nbsp;<input type="radio" name="clocktype" value="true"<tag:config.clockanalog /> />&nbsp;<tag:language.CLOCK_DIGITAL />&nbsp;<input type="radio" name="clocktype" value="false"<tag:config.clockdigital /> /></td>
     </tr>
     <tr>
       <td class="header"><tag:language.SETTING_NUM_NEWS /></td>

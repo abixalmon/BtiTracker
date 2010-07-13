@@ -40,7 +40,7 @@
     <loop:posts>
       <table class="lista" width="100%">
         <tr>
-          <td class="post" align="center" width="150">
+          <td class="blocklist" align="center" width="150">
           <!-- poster infos -->
             <table>
               <tr>

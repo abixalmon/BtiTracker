@@ -1,5 +1,4 @@
-
-  <table width="100%" class="lista">
+<table width="98%" class="lista" align="center">
     <tr>
       <td class="header" align="center"><tag:language.RANK /></td>
       <td class="header"><tag:language.FILE_NAME /></td>
@@ -16,7 +15,7 @@
     <loop:torrent>
     <tr>
       <td class="lista" align="center"><tag:torrent[].rank /></td>
-      <td class="lista" align="left"><tag:torrent[].filename /></td>
+      <td class="lista" valign="middle" onMouseOver="this.className='post'" onMouseOut="this.className='lista'" style="padding-left:10px;overflow:auto;"><tag:torrent[].filename /></td>
       <td class="lista" align="center" width="10%"><tag:torrent[].complete /></td>
       <td class="lista" align="center" width="10%"><tag:torrent[].seeds /></td>
       <td class="lista" align="center" width="10%"><tag:torrent[].leechers /></td>

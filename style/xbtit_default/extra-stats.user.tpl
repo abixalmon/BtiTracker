@@ -1,5 +1,4 @@
-
-  <table width="100%" class="lista">
+<table width="98%" class="lista" align="center">
     <tr>
       <td class="header" align="center"><tag:language.RANK /></td>
       <td class="header" align="center"><tag:language.USER_NAME /></td>
@@ -10,7 +9,7 @@
     <loop:user>
     <tr>
       <td class="lista" align="center" width="15%"><tag:user[].rank /></td>
-      <td class="lista" align="center"><tag:user[].username /></td>
+      <td class="lista" valign="middle" onMouseOver="this.className='post'" onMouseOut="this.className='lista'" style="padding-left:10px;overflow:auto;"><tag:user[].username /></td>
       <td class="lista" align="center" width="15%"><tag:user[].uploaded /></td>
       <td class="lista" align="center" width="15%"><tag:user[].downloaded /></td>
       <td class="lista" align="center" width="15%"><tag:user[].ratio /></td>

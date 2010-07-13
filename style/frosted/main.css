@@ -1,8 +1,86 @@
+.menu {font-family: arial, sans-serif; width:750px; position:relative; margin:auto; font-size:10px; margin:0px 0 0px 0; z-index:100;}
+.menu ul li a, .menu ul li a:visited {display:block; text-decoration:none; width:104px; height:20px; text-align:center; font-weight:bold; color:#01679a; border:1px solid #BBC7CE; background:url(images/w_bg.gif); line-height:20px; font-size:8pt; overflow:hidden;}
+.menu ul {padding:0; margin:0; list-style-type: none; }
+.menu ul li {float:left; margin-right:1px; position:relative;}
+.menu ul li ul {display: none;}
+
+/* specific to non IE browsers */
+.menu ul li:hover a {color:#f1f4fa; background:url(images/q_bg.gif);}
+.menu ul li:hover ul {display:block; position:absolute; top:21px; left:0; width:105px;}
+.menu ul li:hover ul li a.hide {background:url(images/q_bg.gif); color:#000;}
+.menu ul li:hover ul li:hover a.hide {background:url(images/d_bg.gif); color:#f1f4fa;}
+.menu ul li:hover ul li ul {display: none;}
+.menu ul li:hover ul li a {display:block; background:url(images/w_bg.gif); color:#01679a;}
+.menu ul li:hover ul li a:hover {background:url(images/q_bg.gif); color:#000;}
+.menu ul li:hover ul li:hover ul {display:block; position:absolute; left:105px; top:0;}
+.menu ul li:hover ul li:hover ul.left {left:-105px;}
+
+#navbox{
+margin:0;
+border:0px solid #000; 
+width: 750px;
+height:22px;
+position: relative;
+}
+.clear { clear: both; background: none; }
+/* css for dropdown menu */
+#menu {width:700px; height:35px; background:transparent; text-align:center; margin:0 auto;}
+
+#menu ul {margin:0; padding:0; list-style:none; white-space:nowrap; text-align:left; border:1px inset #BBC7CE; background:#fff url(images/menubg.gif);}
+#menu ul {display:inline-block;} 
+
+#menu li {margin:0; padding:0; list-style:none;}
+#menu li {display:inline-block; display:inline;}
+#menu ul ul {position:absolute; left:-9999px; width:150px;}
+
+#menu ul.level1 {margin:3px auto;}
+#menu ul.level1 li.level1-li {float:left; display:block; position:relative;}
+
+#menu b {position:absolute;} /* -- for IE6 non-flyout dropdowns to stop flickering - who knows why --*/
+
+#menu a {display:block; font:normal 11px verdana,arial,sans-serif; color:#01223b; line-height:26px; text-decoration:none; padding:0 20px;}
+#menu ul.level1 li.level1-li a.level1-a {float:left;}
+
+#menu ul li:hover > ul {visibility:visible; left:0; top:24px;}
+#menu ul ul li:hover > ul {visibility:visible; left:100%; top:auto; margin-top:-25px; margin-left:-4px;}
+#menu li.left:hover > ul {visibility:visible; left:auto; right:0; top:25px;}
+#menu li.left ul li:hover > ul {visibility:visible; left:auto; right:100%; top:auto; margin-top:-25px; margin-right:-4px;}
+
+#menu a:hover ul {left:0; top:25px;}
+#menu li.left a:hover ul {left:auto; right:-1px; top:25px;}
+
+#menu li.left ul a {text-align:right;}
+
+#menu a:hover a:hover ul, 
+#menu a:hover a:hover a:hover ul {left:100%; visibility:visible;}
+#menu li.left a:hover a:hover ul, 
+#menu li.left a:hover a:hover a:hover ul {left:auto; right:0; visibility:visible;}
+
+#menu a:hover ul ul, 
+#menu a:hover a:hover ul ul {left:-9999px;}
+#menu li.left a:hover ul ul, 
+#menu li.left a:hover a:hover ul ul {left:-9999px;}
+
+#menu li a.drop {background:transparent url(images/black-down.gif) no-repeat right center;}
+#menu li a.fly {background:transparent url(images/black-right.gif) no-repeat right center;}
+#menu li.left ul a.fly {background:transparent url(images/black-left.gif) no-repeat left center;}
+
+#menu li a:hover,
+#menu li a.fly:hover {background:#fff url(images/menubg-hover.gif); color:#000;} 
+#menu li:hover > a,
+#menu ul li:hover > a.fly {background:#fff url(images/menubg-hover.gif); color:#000;}
+
+#menu table {position:absolute; height:0; width:0; left:0; border-collapse:collapse; margin-top:-6px;}
+#menu table table {position:absolute; left:99%; height:0; width:0; border-collapse:collapse; margin-top:-30px; margin-left:-4px;}
+
+#menu li.left table {position:absolute; height:0; width:0; left:auto; right:0; border-collapse:collapse; margin-top:-4px;}
+#menu li.left table table {position:absolute; left:auto; right:100%; height:0; width:0; border-collapse:collapse; margin-top:-30px; margin-right:-4px;}
+/* end menu */
 body {
     font-family: tahoma, arial, helvetica, sans-serif;
     font-size: 8pt;
-    background: #FAFCFE;
-    margin: 10px 12px 20px 8px;
+    background: #F1F4FA;
+    margin: 10px 52px 20px 48px;
     padding: 0;
 }
 
@@ -12,28 +90,26 @@ body {
 }
 
 .btn{
-  background: #DFE6EF;
-  border: 1px solid #4C77B6;
+  background: #D9E6ED;#DFE6EF;
+  border: 1px solid #EFF3F5;
   color: #000;
   font-family: Verdana, Helvetica, Sans-Serif;
   font-size: 11px;
   padding: 2px;
   vertical-align: middle;
-/*  text-align:left;*/
   cursor: pointer;
 
 }
 
 .post{
-  border:1px solid #BFD3EE;
+  border:1px solid #BBC7CE;
   background: #FAFCFE;
   padding:0px;
   margin:1px;
   color:#000000;
   line-height: 1.4em;
   text-align:left;
-  white-space:wrap;
-    overflow: auto;
+  overflow: auto;
 }
 
 img {
@@ -45,6 +121,12 @@ textarea {
     overflow: auto;
     line-height: 1.4em;
 }
+/* Form elements */
+input, select {
+	font: normal 7pt Verdana, Arial, Helvetica, sans-serif;
+	/*border:1px solid; 
+	border-color:#000000 #D6D6D6 #D6D6D6 #000000;*/ 
+}
 
 select.drop_pager {
   background-color: #E0ECF7;
@@ -54,13 +136,13 @@ select.drop_pager {
 
 .pager {
   background-color: #E0ECF7;
-  border: 1px solid #072A66;
+  border: 1px solid #BBC7CE;
   padding: 1px 3px 1px 3px;
 }
 
 .pagercurrent {
   background-color: #7FBDFA;
-  border: 1px solid #072A66;
+  border: 1px solid #BBC7CE;
   padding: 1px 3px 1px 3px;
 }
 
@@ -76,97 +158,107 @@ select.drop_pager {
     text-decoration:none;
 }
 
+.cat3
+{
+	background: url(images/menubg.gif) #fff repeat-x;
+	height:25px;
+	color: #000;
+	font-size:8pt;
+	font-weight:bold;	
+}
+
 #main {
-    background: #F1F4FA;
-    width:100%;
-        border: 1px #BFD3EE solid;
-    margin: 10px auto;
+    background: #FCFCFC;#F1F4FA;
+    width:992px;
+    border: 1px #BFD3EE solid;
+    margin: auto;
+		font-size: 7.5pt;
+		color:#122935;
 }
 
 #logo {
-  background:url('images/logo-bg.gif');
-    background-repeat:repeat-x;
-    height:103;
+  background:url('images/Logobg.png') repeat-x;
+    height:150;
     width:100%;
 }
 .tracker_logo {
-  background: url("images/logo.gif") no-repeat; 
+  background: url("images/Logo.png") no-repeat; 
     align:center; 
-    height:103px; 
+    height:150px; 
     width:750px;
 }
-#slideIt {background-color: #FCFCFC; align:right; }
 
-#header{
-    background: #FCFCFC;
-    width:100%;
-}
 #nocolumns { width:100%; align:center; }
+#header { width:100%; align:center; }
 #footer{
-  background:url('images/footer-bg.gif');
-    background-repeat:repeat-x;
-    height:103px;
+  background:url('images/Footerbg.png') repeat-x;
+  height:150px;
   width:100%;
 }
 
-div.chat {
-/* Wrap its contents, and show scrollbars. */
-    white-space: wrap;
-    overflow: auto;
-    max-height: 36em;
-  width: 100%;
-  padding: 0px;
+td.footer{
+  background:transparent;
+	height:69px;
+  width:982px;
+	position:absolute;
 }
 
-
-a:link,a:active,a:visited { color : #006699; }
-a:hover { text-decoration:none; color : #DD6900; }
+a:link,a:active,a:visited { color: #093950; font-size: 7.5pt; text-decoration:none; }
+a:hover { font-size: 7.5pt; text-decoration:none; color: #E69129;#DD6900; }
 
 h1 {
-    font-size: 12pt;
+    font-size: 10pt;
 }
 
 p {
-    font-size: 10pt;
+    font-size: 9pt;
+}
+
+b {
+  text-transform:uppercase;
+	font-size: 7.5pt;
 }
 
 table {
     border:0px;
 }
-table.tool { border-bottom: solid 1px #BFD3EE; }
+
+table.tool { 
+border-bottom: solid 1px #EFF3F5; 
+}
+
 table.lista {
-   background: url('images/poller.png');
-     background-color:#FEFEFE; 
-     background-repeat:repeat-x;
-   border: 1px silver solid;
+   background:#F4F6F7;
+	 border-top: 1px solid #EEE;  
+   border-left: 1px solid #EEE; 
+   border-right: 1px solid #EEE;
 }
 
 td.block {
-  background-image:url(images/blokbg.jpg);
+    background:#FFF; 
+		color:#122935;#01679a;
     height:25px;
     padding-left: 3px;
     padding-right: 3px;
-    border-bottom: solid 1px #BFD3EE;
-  color: #3A4F6C;
 }
 
 td.blocklist {
-         background-color: #F1F4FA;
-         padding:2px;
-         margin:1px;
-         font-size: 8pt;
-         font-weight: bold;
-         color: #3939AA;
+   background: #F4F6F7;#F1F4FA;
+   padding:2px;
+   margin:1px;
+   font-size: 8pt;
+   font-weight: bold;
+   color: #374B55;#ADBBC3;#3939AA;
 }
-.user {background:#F1F4FA;}
+.user {background:#F4F6F7;#F1F4FA;}
 td.lista {
-    background-color:#F1F4FA;
-        border-left:solid 1px #BFD3EE;
-        border-right:solid 1px #BFD3EE;
-    color : #006699;
+    background:#F4F6F7;#F1F4FA;
+    border-left:solid 1px #EFF3F5;
+    border-right:solid 1px #EFF3F5;
+    color: #093950;#96A4AC;#006699;
     padding:2px;
     margin:0px;
-        text-align:left;
+    text-align:left;
     font-size: 8pt;
 }
 
@@ -176,21 +268,23 @@ td {
 
 td.header {
      font-weight:bold;
-     color:#025082;
+		 font-size: 7.5pt;
+     color:#374B55;#025082;
      padding:5px;
-         border: 1px #BFD3EE solid;
-     background-image: url(images/header_back.gif);
-     background-color: #F1F4FA;#9FBCE3;
-         background-repeat:repeat-x;
+     border: 1px #EFF3F5 solid;
+     background-image: url(images/bg_bar.gif);
+     background-color: #F9F8F8;
+     background-repeat:repeat-x;
      
 }
 
 td.title {
     font-size: 8pt;
+		color:#122935;
 }
 
 td.navigation {
-    background-color: #FAFCFE;
+    background: #FAFCFE;
     font-weight: bold;
     font-size: 8pt;
 }
@@ -221,19 +315,19 @@ a.biglink {
 }
 
 td.red {
-    background-color:#E0ECF7;
+    /*background: url('images/poller.png');*/
     color: red;
 }
 
 
 td.yellow {
-    background-color:#E0ECF7;
+    /*background: url('images/poller.png');*/
     color: #BEC635;
 }
 
 
 td.green {
-    background-color:#E0ECF7;
+    /*background: url('images/poller.png');*/
     color: green;
 }
 
@@ -294,7 +388,8 @@ td.modified {
     width:100%;
     overflow:auto;
     text-align:left;
-    background-color:#FFF;
+		padding-left:5px;
+    background:#F4F6F7;
     
 }
 
@@ -309,14 +404,15 @@ td.modified {
 .poller {  /* The poller box */
   
     width:100%;
-    background: url('images/poller.png'); background-repeat:repeat-x; background-color:#FFF;
-        overflow:hidden; color:#000; font-weight:bold;
+    background:#F4F6F7;
+    overflow:hidden; 
+		color:#374B55; 
 }
 
 .pollerTitle {  /* Poller title above radio buttons */
     margin-top:0px;
     margin-bottom:5px;
-    font-weight:bold;
+    font-style:italic;
     font-size:1em;
 }
 

@@ -1,12 +1,20 @@
-<br />
-
-<table class="lista" cellpadding="0" cellspacing="0" <tag:block_width /> align="center">
-  <tr>
-    <td class="block" align="center" height="20px"><b><tag:block_title /></b></td>
-  </tr>
-  <tr>
-    <td width="100%" align="<tag:block_align />" valign="top">
-    <tag:block_content />
-    </td>
-  </tr>
-</table>
+<br />	
+<div class="block">
+  <div class="block-head">
+    <div class="block-head-l"></div>
+    <div class="block-head-r"></div>
+    <div class="block-head-title"><tag:block_title /></div>
+  </div>
+  <div class="block-content">
+    <div class="block-content-l">
+    <div class="block-content-r">
+    <div align="<tag:block_align />" class="b-content"><tag:block_content /></div>
+  </div>
+  </div>
+  </div>
+  <div class="block-foot">
+    <div class="block-foot-l"></div>
+    <div class="block-foot-r"></div>
+    <div class="block-foot-m"></div>
+  </div>
+</div>

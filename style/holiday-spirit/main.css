@@ -11,8 +11,7 @@ body, td, th , tr {
 body {
 	font-size: small;
 	font-family: verdana, arial, helvetica, sans-serif;
-  background-color: #003300;
-  background-image: url("images/holly-berry.gif");
+  background-color: #4c915c;
   margin: 0px;
 	padding: 0px 30px 0px 30px;
   color: #0B0C1E;
@@ -81,30 +80,6 @@ img {
   border:0px;
 }
 
-/* Input boxes - just a bit smaller than normal so they align well. */
-input, textarea, button
-{
-	color: #000000;
-	font-family: verdana, sans-serif;
-}
-input, button
-{
-	font-size: 90%;
-}
-
-/* All input elements that are checkboxes or radio buttons. */
-input.check
-{
-}
-
-/* Selects are a bit smaller, because it makes them look even better 8). */
-select
-{
-	font-size: 90%;
-	font-weight: normal;
-	color: #000000;
-	font-family: verdana, sans-serif;
-}
 textarea {
 	display:block;
 	overflow: auto;
@@ -144,6 +119,71 @@ select.drop_pager {
     text-decoration:underline overline;
 }
 
+/* css for dropdown menu */
+#menu {width:auto; height:34px; background:transparent; text-align:center; margin:0 auto;}
+/* Donot change the values of this menu */
+#menu ul {margin:0; padding:0; list-style:none; white-space:nowrap; text-align:left; background: url(images/mesicon.gif); border:1px inset #004e39;}
+#menu ul {display:inline-block;} 
+
+#menu li {margin:0; padding:0; list-style:none;}
+#menu li {display:inline-block; display:inline;}
+#menu ul ul {position:absolute; left:-9999px; width:150px;}
+
+#menu ul.level1 {margin:3px auto;}
+#menu ul.level1 li.level1-li {float:left; display:block; position:relative;}
+
+#menu b {position:absolute;} /* -- for IE6 non-flyout dropdowns to stop flickering - who knows why --*/
+
+#menu a {display:block; font:normal 11px verdana,arial,sans-serif; color:#01223b; line-height:26px; text-decoration:none; padding:0 20px;}
+#menu ul.level1 li.level1-li a.level1-a {float:left;}
+
+#menu ul li:hover > ul {visibility:visible; left:0; top:24px;}
+#menu ul ul li:hover > ul {visibility:visible; left:100%; top:auto; margin-top:-25px; margin-left:-4px;}
+#menu li.left:hover > ul {visibility:visible; left:auto; right:0; top:25px;}
+#menu li.left ul li:hover > ul {visibility:visible; left:auto; right:100%; top:auto; margin-top:-25px; margin-right:-4px;}
+
+#menu a:hover ul {left:0; top:25px;}
+#menu li.left a:hover ul {left:auto; right:-1px; top:25px;}
+
+#menu li.left ul a {text-align:right;}
+
+#menu a:hover a:hover ul, 
+#menu a:hover a:hover a:hover ul {left:100%; visibility:visible;}
+#menu li.left a:hover a:hover ul, 
+#menu li.left a:hover a:hover a:hover ul {left:auto; right:0; visibility:visible;}
+
+#menu a:hover ul ul, 
+#menu a:hover a:hover ul ul {left:-9999px;}
+#menu li.left a:hover ul ul, 
+#menu li.left a:hover a:hover ul ul {left:-9999px;}
+
+#menu li a.drop {background: url(images/white-down.gif) no-repeat right center;}
+#menu li a.fly {background: url(images/white-right.gif) no-repeat right center;}
+#menu li.left ul a.fly {background: url(images/white-left.gif) no-repeat left center;}
+
+#menu li a:hover,
+#menu li a.fly:hover {color:#fff; background-color:#2bb673; border-top:1px solid #fff; border-bottom:1px solid #004e39;} 
+#menu li:hover > a,
+#menu ul li:hover > a.fly {color:#fff; background-color:#2bb673; border-top:1px solid #fff; border-bottom:1px solid #004e39;}
+
+#menu table {position:absolute; height:0; width:0; left:0; border-collapse:collapse; margin-top:-6px;}
+#menu table table {position:absolute; left:99%; height:0; width:0; border-collapse:collapse; margin-top:-30px; margin-left:-4px;}
+
+#menu li.left table {position:absolute; height:0; width:0; left:auto; right:0; border-collapse:collapse; margin-top:-4px;}
+#menu li.left table table {position:absolute; left:auto; right:100%; height:0; width:0; border-collapse:collapse; margin-top:-30px; margin-right:-4px;}
+/* end menu */
+
+/* innerbar for the rules, faq & ulguide */
+.cat3
+{
+	background: url(images/lite-green.gif) #418A48 repeat-x;
+	border: #D40C00 inset 1px;
+	height:20px;
+	color: #000;
+	font-size:8pt;
+	font-weight:bold;	
+}
+/* end */
 /* Navigation links - Used in the footer. */
 .nav { color: #000; font size:8pt;}
 .nav a:link, .nav a:visited { color:#999; font-weight: normal;}
@@ -153,14 +193,15 @@ h1 {font-size:2em; margin:0; padding:0;}
 
 #main {
     display:block;
-    width:100%;
-		padding:0px;
-    margin: 0px 0px 10px 0px;
+    background:transparent;
+    width:992px;
+    padding:2px;
+    margin: 0 auto;
 }
 
-#header {
+#top {
   background-image: url("images/img262.gif");
-	background-color: #003300;#344E34;
+	background-color: #1b1f20;#344E34;
 	color:#000;
 }
 
@@ -205,22 +246,17 @@ hr {
 	background-color: transparent;
 }
 
-h2 {
-  border: #D40C00 inset 1px;
-	background-color: #418A48;
-	background-image: url(images/grn.gif);
-	background-repeat: repeat-x; 
-	color: #000; 
-  font-size: 10pt;
-	padding:3px;
+h1 {
+    font-size: 12pt;
 }
 
-p
-{ margin: 0px;
-  padding: 0px 0px 16px 0px;
-  line-height: 1.7em;
+p {
+    font-size: 10pt;
 }
 
+table {
+    border:0px;
+}
 .lights {
   background-image: url("images/hlight.gif");
 }
@@ -230,7 +266,7 @@ p
 .windowbg6 {
   text-align:left;
   background-color: transparent; 
-	
+	height:150px;
 }
 
 table.tool { background:#b5b9a7; border-bottom: solid 1px #076D06; }
@@ -243,19 +279,11 @@ table.lista {
 }
 
 td.block {
-
-	padding-left: 3px;
-	padding-right: 3px;
-	font-size: 80%;
-  text-transform: uppercase;
-  font-family: verdana, arial, sans-serif;
- /* clear: both;*/
-  text-align: center;
 	border:1px solid #71bf59;
-	background-color: #DEEDE5;
-	background: url('images/block-head.jpg');
-	height:27px;
-
+  padding-left: 3px;
+  padding-right: 3px;
+  line-height:20px;
+	background: url('images/block-head.jpg') #DEEDE5 repeat-x;
 }
 td.block_end {
   background-image: url('images/icey.gif');
@@ -283,7 +311,7 @@ td.lista {
 }
 
 td {
-   font-size: 8pt;
+
 }
 
 td.header {
@@ -351,28 +379,16 @@ a.biglink {
 }
 
 td.red {
-	border: #720904 1px solid;
-  background-image: url('images/bg2.gif');
-	background-repeat: repeat-x;
-	background-color: #D7C6A9;
   color: red;
 }
 
 
 td.yellow {
-	border: #720904 1px solid;
-  background-image: url('images/bg2.gif');
-	background-repeat: repeat-x;
-	background-color: #D7C6A9;
-  color: #4A8BD4;
+  color: #BEC635;/*#4A8BD4;*/
 }
 
 
 td.green {
-	border: #720904 1px solid;
-  background-image: url('images/bg2.gif');
-	background-repeat: repeat-x;
-	background-color: #D7C6A9;
   color: green;
 }
 

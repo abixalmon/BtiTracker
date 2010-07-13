@@ -1,4 +1,4 @@
-
+<br />
 <table class="lista" cellpadding="0" cellspacing="0" <tag:block_width /> align="center">
   <tr>
     <td class="block" align="center"><b><tag:block_title /></b></td>
@@ -10,4 +10,3 @@
 	<tr>
 	  <td class="block_end" align="center" height="33"></td>
 	</tr></table>
-<br />

@@ -38,7 +38,7 @@ function get_menu($pos) {
   $blocks=get_result('SELECT title, content, cache FROM '.$TABLE_PREFIX.'blocks WHERE position="'.$pos.'" AND status=1 AND '.$CURUSER['id_level'].'>=minclassview  AND '.$CURUSER['id_level'].'<=maxclassview '.(($FORUMLINK==''||$FORUMLINK=='internal'||$FORUMLINK=='smf')?'':' AND content!="forum"').' ORDER BY sortid',true, $CACHE_DURATION);
   $return='';
   foreach ($blocks as $entry)
-		$return.=get_block($language[$entry['title']],'justify',$entry['content'],$entry['cache']=='yes');
+                $return.=get_block($language[$entry['title']],'justify',$entry['content'],$entry['cache']=='yes');
   return $return;
 }
 
@@ -51,6 +51,14 @@ function main_menu() {
     $return.=get_content(realpath(dirname(__FILE__).'/..').'/blocks/'.$entry['content'].'_block.php');
 
   return set_block('','justify',$return);
+}
+
+function dropdown_menu() {
+  return get_menu('d');
+}
+
+function extra_menu() {
+  return get_menu('e');
 }
 
 function center_menu() {

@@ -67,11 +67,15 @@ function read_blocks()
 
       $br=get_result("SELECT * FROM {$TABLE_PREFIX}blocks ORDER BY sortid",true);
       $tops=array();
+	    $dropdown=array();
+	    $extras=array();
       $lefts=array();
       $centers=array();
       $rights=array();
       $bottom=array();
       $t=0;
+	    $d=0;
+	    $e=0;
       $l=0;
       $c=0;
       $r=0;
@@ -89,6 +93,8 @@ function read_blocks()
           case 't':
                 $tops[$t]["pos"]="\n<select name=\"position_".$blk["blockid"]."\" size=\"1\">";
                 $tops[$t]["pos"].="\n<option selected=\"selected\" value=\"t\">".$language["TOP"]."</option>";
+				        $tops[$t]["pos"].="\n<option value=\"d\">".$language["DROPDOWN"]."</option>";
+				        $tops[$t]["pos"].="\n<option value=\"e\">".$language["EXTRA"]."</option>";
                 $tops[$t]["pos"].="\n<option value=\"l\">".$language["LEFT"]."</option>";
                 $tops[$t]["pos"].="\n<option value=\"c\">".$language["CENTER"]."</option>";
                 $tops[$t]["pos"].="\n<option value=\"r\">".$language["RIGHT"]."</option>";
@@ -97,7 +103,7 @@ function read_blocks()
 
                 $tops[$t]["combo_min_view"]="\n<select name=\"minclassview_".$blk["blockid"]."\" size=\"1\">";
                 foreach($alevel as $level)
-                    $tops[$t]["combo_min_view"].="\n<option value=\"".$level["id_level"].($blk["minclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
+                $tops[$t]["combo_min_view"].="\n<option value=\"".$level["id_level"].($blk["minclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
                 $tops[$t]["combo_min_view"].="\n</select>";
 
                 $tops[$t]["combo_max_view"]="\n<select name=\"maxclassview_".$blk["blockid"]."\" size=\"1\">";
@@ -107,7 +113,7 @@ function read_blocks()
 
                 $tops[$t]["combo"]="\n<select name=\"sort_".$blk["blockid"]."\" size=\"1\">";
                 for ($i=0;$i<count($br);$i++)
-                    $tops[$t]["combo"].="\n<option value=\"$i\" ".($i==$blk["sortid"]?"selected=\"selected\"":"").">$i</option>";
+                $tops[$t]["combo"].="\n<option value=\"$i\" ".($i==$blk["sortid"]?"selected=\"selected\"":"").">$i</option>";
                 $tops[$t]["combo"].="\n</select>";
                 $tops[$t]["status"]=$blk["status"];
                 $tops[$t]["title"]=$language[$blk["title"]].
@@ -116,10 +122,78 @@ function read_blocks()
                 $tops[$t]["check"]="<input name=\"status_".$blk["blockid"]."\" type=\"checkbox\" ".($blk["status"]=="1"?"checked=\"checked\"":"")." />";
                 $t++;
                 break;
+                
+          case 'd':
+                $dropdown[$d]["pos"]="\n<select name=\"position_".$blk["blockid"]."\" size=\"1\">";
+                $dropdown[$d]["pos"].="\n<option value=\"t\">".$language["TOPS"]."</option>";
+                $dropdown[$d]["pos"].="\n<option selected=\"selected\" value=\"d\">".$language["DROPDOWN"]."</option>";
+				        $dropdown[$d]["pos"].="\n<option value=\"e\">".$language["EXTRA"]."</option>";
+                $dropdown[$d]["pos"].="\n<option value=\"l\">".$language["LEFT"]."</option>";
+                $dropdown[$d]["pos"].="\n<option value=\"c\">".$language["CENTER"]."</option>";
+                $dropdown[$d]["pos"].="\n<option value=\"r\">".$language["RIGHT"]."</option>";
+                $dropdown[$d]["pos"].="\n<option value=\"b\">".$language["BOTTOM"]."</option>";
+                $dropdown[$d]["pos"].="\n</select>";
+
+                $dropdown[$d]["combo_min_view"]="\n<select name=\"minclassview_".$blk["blockid"]."\" size=\"1\">";
+                foreach($alevel as $level)
+                $dropdown[$d]["combo_min_view"].="\n<option value=\"".$level["id_level"].($blk["minclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
+                $dropdown[$d]["combo_min_view"].="\n</select>";
+
+                $dropdown[$d]["combo_max_view"]="\n<select name=\"maxclassview_".$blk["blockid"]."\" size=\"1\">";
+                foreach($alevel as $level)
+                $dropdown[$d]["combo_max_view"].="\n<option value=\"".$level["id_level"].($blk["maxclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
+                $dropdown[$d]["combo_max_view"].="\n</select>";
+
+                $dropdown[$d]["combo"]="\n<select name=\"sort_".$blk["blockid"]."\" size=\"1\">";
+                for ($i=0;$i<count($br);$i++)
+                $dropdown[$d]["combo"].="\n<option value=\"$i\" ".($i==$blk["sortid"]?"selected=\"selected\"":"").">$i</option>";
+                $dropdown[$d]["combo"].="\n</select>";
+                $dropdown[$d]["status"]=$blk["status"];
+                $dropdown[$d]["title"]=$language[$blk["title"]].
+                    "&nbsp;&nbsp;<a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=blocks&amp;action=edit&amp;id=".$blk["blockid"]."\">".
+                    image_or_link("$STYLEPATH/images/edit.png","",$language["EDIT"])."</a>";
+                $dropdown[$d]["check"]="<input name=\"status_".$blk["blockid"]."\" type=\"checkbox\" ".($blk["status"]=="1"?"checked=\"checked\"":"")." />";
+                $d++;
+                break;
+								
+		  case 'e':
+                $extras[$e]["pos"]="\n<select name=\"position_".$blk["blockid"]."\" size=\"1\">";
+				        $extras[$e]["pos"].="\n<option value=\"t\">".$language["TOP"]."</option>";
+				        $extras[$e]["pos"].="\n<option value=\"d\">".$language["DROPDOWN"]."</option>";
+                $extras[$e]["pos"].="\n<option selected=\"selected\" value=\"e\">".$language["EXTRA"]."</option>";								
+                $extras[$e]["pos"].="\n<option value=\"l\">".$language["LEFT"]."</option>";
+                $extras[$e]["pos"].="\n<option value=\"c\">".$language["CENTER"]."</option>";
+                $extras[$e]["pos"].="\n<option value=\"r\">".$language["RIGHT"]."</option>";
+                $extras[$e]["pos"].="\n<option value=\"b\">".$language["BOTTOM"]."</option>";
+                $extras[$e]["pos"].="\n</select>";
+
+                $extras[$e]["combo_min_view"]="\n<select name=\"minclassview_".$blk["blockid"]."\" size=\"1\">";
+                foreach($alevel as $level)
+                $extras[$e]["combo_min_view"].="\n<option value=\"".$level["id_level"].($blk["minclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
+                $extras[$e]["combo_min_view"].="\n</select>";
+
+                $extras[$e]["combo_max_view"]="\n<select name=\"maxclassview_".$blk["blockid"]."\" size=\"1\">";
+                foreach($alevel as $level)
+                $extras[$e]["combo_max_view"].="\n<option value=\"".$level["id_level"].($blk["maxclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
+                $extras[$e]["combo_max_view"].="\n</select>";
+
+                $extras[$e]["combo"]="\n<select name=\"sort_".$blk["blockid"]."\" size=\"1\">";
+                for ($i=0;$i<count($br);$i++)
+                $extras[$e]["combo"].="\n<option value=\"$i\" ".($i==$blk["sortid"]?"selected=\"selected\"":"").">$i</option>";
+                $extras[$e]["combo"].="\n</select>";
+                $extras[$e]["status"]=$blk["status"];
+                $extras[$e]["title"]=$language[$blk["title"]].
+                    "&nbsp;&nbsp;<a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=blocks&amp;action=edit&amp;id=".$blk["blockid"]."\">".
+                    image_or_link("$STYLEPATH/images/edit.png","",$language["EDIT"])."</a>";
+                $extras[$e]["check"]="<input name=\"status_".$blk["blockid"]."\" type=\"checkbox\" ".($blk["status"]=="1"?"checked=\"checked\"":"")." />";
+                $e++;
+                break;			
 
           case 'l':
                 $lefts[$l]["pos"]="\n<select name=\"position_".$blk["blockid"]."\" size=\"1\">";
                 $lefts[$l]["pos"].="\n<option value=\"t\">".$language["TOP"]."</option>";
+				        $lefts[$l]["pos"].="\n<option value=\"d\">".$language["DROPDOWN"]."</option>";
+				        $lefts[$l]["pos"].="\n<option value=\"e\">".$language["EXTRA"]."</option>";
                 $lefts[$l]["pos"].="\n<option selected=\"selected\" value=\"l\">".$language["LEFT"]."</option>";
                 $lefts[$l]["pos"].="\n<option value=\"c\">".$language["CENTER"]."</option>";
                 $lefts[$l]["pos"].="\n<option value=\"r\">".$language["RIGHT"]."</option>";
@@ -128,7 +202,7 @@ function read_blocks()
 
                 $lefts[$l]["combo_min_view"]="\n<select name=\"minclassview_".$blk["blockid"]."\" size=\"1\">";
                 foreach($alevel as $level)
-                    $lefts[$l]["combo_min_view"].="\n<option value=\"".$level["id_level"].($blk["minclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
+                $lefts[$l]["combo_min_view"].="\n<option value=\"".$level["id_level"].($blk["minclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
                 $lefts[$l]["combo_min_view"].="\n</select>";
 
                 $lefts[$l]["combo_max_view"]="\n<select name=\"maxclassview_".$blk["blockid"]."\" size=\"1\">";
@@ -139,7 +213,7 @@ function read_blocks()
 
                 $lefts[$l]["combo"]="\n<select name=\"sort_".$blk["blockid"]."\" size=\"1\">";
                 for ($i=0;$i<count($br);$i++)
-                    $lefts[$l]["combo"].="\n<option value=\"$i\" ".($i==$blk["sortid"]?"selected=\"selected\"":"").">$i</option>";
+                $lefts[$l]["combo"].="\n<option value=\"$i\" ".($i==$blk["sortid"]?"selected=\"selected\"":"").">$i</option>";
                 $lefts[$l]["combo"].="\n</select>";
                 $lefts[$l]["status"]=$blk["status"];
                 $lefts[$l]["title"]=$language[$blk["title"]].
@@ -152,6 +226,8 @@ function read_blocks()
           case 'c':
                 $centers[$c]["pos"]="\n<select name=\"position_".$blk["blockid"]."\" size=\"1\">";
                 $centers[$c]["pos"].="\n<option value=\"t\">".$language["TOP"]."</option>";
+				        $centers[$c]["pos"].="\n<option value=\"d\">".$language["DROPDOWN"]."</option>";
+				        $centers[$c]["pos"].="\n<option value=\"e\">".$language["EXTRA"]."</option>";
                 $centers[$c]["pos"].="\n<option value=\"l\">".$language["LEFT"]."</option>";
                 $centers[$c]["pos"].="\n<option selected=\"selected\" value=\"c\">".$language["CENTER"]."</option>";
                 $centers[$c]["pos"].="\n<option value=\"r\">".$language["RIGHT"]."</option>";
@@ -161,18 +237,18 @@ function read_blocks()
 
                 $centers[$c]["combo_min_view"]="\n<select name=\"minclassview_".$blk["blockid"]."\" size=\"1\">";
                 foreach($alevel as $level)
-                    $centers[$c]["combo_min_view"].="\n<option value=\"".$level["id_level"].($blk["minclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
+                $centers[$c]["combo_min_view"].="\n<option value=\"".$level["id_level"].($blk["minclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
                 $centers[$c]["combo_min_view"].="\n</select>";
 
                 $centers[$c]["combo_max_view"]="\n<select name=\"maxclassview_".$blk["blockid"]."\" size=\"1\">";
                 foreach($alevel as $level)
-                    $centers[$c]["combo_max_view"].="\n<option value=\"".$level["id_level"].($blk["maxclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
+                $centers[$c]["combo_max_view"].="\n<option value=\"".$level["id_level"].($blk["maxclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
                 $centers[$c]["combo_max_view"].="\n</select>";
 
 
                 $centers[$c]["combo"]="\n<select name=\"sort_".$blk["blockid"]."\" size=\"1\">";
                 for ($i=0;$i<count($br);$i++)
-                    $centers[$c]["combo"].="\n<option value=\"$i\" ".($i==$blk["sortid"]?"selected=\"selected\"":"").">$i</option>";
+                $centers[$c]["combo"].="\n<option value=\"$i\" ".($i==$blk["sortid"]?"selected=\"selected\"":"").">$i</option>";
                 $centers[$c]["combo"].="\n</select>";
                 $centers[$c]["status"]=$blk["status"];
                 $centers[$c]["title"]=$language[$blk["title"]].
@@ -185,6 +261,8 @@ function read_blocks()
           case 'r':
                 $rights[$r]["pos"]="\n<select name=\"position_".$blk["blockid"]."\" size=\"1\">";
                 $rights[$r]["pos"].="\n<option value=\"t\">".$language["TOP"]."</option>";
+				        $rights[$r]["pos"].="\n<option value=\"d\">".$language["DROPDOWN"]."</option>";
+				        $rights[$r]["pos"].="\n<option value=\"e\">".$language["EXTRA"]."</option>";
                 $rights[$r]["pos"].="\n<option value=\"l\">".$language["LEFT"]."</option>";
                 $rights[$r]["pos"].="\n<option value=\"c\">".$language["CENTER"]."</option>";
                 $rights[$r]["pos"].="\n<option selected=\"selected\" value=\"r\">".$language["RIGHT"]."</option>";
@@ -193,18 +271,18 @@ function read_blocks()
 
                 $rights[$r]["combo_min_view"]="\n<select name=\"minclassview_".$blk["blockid"]."\" size=\"1\">";
                 foreach($alevel as $level)
-                    $rights[$r]["combo_min_view"].="\n<option value=\"".$level["id_level"].($blk["minclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
+                $rights[$r]["combo_min_view"].="\n<option value=\"".$level["id_level"].($blk["minclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
                 $rights[$r]["combo_min_view"].="\n</select>";
 
                 $rights[$r]["combo_max_view"]="\n<select name=\"maxclassview_".$blk["blockid"]."\" size=\"1\">";
                 foreach($alevel as $level)
-                    $rights[$r]["combo_max_view"].="\n<option value=\"".$level["id_level"].($blk["maxclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
+                $rights[$r]["combo_max_view"].="\n<option value=\"".$level["id_level"].($blk["maxclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
                 $rights[$r]["combo_max_view"].="\n</select>";
 
 
                 $rights[$r]["combo"]="\n<select name=\"sort_".$blk["blockid"]."\" size=\"1\">";
                 for ($i=0;$i<count($br);$i++)
-                    $rights[$r]["combo"].="\n<option value=\"$i\" ".($i==$blk["sortid"]?"selected=\"selected\"":"").">$i</option>";
+                $rights[$r]["combo"].="\n<option value=\"$i\" ".($i==$blk["sortid"]?"selected=\"selected\"":"").">$i</option>";
                 $rights[$r]["combo"].="\n</select>";
                 $rights[$r]["status"]=$blk["status"];
                 $rights[$r]["title"]=$language[$blk["title"]].
@@ -217,6 +295,8 @@ function read_blocks()
           case 'b':
                 $bottom[$b]["pos"]="\n<select name=\"position_".$blk["blockid"]."\" size=\"1\">";
                 $bottom[$b]["pos"].="\n<option value=\"t\">".$language["TOP"]."</option>";
+				        $bottom[$b]["pos"].="\n<option value=\"d\">".$language["DROPDOWN"]."</option>";
+				        $bottom[$b]["pos"].="\n<option value=\"e\">".$language["EXTRA"]."</option>";
                 $bottom[$b]["pos"].="\n<option value=\"l\">".$language["LEFT"]."</option>";
                 $bottom[$b]["pos"].="\n<option value=\"c\">".$language["CENTER"]."</option>";
                 $bottom[$b]["pos"].="\n<option value=\"r\">".$language["RIGHT"]."</option>";
@@ -225,18 +305,18 @@ function read_blocks()
 
                 $bottom[$b]["combo_min_view"]="\n<select name=\"minclassview_".$blk["blockid"]."\" size=\"1\">";
                 foreach($alevel as $level)
-                    $bottom[$b]["combo_min_view"].="\n<option value=\"".$level["id_level"].($blk["minclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
+                $bottom[$b]["combo_min_view"].="\n<option value=\"".$level["id_level"].($blk["minclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
                 $bottom[$b]["combo_min_view"].="\n</select>";
 
                 $bottom[$b]["combo_max_view"]="\n<select name=\"maxclassview_".$blk["blockid"]."\" size=\"1\">";
                 foreach($alevel as $level)
-                    $bottom[$b]["combo_max_view"].="\n<option value=\"".$level["id_level"].($blk["maxclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
+                $bottom[$b]["combo_max_view"].="\n<option value=\"".$level["id_level"].($blk["maxclassview"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
                 $bottom[$b]["combo_max_view"].="\n</select>";
 
 
                 $bottom[$b]["combo"]="\n<select name=\"sort_".$blk["blockid"]."\" size=\"1\">";
                 for ($i=0;$i<count($br);$i++)
-                    $bottom[$b]["combo"].="\n<option value=\"$i\" ".($i==$blk["sortid"]?"selected=\"selected\"":"").">$i</option>";
+                $bottom[$b]["combo"].="\n<option value=\"$i\" ".($i==$blk["sortid"]?"selected=\"selected\"":"").">$i</option>";
                 $bottom[$b]["combo"].="\n</select>";
                 $bottom[$b]["status"]=$blk["status"];
                 $bottom[$b]["title"]=$language[$blk["title"]].
@@ -250,11 +330,15 @@ function read_blocks()
       unset($br);
       $admintpl->set("frm_action","index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=blocks&amp;action=save");
       $admintpl->set("top_blocks",$t>0,true);
+	    $admintpl->set("dropdown_blocks",$d>0,true);
+	    $admintpl->set("extra_blocks",$e>0,true);
       $admintpl->set("left_blocks",$l>0,true);
       $admintpl->set("center_blocks",$c>0,true);
       $admintpl->set("right_blocks",$r>0,true);
       $admintpl->set("bottom_blocks",$b>0,true);
       $admintpl->set("tops",$tops);
+	    $admintpl->set("dropdown",$dropdown);
+	    $admintpl->set("extras",$extras);
       $admintpl->set("lefts",$lefts);
       $admintpl->set("centers",$centers);
       $admintpl->set("rights",$rights);
@@ -270,6 +354,8 @@ function position_combo($current="l")
     global $language;
     $ret="\n<select name=\"block_position\" size=\"1\">";
     $ret.="\n<option value=\"t\" ".($current=="t"?"selected=\"selected\"":"").">".$language["TOP"]."</option>";
+	  $ret.="\n<option value=\"d\" ".($current=="d"?"selected=\"selected\"":"").">".$language["DROPDOWN"]."</option>";
+	  $ret.="\n<option value=\"e\" ".($current=="e"?"selected=\"selected\"":"").">".$language["EXTRA"]."</option>";
     $ret.="\n<option value=\"l\" ".($current=="l"?"selected=\"selected\"":"").">".$language["LEFT"]."</option>";
     $ret.="\n<option value=\"c\" ".($current=="c"?"selected=\"selected\"":"").">".$language["CENTER"]."</option>";
     $ret.="\n<option value=\"r\" ".($current=="r"?"selected=\"selected\"":"").">".$language["RIGHT"]."</option>";

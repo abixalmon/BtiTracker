@@ -25,31 +25,31 @@ function windowunder(link)
           <tag:mod_task />
           </if:MOD>
           </td>
-          <td class="lista" align="center"><tag:torrent.filename /></td>
+          <td class="lista" align="center" style="text-align:left;" valign="top"><tag:torrent.filename /></td>
         </tr>
         <tr>
           <td align="right" class="header"><tag:language.TORRENT /></td>
-          <td class="lista" align="center"><a href="download.php?id=<tag:torrent.info_hash />&amp;f=<tag:torrent.filename />.torrent"><tag:torrent.filename /></a></td>
+          <td class="lista" align="center" style="text-align:left;" valign="top"><a href="download.php?id=<tag:torrent.info_hash />&amp;f=<tag:torrent.filename />.torrent"><tag:torrent.filename /></a></td>
         </tr>
         <tr>
           <td align="right" class="header"><tag:language.INFO_HASH /></td>
-          <td class="lista" align="center"><tag:torrent.info_hash /></td>
+          <td class="lista" align="center" style="text-align:left;" valign="top"><tag:torrent.info_hash /></td>
         </tr>
         <tr>
           <td align="right" class="header" valign="top"><tag:language.DESCRIPTION /></td>
-          <td class="lista" align="center"><tag:torrent.description /></td>
+          <td class="lista" align="center" style="text-align:left;" valign="top"><tag:torrent.description /></td>
         </tr>
         <tr>
           <td align="right" class="header"><tag:language.CATEGORY_FULL /></td>
-          <td class="lista" align="center"><tag:torrent.cat_name /></td>
+          <td class="lista" align="center" style="text-align:left;" valign="top"><tag:torrent.cat_name /></td>
         </tr>
         <tr>
           <td align="right" class="header"><tag:language.RATING /></td>
-          <td class="lista" align="center"><tag:torrent.rating /></td>
+          <td class="lista" align="center" style="text-align:left;" valign="top"><tag:torrent.rating /></td>
         </tr>
         <tr>
           <td align="right" class="header"><tag:language.SIZE /></td>
-          <td class="lista" align="center"><tag:torrent.size /></td>
+          <td class="lista" align="center" style="text-align:left;" valign="top"><tag:torrent.size /></td>
         </tr>
         <if:DISPLAY_FILES>
         <tr>
@@ -63,8 +63,8 @@ function windowunder(link)
             </tr>
             <loop:files>
             <tr>
-              <td align="center" class="lista"><tag:files[].filename /></td>
-              <td align="center" class="lista"><tag:files[].size /></td>
+              <td align="center" class="lista" style="text-align:left;" valign="top"><tag:files[].filename /></td>
+              <td align="center" class="lista" style="text-align:left;" valign="top"><tag:files[].size /></td>
             </tr>
             </loop:files>
           </table>
@@ -75,36 +75,36 @@ function windowunder(link)
         </if:DISPLAY_FILES>
         <tr>
           <td align="right" class="header"><tag:language.ADDED /></td>
-          <td class="lista" ><tag:torrent.date /></td>
+          <td class="lista" style="text-align:left;" valign="top"><tag:torrent.date /></td>
         </tr>
         <if:SHOW_UPLOADER>
         <tr>
           <td align="right" class="header"><tag:language.UPLOADER /></td>
-          <td class="lista" align="center"><tag:torrent.uploader /></td>
+          <td class="lista" align="center" style="text-align:left;" valign="top"><tag:torrent.uploader /></td>
         </tr>
         </if:SHOW_UPLOADER>
         <if:NOT_XBTT>
         <tr>
           <td align="right" class="header"><tag:language.SPEED /></td>
-          <td class="lista" align="center"><tag:torrent.speed /></td>
+          <td class="lista" align="center" style="text-align:left;" valign="top"><tag:torrent.speed /></td>
         </tr>
         </if:NOT_XBTT>
         <tr>
           <td align="right" class="header"><tag:language.DOWNLOADED /></td>
-          <td class="lista" align="center"><tag:torrent.downloaded /></td>
+          <td class="lista" align="center" style="text-align:left;" valign="top"><tag:torrent.downloaded /></td>
         </tr>
         <tr>
           <td align="right" class="header"><tag:language.PEERS /></td>
-          <td class="lista" align="center"><tag:torrent.seeds />, <tag:torrent.leechers /> = <tag:torrent.peers /></td>
+          <td class="lista" align="center" style="text-align:left;" valign="top"><tag:torrent.seeds />, <tag:torrent.leechers /> = <tag:torrent.peers /></td>
         </tr>
         <if:EXTERNAL>
         <tr>
           <td valign="middle" align="right" class="header"><tag:torrent.update_url /></td>
-          <td class="lista" align="center"><tag:torrent.announce_url /></td>
+          <td class="lista" align="center" style="text-align:left;" valign="top"><tag:torrent.announce_url /></td>
         </tr>
         <tr>
           <td valign="middle" align="right" class="header"><tag:language.LAST_UPDATE /></td>
-          <td class="lista" align="center"><tag:torrent.lastupdate /> (<tag:torrent.lastsuccess />)</td>
+          <td class="lista" align="center" style="text-align:left;" valign="top"><tag:torrent.lastupdate /> (<tag:torrent.lastsuccess />)</td>
         </tr>
         </if:EXTERNAL>
       </table>
@@ -131,7 +131,7 @@ function windowunder(link)
           <td class="header" align="right"><tag:comments[].delete /></td>
         </tr>
         <tr>
-          <td colspan="3" class="lista" align="center"><tag:comments[].comment /></td>
+          <td colspan="3" class="lista" align="center" style="text-align:left;" valign="top"><tag:comments[].comment /></td>
         </tr>
         </loop:comments>
         </if:NO_COMMENTS>
