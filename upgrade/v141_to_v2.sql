@@ -27,14 +27,15 @@ INSERT INTO `btit_blocks` (`blockid`, `content`, `position`, `sortid`, `status`,
 (10, 'toptorrents', 'c', 5, 1, 'BLOCK_TOPTORRENTS', 'no', 3, 8),
 (11, 'lasttorrents', 'c', 4, 1, 'BLOCK_LASTTORRENTS', 'no', 3, 8),
 (12, 'news', 'c', 1, 1, 'BLOCK_NEWS', 'no', 1, 8),
-(13, 'mainmenu', 't', 1, 1, 'BLOCK_MENU', 'no', 1, 8),
+(13, 'mainmenu', 'e', 1, 1, 'BLOCK_MENU', 'no', 1, 8),
 (14, 'maintrackertoolbar', 't', 2, 1, 'BLOCK_MAINTRACKERTOOLBAR', 'no', 3, 8),
 (15, 'mainusertoolbar', 't', 2, 1, 'BLOCK_MAINUSERTOOLBAR', 'no', 1, 8),
 (16, 'serverload', 'c', 8, 0, 'BLOCK_SERVERLOAD', 'no', 8, 8),
 (17, 'poller', 'l', 3, 1, 'BLOCK_POLL', 'no', 3, 8),
 (18, 'seedwanted', 'c', 3, 1, 'BLOCK_SEEDWANTED', 'no', 3, 8),
 (19, 'paypal', 'r', 1, 1, 'BLOCK_PAYPAL', 'no', 3, 8),
-(20, 'ajax_shoutbox', 'c', 2, 1, 'BLOCK_SHOUTBOX', 'no', 3, 8);
+(20, 'ajax_shoutbox', 'c', 2, 1, 'BLOCK_SHOUTBOX', 'no', 3, 8),
+(21, 'dropdownmenu', 'd', 1, 1, 'BLOCK_DDMENU', 'no', 1, 8);
 
 --- new chat table (shoutbox)
 
@@ -270,10 +271,10 @@ INSERT INTO `btit_settings` (`key`, `value`) VALUES
 TRUNCATE TABLE `btit_style`;
 
 INSERT INTO `btit_style` (`id`, `style`, `style_url`) VALUES
-(1, 'xBtit_Default', 'style/xbtit_default'),
-(2, 'Mint Green', 'style/mintgreen'),
+(1, 'xBtit Default', 'style/xbtit_default'),
+(2, 'Mint', 'style/mintgreen'),
 (3, 'Dark Lair', 'style/darklair'),
-(4, 'The Hive', 'style/thehive'),
+(4, 'Yellow Jacket', 'style/thehive'),
 (5, 'Frosted', 'style/frosted'),
 (6, 'Holiday Spirit', 'style/holiday-spirit');
 
