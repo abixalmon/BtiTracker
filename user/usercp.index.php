@@ -113,7 +113,9 @@ switch ($do)
        {
        // Get the other values we need from the url
        $newmail=$_GET["newmail"];
-       $id=max(0,$_GET["uid"]);
+       (isset($_GET["uid"]) && !empty($_GET["uid"]) && is_numeric($_GET["uid"]) && $_GET["uid"]>0) ? $id=max(0,$_GET["uid"]) : $id=0;
+       if($id==0)
+           stderr($language["ERROR"], $language["BAD_ID"]);
        $random=max(0,$_GET["random"]);
        $idlevel=$CURUSER["id_level"];
 

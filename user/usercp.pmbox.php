@@ -46,10 +46,7 @@ global $FORUMLINK, $db_prefix;
 switch ($action)
 {
     case 'post':
-           if($FORUMLINK=="smf")
-               $res=do_sqlquery("SELECT smf_fid AS id FROM {$TABLE_PREFIX}users WHERE username=".sqlesc($_POST["receiver"]),true);
-           else
-               $res=do_sqlquery("SELECT id FROM {$TABLE_PREFIX}users WHERE username=".sqlesc($_POST["receiver"]),true);
+           $res=do_sqlquery("SELECT id FROM {$TABLE_PREFIX}users WHERE username=".sqlesc($_POST["receiver"]),true);
            if (!$res || mysql_num_rows($res)==0)
          {
                err_msg($language["ERROR"],$language["ERR_USER_NOT_FOUND"]);
@@ -94,7 +91,7 @@ switch ($action)
              $rec=$result["id"];
              $send=$CURUSER["uid"];
 
-             if ($rec==1 || ($FORUMLINK=="smf"?$rec==$CURUSER["smf_fid"]:$rec==$send))
+             if ($rec==1 || $rec==$send)
                 stderr($language["ERROR"],$language["ERR_PM_GUEST"]);
 
              if ($subject=="''")

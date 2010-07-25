@@ -40,7 +40,7 @@ switch ($action)
            $idlangue=intval(0+$_POST["language"]);
            $idstyle=intval(0+$_POST["style"]);
            $email=AddSlashes($_POST["email"]);
-           $avatar=htmlspecialchars(AddSlashes($_POST["avatar"]));
+           $avatar=str_replace(array('\t','%25','%00'), array('','',''), htmlspecialchars(AddSlashes($_POST["avatar"])));
            $idflag=intval(0+$_POST["flag"]);
            $timezone=intval($_POST["timezone"]);
 
