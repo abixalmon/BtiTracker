@@ -14,10 +14,11 @@
   <file>
     <name>"$DEFAULT_ROOT/user/usercp.profile.php"</name>
     <operation>
-      <search><![CDATA[$avatar=htmlspecialchars(AddSlashes($_POST["avatar"]));]]></search>
+      <search><![CDATA[           $avatar=str_replace(array('\t','%25','%00'), array('','',''), htmlspecialchars(AddSlashes($_POST["avatar"])));]]></search>
       <action>"add"</action>
       <where>"after"</where>
-      <data><![CDATA[           $signature=AddSlashes(htmlspecialchars($_POST["signature"]));]]></data>
+      <data><![CDATA[
+           $signature=str_replace(array('\t','%25','%00'), array('','',''), htmlspecialchars(AddSlashes($_POST["signature"])));]]></data>
     </operation>
     <operation>
       <search><![CDATA[$set[]="avatar='$avatar'";]]></search>

@@ -70,7 +70,7 @@ switch ($action)
                     {
                         $lines=count(explode("\n",$value["data"]));
                         $HTMLOUT.="<br /><span style='font-family:arial; font-size:12pt; color:#000000;'>".$language["MHI_RUN_QUERY"].":</span><br />\n";
-                        $HTMLOUT.="<textarea rows='$lines' cols='120'>".str_replace("{\$db_prefix}",$TABLE_PREFIX,$value["data"])."</textarea><br />\n";
+                        $HTMLOUT.="<textarea rows='$lines' cols='98'>".str_replace( array("{\$db_prefix}","<",">"),array($TABLE_PREFIX,"&lt;","&gt;"),$value["data"])."</textarea><br />\n";
                     }
                 }
                 $HTMLOUT.="<br />";
@@ -89,12 +89,12 @@ switch ($action)
                     if($action=="add" || $action=="replace")
                     {
                         $HTMLOUT.="\n<span style='font-family:arial; font-size:14pt; color:#000000;'>".(($firstpass==0)?$language["MHI_IN"]:$language["MHI_ALSO_IN"])." <span style='color:#0000FF'>".$name . "</span> ".$language["MHI_FIND_THIS"].":</span>";
-                        $HTMLOUT.="\n<br /><textarea rows='$lines' cols='120'>".$value["search"]."</textarea><br /><br />";
+                        $HTMLOUT.="\n<br /><textarea rows='$lines' cols='98'>".str_replace(array("<",">"),array("&lt;","&gt;"),$value["search"])."</textarea><br /><br />";
                         if($action=="add")
                             $HTMLOUT.="\n<span style='font-family:arial; font-size:14pt; color:#000000;'>".$language["MHI_ADD_THIS"]." " . $where . " ".$language["MHI_IT"].":</span>";
                         elseif($action=="replace")
                             $HTMLOUT.="\n<span style='font-family:arial; font-size:14pt; color:#000000;'>".$language["MHI_REPLACE"].":</span>";
-                        $HTMLOUT.="\n<br /><textarea rows='$lines2' cols='120'>".$data."</textarea><br /><br />";
+                        $HTMLOUT.="\n<br /><textarea rows='$lines2' cols='98'>".str_replace(array("<",">"),array("&lt;","&gt;"),$data)."</textarea><br /><br />";
                         $firstpass=1;
                     }
                     elseif($action=="copy")
