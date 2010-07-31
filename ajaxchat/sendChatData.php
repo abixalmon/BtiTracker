@@ -84,9 +84,12 @@ if ($name != '' && $text != '' && $uid !='') {
 # adds new data to the database
 function addData($name,$text,$uid) {
   include("../include/settings.php");   # getting table prefix
+  include("../include/config.php");
   $now = time();
     $sql = "INSERT INTO {$TABLE_PREFIX}chat (time,name,text,uid) VALUES ('".$now."','".$name."','".$text."','".$uid."')";
     $conn = getDBConnection();
+    if($GLOBALS['charset']=="UTF-8")
+        mysql_set_charset('utf8',$conn);
     $results = mysql_query($sql, $conn);
     if (!$results || empty($results)) {
         # echo 'There was an error creating the entry';

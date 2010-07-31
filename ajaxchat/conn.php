@@ -38,6 +38,7 @@ function getDBConnection () {
     $INC_PATH=implode("/",$dir)."/include";
 
     include($INC_PATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
+    include($INC_PATH."/config.php");
     
     $conn = mysql_connect($dbhost, $dbuser, $dbpass);
     if (!$conn) {
@@ -48,6 +49,10 @@ function getDBConnection () {
             echo "No DB with that name seems to exist on the server!";
             end;
         }
+        
+        if($GLOBALS["charset"]=="UTF-8")
+            mysql_query("SET NAMES utf8");
+        
         return $conn;
 }
 
@@ -59,6 +64,7 @@ function his_getDBConnection () {
     $INC_PATH=implode("/",$dir)."/include";
 
     include($INC_PATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
+    include($INC_PATH."/config.php");
     $conn = mysql_connect($dbhost, $dbuser, $dbpass);
     if (!$conn) {
             echo "Connection to DB was not possible!";
@@ -68,6 +74,9 @@ function his_getDBConnection () {
             echo "No DB with that name seems to exist at the server!";
             end;
         }
+        if($GLOBALS["charset"]=="UTF-8")
+            mysql_query("SET NAMES utf8");
+            
         return $conn;
 }
 ?>
