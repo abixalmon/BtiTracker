@@ -105,7 +105,7 @@ if (isset($_POST["confirm"]) && $_POST["confirm"]==$language["FRM_CANCEL"]) {
       require_once("ajaxchat/conn.php"); # getting connection data
       $conn = his_getDBConnection(); # establishes the connection to the database
       
-      include("include/settings.php");  # getting table prefix
+      include_once("include/settings.php");  # getting table prefix
 
   # deleting the shout
   if (isset($delete)) {
@@ -282,8 +282,8 @@ getData($lastID);
 # function that do retrieve all messages with a set id
 function getData($lastID) {
 
-  include("include/settings.php");  # getting table prefix
-  include("include/offset.php");
+  include_once("include/settings.php");  # getting table prefix
+  include_once("include/offset.php");
 
   # discard it if we are editing
   $sid = isset($_GET["sid"])?$_GET["sid"]:0; # get shout id (sid)and set it to zero for bool

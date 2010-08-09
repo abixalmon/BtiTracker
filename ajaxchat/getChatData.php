@@ -64,8 +64,8 @@ getData($lastID);
 function getData($lastID) {
 
   require_once("conn.php"); # getting connection data
-  include("../include/settings.php");   # getting table prefix
-  include("../include/offset.php");
+  include_once("../include/settings.php");   # getting table prefix
+  include_once("../include/offset.php");
 
 global $CURUSER;
 if ($CURUSER["view_users"]!="yes") {
