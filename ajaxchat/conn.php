@@ -37,8 +37,8 @@ function getDBConnection () {
     unset($dir[(count($dir)-1)]);
     $INC_PATH=implode("/",$dir)."/include";
 
-    include($INC_PATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
-    include($INC_PATH."/config.php");
+    include_once($INC_PATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
+    //include($INC_PATH."/config.php");
     
     $conn = mysql_connect($dbhost, $dbuser, $dbpass);
     if (!$conn) {
@@ -63,8 +63,8 @@ function his_getDBConnection () {
     unset($dir[(count($dir)-1)]);
     $INC_PATH=implode("/",$dir)."/include";
 
-    include($INC_PATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
-    include($INC_PATH."/config.php");
+    include_once($INC_PATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
+    //include($INC_PATH."/config.php");
     $conn = mysql_connect($dbhost, $dbuser, $dbpass);
     if (!$conn) {
             echo "Connection to DB was not possible!";
