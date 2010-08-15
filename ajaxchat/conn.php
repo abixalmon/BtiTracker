@@ -37,7 +37,7 @@ function getDBConnection () {
     unset($dir[(count($dir)-1)]);
     $INC_PATH=implode("/",$dir)."/include";
 
-    include_once($INC_PATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
+    include($INC_PATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
     //include($INC_PATH."/config.php");
     
     $conn = mysql_connect($dbhost, $dbuser, $dbpass);
@@ -63,7 +63,7 @@ function his_getDBConnection () {
     unset($dir[(count($dir)-1)]);
     $INC_PATH=implode("/",$dir)."/include";
 
-    include_once($INC_PATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
+    include($INC_PATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
     //include($INC_PATH."/config.php");
     $conn = mysql_connect($dbhost, $dbuser, $dbpass);
     if (!$conn) {

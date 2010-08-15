@@ -282,8 +282,8 @@ getData($lastID);
 # function that do retrieve all messages with a set id
 function getData($lastID) {
 
-  include_once("include/settings.php");  # getting table prefix
-  include_once("include/offset.php");
+  include("include/settings.php");  # getting table prefix
+  include("include/offset.php");
 
   # discard it if we are editing
   $sid = isset($_GET["sid"])?$_GET["sid"]:0; # get shout id (sid)and set it to zero for bool

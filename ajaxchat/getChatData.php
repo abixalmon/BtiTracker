@@ -41,10 +41,11 @@
   #         Credits: linuxuser.at, plasticshore.com
   #
   ################################################################*/
-    
-  require_once("format_shout.php");
+  if ( !function_exists('get_cached_config') ) {
+  require_once("format_shout.php");}
+  
   require_once("../include/functions.php");
-
+  
 # Headers are sent to prevent browsers from caching.. IE is still resistent sometimes
 header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" ); 
 header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" ); 
@@ -64,10 +65,13 @@ getData($lastID);
 function getData($lastID) {
 
   require_once("conn.php"); # getting connection data
-  include_once("../include/settings.php");   # getting table prefix
-  include_once("../include/offset.php");
+  
+  include("../include/settings.php");   # getting table prefix
+  
+  include("../include/offset.php");
 
 global $CURUSER;
+
 if ($CURUSER["view_users"]!="yes") {
 die("Sorry, Shoutbox is not available...");
 }
