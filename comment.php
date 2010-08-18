@@ -72,11 +72,16 @@ if (isset($_POST["info_hash"])) {
    $comment = addslashes($_POST["comment"]);
       $user=AddSlashes($CURUSER["username"]);
       if ($user=="") $user="Anonymous";
+	  if(empty($comment)){
+     stderr($language["ERROR"],"Empty!");
+     exit();
+     }
+	 else{	 
   do_sqlquery("INSERT INTO {$TABLE_PREFIX}comments (added,text,ori_text,user,info_hash) VALUES (NOW(),\"$comment\",\"$comment\",\"$user\",\"" . mysql_real_escape_string(StripSlashes($_POST["info_hash"])) . "\")",true);
   redirect("index.php?page=torrent-details&id=" . StripSlashes($_POST["info_hash"])."#comments");
   die();
   }
-
+}
 # Comment preview by miskotes
 #############################
 
