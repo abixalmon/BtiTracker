@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $language['ACCOUNT_CREATED']='Cont Creat';
 $language['USER_NAME']='Utilizator';
 $language['USER_PWD_AGAIN']='Repetă parola';

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $language['TORRENT_SEARCH']='Căutare Torrente';
 $language['TORRENT_STATUS']='Status';
 $language['CATEGORY_FULL']='Categorie';

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $language['NOT_SHA']='Funcţia SHA1 nu este disponibilă. Ai nevoie de PHP versiunea 4.3.0 sau mai mare.';
 $language['NOT_AUTHORIZED_UPLOAD']='Nu eşti autorizat să faci Upload!';
 $language['FILE_UPLOAD_ERROR_1']='Fiţierul urcat nu poate fi citit';

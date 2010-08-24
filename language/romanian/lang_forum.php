@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $language['SUBFORUM']='Sub-Forum';
 $language['SUBFORUMS']='<b>Sub-Forumuri</b>';
 $language['NEW_TOPIC']='Topic Nou';

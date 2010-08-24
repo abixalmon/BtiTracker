@@ -1,7 +1,7 @@
 <?php
 global $users, $torrents, $seeds, $leechers, $percent;
 // $language["rtl"]="rtl"; // if your language is  right to left then uncomment this line
-// $language["charset"]="ISO-8859-1"; // uncomment this line with specific language charset if different than tracker's one
+$language["charset"]="UTF-8"; // uncomment this line with specific language charset if different than tracker's one
 $language["ACCOUNT_CONFIRM"]="Подтверждение аккаунта на сайте $SITENAME .";
 $language["ACCOUNT_CONGRATULATIONS"]="Поздравляем! Теперь Ваш аккаунт активирован!<br />Теперь Вы можете <a href=index.php?page=login>войти</a> на сайт используя свои данные.";
 $language["ACCOUNT_CREATE"]="Создать аккаунт";

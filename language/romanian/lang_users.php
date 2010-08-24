@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // ENGLISH USERS.PHP FILE
 $language['FIND_USER']='Cautare Utilizator';
 $language['USER_LEVEL']='Rang Utilizator';

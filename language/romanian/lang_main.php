@@ -1,5 +1,6 @@
-﻿<?php
+<?php
 global $users, $torrents, $seeds, $leechers, $percent;
+$language['charset']='UTF-8'; // uncomment this line with specific language charset if different than tracker's one
 $language['ACCOUNT_CONFIRM']='Confirmarea contului pentru site-ul '.$SITENAME;
 $language['ACCOUNT_CONGRATULATIONS']='Felicitări, contul tau este acum valid!<br>Te poţi <a href="index.php?page=login">autentifica</a> pe tracker folosindu-ţi noul cont.';
 $language['ACCOUNT_CREATE']='Crează cont';

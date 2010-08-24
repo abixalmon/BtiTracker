@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $language['ACP_BAN_IP']='Restricţionare IP';
 $language['ACP_FORUM']='Setări Forum';
 $language['ACP_USER_GROUP']='Setări Grupuri Utilizatori';

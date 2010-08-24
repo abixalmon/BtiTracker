@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 //AJAX Poll System Hack Start - 5:03 PM 3/24/2007
 $language['POLL_ID']='ID';
 $language['LATEST_POLL']='Cel mai recent Chestionar';

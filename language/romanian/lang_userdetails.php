@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // USERDETAILS.PHP LANGUAGE FILE
 $language['USERNAME']='Nume utilizator';
 $language['EMAIL']='E-mail';

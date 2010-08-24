@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $language['DELETE_READED']='Şterge';
 $language['USER_LANGUE']='Limba';
 $language['USER_STYLE']='Skin';
