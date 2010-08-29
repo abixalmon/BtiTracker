@@ -73,7 +73,7 @@ if (isset($_POST["info_hash"])) {
       $user=AddSlashes($CURUSER["username"]);
       if ($user=="") $user="Anonymous";
 	  if(empty($comment)){
-     stderr($language["ERROR"],"Empty!");
+     stderr($language["ERROR"],$language['ERR_COMMENT_EMPTY']);
      exit();
      }
 	 else{	 
