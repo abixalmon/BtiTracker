@@ -1,14 +1,14 @@
-<?php
-$language["DELETE_READED"]="Διαγραφή";
-$language["USER_LANGUE"]="Γλώσσα";
-$language["USER_STYLE"]="Στυλ";
-$language["CURRENTLY_PEER"]="Τώρα κάνεις seeding ή leeching κάποιο torrent.";
-$language["STOP_PEER"]="Πρέπει να σταματήσεις τον client.";
-$language["USER_PWD_AGAIN"]="Επανάληψη κωδικού";
-$language["EMAIL_FAILED"]="Η αποστολή του email απέτυχε!";
-$language["NO_SUBJECT"]="Δεν υπάρχει θέμα";
-$language["MUST_ENTER_PASSWORD"]="<br /><font color='#FF0000'><strong>Πρέπει να βάλεις των κωδικό σου για να αλλάξεις τις παραπάνω επιλογές.</strong></font>";
-$language["ERR_PASS_WRONG"]="Κωδικός κενός ή λανθασμένος, δεν γίνεται αναβάθμιση του προφίλ.";
-$language["MSG_DEL_ALL_PM"]="Εαν επιλέξεις προσωπικά μηνύματα που δεν έχουν διαβαστεί, δεν θα διαγραφούν";
-$language["ERR_PM_GUEST"]="Συγνώμη δεν μπορείς να στείλεις προσωπικό μήνυμα σε καλεσμένο ή στον εαυτό σου!";
+ο»Ώ<?php
+$language["DELETE_READED"]="Ξ”ΞΉΞ±Ξ³ΟΞ±Ο†Ξ®";
+$language["USER_LANGUE"]="Ξ“Ξ»ΟΟƒΟƒΞ±";
+$language["USER_STYLE"]="Ξ£Ο„Ο…Ξ»";
+$language["CURRENTLY_PEER"]="Ξ¤ΟΟΞ± ΞΊΞ¬Ξ½ΞµΞΉΟ‚ seeding Ξ® leeching ΞΊΞ¬Ο€ΞΏΞΉΞΏ torrent.";
+$language["STOP_PEER"]="Ξ ΟΞ­Ο€ΞµΞΉ Ξ½Ξ± ΟƒΟ„Ξ±ΞΌΞ±Ο„Ξ®ΟƒΞµΞΉΟ‚ Ο„ΞΏΞ½ client.";
+$language["USER_PWD_AGAIN"]="Ξ•Ο€Ξ±Ξ½Ξ¬Ξ»Ξ·ΟΞ· ΞΊΟ‰Ξ΄ΞΉΞΊΞΏΟ";
+$language["EMAIL_FAILED"]="Ξ— Ξ±Ο€ΞΏΟƒΟ„ΞΏΞ»Ξ® Ο„ΞΏΟ… email Ξ±Ο€Ξ­Ο„Ο…Ο‡Ξµ!";
+$language["NO_SUBJECT"]="Ξ”ΞµΞ½ Ο…Ο€Ξ¬ΟΟ‡ΞµΞΉ ΞΈΞ­ΞΌΞ±";
+$language["MUST_ENTER_PASSWORD"]="<br /><font color='#FF0000'><strong>Ξ ΟΞ­Ο€ΞµΞΉ Ξ½Ξ± Ξ²Ξ¬Ξ»ΞµΞΉΟ‚ Ο„Ο‰Ξ½ ΞΊΟ‰Ξ΄ΞΉΞΊΟ ΟƒΞΏΟ… Ξ³ΞΉΞ± Ξ½Ξ± Ξ±Ξ»Ξ»Ξ¬ΞΎΞµΞΉΟ‚ Ο„ΞΉΟ‚ Ο€Ξ±ΟΞ±Ο€Ξ¬Ξ½Ο‰ ΞµΟ€ΞΉΞ»ΞΏΞ³Ξ­Ο‚.</strong></font>";
+$language["ERR_PASS_WRONG"]="ΞΟ‰Ξ΄ΞΉΞΊΟΟ‚ ΞΊΞµΞ½ΟΟ‚ Ξ® Ξ»Ξ±Ξ½ΞΈΞ±ΟƒΞΌΞ­Ξ½ΞΏΟ‚, Ξ΄ΞµΞ½ Ξ³Ξ―Ξ½ΞµΟ„Ξ±ΞΉ Ξ±Ξ½Ξ±Ξ²Ξ¬ΞΈΞΌΞΉΟƒΞ· Ο„ΞΏΟ… Ο€ΟΞΏΟ†Ξ―Ξ».";
+$language["MSG_DEL_ALL_PM"]="Ξ•Ξ±Ξ½ ΞµΟ€ΞΉΞ»Ξ­ΞΎΞµΞΉΟ‚ Ο€ΟΞΏΟƒΟ‰Ο€ΞΉΞΊΞ¬ ΞΌΞ·Ξ½ΟΞΌΞ±Ο„Ξ± Ο€ΞΏΟ… Ξ΄ΞµΞ½ Ξ­Ο‡ΞΏΟ…Ξ½ Ξ΄ΞΉΞ±Ξ²Ξ±ΟƒΟ„ΞµΞ―, Ξ΄ΞµΞ½ ΞΈΞ± Ξ΄ΞΉΞ±Ξ³ΟΞ±Ο†ΞΏΟΞ½";
+$language["ERR_PM_GUEST"]="Ξ£Ο…Ξ³Ξ½ΟΞΌΞ· Ξ΄ΞµΞ½ ΞΌΟ€ΞΏΟΞµΞ―Ο‚ Ξ½Ξ± ΟƒΟ„ΞµΞ―Ξ»ΞµΞΉΟ‚ Ο€ΟΞΏΟƒΟ‰Ο€ΞΉΞΊΟ ΞΌΞ®Ξ½Ο…ΞΌΞ± ΟƒΞµ ΞΊΞ±Ξ»ΞµΟƒΞΌΞ­Ξ½ΞΏ Ξ® ΟƒΟ„ΞΏΞ½ ΞµΞ±Ο…Ο„Ο ΟƒΞΏΟ…!";
 ?>

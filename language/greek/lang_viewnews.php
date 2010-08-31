@@ -1,10 +1,10 @@
-<?php
+ï»¿<?php
 
 // VIEWNEWS.PHP LANGUAGE FILE
 
-$language["POSTED_BY"]   = "Êáôá÷ùñÞèçêå óôéò";
-$language["POSTED_DATE"] = "Çìåñïìçíßá êáôá÷þñçóçò";
-$language["TITLE"]       = "Ôßôëïò";
-$language["ADD"]         = "Ðñüóèåóå";
+$language["POSTED_BY"]   = "ÎšÎ±Ï„Î±Ï‡Ï‰ÏÎ®Î¸Î·ÎºÎµ ÏƒÏ„Î¹Ï‚";
+$language["POSTED_DATE"] = "Î—Î¼ÎµÏÎ¿Î¼Î·Î½Î¯Î± ÎºÎ±Ï„Î±Ï‡ÏŽÏÎ·ÏƒÎ·Ï‚";
+$language["TITLE"]       = "Î¤Î¯Ï„Î»Î¿Ï‚";
+$language["ADD"]         = "Î ÏÏŒÏƒÎ¸ÎµÏƒÎµ";
 
 ?>

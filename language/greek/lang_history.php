@@ -1,8 +1,8 @@
-<?php
-$language["PEER_PROGRESS"]="Πρόοδος";
-$language["PEER_COUNTRY"]="Χώρα";
-$language["PEER_PORT"]="Θύρα";
-$language["PEER_STATUS"]="Κατάσταση";
-$language["PEER_CLIENT"]="Πελάτης";
-$language["NO_HISTORY"]="Δεν υπάρχει ιστορικό για να δείς";
+ο»Ώ<?php
+$language["PEER_PROGRESS"]="Ξ ΟΟΞΏΞ΄ΞΏΟ‚";
+$language["PEER_COUNTRY"]="Ξ§ΟΟΞ±";
+$language["PEER_PORT"]="ΞΟΟΞ±";
+$language["PEER_STATUS"]="ΞΞ±Ο„Ξ¬ΟƒΟ„Ξ±ΟƒΞ·";
+$language["PEER_CLIENT"]="Ξ ΞµΞ»Ξ¬Ο„Ξ·Ο‚";
+$language["NO_HISTORY"]="Ξ”ΞµΞ½ Ο…Ο€Ξ¬ΟΟ‡ΞµΞΉ ΞΉΟƒΟ„ΞΏΟΞΉΞΊΟ Ξ³ΞΉΞ± Ξ½Ξ± Ξ΄ΞµΞ―Ο‚";
 ?>

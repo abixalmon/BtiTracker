@@ -1,23 +1,23 @@
-<?php
-$language["BLOCK_USER"]="Πληροφορίες Χρήστη";
-$language["BLOCK_INFO"]="Πληροφορίες Tracker";
-$language["BLOCK_MENU"]="Κεντρικό μενού";
-$language["BLOCK_CLOCK"]="Ρολόϊ";
+ο»Ώ<?php
+$language["BLOCK_USER"]="Ξ Ξ»Ξ·ΟΞΏΟ†ΞΏΟΞ―ΞµΟ‚ Ξ§ΟΞ®ΟƒΟ„Ξ·";
+$language["BLOCK_INFO"]="Ξ Ξ»Ξ·ΟΞΏΟ†ΞΏΟΞ―ΞµΟ‚ Tracker";
+$language["BLOCK_MENU"]="ΞΞµΞ½Ο„ΟΞΉΞΊΟ ΞΌΞµΞ½ΞΏΟ";
+$language["BLOCK_CLOCK"]="Ξ΅ΞΏΞ»ΟΟ";
 $language["BLOCK_FORUM"]="Forum";
-$language["BLOCK_LASTMEMBER"]="Τελευταίο μέλος";
+$language["BLOCK_LASTMEMBER"]="Ξ¤ΞµΞ»ΞµΟ…Ο„Ξ±Ξ―ΞΏ ΞΌΞ­Ξ»ΞΏΟ‚";
 $language["BLOCK_ONLINE"]="Online";
-$language["BLOCK_ONTODAY"]="Για σήμερα";
+$language["BLOCK_ONTODAY"]="Ξ“ΞΉΞ± ΟƒΞ®ΞΌΞµΟΞ±";
 $language["BLOCK_SHOUTBOX"]="Shout Box";
-$language["BLOCK_TOPTORRENTS"]="Τα καλύτερα Torrents";
-$language["BLOCK_LASTTORRENTS"]="Το τελευταίο Upload";
-$language["BLOCK_NEWS"]="Τελευταία νέα";
-$language["BLOCK_SERVERLOAD"]="Φόρτωμα κεντρικού υπολογιστή";
-$language["BLOCK_POLL"]="Ψηφοφορία";
-$language["BLOCK_SEEDWANTED"]="Δώσε (Seed) στα επιθυμητά Torrents";
-$language["BLOCK_PAYPAL"]="Υποστηρίξτε μας";
-$language["BLOCK_MAINTRACKERTOOLBAR"]="Εργαλειοθήκη κεντρικού Tracker";
-$language["BLOCK_MAINUSERTOOLBAR"]="Κεντρική εργαλειοθήκη χρήστη";
-$language["WELCOME_LASTUSER"]=" Καλώς ήρθατε στο νέο μας Tracker ";
-$language["BLOCK_MINCLASSVIEW"]="Ο ελάχιστος βαθμός μπορεί να δει";
-$language["BLOCK_MAXCLASSVIEW"]="Ο μέγιστος βαθμός μπορεί να δει";
+$language["BLOCK_TOPTORRENTS"]="Ξ¤Ξ± ΞΊΞ±Ξ»ΟΟ„ΞµΟΞ± Torrents";
+$language["BLOCK_LASTTORRENTS"]="Ξ¤ΞΏ Ο„ΞµΞ»ΞµΟ…Ο„Ξ±Ξ―ΞΏ Upload";
+$language["BLOCK_NEWS"]="Ξ¤ΞµΞ»ΞµΟ…Ο„Ξ±Ξ―Ξ± Ξ½Ξ­Ξ±";
+$language["BLOCK_SERVERLOAD"]="Ξ¦ΟΟΟ„Ο‰ΞΌΞ± ΞΊΞµΞ½Ο„ΟΞΉΞΊΞΏΟ Ο…Ο€ΞΏΞ»ΞΏΞ³ΞΉΟƒΟ„Ξ®";
+$language["BLOCK_POLL"]="Ξ¨Ξ·Ο†ΞΏΟ†ΞΏΟΞ―Ξ±";
+$language["BLOCK_SEEDWANTED"]="Ξ”ΟΟƒΞµ (Seed) ΟƒΟ„Ξ± ΞµΟ€ΞΉΞΈΟ…ΞΌΞ·Ο„Ξ¬ Torrents";
+$language["BLOCK_PAYPAL"]="Ξ¥Ο€ΞΏΟƒΟ„Ξ·ΟΞ―ΞΎΟ„Ξµ ΞΌΞ±Ο‚";
+$language["BLOCK_MAINTRACKERTOOLBAR"]="Ξ•ΟΞ³Ξ±Ξ»ΞµΞΉΞΏΞΈΞ®ΞΊΞ· ΞΊΞµΞ½Ο„ΟΞΉΞΊΞΏΟ Tracker";
+$language["BLOCK_MAINUSERTOOLBAR"]="ΞΞµΞ½Ο„ΟΞΉΞΊΞ® ΞµΟΞ³Ξ±Ξ»ΞµΞΉΞΏΞΈΞ®ΞΊΞ· Ο‡ΟΞ®ΟƒΟ„Ξ·";
+$language["WELCOME_LASTUSER"]=" ΞΞ±Ξ»ΟΟ‚ Ξ®ΟΞΈΞ±Ο„Ξµ ΟƒΟ„ΞΏ Ξ½Ξ­ΞΏ ΞΌΞ±Ο‚ Tracker ";
+$language["BLOCK_MINCLASSVIEW"]="Ξ ΞµΞ»Ξ¬Ο‡ΞΉΟƒΟ„ΞΏΟ‚ Ξ²Ξ±ΞΈΞΌΟΟ‚ ΞΌΟ€ΞΏΟΞµΞ― Ξ½Ξ± Ξ΄ΞµΞΉ";
+$language["BLOCK_MAXCLASSVIEW"]="Ξ ΞΌΞ­Ξ³ΞΉΟƒΟ„ΞΏΟ‚ Ξ²Ξ±ΞΈΞΌΟΟ‚ ΞΌΟ€ΞΏΟΞµΞ― Ξ½Ξ± Ξ΄ΞµΞΉ";
 ?>

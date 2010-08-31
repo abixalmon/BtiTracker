@@ -1,21 +1,21 @@
-<?php
+ο»Ώ<?php
 
 // ENGLISH USERS.PHP FILE
 
-$language["FIND_USER"]       = "Βρές χρήστη";
-$language["USER_LEVEL"]      = "Επίπεδο χρήστη";
-$language["ALL"]             = "Όλα";
-$language["SEARCH"]          = "Ψάξε";
-$language["USER_NAME"]       = "Όνομα χρήστη";
-$language["USER_LEVEL"]      = "Επίπεδο χρήστη";
-$language["USER_JOINED"]     = "Εντάχθηκε στις";
-$language["USER_LASTACCESS"] = "Τελευταία είσοδος";
-$language["USER_COUNTRY"]    = "Χώρα";
-$language["RATIO"]           = "Αναλογία";
-$language["USERS_PM"]        = "Προσωπικά μηνύματα";
-$language["EDIT"]            = "Επεξεργασία";
-$language["DELETE"]          = "Διαγραφή";
-$language["NO_USERS_FOUND"]  = "Δεν βρέθηκαν χρήστες!";
-$language["UNKNOWN"]         = "Άγνωστο";
+$language["FIND_USER"]       = "Ξ’ΟΞ­Ο‚ Ο‡ΟΞ®ΟƒΟ„Ξ·";
+$language["USER_LEVEL"]      = "Ξ•Ο€Ξ―Ο€ΞµΞ΄ΞΏ Ο‡ΟΞ®ΟƒΟ„Ξ·";
+$language["ALL"]             = "ΞΞ»Ξ±";
+$language["SEARCH"]          = "Ξ¨Ξ¬ΞΎΞµ";
+$language["USER_NAME"]       = "ΞΞ½ΞΏΞΌΞ± Ο‡ΟΞ®ΟƒΟ„Ξ·";
+$language["USER_LEVEL"]      = "Ξ•Ο€Ξ―Ο€ΞµΞ΄ΞΏ Ο‡ΟΞ®ΟƒΟ„Ξ·";
+$language["USER_JOINED"]     = "Ξ•Ξ½Ο„Ξ¬Ο‡ΞΈΞ·ΞΊΞµ ΟƒΟ„ΞΉΟ‚";
+$language["USER_LASTACCESS"] = "Ξ¤ΞµΞ»ΞµΟ…Ο„Ξ±Ξ―Ξ± ΞµΞ―ΟƒΞΏΞ΄ΞΏΟ‚";
+$language["USER_COUNTRY"]    = "Ξ§ΟΟΞ±";
+$language["RATIO"]           = "Ξ‘Ξ½Ξ±Ξ»ΞΏΞ³Ξ―Ξ±";
+$language["USERS_PM"]        = "Ξ ΟΞΏΟƒΟ‰Ο€ΞΉΞΊΞ¬ ΞΌΞ·Ξ½ΟΞΌΞ±Ο„Ξ±";
+$language["EDIT"]            = "Ξ•Ο€ΞµΞΎΞµΟΞ³Ξ±ΟƒΞ―Ξ±";
+$language["DELETE"]          = "Ξ”ΞΉΞ±Ξ³ΟΞ±Ο†Ξ®";
+$language["NO_USERS_FOUND"]  = "Ξ”ΞµΞ½ Ξ²ΟΞ­ΞΈΞ·ΞΊΞ±Ξ½ Ο‡ΟΞ®ΟƒΟ„ΞµΟ‚!";
+$language["UNKNOWN"]         = "Ξ†Ξ³Ξ½Ο‰ΟƒΟ„ΞΏ";
 
 ?>

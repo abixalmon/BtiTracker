@@ -1,4 +1,4 @@
-<?php
-$language["INSERT_USERNAME"]="Γράψε το όνομα χρήστη!";
-$language["INSERT_PASSWORD"]="Γράψε τον κωδικό!";
+ο»Ώ<?php
+$language["INSERT_USERNAME"]="Ξ“ΟΞ¬ΟΞµ Ο„ΞΏ ΟΞ½ΞΏΞΌΞ± Ο‡ΟΞ®ΟƒΟ„Ξ·!";
+$language["INSERT_PASSWORD"]="Ξ“ΟΞ¬ΟΞµ Ο„ΞΏΞ½ ΞΊΟ‰Ξ΄ΞΉΞΊΟ!";
 ?>

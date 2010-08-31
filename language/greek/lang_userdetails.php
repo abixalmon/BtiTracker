@@ -1,36 +1,36 @@
-<?php
+ο»Ώ<?php
 
 // USERDETAILS.PHP LANGUAGE FILE
 
-$language["USERNAME"]           = "Όνομα χρήστη";
-$language["EMAIL"]              = "Ηλεκτρονικό ταχυδρομείο";
-$language["LAST_IP"]            = "Τελευταία Ip";
-$language["USER_LEVEL"]         = "Βαθμός";
-$language["USER_JOINED"]        = "Εντάχθηκε";
-$language["USER_LASTACCESS"]    = "Τελευταία είσοδος";
-$language["PEER_COUNTRY"]       = "Χώρα";
-$language["USER_LOCAL_TIME"]    = "Τοπική ώρα χρήστη";
-$language["DOWNLOADED"]         = "Downloaded (κατεβασμένα)";
-$language["UPLOADED"]           = "Uploaded (ανεβασμένα)";
-$language["RATIO"]              = "Αναλογία";
+$language["USERNAME"]           = "ΞΞ½ΞΏΞΌΞ± Ο‡ΟΞ®ΟƒΟ„Ξ·";
+$language["EMAIL"]              = "Ξ—Ξ»ΞµΞΊΟ„ΟΞΏΞ½ΞΉΞΊΟ Ο„Ξ±Ο‡Ο…Ξ΄ΟΞΏΞΌΞµΞ―ΞΏ";
+$language["LAST_IP"]            = "Ξ¤ΞµΞ»ΞµΟ…Ο„Ξ±Ξ―Ξ± Ip";
+$language["USER_LEVEL"]         = "Ξ’Ξ±ΞΈΞΌΟΟ‚";
+$language["USER_JOINED"]        = "Ξ•Ξ½Ο„Ξ¬Ο‡ΞΈΞ·ΞΊΞµ";
+$language["USER_LASTACCESS"]    = "Ξ¤ΞµΞ»ΞµΟ…Ο„Ξ±Ξ―Ξ± ΞµΞ―ΟƒΞΏΞ΄ΞΏΟ‚";
+$language["PEER_COUNTRY"]       = "Ξ§ΟΟΞ±";
+$language["USER_LOCAL_TIME"]    = "Ξ¤ΞΏΟ€ΞΉΞΊΞ® ΟΟΞ± Ο‡ΟΞ®ΟƒΟ„Ξ·";
+$language["DOWNLOADED"]         = "Downloaded (ΞΊΞ±Ο„ΞµΞ²Ξ±ΟƒΞΌΞ­Ξ½Ξ±)";
+$language["UPLOADED"]           = "Uploaded (Ξ±Ξ½ΞµΞ²Ξ±ΟƒΞΌΞ­Ξ½Ξ±)";
+$language["RATIO"]              = "Ξ‘Ξ½Ξ±Ξ»ΞΏΞ³Ξ―Ξ±";
 $language["FORUM"]              = "Forum";
-$language["POSTS"]              = "Μηνύματα";
-$language["POSTS_PER_DAY"]      = "%s μηνύματα ανα ημέρα";
-$language["TORRENTS"]           = "Torrents (χείμαρροι)";
-$language["FILE"]               = "Αρχείο";
-$language["ADDED"]              = "Προστέθηκαν";
-$language["SIZE"]               = "Μέγεθος";
+$language["POSTS"]              = "ΞΞ·Ξ½ΟΞΌΞ±Ο„Ξ±";
+$language["POSTS_PER_DAY"]      = "%s ΞΌΞ·Ξ½ΟΞΌΞ±Ο„Ξ± Ξ±Ξ½Ξ± Ξ·ΞΌΞ­ΟΞ±";
+$language["TORRENTS"]           = "Torrents (Ο‡ΞµΞ―ΞΌΞ±ΟΟΞΏΞΉ)";
+$language["FILE"]               = "Ξ‘ΟΟ‡ΞµΞ―ΞΏ";
+$language["ADDED"]              = "Ξ ΟΞΏΟƒΟ„Ξ­ΞΈΞ·ΞΊΞ±Ξ½";
+$language["SIZE"]               = "ΞΞ­Ξ³ΞµΞΈΞΏΟ‚";
 $language["SHORT_S"]            = "S";
 $language["SHORT_L"]            = "L";
 $language["SHORT_C"]            = "C";
-$language["NO_TORR_UP_USER"]    = "Ο χρήστης δεν έχει ανεβάσει κανένα torrent ακόμα!";
-$language["ACTIVE_TORRENT"]     = "Ενεργά Torrents";
-$language["PEER_STATUS"]        = "Κατάσταση";
-$language["NO_ACTIVE_TORR"]     = "Μη ενεργά Torrents";
-$language["PEER_CLIENT"]        = "Πελάτης";
-$language["EDIT"]               = "Επεξεργασία";
-$language["DELETE"]             = "Διαγραφή";
-$language["PM"]                 = "Προσωπικό μήνυμα";
-$language["BACK"]               = "Πίσω";
-$language["NO_HISTORY"]         = "Δεν υπάρχει ιστορικό για να προβληθεί...";
+$language["NO_TORR_UP_USER"]    = "Ξ Ο‡ΟΞ®ΟƒΟ„Ξ·Ο‚ Ξ΄ΞµΞ½ Ξ­Ο‡ΞµΞΉ Ξ±Ξ½ΞµΞ²Ξ¬ΟƒΞµΞΉ ΞΊΞ±Ξ½Ξ­Ξ½Ξ± torrent Ξ±ΞΊΟΞΌΞ±!";
+$language["ACTIVE_TORRENT"]     = "Ξ•Ξ½ΞµΟΞ³Ξ¬ Torrents";
+$language["PEER_STATUS"]        = "ΞΞ±Ο„Ξ¬ΟƒΟ„Ξ±ΟƒΞ·";
+$language["NO_ACTIVE_TORR"]     = "ΞΞ· ΞµΞ½ΞµΟΞ³Ξ¬ Torrents";
+$language["PEER_CLIENT"]        = "Ξ ΞµΞ»Ξ¬Ο„Ξ·Ο‚";
+$language["EDIT"]               = "Ξ•Ο€ΞµΞΎΞµΟΞ³Ξ±ΟƒΞ―Ξ±";
+$language["DELETE"]             = "Ξ”ΞΉΞ±Ξ³ΟΞ±Ο†Ξ®";
+$language["PM"]                 = "Ξ ΟΞΏΟƒΟ‰Ο€ΞΉΞΊΟ ΞΌΞ®Ξ½Ο…ΞΌΞ±";
+$language["BACK"]               = "Ξ Ξ―ΟƒΟ‰";
+$language["NO_HISTORY"]         = "Ξ”ΞµΞ½ Ο…Ο€Ξ¬ΟΟ‡ΞµΞΉ ΞΉΟƒΟ„ΞΏΟΞΉΞΊΟ Ξ³ΞΉΞ± Ξ½Ξ± Ο€ΟΞΏΞ²Ξ»Ξ·ΞΈΞµΞ―...";
 ?>

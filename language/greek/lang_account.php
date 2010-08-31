@@ -1,23 +1,23 @@
-<?php
-$language["ACCOUNT_CREATED"]="Ο λογαριασμός σας δημιουργήθηκε";
-$language["USER_NAME"]="Όνομα χρήστη";
-$language["USER_PWD_AGAIN"]="Επανάληψη Κωδικού χρήστη";
-$language["USER_PWD"]="Κωδικός χρήστη";
-$language["USER_STYLE"]="Στύλ χρήστη";
-$language["USER_LANGUE"]="Γλώσσα χρήστη";
-$language["IMAGE_CODE"]="Κωδικός εικόνας";
-$language["INSERT_USERNAME"]="Πρέπει να γράψεις το όνομα χρήστη!";
-$language["INSERT_PASSWORD"]="Πρέπει να γράψεις τον κωδικό!";
-$language["DIF_PASSWORDS"]="Ο κωδικός δεν είναι σωστός!";
-$language["ERR_NO_EMAIL"]="Πρέπει να γράψεις ενα σωστό ηλεκτρονικό ταχυδρομείο";
-$language["USER_EMAIL_AGAIN"]="Επανάληψη ηλεκτρονικού ταχυδρομείου χρήστη";
-$language["ERR_NO_EMAIL_AGAIN"]="Επανάληψη ηλεκτρονικού ταχυδρομείου";
-$language["DIF_EMAIL"]="Το ηλεκτρονικό ταχυδρομείο δεν υπάρχει!";
-$language["SECURITY_CODE"]="Απάντησε στην ερώτηση";
-# Κωδικός ισχυρός
-$language["WEEK"]="Αδύναμος";
-$language["MEDIUM"]="Μεσαίος";
-$language["SAFE"]="Ασφαλής";
-$language["STRONG"]="Ισχυρός";
+ο»Ώ<?php
+$language["ACCOUNT_CREATED"]="Ξ Ξ»ΞΏΞ³Ξ±ΟΞΉΞ±ΟƒΞΌΟΟ‚ ΟƒΞ±Ο‚ Ξ΄Ξ·ΞΌΞΉΞΏΟ…ΟΞ³Ξ®ΞΈΞ·ΞΊΞµ";
+$language["USER_NAME"]="ΞΞ½ΞΏΞΌΞ± Ο‡ΟΞ®ΟƒΟ„Ξ·";
+$language["USER_PWD_AGAIN"]="Ξ•Ο€Ξ±Ξ½Ξ¬Ξ»Ξ·ΟΞ· ΞΟ‰Ξ΄ΞΉΞΊΞΏΟ Ο‡ΟΞ®ΟƒΟ„Ξ·";
+$language["USER_PWD"]="ΞΟ‰Ξ΄ΞΉΞΊΟΟ‚ Ο‡ΟΞ®ΟƒΟ„Ξ·";
+$language["USER_STYLE"]="Ξ£Ο„ΟΞ» Ο‡ΟΞ®ΟƒΟ„Ξ·";
+$language["USER_LANGUE"]="Ξ“Ξ»ΟΟƒΟƒΞ± Ο‡ΟΞ®ΟƒΟ„Ξ·";
+$language["IMAGE_CODE"]="ΞΟ‰Ξ΄ΞΉΞΊΟΟ‚ ΞµΞΉΞΊΟΞ½Ξ±Ο‚";
+$language["INSERT_USERNAME"]="Ξ ΟΞ­Ο€ΞµΞΉ Ξ½Ξ± Ξ³ΟΞ¬ΟΞµΞΉΟ‚ Ο„ΞΏ ΟΞ½ΞΏΞΌΞ± Ο‡ΟΞ®ΟƒΟ„Ξ·!";
+$language["INSERT_PASSWORD"]="Ξ ΟΞ­Ο€ΞµΞΉ Ξ½Ξ± Ξ³ΟΞ¬ΟΞµΞΉΟ‚ Ο„ΞΏΞ½ ΞΊΟ‰Ξ΄ΞΉΞΊΟ!";
+$language["DIF_PASSWORDS"]="Ξ ΞΊΟ‰Ξ΄ΞΉΞΊΟΟ‚ Ξ΄ΞµΞ½ ΞµΞ―Ξ½Ξ±ΞΉ ΟƒΟ‰ΟƒΟ„ΟΟ‚!";
+$language["ERR_NO_EMAIL"]="Ξ ΟΞ­Ο€ΞµΞΉ Ξ½Ξ± Ξ³ΟΞ¬ΟΞµΞΉΟ‚ ΞµΞ½Ξ± ΟƒΟ‰ΟƒΟ„Ο Ξ·Ξ»ΞµΞΊΟ„ΟΞΏΞ½ΞΉΞΊΟ Ο„Ξ±Ο‡Ο…Ξ΄ΟΞΏΞΌΞµΞ―ΞΏ";
+$language["USER_EMAIL_AGAIN"]="Ξ•Ο€Ξ±Ξ½Ξ¬Ξ»Ξ·ΟΞ· Ξ·Ξ»ΞµΞΊΟ„ΟΞΏΞ½ΞΉΞΊΞΏΟ Ο„Ξ±Ο‡Ο…Ξ΄ΟΞΏΞΌΞµΞ―ΞΏΟ… Ο‡ΟΞ®ΟƒΟ„Ξ·";
+$language["ERR_NO_EMAIL_AGAIN"]="Ξ•Ο€Ξ±Ξ½Ξ¬Ξ»Ξ·ΟΞ· Ξ·Ξ»ΞµΞΊΟ„ΟΞΏΞ½ΞΉΞΊΞΏΟ Ο„Ξ±Ο‡Ο…Ξ΄ΟΞΏΞΌΞµΞ―ΞΏΟ…";
+$language["DIF_EMAIL"]="Ξ¤ΞΏ Ξ·Ξ»ΞµΞΊΟ„ΟΞΏΞ½ΞΉΞΊΟ Ο„Ξ±Ο‡Ο…Ξ΄ΟΞΏΞΌΞµΞ―ΞΏ Ξ΄ΞµΞ½ Ο…Ο€Ξ¬ΟΟ‡ΞµΞΉ!";
+$language["SECURITY_CODE"]="Ξ‘Ο€Ξ¬Ξ½Ο„Ξ·ΟƒΞµ ΟƒΟ„Ξ·Ξ½ ΞµΟΟΟ„Ξ·ΟƒΞ·";
+# ΞΟ‰Ξ΄ΞΉΞΊΟΟ‚ ΞΉΟƒΟ‡Ο…ΟΟΟ‚
+$language["WEEK"]="Ξ‘Ξ΄ΟΞ½Ξ±ΞΌΞΏΟ‚";
+$language["MEDIUM"]="ΞΞµΟƒΞ±Ξ―ΞΏΟ‚";
+$language["SAFE"]="Ξ‘ΟƒΟ†Ξ±Ξ»Ξ®Ο‚";
+$language["STRONG"]="Ξ™ΟƒΟ‡Ο…ΟΟΟ‚";
 
 ?>
