@@ -56,7 +56,7 @@ else
 if ($XBTT_USE)
    $res = get_result("SELECT x.uid,x.completed, x.downloaded, x.uploaded, x.left as bytes, IF(x.left=0,'seeder','leecher') as status, x.mtime as lastupdate, u.username, u.flag, c.flagpic, c.name FROM xbt_files_users x LEFT JOIN xbt_files ON x.fid=xbt_files.fid LEFT JOIN {$TABLE_PREFIX}files f ON f.bin_hash=xbt_files.info_hash LEFT JOIN {$TABLE_PREFIX}users u ON u.id=x.uid LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag=c.id WHERE f.info_hash='$id' AND active=1 ORDER BY status DESC, lastupdate DESC",true,$btit_settings['cache_duration']);
 else
-    $res = get_result("SELECT * FROM {$TABLE_PREFIX}peers p LEFT JOIN {$TABLE_PREFIX}countries c ON p.dns=c.domain WHERE infohash='$id' ORDER BY bytes ASC, status DESC",true,$btit_settings['cache_duration']);
+    $res = get_result("SELECT * FROM {$TABLE_PREFIX}peers p LEFT JOIN {$TABLE_PREFIX}countries c ON p.dns=c.domain WHERE infohash='$id' ORDER BY bytes ASC, status DESC, lastupdate DESC",true,$btit_settings['cache_duration']);
 
 require(load_language("lang_peers.php"));
 
@@ -91,6 +91,7 @@ else
         }
         else
             $rowuser=$resu[0];
+
         if ($rowuser && $rowuser["id"]>1)
           {
           if ($GLOBALS["usepopup"]){
@@ -107,6 +108,12 @@ else
            $peers[$i]["PM"]="";
         }
       }
+      else
+        {
+         $peers[$i]["USERNAME"]=$language["GUEST"];
+         $peers[$i]["PM"]="";
+      }
+
       if ($row["flagpic"]!="" && $row["flagpic"]!="unknown.gif")
         $peers[$i]["FLAG"]="<img src=\"images/flag/".$row["flagpic"]."\" alt=\"".unesc($row["name"])."\" />";
       elseif ($rowuser["flagpic"]!="" && !empty($rowuser["flagpic"]))
