@@ -196,7 +196,7 @@ function tabella($action,$dati=array()) {
      {
        $option.="\n<option ";
        if ($langue["id"]==$dati["language"])
-          $option.="\"selected\" ";
+          $option.="selected=\"selected\"  ";
        $option.="value=\"".$langue["id"]."\">".$langue["language"]."</option>";
      }
    $option.="\n</select>";
@@ -209,7 +209,7 @@ function tabella($action,$dati=array()) {
      {
        $option.="\n<option ";
        if ($style["id"]==$dati["style"])
-          $option.="\"selected\" ";
+          $option.="selected=\"selected\" ";
        $option.="value=\"".$style["id"]."\">".$style["style"]."</option>";
      }
    $option.="\n</select>";
@@ -234,7 +234,7 @@ function tabella($action,$dati=array()) {
     {
         $option.="\n<option ";
             if ($flag["id"]==$dati["flag"] || ($flag["domain"]==$remotedns && $action=="signup"))
-              $option.="\"selected\" ";
+              $option.="selected=\"selected\"  ";
             $option.="value=\"".$flag["id"]."\">".$flag["name"]."</option>";
     }
    $option.="\n</select>";
