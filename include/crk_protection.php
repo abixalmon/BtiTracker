@@ -63,6 +63,30 @@ $ban['set password for']='@';
 
 $ban2=array('delete from','insert into','<script', '<object', '.write', '.location', '.cookie', '.open', 'vbscript:', '<iframe', '<layer', '<style', ':expression', '<base', 'id_level', 'users_level', 'xbt_', 'c99.txt', 'c99shell', 'r57.txt', 'r57shell.txt','/home/', '/var/', '/www/', '/etc/', '/bin', '/sbin/', '$_GET', '$_POST', '$_REQUEST', 'window.open', 'javascript:', 'xp_cmdshell',  '.htpasswd', '.htaccess', '<?php', '<?', '?>', '</script>');
 
+$host=FALSE;
+$host=@getenv("SERVER_NAME");
+if($host===FALSE)
+    $host=$_SERVER["SERVER_NAME"];
+
+$url=explode(".",$host);
+unset($url[0]);
+if(count($url)>0)
+{
+    foreach($url as $urlpart)
+    {
+        if(in_array(".".$urlpart,$ban2))
+            $remove[]=array_search(".".$urlpart,$ban2);
+    }
+}
+
+if(isset($remove) && is_array($remove))
+{
+    foreach($remove as $key)
+    {
+        unset($ban2[$key]);
+    }
+}
+
 //checking the bad words
 $cepl=$_SERVER['QUERY_STRING'];
 if (!empty($cepl)) {
