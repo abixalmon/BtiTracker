@@ -37,19 +37,14 @@ if (!defined("IN_BTIT"))
 if (!defined("IN_ACP"))
       die("non direct access!");
 
-
+$btit_url_last="";
+$btit_url_rss="";
 
 if(get_remote_file("http://www.btiteam.org"))
-  {
-  $btit_url_rss="http://www.btiteam.org/smf/index.php?type=rss;action=.xml;board=83;sa=news";
-  $btit_url_last="http://www.btiteam.org/last_version.txt";
+{
+    $btit_url_rss="http://www.btiteam.org/smf/index.php?type=rss;action=.xml;board=83;sa=news";
+    $btit_url_last="http://www.btiteam.org/last_version.txt";
 }
-else
-    {      /*if site down*/
-    $btit_url_rss="";
-    $btit_url_last="";
-}
-
 
 $admin=array();
 
@@ -124,17 +119,22 @@ if (file_exists("badwords.txt"))
 else
   $admin["badwords_ok"]=("<br />\nCensored words file (badwords.txt)<br />\n<span style=\"color:#FF0000; font-weight: bold;\">NOT FOUND!</span><br />\n");
 
-
 // check last version on btiteam.org site
-$btit_last=get_cached_version($btit_url_last);
-if (!$btit_last)
+if($btit_url_last!="")
 {
-  $btit_last=get_remote_file($btit_url_last);
-  if ($btit_last)
-     write_cached_version($btit_url_last,$btit_last);
-  else
-      $btit_last="Last version n/a";
+    $btit_last=get_cached_version($btit_url_last);
+    if (!$btit_last)
+    {
+        $btit_last=get_remote_file($btit_url_last);
+        if ($btit_last)
+            write_cached_version($btit_url_last,$btit_last);
+        else
+            $btit_last="Last version n/a";
+    }
 }
+else
+    $btit_last="Last version n/a";
+
 $current_version=explode(" ", strtolower($tracker_version)); // array('2.0.0','beta','2')
 $last_version=explode("/",strtolower($btit_last));  // array('2.0.0','beta','2')
 
@@ -172,40 +172,41 @@ unset($sqlver);
 
 // check for news on btiteam site (read rss from comunication forum)
 
-include("$THIS_BASEPATH/include/class.rssreader.php");
+if($btit_url_rss!="")
+{
+    include("$THIS_BASEPATH/include/class.rssreader.php");
 
-$btit_news=get_cached_version($btit_url_rss);
+    $btit_news=get_cached_version($btit_url_rss);
 
-if (!$btit_news)
-  {
+    if (!$btit_news)
+    {
+        $frss=get_remote_file($btit_url_rss);
 
-    $frss=get_remote_file($btit_url_rss);
-
-    if (!$frss)
-      $btit_news="<div class=\"blocklist\" style=\"padding:5px; align:center;\">Unable to contact Btiteam's site</div>";
-    else
-      {
-        $nrss=new rss_reader();
-        $rss_array=$nrss->rss_to_array($frss);
-
-        $btit_news="<div class=\"blocklist\" style=\"padding:5px;\">";
-        if (!$rss_array)
-           $btit_news="<div class=\"blocklist\" style=\"padding:5px;\">Unable to contact Btiteam's site</div>";
+        if (!$frss)
+            $btit_news="<div class=\"blocklist\" style=\"padding:5px; align:center;\">Unable to contact Btiteam's site</div>";
         else
-          {
-            foreach($rss_array[0]["item"] as $id=>$rss)
-              {
-                $btit_news.=date("d M Y",strtotime($rss["pubDate"])).":&nbsp;\n<a href=\"".$rss["guid"]."\">".$rss["title"]."</a><br />\n<br />\n";
-                $btit_news.="\n".$rss["description"]."<br />\n<hr />\n";
+        {
+            $nrss=new rss_reader();
+            $rss_array=$nrss->rss_to_array($frss);
+
+            $btit_news="<div class=\"blocklist\" style=\"padding:5px;\">";
+            if (!$rss_array)
+                $btit_news="<div class=\"blocklist\" style=\"padding:5px;\">Unable to contact Btiteam's site</div>";
+            else
+            {
+                foreach($rss_array[0]["item"] as $id=>$rss)
+                {
+                    $btit_news.=date("d M Y",strtotime($rss["pubDate"])).":&nbsp;\n<a href=\"".$rss["guid"]."\">".$rss["title"]."</a><br />\n<br />\n";
+                    $btit_news.="\n".$rss["description"]."<br />\n<hr />\n";
+                }
             }
+            $btit_news.="</div>";
         }
-        $btit_news.="</div>";
-
+        write_cached_version($btit_url_rss,$btit_news);
     }
-    write_cached_version($btit_url_rss,$btit_news);
-
 }
-
+else
+    $btit_news="<div class=\"blocklist\" style=\"padding:5px; align:center;\">Unable to contact Btiteam's site</div>";
 
 $admintpl->set("btit_news",set_block("BtiTacker Lastest News","left",$btit_news));
 $admintpl->set("language",$language);
