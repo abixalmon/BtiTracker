@@ -42,18 +42,17 @@
 #         This version was made for BtitTracker        #
 ########################################################
 */
-function crk($l) {
+function crk($l)
+{
+    $xip=$_SERVER["REMOTE_ADDR"];
 
-  global $CURUSER,$btit_settings;
+    global $CURUSER,$btit_settings;
 
-  $xip=$_SERVER["REMOTE_ADDR"];
-  if (function_exists("dbconn"))
-     dbconn();
-  if (function_exists("write_log"))
-     write_log('Hacking Attempt! User: <a href="'.$btit_settings['url'].'/index.php?page=userdetails&amp;id='.$CURUSER['uid'].'">'.$CURUSER['username'].'</a> IP:'.$xip.' - Attempt: '.htmlspecialchars($l));
+    if (function_exists("write_log"))
+        write_log('Hacking Attempt! User: <a href="'.$btit_settings['url'].'/index.php?page=userdetails&amp;id='.$CURUSER['uid'].'">'.$CURUSER['username'].'</a> IP:'.$xip.' - Attempt: '.htmlspecialchars($l));
 
-  header('Location: index.php');
-  die();
+    header('Location: index.php');
+    die();
 }
 
 //the bad words...
@@ -62,6 +61,14 @@ $ban['union']='select';
 $ban['set password for']='@';
 
 $ban2=array('delete from','insert into','<script', '<object', '.write', '.location', '.cookie', '.open', 'vbscript:', '<iframe', '<layer', '<style', ':expression', '<base', 'id_level', 'users_level', 'xbt_', 'c99.txt', 'c99shell', 'r57.txt', 'r57shell.txt','/home/', '/var/', '/www/', '/etc/', '/bin', '/sbin/', '$_GET', '$_POST', '$_REQUEST', 'window.open', 'javascript:', 'xp_cmdshell',  '.htpasswd', '.htaccess', '<?php', '<?', '?>', '</script>');
+
+if (function_exists("dbconn"))
+    dbconn();
+
+global $CURUSER;
+
+if($CURUSER["admin_access"]=="yes" && $_SERVER["QUERY_STRING"]=="page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=config&action=write" && strpos(strtolower($_REQUEST["tracker_announceurl"]),"tracker.openbittorrent.com"))
+    unset($ban2[7]);
 
 $host=FALSE;
 $host=@getenv("SERVER_NAME");
@@ -86,6 +93,9 @@ if(isset($remove) && is_array($remove))
         unset($ban2[$key]);
     }
 }
+
+// Check
+
 
 //checking the bad words
 $cepl=$_SERVER['QUERY_STRING'];
