@@ -1,3 +1,3 @@
 <?php
-$language["ERR_NO_TITLE"]="Vous devez donner un titre à votre nouvelle";
+$language["ERR_NO_TITLE"]="Vous devez donner un titre Ã  votre nouvelle";
 ?>

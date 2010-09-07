@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 // ENGLISH USERS.PHP FILE
 

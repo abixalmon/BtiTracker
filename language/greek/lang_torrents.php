@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $language["TORRENT_SEARCH"]="Ψάξε για Torrents";
 $language["TORRENT_STATUS"]="Κατάσταση Torrent";
 $language["CATEGORY_FULL"]="Κατηγορία γεμάτη";

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 // VIEWNEWS.PHP LANGUAGE FILE
 

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $language["ACCOUNT_CREATED"]="Ο λογαριασμός σας δημιουργήθηκε";
 $language["USER_NAME"]="Όνομα χρήστη";
 $language["USER_PWD_AGAIN"]="Επανάληψη Κωδικού χρήστη";

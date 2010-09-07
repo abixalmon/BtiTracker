@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $language["PEER_PROGRESS"]="Πρόοδος";
 $language["PEER_COUNTRY"]="Χώρα";
 $language["PEER_PORT"]="Θύρα";

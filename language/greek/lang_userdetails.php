@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 // USERDETAILS.PHP LANGUAGE FILE
 

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 // smf_import.php language file
 

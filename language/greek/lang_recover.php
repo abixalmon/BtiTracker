@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $language["ERR_NO_EMAIL"]="Πρέπει να γράψεις το ηλεκτρονικό ταχυδρομείο σου (eMail)";
 $language["ERR_INV_EMAIL"]="Πρέπει να γράψεις έγκυρη διεύθυνση ηλεκτ. ταχ. (eMail)";
 $language["ERR_NO_CAPTCHA"]="Πρέπει να γράψεις τον κωδικό εικόνας";

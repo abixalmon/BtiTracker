@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $language["SUBFORUM"]="ΥπόForum";
 $language["SUBFORUMS"]="<b>ΥπόForums</b>";
 $language["NEW_TOPIC"]="Καινούριο θέμα";

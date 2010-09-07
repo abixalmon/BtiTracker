@@ -12,10 +12,10 @@ $language["USER_LEVEL"]      = "Benutzerebene";
 $language["USER_JOINED"]     = "Eintritt";
 $language["USER_LASTACCESS"] = "Letzter Zugriff";
 $language["USER_COUNTRY"]    = "Land";
-$language["RATIO"]           = "Verhältnis";
+$language["RATIO"]           = "VerhÃ¤ltnis";
 $language["USERS_PM"]        = "PM";
 $language["EDIT"]            = "Bearbeiten";
-$language["DELETE"]          = "Löschen";
+$language["DELETE"]          = "LÃ¶schen";
 $language["NO_USERS_FOUND"]  = "Keine Benutzer gefunden!";
 $language["UNKNOWN"]         = "Unbekannt";
 

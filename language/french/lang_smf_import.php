@@ -4,13 +4,13 @@
 
 $lang[0]="Oui";
 $lang[1]="Non";
-$lang[2]="<center><u><strong><font size='4' face='Arial'>Ètape 1 : Pré-requis initial</font></strong></u></center><br />";
-$lang[3]="<center><strong><font face='Arial' size='2'>Fichiers SMF présents dans le dossier \"smf\" ?<font color='";
+$lang[2]="<center><u><strong><font size='4' face='Arial'>Ãˆtape 1 : PrÃ©-requis initial</font></strong></u></center><br />";
+$lang[3]="<center><strong><font face='Arial' size='2'>Fichiers SMF prÃ©sents dans le dossier \"smf\" ?<font color='";
 $lang[4]="'>&nbsp;&nbsp;&nbsp; ";
 $lang[5]="</font></center></strong>";
-$lang[6]="<br /><center>S'il vous plaît <a target='_new' href='http://www.simplemachines.org/download/'>téléchargez SMF</a> et envoyez le contenu de l'archive dans le dossier \"smf\".<br />Si vous n'avez pas de dossier \"smf\" créez le dans le dossier racine de votre site et envoyez le<br />contenu de l'archive dedans.<br /><br />Une fois envoyé s"; // p at end is an lowercase p for use with $lang[8]
+$lang[6]="<br /><center>S'il vous plaÃ®t <a target='_new' href='http://www.simplemachines.org/download/'>tÃ©lÃ©chargez SMF</a> et envoyez le contenu de l'archive dans le dossier \"smf\".<br />Si vous n'avez pas de dossier \"smf\" crÃ©ez le dans le dossier racine de votre site et envoyez le<br />contenu de l'archive dedans.<br /><br />Une fois envoyÃ© s"; // p at end is an lowercase p for use with $lang[8]
 $lang[7]="<br /><center>s"; // P at end is an uppercase p for use with $lang[8]
-$lang[8]="'il vous plaît installez SMF en cliquant <a target='_new' href='smf/install.php'>ici</a>*<br /><br /><strong>* S'il vous plaît utilisez les mêmes identifiant que votre site,<br />vous pouvez utiliser n'importe quel préfixe (excepté celui utilisé par votre site)<br /><br />";
+$lang[8]="'il vous plaÃ®t installez SMF en cliquant <a target='_new' href='smf/install.php'>ici</a>*<br /><br /><strong>* S'il vous plaÃ®t utilisez les mÃªmes identifiant que votre site,<br />vous pouvez utiliser n'importe quel prÃ©fixe (exceptÃ© celui utilisÃ© par votre site)<br /><br />";
 $lang[9]="<font color='#0000FF' size='3'>You may refresh this page once you have completed the required task!</font></strong></center>";
 $lang[10]="<center><strong>SMF installed?<font color='";
 $lang[11]="File not found!";

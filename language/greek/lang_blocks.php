@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $language["BLOCK_USER"]="Πληροφορίες Χρήστη";
 $language["BLOCK_INFO"]="Πληροφορίες Tracker";
 $language["BLOCK_MENU"]="Κεντρικό μενού";

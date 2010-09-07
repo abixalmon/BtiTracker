@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $language["ACP_BAN_IP"]="Αποκλεισμός IPs";
 $language["ACP_FORUM"]="Forum's Επιλογές";
 $language["ACP_USER_GROUP"]="Επιλογές ομάδας χρηστών";
