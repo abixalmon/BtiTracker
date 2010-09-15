@@ -69,18 +69,14 @@ $tpl_comment->set("comment_comment",textbbcode("comment","comment",htmlspecialch
 
 if (isset($_POST["info_hash"])) {
    if ($_POST["confirm"]==$language["FRM_CONFIRM"]) {
-   $comment = addslashes($_POST["comment"]);
+   $comment = (!empty($_POST["comment"])?addslashes($_POST["comment"]):$language['ERR_COMMENT_EMPTY']);
       $user=AddSlashes($CURUSER["username"]);
       if ($user=="") $user="Anonymous";
-	  if(empty($comment)){
-     stderr($language["ERROR"],$language['ERR_COMMENT_EMPTY']);
-     exit();
-     }
-	 else{	 
+	  	 
   do_sqlquery("INSERT INTO {$TABLE_PREFIX}comments (added,text,ori_text,user,info_hash) VALUES (NOW(),\"$comment\",\"$comment\",\"$user\",\"" . mysql_real_escape_string(StripSlashes($_POST["info_hash"])) . "\")",true);
   redirect("index.php?page=torrent-details&id=" . StripSlashes($_POST["info_hash"])."#comments");
   die();
-  }
+  
 }
 # Comment preview by miskotes
 #############################
