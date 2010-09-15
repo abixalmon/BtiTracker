@@ -47,6 +47,8 @@ if (isset($_GET["langue"]))
 else
    $langue=0;
 
+session_start();
+
 dbconn();
 
 // guest don't need to change language!
@@ -61,6 +63,10 @@ if ($style!=0)
 
 if ($langue!=0)
    do_sqlquery("UPDATE {$TABLE_PREFIX}users SET language=$langue WHERE id=".(int)$CURUSER["uid"],true);
+
+
+$_SESSION['user']['style_url']='';
+$_SESSION['user']['language_path']='';
 
 
 // force user's data

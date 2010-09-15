@@ -135,6 +135,8 @@ switch ($action)
                   stdfoot(true,false);
                   exit;
                   }
+                $_SESSION['user']['style_url']='';
+                $_SESSION['user']['language_path']='';
               }
     break;
 
