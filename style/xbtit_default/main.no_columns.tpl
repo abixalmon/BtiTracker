@@ -5,15 +5,15 @@
   <meta http-equiv="content-type" content="text/html; charset=<tag:main_charset />" />
   <link rel="stylesheet" href="<tag:main_css />" type="text/css" />
   <tag:more_css />
-	<tag:main_jscript />
-	<tag:main_favicon />
+    <tag:main_jscript />
+    <tag:main_favicon />
 <!--[if lte IE 7]>
 <style type="text/css">
 #menu ul {display:inline;}
 </style>
 <![endif]-->
 </head>
-<body onLoad="Defaults()">
+<body>
 <div id="main">
   <div id="logo">
     <table width="792" align="center" cellpadding="0" cellspacing="0" border="0">
@@ -21,20 +21,20 @@
         <td class="tracker_logo" align="center" valign="top"></td>
       </tr>
     </table></div>
-	<TABLE align="center" width="700" cellpadding="0" cellspacing="0" border="0">
+    <TABLE align="center" width="700" cellpadding="0" cellspacing="0" border="0">
       <TR>
         <TD valign="top">  
-	<div id="dropdown">
+    <div id="dropdown">
       <tag:main_dropdown />
    </div></TD>
        </TR>
     </TABLE>
-	<TABLE align="center" width="100%" height="75" cellpadding="0" cellspacing="0" border="0">
+    <TABLE align="center" width="100%" height="75" cellpadding="0" cellspacing="0" border="0">
       <TR>
         <TD valign="top" background="style/xbtit_default/images/spacer.gif"></TD>
        </TR>
     </TABLE>
-	<TABLE align="center" width="982" cellpadding="0" cellspacing="0" border="0">
+    <TABLE align="center" width="982" cellpadding="0" cellspacing="0" border="0">
       <TR>
         <TD valign="top">
   <div id="slideIt">
@@ -68,9 +68,9 @@
         <td valign="top" width="5" rowspan="2"></td>
       </tr>
     </table>
-		<br />
+        <br />
   </div>
-	</TD>
+    </TD>
       </TR>
     </TABLE>
   <div id="footer">
@@ -79,7 +79,7 @@
   <td align="center" valign="bottom"><br /><br /><br /><br /><br /><tag:style_copyright />&nbsp;<tag:xbtit_version /><br />
          <tag:xbtit_debug /></td>
         </tr><tr>
-				<td class="footer" align="center" valign="bottom"><br /><br /><br /><tag:to_top /></td>
+                <td class="footer" align="center" valign="bottom"><br /><br /><br /><tag:to_top /></td>
          </table>
       </div>
 </div>

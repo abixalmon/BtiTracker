@@ -38,7 +38,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 $php_version=explode(".",phpversion());
 if($php_version[0]<=5 && $php_version[1]<=2)
 {
-    if (ini_get('register_globals'))
+    if (@ini_get('register_globals'))
     {
         $superglobals = array($_SERVER, $_ENV,$_FILES, $_COOKIE, $_POST, $_GET);
         if (isset($_SESSION))
@@ -68,6 +68,8 @@ if(get_magic_quotes_gpc()){
   remove_magic_quotes($_FILES);
   remove_magic_quotes($_COOKIE);
 }
+
+@date_default_timezone_set(@date_default_timezone_get());
 
 $CURRENTPATH = dirname(__FILE__);
 
@@ -339,6 +341,8 @@ function userlogin() {
     $err_msg_install='';
 
   $GLOBALS['CURUSER'] = $row;
+  $_SESSION['user']= $row;
+
   unset($row);
 }
 
@@ -620,7 +624,7 @@ return $SITENAME;
 }
 function print_trackerurl()
 {
-  global $BASEURL;	
+  global $BASEURL;  
 
 return $BASEURL;
 }
