@@ -13,6 +13,7 @@
         <td align="right" class="header"><tag:language.DESCRIPTION /></td>
         <td class="lista"><tag:torrent.description /></td>
       </tr>
+      <tr>
         <td class="header" ><tag:language.CATEGORY_FULL /></td>
         <td class="lista"><tag:torrent.cat_combo /></td>
       </tr>
