@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="<tag:main_css />" type="text/css" />
   <tag:more_css />
     <tag:main_jscript />
-    <tag:main_favicon />
 <!--[if lte IE 7]>
 <style type="text/css">
 #menu ul {display:inline;}
