@@ -44,9 +44,12 @@ if (isset($_SERVER['PHP_SELF']))
    $_SERVER['PHP_SELF']=htmlspecialchars($_SERVER['PHP_SELF']);
 $cur_script=$_SERVER['PHP_SELF'];
 
+require_once("include/xbtit_version.php");
+global $tracker_version, $tracker_revision;
+
 // getting globals
 $GLOBALS["btit-tracker"]         = "xbtit";
-$GLOBALS["current_btit_version"] = "v2.1.0";
+$GLOBALS["current_btit_version"] = $tracker_version . " (r".$tracker_revision.")";
 $GLOBALS["btit_installer"]       = "xbtit Upgrade ::";
 
 // getting needed files
