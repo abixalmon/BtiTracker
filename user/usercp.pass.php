@@ -72,6 +72,7 @@ switch ($action)
                     
             success_msg($language["PWD_CHANGED"], "".$language["NOW_LOGIN"]."<br /><a href=\"index.php?page=login\">Go</a>");
             stdfoot(true,false);
+            exit;
                     }
                 }
     break;

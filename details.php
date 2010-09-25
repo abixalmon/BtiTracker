@@ -316,7 +316,7 @@ else {
        $torrenttpl->set("INSERT_COMMENT",false,TRUE);
      $comments=array();
      $count=0;
-     foreach ($subres as $id=>$subrow) {
+     foreach ($subres as $subrow) {
        $comments[$count]["user"]="<a href=\"index.php?page=userdetails&amp;id=".$subrow["uid"]."\">" . unesc($subrow["user"]);
        $comments[$count]["date"]=date("d/m/Y H.i.s",$subrow["data"]-$offset);
        // only users able to delete torrents can delete comments...
