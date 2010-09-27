@@ -129,6 +129,7 @@ else
     $peers[$i]["PROGRESS"]=$stat."%<br />" . $progress;
 
     $peers[$i]["STATUS"]=$row["status"];
+    if(!$XBTT_USE)
     $peers[$i]["CLIENT"]=htmlspecialchars(getagent(unesc($row["client"]),unesc($row["peer_id"])));
       $dled=makesize($row["downloaded"]);
       $upld=makesize($row["uploaded"]);
@@ -154,6 +155,8 @@ else
    $peerstpl->set("BACK2", "<br /><br /><center><a href=\"javascript: history.go(-1);\"><tag:language.BACK /></a></center>");
 $peerstpl->set("XBTT",$XBTT_USE,TRUE);
 $peerstpl->set("XBTT2",$XBTT_USE,TRUE);
+$peerstpl->set("XBTT3",$XBTT_USE,TRUE);
+$peerstpl->set("XBTT4",$XBTT_USE,TRUE);
 $peerstpl->set("peers",$peers);
 
 ?>
