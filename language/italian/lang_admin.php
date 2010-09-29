@@ -267,4 +267,33 @@ $language["HACK_UNINSTALL"]="Disinstalla";
 $language["HACK_INSTALLED_OK"]="L'hack è stato installato con successo !<br />\nPer vedere quali hacks sono installati, ritorna a <a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=hacks&amp;action=read\">adminCP (Hacks)</a>";
 $language["HACK_BAD_ID"]="Errore nell'ottenere info su questo hack con questo ID.";
 $language["HACK_UNINSTALLED_OK"]="L'hack è stato disinstallato con successo!<br />\nPer vedere quali hacks sono installati, ritorna a <a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=hacks&amp;action=read\">adminCP (Hacks)</a>";
+$language['HACK_OPERATION']='Operazione';
+$language['HACK_SOLUTION']='Soluzione';
+// added rev 520
+$language['HACK_WHY_FTP']='Alcuni dei file che l&rsquo;hack deve modifcare non sono scrivibili<br />'."\n".'Questo necessita di essere modificato con l&rsquo;accesso via FTP  e usando il chmod o creando i file o le cartelle <br />'."\n".'Le informazioni di accesso FTP temporaneamente memorizzate per eseguire le operazioni necessarie all&rsquo;installazione dell&rsquo;hack.';
+$language['HACK_FTP_SERVER']='Server FTP';
+$language['HACK_FTP_PORT']='Porta FTP';
+$language['HACK_FTP_USERNAME']='FTP Username';
+$language['HACK_FTP_PASSWORD']='FTP Password';
+$language['HACK_FTP_BASEDIR']='Percorso locale di xbtit (il percorso dalla radice quando effettuate l&rsquo;accesso FTP)';
+// USERS TOOLS
+$language['USER_NOT_DELETE']='Non puoi cancelle utenti Ospite o te stesso!';
+$language['USER_NOT_EDIT']='Non puoi modificare utenti Ospite o te stesso!';
+$language['USER_NOT_DELETE_HIGHER']='Non puoi cancellare utenti di livello maggiore del tuo.';
+$language['USER_NOT_EDIT_HIGHER']='Non puoi modificare utenti di livello maggiore del tuo.';
+$language['USER_NO_CHANGE']='Nessuan modifica apportata.';
+//Manual Hack Install
+$language['MHI_VIEW_INSRUCT'] = 'Visualizzare l&rsquo;installazione manuale?';
+$language['MHI_MAN_INSRUCT_FOR'] = 'Istruzioni per l&rsquo;Installazione Manuale di';
+$language['MHI_RUN_QUERY'] = 'Eseguire le seguenti SQL Query usando phpMyAdmin';
+$language['MHI_IN'] = 'In';
+$language['MHI_ALSO_IN'] = 'Anche in';
+$language['MHI_FIND_THIS'] = 'Trovare questo';
+$language['MHI_ADD_THIS'] = 'Aggiungere questo';
+$language['MHI_IT'] = 'esso';
+$language['MHI_REPLACE'] = 'Sostituire con';
+$language['MHI_COPY'] = 'Copia';
+$language['MHI_AS'] = 'come';
+
+
 ?>

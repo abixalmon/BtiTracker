@@ -1,14 +1,12 @@
 <?php
 
-error_reporting(E_ALL);
-/*
 if (isset($_POST["in_xbtit"]) && $_POST["in_xbtit"]=='1')
       die("non direct access!");
 
 if (isset($_POST["in_admin"]) && $_POST["in_xbtit"]=='1')
       die("non direct access!");
 
-*/
+session_start();
 
 require_once(dirname(dirname(__FILE__)).'/include/functions.php');
 require_once(dirname(dirname(__FILE__)).'/btemplate/bTemplate.php');
