@@ -24,7 +24,7 @@ $language['ACP_MENU']='Admin Menu';
 $language['ACP_FRONTEND']='Content Settings';
 $language['ACP_USERS_TOOLS']='User&rsquo;s Tools';
 $language['ACP_TORRENTS_TOOLS']='Torrent&rsquo;s Tools';
-$language['ACP_OTHER_TOOLS']='Others Tools';
+$language['ACP_OTHER_TOOLS']='Other Tools';
 $language['ACP_MYSQL_STATS']='MySql Statistics';
 $language['XBTT_BACKEND']='xbtt Option';
 $language['XBTT_USE']='Use <a href="http://xbtt.sourceforge.net/tracker/" target="_blank">xbtt</a> as backend?';
