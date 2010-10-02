@@ -47,10 +47,11 @@ $langue=language_list();
 if ($CURUSER["view_torrents"]=="yes")		
 		print("<li class=\"level1-li\"><a class=\"level1-a drop\" href=\"#url\">".$language['TORRENT_MENU']."</a>\n");?><!--[if gte IE 7]><!--></a><!--<![endif]-->
 		<!--[if lte IE 6]><table><tr><td><![endif]-->
+		
 			<ul class="level2">
 <?php if ($CURUSER["view_torrents"]=="yes")
 				print("<li><a href=\"index.php?page=extra-stats\">".$language["MNU_STATS"]."</a></li>\n");
-				print("<li><a href=\"index.php?page=torrents\">".$language["MNU_TORRENT"]."</a></li>\n");?>
+				print("<li><span><a class=\"fly\" href=\"#url\">".$language["MNU_TORRENT"]."</a></span><ul><li><a href=\"index.php?page=torrents&search=&category=0&active=0\"><span>All</span></a></li><li><a href=\"index.php?page=torrents&search=&category=0&active=1\"><span>Active Only</span></a></li><li><a href=\"index.php?page=torrents&search=&category=0&active=2\"><span>Dead Only</span></a></ul></li></li>");?>
 
 				
 <?php if ($CURUSER["can_upload"]=="yes")				
@@ -147,8 +148,8 @@ else
        print("<li><a href=\"".$GLOBALS["FORUMLINK"]."\">".$language["MNU_FORUM"]."</a></li>\n");
    else
        print("<li><a href=\"".$GLOBALS["FORUMLINK"]."\">".$language["MNU_FORUM"]."</a></li>\n");
-    }
-				print("<li><a href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."\">".$language["USER_CP"]."</a></li>\n");?>
+    }?>
+<?php print("<li><a class=\"fly\" href=\"#url\">My Panel</a></span><ul><li><a href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."\">My Home</a></li><li><a href=\"index.php?page=usercp&uid=".$CURUSER["uid"]."&do=pm&action=list&what=inbox\">PM inbox</a></li><li><a href=\"index.php?page=usercp&uid=".$CURUSER["uid"]."&do=pm&action=list&what=outbox\">PM outbox</li><li><a href=\"index.php?page=usercp&uid=".$CURUSER["uid"]."&do=pm&action=edit&uid=".$CURUSER["uid"]."&what=new\">New PM</li><li><a href=\"index.php?page=usercp&do=user&action=change&uid=".$CURUSER["uid"]."\">Change Profile</li><li><a href=\"index.php?page=usercp&do=pwd&action=change&uid=".$CURUSER["uid"]."\">Change Password</li><li><a href=\"index.php?page=usercp&do=pid_c&action=change&uid=".$CURUSER["uid"]."\">Change PID</a></ul></li></li>\n");?>
 				
 				<?php if ($CURUSER["admin_access"]=="yes") 
 						print("<li><a class=\"fly\" href=\"#url\">".$language["ADMIN_ACCESS"]."</a>\n");?><!--[if gte IE 7]><!--></a><!--<![endif]-->
@@ -157,14 +158,21 @@ else
            <li><a href="#url"> </a></li>
 						<li><a href="#url"> </a></li>						
 						<li><a href="#url"> </a></li>
-						<?php	print("<li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."\">".$language["MNU_ADMINCP"]."</a><b></b></li>\n");?>
+						<?php	print("<li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."\">".$language["MNU_ADMINCP"]."</a><li><a class=\"fly\" href=\"#url\">Tracker's Settings </a></span><ul><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=config&action=read\">Tracker's Settings</a></li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=banip&action=read\">Ban IP's</a></li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=language&action=read\">Languages Settings</li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=style&action=read\">Styles Settings</li></a></ul></li></li>\n");?>
+						<?php print("<li><a class=\"fly\" href=\"#url\">Content Settings </a></span><ul><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=category&action=read\">Categories Settings</a></li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=poller&action=read\">Poll Settings</a></li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=badwords&action=read\">Censored Words Settings</li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=blocks&action=read\">Block Settings</a></ul></li></li>\n");?>
+						<?php print("<li><a class=\"fly\" href=\"#url\">User's Tools</a></span><ul><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=groups&action=read\">Users Group Settings</a></li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=masspm&action=write\">Mass Private Mail</a></li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=pruneu\">Prune Users</li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=searchdiff\">Search Diff</a></ul></li></li>\n");?>
+						<?php print("<li><a class=\"fly\" href=\"#url\">Torrent's Tools</a></span><ul><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=prunet\">Prune Torrents</a></ul></li></li>\n");?>
+						<?php print("<li><a class=\"fly\" href=\"#url\">Forum's Settings</a></span><ul><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=forum&action=read\">Forum's Settings</a></ul></li></li>\n");?>
+						<?php print("<li><a class=\"fly\" href=\"#url\">Others Tools</a></span><ul><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=dbutil\">Database Utilities</a></li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=mysql_stats\">MySql Statistics</a></li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=logview\">View Site Log</a></ul></li></li>\n");?>
+						<?php print("<li><a class=\"fly\" href=\"#url\">Modules</a></span><ul><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=module_config&action=manage\">Modules Settings</a></ul></li></li>\n");?>
+						<?php print("<li><a class=\"fly\" href=\"#url\">Hacks</a></span><ul><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=hacks&action=read\">Hacks Settings</a></ul></li></li>\n");?>
 						<li><a class="fly" href="#url"> </a><!--[if gte IE 7]><!--></a><!--<![endif]-->
 						<!--[if lte IE 6]><table><tr><td><![endif]-->
 							<ul class="level4">
 								<li><a href="#url"> </a></li>
 								<li><a href="#url"> </a></li>
 								<li><a href="#url"> </a></li>
-			         <li><a href="#url"> </a><b></b></li> 
+			                      <li><a href="#url"> </a><b></b></li> 
 							</ul>
 						<!--[if lte IE 6]></td></tr></table></a><![endif]-->
 						</li>
@@ -172,6 +180,7 @@ else
 					</ul>
 				<!--[if lte IE 6]></td></tr></table></a><![endif]-->
 				</li>
+				
 				<?php if ($CURUSER["view_users"]=="yes")
 			print("<li><a href=\"index.php?page=users\">".$language["MNU_MEMBERS"]."</a><b></b></li>\n");
 				if ($CURUSER["view_news"]=="yes")
