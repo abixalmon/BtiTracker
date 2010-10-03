@@ -68,6 +68,11 @@ switch ($action)
         $btit_settings["default_style"]=$_POST["default_style"];
         $btit_settings["default_charset"]=$_POST["default_charset"];
         $btit_settings["max_users"]=$_POST["maxusers"];
+        if($btit_settings["max_torrents_per_page"]!=$_POST["ntorrents"])
+        {
+            $old_setting=$btit_settings["max_torrents_per_page"];
+            $alter=true;
+        }
         $btit_settings["max_torrents_per_page"]=$_POST["ntorrents"];
         $btit_settings["sanity_update"]=$_POST["sinterval"];
         $btit_settings["external_update"]=$_POST["uinterval"];
@@ -189,6 +194,12 @@ switch ($action)
         mysql_query("UPDATE {$TABLE_PREFIX}users SET language=".sqlesc($btit_settings["default_language"]).",
                             style=".sqlesc($btit_settings["default_style"]).",
                             torrentsperpage=".sqlesc($btit_settings["max_torrents_per_page"])." WHERE id=1") or stderr($language["ERROR"],mysql_error());
+
+        if($alter===true)
+        {
+            mysql_query("ALTER TABLE `{$TABLE_PREFIX}users` CHANGE `torrentsperpage` `torrentsperpage` TINYINT( 3 ) UNSIGNED NOT NULL DEFAULT ".sqlesc($btit_settings["max_torrents_per_page"]));
+            mysql_query("UPDATE `{$TABLE_PREFIX}users` SET `torrentsperpage`=".sqlesc($btit_settings["max_torrents_per_page"])." WHERE `torrentsperpage`=".sqlesc($old_setting));
+        }
 
         unset($values);
         
