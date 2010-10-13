@@ -137,18 +137,29 @@ else
 <?php if ($CURUSER["view_users"]=="yes")
 		print("<li class=\"level1-li left\"><a class=\"level1-a drop\" href=\"#url\">".$language['USER_MENU']."</a>\n");?><!--[if gte IE 7]><!--></a><!--<![endif]-->
 		<!--[if lte IE 6]><table><tr><td><![endif]-->
-			<ul class="level2"><?php
-			if ($CURUSER["view_forum"]=="yes")
-   {
-   if ($GLOBALS["FORUMLINK"]=="" || $GLOBALS["FORUMLINK"]=="internal" || $GLOBALS["FORUMLINK"]=="smf")
-      print("<li><a href=\"index.php?page=forum\">".$language["MNU_FORUM"]."</a></li>\n");
-   elseif ($GLOBALS["FORUMLINK"]=="smf")
-       print("<li><a href=\"".$GLOBALS["FORUMLINK"]."\">".$language["MNU_FORUM"]."</a></li>\n");
-   else
-       print("<li><a href=\"".$GLOBALS["FORUMLINK"]."\">".$language["MNU_FORUM"]."</a></li>\n");
-    }?>
-<?php print("<li><a class=\"fly\" href=\"#url\">".$language['USER_CP']."</a></span><ul><li><a href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."\">".$language['MNU_UCP_HOME']."</a></li><li><a href=\"index.php?page=usercp&uid=".$CURUSER["uid"]."&do=pm&action=list&what=inbox\">".$language['MNU_UCP_IN']."</a></li><li><a href=\"index.php?page=usercp&uid=".$CURUSER["uid"]."&do=pm&action=list&what=outbox\">".$language['MNU_UCP_OUT']."</li><li><a href=\"index.php?page=usercp&uid=".$CURUSER["uid"]."&do=pm&action=edit&uid=".$CURUSER["uid"]."&what=new\">".$language['MNU_UCP_NEWPM']."</li><li><a href=\"index.php?page=usercp&do=user&action=change&uid=".$CURUSER["uid"]."\">".$language['MNU_UCP_INFO']."</li><li><a href=\"index.php?page=usercp&do=pwd&action=change&uid=".$CURUSER["uid"]."\">".$language['MNU_UCP_CHANGEPWD']."</li><li><a href=\"index.php?page=usercp&do=pid_c&action=change&uid=".$CURUSER["uid"]."\">".$language['CHANGE_PID']."</a></ul></li></li>\n");?>
-				
+			<ul class="level2">
+				<?php print("<li><a class=\"fly\" href=\"#url\">".$language['USER_CP']."</a>\n");?><!--[if gte IE 7]><!--></a><!--<![endif]-->
+				<!--[if lte IE 6]><table><tr><td><![endif]-->
+					<ul class="level3">
+           <li><a href="#url"> </a></li>
+						<li><a href="#url"> </a></li>						
+						<li><a href="#url"> </a></li>
+						<?php	print("<li><a href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."\">".$language['MNU_UCP_HOME']."</a><li><a class=\"fly\" href=\"#url\">".$language["MNU_UCP_PM"]."</a></span><ul><li><a href=\"index.php?page=usercp&uid=".$CURUSER["uid"]."&do=pm&action=list&what=inbox\">".$language['MNU_UCP_IN']."</a></li><li><a href=\"index.php?page=usercp&uid=".$CURUSER["uid"]."&do=pm&action=list&what=outbox\">".$language['MNU_UCP_OUT']."</a></li><li><a href=\"index.php?page=usercp&uid=".$CURUSER["uid"]."&do=pm&action=edit&uid=".$CURUSER["uid"]."&what=new\">".$language['MNU_UCP_NEWPM']."</a></li></ul></li></li>\n");?>
+						<?php print("<li><a class=\"fly\" href=\"#url\">".$language["MNU_UCP_INFO"]."</a></span><ul><li><a href=\"index.php?page=usercp&do=user&action=change&uid=".$CURUSER["uid"]."\">".$language['MNU_UCP_INFO']."</a></li><li><a href=\"index.php?page=usercp&do=pwd&action=change&uid=".$CURUSER["uid"]."\">".$language['MNU_UCP_CHANGEPWD']."</a></li><li><a href=\"index.php?page=usercp&do=pid_c&action=change&uid=".$CURUSER["uid"]."\">".$language['CHANGE_PID']."</a></ul></li></li>\n");?>
+						<li><a class="fly" href="#url"> </a><!--[if gte IE 7]><!--></a><!--<![endif]-->
+						<!--[if lte IE 6]><table><tr><td><![endif]-->
+							<ul class="level4">
+								<li><a href="#url"> </a></li>
+								<li><a href="#url"> </a></li>
+								<li><a href="#url"> </a></li>
+			                      <li><a href="#url"> </a><b></b></li> 
+							</ul>
+						<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+						</li>
+
+					</ul>
+				<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+				</li>					
 				<?php
                 if ($CURUSER["admin_access"]=="yes") 
 				{
@@ -163,7 +174,7 @@ else
 						<li><a href="#url"> </a></li>						
 						<li><a href="#url"> </a></li>
 						<?php	print("<li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."\">".$language["MNU_ADMINCP"]."</a><li><a class=\"fly\" href=\"#url\">".$language['TRACKER_SETTINGS']."</a></span><ul><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=config&action=read\">".$language['TRACKER_SETTINGS']."</a></li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=banip&action=read\">".$language['ACP_BAN_IP']."</a></li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=language&action=read\">".$language['ACP_LANGUAGES']."</li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=style&action=read\">".$language['ACP_STYLES']."</li></a></ul></li></li>\n");?>
-						<?php print("<li><a class=\"fly\" href=\"#url\">".$language['ACP_FRONTEND']."</a></span><ul><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=category&action=read\">".$language['ACP_CATEGORIES']."</a></li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=poller&action=read\">".$language['ACP_POLLS']."</a></li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=badwords&action=read\">".$language['ACP_CENSORED']."</li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=blocks&action=read\">".$language['ACP_BLOCKS']."</a></ul></li></li>\n");?>
+						<?php print("<li><a class=\"fly\" href=\"#url\">".$language['ACP_FRONTEND']."</a></span><ul><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=category&action=read\">".$language['ACP_CATEGORIES']."</a></li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=poller&action=read\">".$language['ACP_POLLS']."</a></li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=badwords&action=read\">".$language["ACP_CENSORED"]."</a></li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=blocks&action=read\">".$language['ACP_BLOCKS']."</a></ul></li></li>\n");?>
 						<?php print("<li><a class=\"fly\" href=\"#url\">".$language['ACP_USERS_TOOLS']."</a></span><ul><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=groups&action=read\">".$language['ACP_USER_GROUP']."</a></li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=masspm&action=write\">".$language['ACP_MASSPM']."</a></li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=pruneu\">".$language['ACP_PRUNE_USERS']."</li><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=searchdiff\">".$language['ACP_SEARCH_DIFF']."</a></ul></li></li>\n");?>
 						<?php print("<li><a class=\"fly\" href=\"#url\">".$language['ACP_TORRENTS_TOOLS']."</a></span><ul><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=prunet\">".$language['ACP_PRUNE_TORRENTS']."</a></ul></li></li>\n");?>
 						<?php print("<li><a class=\"fly\" href=\"#url\">".$language['ACP_FORUM']."</a></span><ul><li><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=forum&action=read\">".$language['ACP_FORUM']."</a></ul></li></li>\n");?>
@@ -185,16 +196,25 @@ else
 				<!--[if lte IE 6]></td></tr></table></a><![endif]-->
 				</li>
 				
-				<?php if ($CURUSER["view_users"]=="yes")
-			print("<li><a href=\"index.php?page=users\">".$language["MNU_MEMBERS"]."</a><b></b></li>\n");
-				if ($CURUSER["view_news"]=="yes")
-		  print("<li><a href=\"index.php?page=viewnews\">".$language['MNU_NEWS']."</a></li>\n");?>
-						
+			<?php if ($CURUSER["view_forum"]=="yes")
+   {
+   if ($GLOBALS["FORUMLINK"]=="" || $GLOBALS["FORUMLINK"]=="internal" || $GLOBALS["FORUMLINK"]=="smf")
+      print("<li><a href=\"index.php?page=forum\">".$language["MNU_FORUM"]."</a></li>\n");
+   elseif ($GLOBALS["FORUMLINK"]=="smf")
+       print("<li><a href=\"".$GLOBALS["FORUMLINK"]."\">".$language["MNU_FORUM"]."</a></li>\n");
+   else
+       print("<li><a href=\"".$GLOBALS["FORUMLINK"]."\">".$language["MNU_FORUM"]."</a></li>\n");
+    }?>				
+				<?php if ($CURUSER["view_news"]=="yes"){
+		  print("<li><a href=\"index.php?page=viewnews\">".$language['MNU_NEWS']."</a></li>\n");}?>	
+				<?php if ($CURUSER["view_users"]=="yes") 
+		 print("<li><a href=\"index.php?page=users\">".$language["MNU_MEMBERS"]."</a><b></b></li>\n");?>
+					
 		<li><a class="fly" href="#url"> </a> <!--[if gte IE 7]><!--></a><!--<![endif]-->
 		<!--[if lte IE 6]><table><tr><td><![endif]-->
 			<ul class="level2">
 			<li><a href="#url"> </a></li>
-				<li><a href="#url"> </a></li>
+				<li><a href="#url"> </a></li>		
 				<li><a href="#url"> </a></li>
 				<li><a href="#url"> </a><b></b></li>
 			</ul>
@@ -205,4 +225,4 @@ else
 		<!--[if lte IE 6]></td></tr></table></a><![endif]-->
 		</li>		
 	</ul>
-   </div>	
+   </div>
