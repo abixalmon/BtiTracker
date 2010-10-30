@@ -304,7 +304,7 @@ function validip($ip) {
     return false;
 }
 
-# Patched function to detect REAL IP address if it's valid
+/* Patched function to detect REAL IP address if it's valid */
 function getip() {
     if (getenv('HTTP_CLIENT_IP') && long2ip(ip2long(getenv('HTTP_CLIENT_IP')))==getenv('HTTP_CLIENT_IP') && validip(getenv('HTTP_CLIENT_IP')))
         return getenv('HTTP_CLIENT_IP');
@@ -321,7 +321,13 @@ function getip() {
     if (getenv('HTTP_FORWARDED') && long2ip(ip2long(getenv('HTTP_FORWARDED')))==getenv('HTTP_FORWARDED') && validip(getenv('HTTP_FORWARDED')))
         return getenv('HTTP_FORWARDED');
 
-    return long2ip(ip2long($_SERVER['REMOTE_ADDR']));
+    $ip = htmlspecialchars($_SERVER['REMOTE_ADDR']);
+    /* Added support for IPv6 connections. otherwise ip returns null */
+    if (strpos($ip, '::') === 0) {
+        $ip = substr($ip, strrpos($ip, ':')+1);
+    }
+    
+   return long2ip(ip2long($ip));
 }
 
 function hex2bin ($input, $assume_safe=true) {
