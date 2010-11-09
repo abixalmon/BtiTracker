@@ -292,4 +292,4 @@ UPDATE btit_users SET pid='00000000000000000000000000000000' WHERE id=1;
 ALTER TABLE `btit_users_level`
 CHANGE `prefixcolor` `prefixcolor` VARCHAR( 200 ) NOT NULL,
 CHANGE `suffixcolor` `suffixcolor` VARCHAR( 200 ) NOT NULL;
-
+ALTER TABLE `btit_messages `ADD`deletedBySender` tinyint(3) unsigned NOT NULL DEFAULT '0';

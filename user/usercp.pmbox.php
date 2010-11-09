@@ -117,7 +117,7 @@ switch ($action)
          }
     break;
 
-    case 'deleteall':
+     case 'deleteall':
         if($FORUMLINK=="smf")
             redirect("index.php?page=forum&action=pm".(($_GET["type"]=="out")?";f=outbox":""));
         // MODIFIED DELETE ALL VERSION BY gAnDo
@@ -128,17 +128,30 @@ switch ($action)
                 redirect("index.php?page=usercp&uid=".$uid."&do=pm&action=list&what=".($what=="in"?"inbox":"outbox"));
                 exit;
                 }
+                if($_GET["type"]=="out"){
            foreach($_POST["msg"] as $selected=>$msg)
-                   do_sqlquery("DELETE FROM {$TABLE_PREFIX}messages WHERE id='".$msg."' AND readed='yes'",true);
+           do_sqlquery("UPDATE {$TABLE_PREFIX}messages SET deletedBySender=1 WHERE id='".$msg."'",true);
            redirect("index.php?page=usercp&uid=".$uid."&do=pm&action=list&what=".($what=="in"?"inbox":"outbox"));
            exit();
-    break;
+	        } 
+	        else{
+		   foreach($_POST["msg"] as $selected=>$msg)
+	   	   do_sqlquery("DELETE FROM {$TABLE_PREFIX}messages WHERE id='".$msg."' AND readed='yes'",true);
+	   	   redirect("index.php?page=usercp&uid=".$uid."&do=pm&action=list&what=".($what=="in"?"inbox":"outbox"));
+           exit();
+	        }
+		
+            break;
 
     case 'delete':
             if($FORUMLINK=="smf")
                 redirect("index.php?page=forum&action=pm".(($_GET["type"]=="out")?";f=outbox":""));
             $id=intval($_GET["id"]);
+            if($_GET["type"]=="out"){
+			do_sqlquery("UPDATE {$TABLE_PREFIX}messages SET deletedBySender=1 WHERE id='".$id."'",true);
+            }else{
             do_sqlquery("DELETE FROM {$TABLE_PREFIX}messages WHERE receiver=".$uid." AND id=".$id." AND readed='yes'",true);
+		    }
             redirect("index.php?page=usercp&uid=".$uid."&do=pm&action=list&what=inbox");
             exit();
     break;
@@ -158,7 +171,7 @@ switch ($action)
                $res=do_sqlquery("SELECT pm.ID_PM id, pmr.ID_MEMBER receiver, pm.msgtime added, pm.subject, pm.body msg, IF(pmr.is_read=0,'no','yes') readed, u.username receivername FROM {$db_prefix}personal_messages pm LEFT JOIN {$db_prefix}pm_recipients pmr ON pm.ID_PM=pmr.ID_PM LEFT JOIN {$TABLE_PREFIX}users u ON pmr.ID_MEMBER=u.smf_fid WHERE pm.ID_MEMBER_FROM=".$CURUSER["smf_fid"]." AND pm.deletedBySender!=1 ORDER BY added DESC",true);
            }
            else
-               $res=do_sqlquery("select m.*, IF(m.receiver=0,'System',u.username) as receivername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.receiver WHERE sender=$uid ORDER BY added DESC",true);
+               $res=do_sqlquery("select m.*, IF(m.receiver=0,'System',u.username) as receivername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.receiver WHERE sender=$uid AND deletedBySender=0 ORDER BY added DESC",true);
            if (!$res || mysql_num_rows($res)==0)
              {
                 $usercptpl->set("NO_MESSAGES",true,true);

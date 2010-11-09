@@ -597,6 +597,7 @@ CREATE TABLE `{$db_prefix}messages` (
   `subject` varchar(50) NOT NULL default '',
   `msg` text,
   `readed` enum('yes','no') NOT NULL default 'no',
+  `deletedBySender` tinyint(3) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY  (`id`),
   KEY `receiver` (`receiver`),
   KEY `sender` (`sender`)
