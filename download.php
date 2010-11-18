@@ -88,42 +88,30 @@ else
     $alltorrent = fread($fd, filesize($filepath));
     $array = BDecode($alltorrent);
     fclose($fd);
-//    print($alltorrent."<br />\n<br />\n");
-    if ($XBTT_USE)
-    {
-       $array["announce"] = $XBTT_URL."/$pid/announce";
-       if (isset($array["announce-list"]) && is_array($array["announce-list"]))
-          {
-          for ($i=0;$i<count($array["announce-list"]);$i++)
-              {
-              if (in_array($array["announce-list"][$i][0],$TRACKER_ANNOUNCEURLS))
-                 {
-                 if (strpos($array["announce-list"][$i][0],"announce.php")===false)
-                    $array["announce-list"][$i][0] = trim(str_replace("/announce", "/$pid/announce", $array["announce-list"][$i][0]));
-                 else
-                    $array["announce-list"][$i][0] = trim(str_replace("/announce.php", "/announce.php?pid=$pid", $array["announce-list"][$i][0]));
-                 }
-              }
-          }
-    }
-    else
-    {
-       $array["announce"] = $BASEURL."/announce.php?pid=$pid";
-       if (isset($array["announce-list"]) && is_array($array["announce-list"]))
-          {
-          for ($i=0;$i<count($array["announce-list"]);$i++)
-              {
-              if (in_array($array["announce-list"][$i][0],$TRACKER_ANNOUNCEURLS))
-                 {
-                 if (strpos($array["announce-list"][$i][0],"announce.php")===false)
-                    $array["announce-list"][$i][0] = trim(str_replace("/announce", "/$pid/announce", $array["announce-list"][$i][0]));
-                 else
-                    $array["announce-list"][$i][0] = trim(str_replace("/announce.php", "/announce.php?pid=$pid", $array["announce-list"][$i][0]));
-                 }
-              }
-          }
 
-    }
+    if ($XBTT_USE)
+       $array["announce"] = $XBTT_URL."/$pid/announce";
+    else
+       $array["announce"] = $BASEURL."/announce.php?pid=$pid";
+
+    if (isset($array["announce-list"]) && is_array($array["announce-list"]))
+       {
+       for ($i=0;$i<count($array["announce-list"]);$i++)
+           {
+           for ($j=0;$j<count($array["announce-list"][$i]);$j++)
+               {
+               if (in_array($array["announce-list"][$i][$j],$TRACKER_ANNOUNCEURLS))
+                  {
+                  if (strpos($array["announce-list"][$i][$j],"announce.php")===false)
+                     $array["announce-list"][$i][$j] = trim(str_replace("/announce", "/$pid/announce", $array["announce-list"][$i][$j]));
+                  else
+                     $array["announce-list"][$i][$j] = trim(str_replace("/announce.php", "/announce.php?pid=$pid", $array["announce-list"][$i][$j]));
+                }
+             }
+         }
+     }
+
+
     $alltorrent=BEncode($array);
 
     header("Content-Type: application/x-bittorrent");
