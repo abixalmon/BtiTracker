@@ -41,7 +41,8 @@ switch ($action)
           $res=do_sqlquery("UPDATE {$TABLE_PREFIX}users SET pid='".$pid."' WHERE id='".$CURUSER['uid']."'",true);
           if ($res)
              {
-             do_sqlquery("UPDATE xbt_users SET torrent_pass='".$pid."' WHERE uid='".$CURUSER['uid']."'",true);
+             if($XBTT_USE)
+                 do_sqlquery("UPDATE xbt_users SET torrent_pass='".$pid."' WHERE uid='".$CURUSER['uid']."'",true);
              redirect("index.php?page=usercp&uid=".$uid."");
              exit();
              }
