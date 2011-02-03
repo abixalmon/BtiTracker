@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2007  Btiteam
+// Copyright (C) 2004 - 2011  Btiteam
 //
 //    This file is part of xbtit.
 //
