@@ -579,7 +579,7 @@ print("<script LANGUAGE=\"javascript\">window.location.href='".$_SERVER["PHP_SEL
 elseif($act=="completed")
 {
     // Lock import file from future use and change to smf mode
-    @mysql_query("UPDATE {$TABLE_PREFIX}settings SET value ='smf' WHERE key='forum'");
+    @mysql_query("UPDATE {$TABLE_PREFIX}settings SET `value` ='smf' WHERE `key`='forum'");
     @mysql_query("UPDATE {$TABLE_PREFIX}users SET random=54345 WHERE id=1");
     echo $lang[32] . $lang[33] . $lang[35];
 }
