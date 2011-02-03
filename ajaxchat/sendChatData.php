@@ -88,8 +88,9 @@ function addData($name,$text,$uid) {
   $now = time();
     $sql = "INSERT INTO {$TABLE_PREFIX}chat (time,name,text,uid) VALUES ('".$now."','".$name."','".$text."','".$uid."')";
     $conn = getDBConnection();
-    if($GLOBALS['charset']=="UTF-8")
+    if($GLOBALS['charset']=="UTF-8" && function_exists('mysql_set_charset'))
         mysql_set_charset('utf8',$conn);
+
     $results = mysql_query($sql, $conn);
     if (!$results || empty($results)) {
         # echo 'There was an error creating the entry';
