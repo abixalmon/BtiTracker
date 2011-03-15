@@ -89,7 +89,7 @@ function scrape($url,$infohash='') {
       $stream=get_remote_file($extannunce.(substr_count($extannunce,'?')>0?'&':'?').$info_hash);
     } else
       $stream=get_remote_file($extannunce);
-    //$stream=trim(stristr($stream,'d5:files'));
+    $stream=trim(stristr($stream,'d5:files'));
     $stream=trim($stream);
     if (strpos($stream,'d5:files')===false) {
       $ret = do_sqlquery('UPDATE '.$TABLE_PREFIX.'files SET lastupdate=NOW() WHERE announce_url="'.$url.'"'.($infohash==''?'':' AND info_hash IN ("'.$infohash.'")'));
