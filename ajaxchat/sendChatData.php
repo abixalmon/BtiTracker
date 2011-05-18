@@ -50,6 +50,62 @@ $name = $n; # name from the form
 $text = $c; # comment from the form
 $uid = (int)$u;  # userid from the form
 
+
+if($_COOKIE["uid"]!=$uid)
+{
+
+    include("../include/settings.php");
+    include("../include/common.php");
+    mysql_select_db($database, mysql_connect($dbhost,$dbuser,$dbpass));
+
+    // select first owner (default id_level=8) from users table
+    $ra=mysql_fetch_assoc(mysql_query("SELECT id FROM `{$TABLE_PREFIX}users` WHERE user_level=8 ORDER BY id LIMIT 1"));
+    $admin_pm_id=$ra['id'];
+
+
+    $res=mysql_query("SELECT `username`, `password`, `random` FROM `{$TABLE_PREFIX}users` WHERE `id`=".$_COOKIE["uid"]);
+    $row=mysql_fetch_assoc($res);
+    if($_COOKIE["pass"]!=md5($row["random"].$row["password"].$row["random"]))
+    {
+        $ip=getip();
+        $name="Hacker [$ip]";
+        $uid=1;
+        $res=mysql_query("SELECT `id`, `username` FROM `{$TABLE_PREFIX}users` WHERE `cip`='$ip' ORDER BY `id` ASC");
+        if(@mysql_num_rows($res)>0)
+        {
+            $subject="Shoutbox hack attempt!";
+            $msg="Someone with the IP Address $ip hacked the shoutbox on ".date('l jS F Y \a\\t g:ia', time()).", here is a list of potential members to check:\n\n";
+            while($row=mysql_fetch_assoc($res))
+            {
+                $msg.="[url=$BASEURL/index.php?page=userdetails&id=".$row["id"]."]".$row["username"]."[/url]\n";
+            }
+            $row1=mysql_fetch_assoc(mysql_query("SELECT `value` FROM `{$TABLE_PREFIX}settings` WHERE `key`='forum'"));
+            $FORUMLINK=$row1["value"];
+            if($FORUMLINK=="smf")
+            {
+                $result=mysql_query("SELECT `smf_fid` FROM `{$TABLE_PREFIX}users` WHERE id=".$admin_pm_id);
+                $foundrow=mysql_fetch_assoc($result);
+                $smf_admin_pm_id=$foundrow["smf_fid"];
+                mysql_query("INSERT INTO `{$db_prefix}personal_messages` (`ID_MEMBER_FROM`, `fromName`, `msgtime`, `subject`, `body`) VALUES (0, 'System', UNIX_TIMESTAMP(), '".mysql_real_escape_string($subject)."', '".mysql_real_escape_string($msg)."')");
+                $pm_id=mysql_insert_id();
+                mysql_query("INSERT INTO `{$db_prefix}pm_recipients` (`ID_PM`, `ID_MEMBER`) VALUES (".$pm_id.", ".$smf_admin_pm_id.")");
+                mysql_query("UPDATE `{$db_prefix}members` SET `instantMessages`=`instantMessages`+1, `unreadMessages`=`unreadMessages`+1 WHERE `ID_MEMBER`=".$smf_admin_pm_id." LIMIT 1");
+            }
+            else
+            {
+                mysql_query("INSERT INTO `{$TABLE_PREFIX}messages` (`id`, `sender`, `receiver`, `added`, `subject`, `msg`, `readed`) VALUES ('', 0, ".$admin_pm_id.", UNIX_TIMESTAMP(), '".mysql_real_escape_string($subject)."', '".mysql_real_escape_string($msg)."', 'no')");
+            }
+        }
+    }
+    else
+    {
+        $name=$row["username"];
+        $uid=$_COOKIE["uid"];
+    }
+    $text="[color=red][b]I am an asshole hacker who deserves to be banned![/b][/color] :axe:";  
+}
+
+
 # some weird conversion of the data inputed
 $name = str_replace("\'","'",$name);
 $name = str_replace("'","\'",$name);

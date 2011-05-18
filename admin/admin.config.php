@@ -104,7 +104,7 @@ switch ($action)
             {
             // check if XBTT tables are present in current db
             $res=do_sqlquery("SHOW TABLES LIKE 'xbt%'");
-            $xbt_tables=array('xbt_config','xbt_deny_from_hosts','xbt_files','xbt_files_users','xbt_users');
+            $xbt_tables=array('xbt_config','xbt_files','xbt_files_users','xbt_users');
             $xbt_in_db=array();
             if ($res)
                {
