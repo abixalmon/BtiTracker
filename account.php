@@ -103,6 +103,7 @@ if ($act=="confirm") {
 if ($_POST["conferma"]) {
     if ($act=="signup") {
        $ret=aggiungiutente();
+       $pass_min_req=explode(",", $btit_settings["secsui_pass_min_req"]);
        if ($ret==0)
           {
           if ($VALIDATION=="user")
@@ -137,7 +138,12 @@ if ($_POST["conferma"]) {
        elseif ($ret==-8)
          stderr($language["ERROR"],$language["ERR_SPECIAL_CHAR"]);
        elseif ($ret==-9)
-         stderr($language["ERROR"],$language["ERR_PASS_LENGTH"]);
+         stderr($language["ERROR"],$language["ERR_PASS_LENGTH_1"]." <span style=\"color:blue;font-weight:bold;\">".$pass_min_req[0]."</span> ".$language["ERR_PASS_LENGTH_2"]);
+       elseif ($ret==-998) 
+       { 
+           $newpassword=pass_the_salt(30); 
+	       stderr($language["ERROR"],$language["ERR_PASS_TOO_WEAK_1"].":<br /><br />".(($pass_min_req[1]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[1]."</span> ".(($pass_min_req[1]==1)?$language["ERR_PASS_TOO_WEAK_2"]:$language["ERR_PASS_TOO_WEAK_2A"])."</li>":"").(($pass_min_req[2]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[2]."</span> ".(($pass_min_req[2]==1)?$language["ERR_PASS_TOO_WEAK_3"]:$language["ERR_PASS_TOO_WEAK_3A"])."</li>":"").(($pass_min_req[3]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[3]."</span> ".(($pass_min_req[3]==1)?$language["ERR_PASS_TOO_WEAK_4"]:$language["ERR_PASS_TOO_WEAK_4A"])."</li>":"").(($pass_min_req[4]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[4]."</span> ".(($pass_min_req[4]==1)?$language["ERR_PASS_TOO_WEAK_5"]:$language["ERR_PASS_TOO_WEAK_5A"])."</li>":"")."<br />".$language["ERR_PASS_TOO_WEAK_6"].":<br /><br /><span style='color:blue;font-weight:bold;'>".$newpassword."</span><br />"); 
+       } 
        else
         stderr($language["ERROR"],$language["ERR_USER_ALREADY_EXISTS"]);
        }
@@ -153,6 +159,21 @@ function tabella($action,$dati=array()) {
 
    global $idflag,$link, $idlangue, $idstyle, $CURUSER,$USE_IMAGECODE, $TABLE_PREFIX, $language, $tpl_account,$THIS_BASEPATH;
 
+   $pass_min_req=explode(",", $btit_settings["secsui_pass_min_req"]); 
+   $tpl_account->set("pass_min_char",$pass_min_req[0]); 
+   $tpl_account->set("pass_min_lct",$pass_min_req[1]); 
+   $tpl_account->set("pass_min_uct",$pass_min_req[2]); 
+   $tpl_account->set("pass_min_num",$pass_min_req[3]); 
+   $tpl_account->set("pass_min_sym",$pass_min_req[4]); 
+   $tpl_account->set("pass_char_plural", (($pass_min_req[0]==1)?false:true),true); 
+   $tpl_account->set("pass_lct_plural", (($pass_min_req[1]==1)?false:true),true); 
+   $tpl_account->set("pass_uct_plural", (($pass_min_req[2]==1)?false:true),true); 
+   $tpl_account->set("pass_num_plural", (($pass_min_req[3]==1)?false:true),true); 
+   $tpl_account->set("pass_sym_plural", (($pass_min_req[4]==1)?false:true),true); 
+   $tpl_account->set("pass_lct_set", (($pass_min_req[1]>0)?true:false),true); 
+   $tpl_account->set("pass_uct_set", (($pass_min_req[2]>0)?true:false),true); 
+   $tpl_account->set("pass_num_set", (($pass_min_req[3]>0)?true:false),true); 
+   $tpl_account->set("pass_sym_set", (($pass_min_req[4]>0)?true:false),true); 
 
    if ($action=="signup")
      {
@@ -318,7 +339,7 @@ elseif ($action!="mod")
 
 function aggiungiutente() {
 
-global $SITENAME,$SITEEMAIL,$BASEURL,$VALIDATION,$USERLANG,$USE_IMAGECODE, $TABLE_PREFIX, $XBTT_USE, $language,$THIS_BASEPATH, $FORUMLINK, $db_prefix;
+global $SITENAME,$SITEEMAIL,$BASEURL,$VALIDATION,$USERLANG,$USE_IMAGECODE, $TABLE_PREFIX, $XBTT_USE, $language,$THIS_BASEPATH, $FORUMLINK, $db_prefix, $btit_settings;
 
 $utente=mysql_real_escape_string($_POST["user"]);
 $pwd=mysql_real_escape_string($_POST["pwd"]);
@@ -364,12 +385,6 @@ if (mysql_num_rows($res)>0)
 }
 
 // valid email check - by vibes
-/*
-$regex = "^[_+a-z0-9-]+(\.[_+a-z0-9-]+)*"
-                ."@[a-z0-9-]+(\.[a-z0-9-]{1,})*"
-                ."\.([a-z]{2,}){1}$";
-*/
-
 $regex='/\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/i';
 if(!preg_match($regex,$email))
    {
@@ -454,14 +469,48 @@ if (straipos(mysql_real_escape_string($utente), $bannedchar)==true)
    exit;
 }
 
-if(strlen(mysql_real_escape_string($pwd))<4)
-   {
-   return -9;
-   exit;
+$pass_to_test=$_POST["pwd"];
+$pass_min_req=explode(",", $btit_settings["secsui_pass_min_req"]);
+
+if(strlen($pass_to_test)<$pass_min_req[0])
+{
+    return -9;
+    exit;
 }
 
+$lct_count=0;
+$uct_count=0;
+$num_count=0;
+$sym_count=0;
+$pass_end=(int)(strlen($pass_to_test)-1);
+$pass_position=0;
+$pattern1='#[a-z]#';
+$pattern2='#[A-Z]#';
+$pattern3='#[0-9]#';
+$pattern4='/[¬!"£$%^&*()`{}\[\]:@~;\'#<>?,.\/\\-=_+\|]/';
+
+for($pass_position=0;$pass_position<=$pass_end;$pass_position++)
+{
+    if(preg_match($pattern1,substr($pass_to_test,$pass_position,1),$matches))
+      $lct_count++;
+    elseif(preg_match($pattern2,substr($pass_to_test,$pass_position,1),$matches))
+      $uct_count++;
+    elseif(preg_match($pattern3,substr($pass_to_test,$pass_position,1),$matches))
+      $num_count++;
+    elseif(preg_match($pattern4,substr($pass_to_test,$pass_position,1),$matches))
+      $sym_count++;
+}
+if($lct_count<$pass_min_req[1] || $uct_count<$pass_min_req[2] || $num_count<$pass_min_req[3] || $sym_count<$pass_min_req[4])
+{
+    return -998;
+    exit;
+}
+
+$multipass=hash_generate(array("salt" => ""), $_POST["pwd"], $_POST["user"]);
+$i=$btit_settings["secsui_pass_type"];
+
 $pid=md5(uniqid(rand(),true));
-do_sqlquery("INSERT INTO {$TABLE_PREFIX}users (username, password, random, id_level, email, style, language, flag, joined, lastconnect, pid, time_offset) VALUES ('$utente', '" . md5($pwd) . "', $random, $idlevel, '$email', $idstyle, $idlangue, $idflag, NOW(), NOW(),'$pid', '".$timezone."')",true);
+do_sqlquery("INSERT INTO `{$TABLE_PREFIX}users` (`username`, `password`, `salt`, `pass_type`, `dupe_hash`, `random`, `id_level`, `email`, `style`, `language`, `flag`, `joined`, `lastconnect`, `pid`, `time_offset`) VALUES ('".$utente."', '".mysql_real_escape_string($multipass[$i]["rehash"])."', '".mysql_real_escape_string($multipass[$i]["salt"])."', '".$i."', '".mysql_real_escape_string($multipass[$i]["dupehash"])."', ".$random.", ".$idlevel.", '".$email."', ".$idstyle.", ".$idlangue.", ".$idflag.", NOW(), NOW(),'".$pid."', '".$timezone."')",true);
 
 $newuid=mysql_insert_id();
 

@@ -36,6 +36,7 @@ if (isset($_POST["in_xbtit"]) && $_POST["in_xbtit"]=='1')
 if (isset($_POST["in_admin"]) && $_POST["in_xbtit"]=='1')
       die("non direct access!");
 
+session_name("xbtit");
 session_start();
 
 require_once(dirname(dirname(__FILE__)).'/include/functions.php');

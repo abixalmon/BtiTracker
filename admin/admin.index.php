@@ -199,6 +199,10 @@ switch ($do)
       $tpl->set("main_content",set_block($block_title,"center",$admintpl->fetch(load_template("admin.users.tools.tpl"))));
       break;
 
+    case 'security_suite':
+      include("$ADMIN_PATH/admin.security_suite.php");
+      $tpl->set("main_content",set_block($language["ACP_SECSUI_SET"],"center",$admintpl->fetch(load_template("admin.security_suite.tpl"))));
+      break;
 
     case 'sanity':
       require_once("$THIS_BASEPATH/include/sanity.php");

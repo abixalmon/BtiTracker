@@ -118,6 +118,23 @@ switch ($action) {
 
     case 'edit':
         # init vars
+
+        $pass_min_req=explode(",", $btit_settings["secsui_pass_min_req"]);
+        $admintpl->set("pass_min_char",$pass_min_req[0]);
+        $admintpl->set("pass_min_lct",$pass_min_req[1]);
+        $admintpl->set("pass_min_uct",$pass_min_req[2]);
+        $admintpl->set("pass_min_num",$pass_min_req[3]);
+        $admintpl->set("pass_min_sym",$pass_min_req[4]);
+        $admintpl->set("pass_char_plural", (($pass_min_req[0]==1)?false:true),true);
+        $admintpl->set("pass_lct_plural", (($pass_min_req[1]==1)?false:true),true);
+        $admintpl->set("pass_uct_plural", (($pass_min_req[2]==1)?false:true),true);
+        $admintpl->set("pass_num_plural", (($pass_min_req[3]==1)?false:true),true);
+        $admintpl->set("pass_sym_plural", (($pass_min_req[4]==1)?false:true),true);
+        $admintpl->set("pass_lct_set", (($pass_min_req[1]>0)?true:false),true);
+        $admintpl->set("pass_uct_set", (($pass_min_req[2]>0)?true:false),true);
+        $admintpl->set("pass_num_set", (($pass_min_req[3]>0)?true:false),true);
+        $admintpl->set("pass_sym_set", (($pass_min_req[4]>0)?true:false),true);
+
         $profile['username']=unesc($curu['username']);
         $profile['email']=unesc($curu['email']);
         $profile['uploaded']=$curu['uploaded'];
@@ -234,6 +251,7 @@ switch ($action) {
             if ($avatar != $curu['avatar'])
                 $set[]='avatar='.sqlesc(htmlspecialchars($avatar));
             if ($username != $curu['username']) {
+                $new_username=$username;
                 $sql_name=sqlesc($curu['username']);
                 $username=sqlesc($username);
                 $dupe=get_result('SELECT id FROM '.$TABLE_PREFIX.'users WHERE username='.$username.' LIMIT 1;');
@@ -278,8 +296,45 @@ switch ($action) {
                     $set[]='downloaded='.$downloaded;
             }
             if ($chpass) {
-                $set[]='password='.sqlesc(md5($pass));
-                $passhash=smf_passgen($username, $pass);
+                $pass_min_req=explode(",", $btit_settings["secsui_pass_min_req"]);
+                
+                if(strlen($pass)<$pass_min_req[0])
+                    stderr($language["ERROR"],$language["ERR_PASS_LENGTH_1"]." <span style=\"color:blue;font-weight:bold;\">".$pass_min_req[0]."</span> ".$language["ERR_PASS_LENGTH_2"]);
+
+                $lct_count=0;
+                $uct_count=0;
+                $num_count=0;
+                $sym_count=0;
+                $pass_end=(int)(strlen($pass)-1);
+                $pass_position=0;
+                $pattern1='#[a-z]#';
+                $pattern2='#[A-Z]#';
+                $pattern3='#[0-9]#';
+                $pattern4='/[¬!"£$%^&*()`{}\[\]:@~;\'#<>?,.\/\\-=_+\|]/';
+
+                for($pass_position=0;$pass_position<=$pass_end;$pass_position++)
+                {
+                    if(preg_match($pattern1,substr($pass,$pass_position,1),$matches))
+                      $lct_count++;
+                    elseif(preg_match($pattern2,substr($pass,$pass_position,1),$matches))
+                      $uct_count++;
+                    elseif(preg_match($pattern3,substr($pass,$pass_position,1),$matches))
+                      $num_count++;
+                    elseif(preg_match($pattern4,substr($pass,$pass_position,1),$matches))
+                      $sym_count++;
+                }
+                $newpassword=pass_the_salt(30);
+                if($lct_count<$pass_min_req[1] || $uct_count<$pass_min_req[2] || $num_count<$pass_min_req[3] || $sym_count<$pass_min_req[4])
+                    stderr($language["ERROR"],$language["ERR_PASS_TOO_WEAK_1A"].":<br /><br />".(($pass_min_req[1]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[1]."</span> ".(($pass_min_req[1]==1)?$language["ERR_PASS_TOO_WEAK_2"]:$language["ERR_PASS_TOO_WEAK_2A"])."</li>":"").(($pass_min_req[2]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[2]."</span> ".(($pass_min_req[2]==1)?$language["ERR_PASS_TOO_WEAK_3"]:$language["ERR_PASS_TOO_WEAK_3A"])."</li>":"").(($pass_min_req[3]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[3]."</span> ".(($pass_min_req[3]==1)?$language["ERR_PASS_TOO_WEAK_4"]:$language["ERR_PASS_TOO_WEAK_4A"])."</li>":"").(($pass_min_req[4]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[4]."</span> ".(($pass_min_req[4]==1)?$language["ERR_PASS_TOO_WEAK_5"]:$language["ERR_PASS_TOO_WEAK_5A"])."</li>":"")."<br />".$language["ERR_PASS_TOO_WEAK_6"].":<br /><br /><span style='color:blue;font-weight:bold;'>".$newpassword."</span><br />");
+
+                $un=(($new_username!=$curu["username"])?$new_username:$curu["username"]);
+                $multipass=hash_generate(array("salt" => ""), $pass, $un);
+                $j=$btit_settings["secsui_pass_type"];
+                $set[]="`password`=".sqlesc($multipass[$j]["rehash"]);
+                $set[]="`salt`=".sqlesc($multipass[$j]["salt"]);
+                $set[]="`pass_type`=".sqlesc($j);
+                $set[]="`dupe_hash`=".sqlesc($multipass[$j]["dupehash"]);
+                $passhash=smf_passgen($un, $pass);
                 $smfset[]='passwd='.sqlesc($passhash[0]);
                 $smfset[]='passwordSalt='.sqlesc($passhash[1]);
             }

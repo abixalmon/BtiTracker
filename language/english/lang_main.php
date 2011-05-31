@@ -126,7 +126,19 @@ $language['ERR_NO_TOPIC_POST_ID']='No topic associated with post ID';
 $language['ERR_NOT_AUTH']='You&rsquo;re not authorized!';
 $language['ERR_NOT_FOUND']='Not Found...';
 $language['ERR_NOT_PERMITED']='Not Permited';
-$language['ERR_PASS_LENGTH']='<font color="black">Your password must be a minimum of 4 characters.</font>';
+$language['ERR_PASS_LENGTH_1']='Your password must be a minimum of';
+$language['ERR_PASS_LENGTH_2']='characters in length.';
+$language["ERR_PASS_TOO_WEAK_1"]="Your password is too weak.<br />For security reasons it must contain at least";
+$language["ERR_PASS_TOO_WEAK_1A"]="The password is too weak.<br />For security reasons it must contain at least";
+$language["ERR_PASS_TOO_WEAK_2"]="lower case letter";
+$language["ERR_PASS_TOO_WEAK_2A"]="lower case letters";
+$language["ERR_PASS_TOO_WEAK_3"]="upper case letter";
+$language["ERR_PASS_TOO_WEAK_3A"]="upper case letters";
+$language["ERR_PASS_TOO_WEAK_4"]="number";
+$language["ERR_PASS_TOO_WEAK_4A"]="numbers";
+$language["ERR_PASS_TOO_WEAK_5"]="symbol";
+$language["ERR_PASS_TOO_WEAK_5A"]="symbols";
+$language["ERR_PASS_TOO_WEAK_6"]="Here is a strong password you may want to use";
 $language['ERR_PASSWORD_INCORRECT']='Password Incorrect';
 $language['ERR_PERM_DENIED']='Permission denied';
 $language['ERR_PID_NOT_FOUND']='Please redownload the torrent. PID system is active and pid was not found in the torrent';
@@ -441,5 +453,35 @@ $language['ADMIN_ACCESS']='Admin Access';
 $language['STAFF_ACCESS']='Staff';
 $language['UPLOAD_LINK']='Torrent Upload';
 # End
+
+$language["USERNAME"]="Username";
+$language["SUBMIT"]="Submit";
+
+$language["QUAR_PM_SUBJ"]="Suspected Hacking Attempt";
+$language["QUAR_PM_MSG_1"]="tried to upload a file containing php code. This file was quarantined";
+$language["QUAR_PM_MSG_2"]="It is however possible this is a false negative so please check this file with a hex editor or something before banning this user."."\n\n"."This attempt was made via";
+$language["QUAR_OUTPUT"]="Your attempt to upload a file containing php code has been thwarted and you have been reported to the site Owner!";
+$language["QUAR_ERR"]="Quarantine Error";
+$language["QUAR_DIR_PROBLEM_1"]="Quarantine Directory";
+$language["QUAR_DIR_PROBLEM_2"]="does not exist, please set a valid Quarantine Directory in [b]Admin Panel-->Security Suite Settings[/b]";
+$language["QUAR_DIR_PROBLEM_3"]="is not writable, please CHMOD to 0777";
+$language["QUAR_UNABLE"]="Unable to quarantine file due to unforseen error, please check your other PM's for details of how to resolve this issue";
+$language["QUAR_NOT_SET"]="Directory not set";
+$language["QUAR_TMP_FILE_MISS"]="Can't find the temp file!";
+
+$language["SECSUI_ACC_PWD_1"]="Your password needs:";
+$language["SECSUI_ACC_PWD_1A"]="The password needs:";
+$language["SECSUI_ACC_PWD_2"]="To be at least";
+$language["SECSUI_ACC_PWD_3"]="character in length";
+$language["SECSUI_ACC_PWD_3A"]="characters in length";
+$language["SECSUI_ACC_PWD_4"]="To have at least";
+$language["SECSUI_ACC_PWD_5"]="lower case letter";
+$language["SECSUI_ACC_PWD_5A"]="lower case letters";
+$language["SECSUI_ACC_PWD_6"]="upper case letter";
+$language["SECSUI_ACC_PWD_6A"]="upper case letters";
+$language["SECSUI_ACC_PWD_7"]="symbol";
+$language["SECSUI_ACC_PWD_7A"]="symbols";
+$language["SECSUI_ACC_PWD_8"]="number";
+$language["SECSUI_ACC_PWD_8A"]="numbers";
 
 ?>

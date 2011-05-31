@@ -270,84 +270,340 @@ function mksecret($len = 20) {
   return $ret;
 }
 
-function logincookie($id, $passhash, $expires = 0x7fffffff) {
-  setcookie('uid', $id, $expires, '/');
-  setcookie('pass', $passhash, $expires, '/');
+function logincookie($row, $user, $expires = 0x7fffffff)
+{
+    global $btit_settings;
+
+    $my_cookie_name=((isset($btit_settings["secsui_cookie_name"]) && !empty($btit_settings["secsui_cookie_name"]))?$btit_settings["secsui_cookie_name"]:"xbtitLoginCookie");
+    $my_cookie_path=((isset($btit_settings["secsui_cookie_path"]) && !empty($btit_settings["secsui_cookie_path"]))?$btit_settings["secsui_cookie_path"]:"/");
+    $my_cookie_domain=((isset($btit_settings["secsui_cookie_domain"]) && !empty($btit_settings["secsui_cookie_domain"]))?$btit_settings["secsui_cookie_domain"]:false);
+    
+    if($btit_settings["secsui_cookie_type"]==1)
+    {
+        setcookie('uid', $row["id"], $expires, '/');
+        setcookie('pass', md5($row["random"].$row["password"].$row["random"]), $expires, '/');
+    }
+    elseif($btit_settings["secsui_cookie_type"]==2  || $btit_settings["secsui_cookie_type"]==3)
+    {
+        $cookie_items=explode(",", $btit_settings["secsui_cookie_items"]);
+        $cookie_string="";
+
+        foreach($cookie_items as $ci_value)
+        {
+            $ci_exp=explode("-",$ci_value);
+            if($ci_exp[0]==8)
+            {
+                $ci_exp2=explode("[+]", $ci_exp[1]);
+                if($ci_exp2[0]==1)
+                {
+                    $ip_parts=explode(".", getip());
+
+                    if($ci_exp2[1]==1)
+                        $cookie_string.=$ip_parts[0]."-";
+                    if($ci_exp2[1]==2)
+                        $cookie_string.=$ip_parts[1]."-";
+                    if($ci_exp2[1]==3)
+                        $cookie_string.=$ip_parts[2]."-";
+                    if($ci_exp2[1]==4)
+                        $cookie_string.=$ip_parts[3]."-";
+                    if($ci_exp2[1]==5)
+                        $cookie_string.=$ip_parts[0].".".$ip_parts[1]."-";
+                    if($ci_exp2[1]==6)
+                        $cookie_string.=$ip_parts[1].".".$ip_parts[2]."-";
+                    if($ci_exp2[1]==7)
+                        $cookie_string.=$ip_parts[2].".".$ip_parts[3]."-";
+                    if($ci_exp2[1]==8)
+                        $cookie_string.=$ip_parts[0].".".$ip_parts[2]."-";
+                    if($ci_exp2[1]==9)
+                        $cookie_string.=$ip_parts[0].".".$ip_parts[3]."-";
+                    if($ci_exp2[1]==10)
+                        $cookie_string.=$ip_parts[1].".".$ip_parts[3]."-";
+                    if($ci_exp2[1]==11)
+                        $cookie_string.=$ip_parts[0].".".$ip_parts[1].".".$ip_parts[2]."-";
+                    if($ci_exp2[1]==12)
+                        $cookie_string.=$ip_parts[1].".".$ip_parts[2].".".$ip_parts[3]."-";
+                    if($ci_exp2[1]==13)
+                        $cookie_string.=$ip_parts[0].".".$ip_parts[1].".".$ip_parts[2].".".$ip_parts[3]."-";
+
+                    unset($ci_exp2);
+                }
+            }
+            else
+            {
+                if($ci_exp[0]==1 && $ci_exp[1]==1)
+                {
+                    $cookie_string.=$row["id"]."-";
+                }
+                if($ci_exp[0]==2 && $ci_exp[1]==1)
+                {
+                    $cookie_string.=$row["password"]."-";
+                }
+                if($ci_exp[0]==3 && $ci_exp[1]==1)
+                {
+                    $cookie_string.=$row["random"]."-";
+                }
+                if($ci_exp[0]==4 && $ci_exp[1]==1)
+                {
+                    $cookie_string.=strtolower($user)."-";
+                }
+                if($ci_exp[0]==5 && $ci_exp[1]==1)
+                {
+                    $cookie_string.=$row["salt"]."-";
+                }
+                if($ci_exp[0]==6 && $ci_exp[1]==1)
+                {
+                    $cookie_string.=$_SERVER["HTTP_USER_AGENT"]."-";
+                }
+                if($ci_exp[0]==7 && $ci_exp[1]==1)
+                {
+                    $cookie_string.=$_SERVER["HTTP_ACCEPT_LANGUAGE"]."-";
+                }
+            }
+            unset($ci_exp);
+        }
+        $final_cookie=serialize(array("id" => $row["id"], "hash" => sha1(trim($cookie_string, "-"))));
+
+        if($btit_settings["secsui_cookie_type"]==2)
+        {
+            $my_mult=60;
+            if($btit_settings["secsui_cookie_exp2"]==2)
+                $my_mult=3600;
+            elseif($btit_settings["secsui_cookie_exp2"]==3)
+                $my_mult=86400;
+            elseif($btit_settings["secsui_cookie_exp2"]==4)
+                $my_mult=604800;
+            elseif($btit_settings["secsui_cookie_exp2"]==5)
+                $my_mult=2592000;
+            elseif($btit_settings["secsui_cookie_exp2"]==6)
+                $my_mult=31536000;
+
+            $my_cookie_expire=(($btit_settings["secsui_cookie_exp1"]*$my_mult)+time());
+        
+            if($my_cookie_expire>2147483647)
+                $my_cookie_expire=$expires;
+
+            setcookie("$my_cookie_name", "$final_cookie", $my_cookie_expire, "$my_cookie_path", "$my_cookie_domain");
+        }
+        else
+        {
+            session_name("xbtit");
+            session_start();
+            $_SESSION["login_cookie"]=$final_cookie;
+        }
+    }
+    else
+        return;
 }
 
-function logoutcookie() {
-  setcookie('uid', '', 0x7fffffff, '/');
-  setcookie('pass', '', 0x7fffffff, '/');
+function logoutcookie()
+{
+    global $btit_settings;
+
+    $my_cookie_name=((isset($btit_settings["secsui_cookie_name"]) && !empty($btit_settings["secsui_cookie_name"]))?$btit_settings["secsui_cookie_name"]:"xbtitLoginCookie");
+    $my_cookie_path=((isset($btit_settings["secsui_cookie_path"]) && !empty($btit_settings["secsui_cookie_path"]))?$btit_settings["secsui_cookie_path"]:"/");
+    $my_cookie_domain=((isset($btit_settings["secsui_cookie_domain"]) && !empty($btit_settings["secsui_cookie_domain"]))?$btit_settings["secsui_cookie_domain"]:false);
+
+    setcookie("uid", "", (time()-3600), "/");
+    setcookie("pass", "", (time()-3600), "/");
+    setcookie("$my_cookie_name", "", (time()-3600), "$my_cookie_path", "$my_cookie_domain");
+    setcookie("$my_cookie_name", "", (time()-3600), "/");
+    session_name("xbtit");
+    session_start();
+    if(isset($_SESSION["login_cookie"]))
+        unset($_SESSION["login_cookie"]);
 }
 
 function hash_pad($hash) {
   return str_pad($hash, 20);
 }
 
-function userlogin() {
-  global $CURUSER, $TABLE_PREFIX, $err_msg_install, $btit_settings;
-  unset($GLOBALS['CURUSER']);
+function userlogin()
+{
+    global $CURUSER, $TABLE_PREFIX, $err_msg_install, $btit_settings, $update_interval, $THIS_BASEPATH;
 
-  $ip = getip(); //$_SERVER["REMOTE_ADDR"];
-  $nip = ip2long($ip);
-  $res = get_result("SELECT * FROM {$TABLE_PREFIX}bannedip WHERE INET_ATON('".$ip."') >= first AND INET_ATON('".$ip."') <= last LIMIT 1;",true,$btit_settings['cache_duration']);
-  if (count($res) > 0) {
-    header('HTTP/1.0 403 Forbidden');
-?>
-<html><body><h1>403 Forbidden</h1>Unauthorized IP address.</body></html>
-<?php
-    die();
-  }
+    unset($GLOBALS['CURUSER']);
 
+    session_name("xbtit");
+    session_start();
 
-  if ($btit_settings['xbtt_use'])
-  {
-    $udownloaded="u.downloaded+IFNULL(x.downloaded,0)";
-    $uuploaded="u.uploaded+IFNULL(x.uploaded,0)";
-    $utables="{$TABLE_PREFIX}users u LEFT JOIN xbt_users x ON x.uid=u.id";
-  }
-  else
-  {
-    $udownloaded="u.downloaded";
-    $uuploaded="u.uploaded";
-    $utables="{$TABLE_PREFIX}users u";
-  }
-  // guest
-  $id = (!isset($_COOKIE['uid']))?1:max(1, (int)$_COOKIE['uid']);
-
-  $res = get_result("SELECT u.lip, u.cip, $udownloaded as downloaded, $uuploaded as uploaded, u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = $id LIMIT 1;",true,$btit_settings['cache_duration']);
-  $row = $res[0];
-  if (!$row) {
-    $id=1;
-    $res = get_result("SELECT u.lip, u.cip, $udownloaded as downloaded, $uuploaded as uploaded, u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1 LIMIT 1;",true,$btit_settings['cache_duration']);
-    $row = $res[0];
-  }
-  if (!isset($_COOKIE['pass'])) $_COOKIE['pass'] = '';
-  if (($_COOKIE['pass']!=md5($row['random'].$row['password'].$row['random'])) && $id!=1) {
-    $id=1;
-    $res = get_result("SELECT u.lip, u.cip, $udownloaded as downloaded, $uuploaded as uploaded, u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1 LIMIT 1;",true,$btit_settings['cache_duration']);
-    $row = $res[0];
-  }
-
-  /* this part is now updated by check_online function
-  if ($id>1)
-    quickQuery("UPDATE {$TABLE_PREFIX}users SET lip=".$nip.", cip='".AddSlashes($ip)."' WHERE id = $id") or sqlerr(__FILE__, __LINE__);
-  */
-
-  // CHECK FOR INSTALLATION FOLDER WITHOUT INSTALL.ME
-  if ($row['id_level']==8 && (file_exists('install.php') || file_exists('upgrade.php'))) // only owner level
-    $err_msg_install='<div align="center" style="color:red; font-size:12pt; font-weight: bold;">SECURITY WARNING: Delete install.php & upgrade.php!</div>';
-  else
-    $err_msg_install='';
-
-  $GLOBALS['CURUSER'] = $row;
-  foreach ($row as $key => $value)
+    $ip = getip(); //$_SERVER["REMOTE_ADDR"];
+    $nip = ip2long($ip);
+    $res = get_result("SELECT * FROM {$TABLE_PREFIX}bannedip WHERE INET_ATON('".$ip."') >= first AND INET_ATON('".$ip."') <= last LIMIT 1;",true,$btit_settings['cache_duration']);
+    if (count($res) > 0)
     {
-      if ($key!='password')
-         $_SESSION['user'][$key]= $value;
+        header('HTTP/1.0 403 Forbidden');
+        ?>
+        <html><body><h1>403 Forbidden</h1>Unauthorized IP address.</body></html>
+        <?php
+        die();
+    }
 
-  }
-  unset($row);
+    if(isset($_SESSION["CURUSER"]) && isset($_SESSION["CURUSER_EXPIRE"]))
+    {
+        if($_SESSION["CURUSER_EXPIRE"]>time())
+        {
+            $GLOBALS["CURUSER"]=$_SESSION["CURUSER"];
+            return;
+        }
+        else
+        {
+            unset($_SESSION["CURUSER"]);
+            unset($_SESSION["CURUSER_EXPIRE"]);
+        }
+    }
+
+    if ($btit_settings['xbtt_use'])
+    {
+        $udownloaded="u.downloaded+IFNULL(x.downloaded,0)";
+        $uuploaded="u.uploaded+IFNULL(x.uploaded,0)";
+        $utables="{$TABLE_PREFIX}users u LEFT JOIN xbt_users x ON x.uid=u.id";
+    }
+    else
+    {
+        $udownloaded="u.downloaded";
+        $uuploaded="u.uploaded";
+        $utables="{$TABLE_PREFIX}users u";
+    }
+
+    // guest   
+    if($btit_settings["secsui_cookie_type"]==1)
+        $id = (isset($_COOKIE["uid"]) && is_numeric($_COOKIE["uid"]) && $_COOKIE["uid"]>1) ? $id=(int)0+$_COOKIE["uid"] : $id=1;
+    elseif($btit_settings["secsui_cookie_type"]==2)
+    {
+        $user_cookie_name=((isset($btit_settings["secsui_cookie_name"]) && !empty($btit_settings["secsui_cookie_name"]))?$btit_settings["secsui_cookie_name"]:"xbtitLoginCookie");
+        if(isset($_COOKIE[$user_cookie_name]))
+        {
+            $user_cookie=unserialize($_COOKIE[$user_cookie_name]);
+            $id=((is_numeric($user_cookie["id"]) && $user_cookie["id"]>1)?(int)0+$user_cookie["id"]:$id=1);
+        }
+        else
+            $id=1;
+    }
+    elseif($btit_settings["secsui_cookie_type"]==3)
+    {
+        if(isset($_SESSION["login_cookie"]))
+        {
+            $user_cookie=unserialize($_SESSION["login_cookie"]);
+            $id=((is_numeric($user_cookie["id"]) && $user_cookie["id"]>1)?(int)0+$user_cookie["id"]:$id=1);
+        }
+        else
+            $id=1;
+    }
+    else
+        $id=1;
+
+    if($id>1)
+    {
+        $res = do_sqlquery("SELECT u.salt, u.lip, u.cip, $udownloaded as downloaded, $uuploaded as uploaded, u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = $id LIMIT 1;",true);
+        $row = mysql_fetch_assoc($res);
+
+        if($btit_settings["secsui_cookie_type"]==1)
+        {
+            if(md5($row["random"].$row["password"].$row["random"])!=$_COOKIE["pass"])
+                $id=1;
+        }
+        elseif($btit_settings["secsui_cookie_type"]==2  || $btit_settings["secsui_cookie_type"]==3)
+        {
+            $cookie_items=explode(",", $btit_settings["secsui_cookie_items"]);
+            $cookie_string="";
+
+            foreach($cookie_items as $ci_value)
+            {
+                $ci_exp=explode("-",$ci_value);
+                if($ci_exp[0]==8)
+                {
+                    $ci_exp2=explode("[+]", $ci_exp[1]);
+                    if($ci_exp2[0]==1)
+                    {
+                        $ip_parts=explode(".", getip());
+
+                        if($ci_exp2[1]==1)
+                            $cookie_string.=$ip_parts[0]."-";
+                        if($ci_exp2[1]==2)
+                            $cookie_string.=$ip_parts[1]."-";
+                        if($ci_exp2[1]==3)
+                            $cookie_string.=$ip_parts[2]."-";
+                        if($ci_exp2[1]==4)
+                            $cookie_string.=$ip_parts[3]."-";
+                        if($ci_exp2[1]==5)
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[1]."-";
+                        if($ci_exp2[1]==6)
+                            $cookie_string.=$ip_parts[1].".".$ip_parts[2]."-";
+                        if($ci_exp2[1]==7)
+                            $cookie_string.=$ip_parts[2].".".$ip_parts[3]."-";
+                        if($ci_exp2[1]==8)
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[2]."-";
+                        if($ci_exp2[1]==9)
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[3]."-";
+                        if($ci_exp2[1]==10)
+                            $cookie_string.=$ip_parts[1].".".$ip_parts[3]."-";
+                        if($ci_exp2[1]==11)
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[1].".".$ip_parts[2]."-";
+                        if($ci_exp2[1]==12)
+                            $cookie_string.=$ip_parts[1].".".$ip_parts[2].".".$ip_parts[3]."-";
+                        if($ci_exp2[1]==13)
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[1].".".$ip_parts[2].".".$ip_parts[3]."-";
+
+                        unset($ci_exp2);
+                    }
+                }
+                else
+                {
+                    if($ci_exp[0]==1 && $ci_exp[1]==1)
+                    {
+                        $cookie_string.=$row["uid"]."-";
+                    }
+                    if($ci_exp[0]==2 && $ci_exp[1]==1)
+                    {
+                        $cookie_string.=$row["password"]."-";
+                    }
+                    if($ci_exp[0]==3 && $ci_exp[1]==1)
+                    {
+                        $cookie_string.=$row["random"]."-";
+                    }
+                    if($ci_exp[0]==4 && $ci_exp[1]==1)
+                    {
+                        $cookie_string.=strtolower($row["username"])."-";
+                    }
+                    if($ci_exp[0]==5 && $ci_exp[1]==1)
+                    {
+                        $cookie_string.=$row["salt"]."-";
+                    }
+                    if($ci_exp[0]==6 && $ci_exp[1]==1)
+                    {
+                        $cookie_string.=$_SERVER["HTTP_USER_AGENT"]."-";
+                    }
+                    if($ci_exp[0]==7 && $ci_exp[1]==1)
+                    {
+                        $cookie_string.=$_SERVER["HTTP_ACCEPT_LANGUAGE"]."-";
+                    }
+                }
+                unset($ci_exp);
+            }
+            $final_cookie["hash"]=sha1(trim($cookie_string, "-"));
+
+            if($final_cookie["hash"]!=$user_cookie["hash"])
+                $id=1;
+        }
+    }
+    if($id==1)
+    {
+        $res = do_sqlquery("SELECT u.lip, u.cip, $udownloaded as downloaded, $uuploaded as uploaded, u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1 LIMIT 1;",true);
+        $row = mysql_fetch_assoc($res);
+    }
+
+    // CHECK FOR INSTALLATION FOLDER WITHOUT INSTALL.ME
+    if ($row['id_level']==8 && (file_exists('install.php') || file_exists('upgrade.php'))) // only owner level
+        $err_msg_install='<div align="center" style="color:red; font-size:12pt; font-weight: bold;">SECURITY WARNING: Delete install.php & upgrade.php!</div>';
+    else
+        $err_msg_install='';
+
+    $_SESSION["CURUSER"]= $row;
+    $_SESSION["CURUSER_EXPIRE"] = (time()+$btit_settings["cache_duration"]);
+    $GLOBALS['CURUSER'] = $row;
+
+    mysql_free_result($res);
+    unset($row);
 }
 
 function dbconn($do_clean=false) {
@@ -1030,6 +1286,134 @@ if ( !function_exists('htmlspecialchars_decode') ) {
   function htmlspecialchars_decode($text) {
     return strtr($text, array_flip(get_html_translation_table(HTML_SPECIALCHARS)));
   }
+}
+
+function check_upload($tmp_name="", $name="")
+{
+    global $btit_settings, $language, $CURUSER;
+
+    /*
+    Return values
+    1 = $tmp_name empty
+    2 = $name empty
+    3 = $tmp_name doesn't exist
+    4 = At least one of the banned triggers were matched
+    5 = All good
+    */
+
+    if($tmp_name=="")
+        return 1;
+    if($name=="")
+        return 2;
+
+    if(file_exists($tmp_name))
+    {
+        $handle = fopen($tmp_name, "r");
+        $haystack = " " . fread($handle, filesize($tmp_name));
+        fclose($handle);
+
+        $needles=((isset($btit_settings["secsui_quarantine_search_terms"]) && !empty($btit_settings["secsui_quarantine_search_terms"]))?explode(",", $btit_settings["secsui_quarantine_search_terms"]):array());
+
+        $found="no";
+
+        if(is_array($needles) && !empty($needles))
+        {
+            foreach ($needles as $needle)
+            {
+                if ($found=="no" && strpos($haystack, $needle))
+                {
+                    $found="yes";
+                }
+            }
+        }
+        if($found=="yes")
+        {
+            $quarantined_name="";
+            if(is_dir($btit_settings["secsui_quarantine_dir"]))
+            {
+                if(is_writable($btit_settings["secsui_quarantine_dir"]))
+                {
+                    $quarantined_name=$btit_settings["secsui_quarantine_dir"]."/hack_attempt_".$CURUSER["uid"]."-".time()."-".$name;
+                    move_uploaded_file($tmp_name, $quarantined_name);
+                }
+                else
+                {
+                    send_pm(0,$btit_settings["secsui_quarantine_pm"], sqlesc($language["QUAR_ERR"]),sqlesc($language["QUAR_DIR_PROBLEM_1"]." ".((!empty($btit_settings["secsui_quarantine_dir"]))?"([b]".$btit_settings["secsui_quarantine_dir"]."[/b]) ":"").$language["QUAR_DIR_PROBLEM_3"]));
+                    @unlink($tmp_name);
+                }
+            }
+            else
+            {
+                send_pm(0,$btit_settings["secsui_quarantine_pm"], sqlesc($language["QUAR_ERR"]),sqlesc($language["QUAR_DIR_PROBLEM_1"]." ".((!empty($btit_settings["secsui_quarantine_dir"]))?"([b]".$btit_settings["secsui_quarantine_dir"]."[/b]) ":"").$language["QUAR_DIR_PROBLEM_2"]));
+                @unlink($tmp_name);
+            }
+            send_pm(0,$btit_settings["secsui_quarantine_pm"], sqlesc($language["QUAR_PM_SUBJ"]), sqlesc("[url=".$BASEURL."/index.php?page=userdetails&id=".$CURUSER["uid"]."]".$CURUSER["username"]."[/url] ".$language["QUAR_PM_MSG_1"].":"."\n\n[b]".((isset($quarantined_name) && !empty($quarantined_name))?$quarantined_name:"[color=red]".$language["QUAR_UNABLE"]."[/color]")."[/b]\n\n".$language["QUAR_PM_MSG_2"]." [b]".getip()."[/b]\n\n".":yikes:"));
+            return 4;
+        }
+        else
+            return 5;
+    }
+    else
+        return 3;
+}
+
+function hash_generate($row, $pwd, $user)
+{
+    global $btit_settings;
+
+    $salt=pass_the_salt(20);
+    $passtype=array();
+    // Type 1 - Used in btit / xbtit / Torrent Trader / phpMyBitTorrent
+    $passtype[1]["hash"]=md5($pwd);
+    $passtype[1]["rehash"]=md5($pwd);
+    $passtype[1]["salt"]="";
+    $passtype[1]["dupehash"]=substr(sha1(md5($pwd)),30,10).substr(sha1(md5($pwd)),0,10);
+    // Type 2 - Used in TBDev / U-232 / SZ Edition / Invision Power Board
+    $passtype[2]["hash"]=md5(md5($row["salt"]).md5($pwd));
+    $passtype[2]["rehash"]=md5(md5($salt).md5($pwd));
+    $passtype[2]["salt"]=$salt;
+    $passtype[2]["dupehash"]=substr(sha1(md5($pwd)),30,10).substr(sha1(md5($pwd)),0,10);
+    // Type 3 - Used in Free Torrent Source /  Yuna Scatari / TorrentStrike / TSSE
+    $passtype[3]["hash"]=md5($row["salt"].$pwd.$row["salt"]);
+    $passtype[3]["rehash"]=md5($salt.$pwd.$salt);
+    $passtype[3]["salt"]=$salt;
+    $passtype[3]["dupehash"]=substr(sha1(md5($pwd)),30,10).substr(sha1(md5($pwd)),0,10);
+    // Type 4 - Used in Gazelle
+    $passtype[4]["hash"]=sha1(md5($row["salt"]).$pwd.sha1($row["salt"]).$btit_settings["secsui_ss"]);
+    $passtype[4]["rehash"]=sha1(md5($salt).$pwd.sha1($salt).$btit_settings["secsui_ss"]);
+    $passtype[4]["salt"]=$salt;
+    $passtype[4]["dupehash"]=substr(sha1(md5($pwd)),30,10).substr(sha1(md5($pwd)),0,10);
+    // Type 5 - Used in Simple Machines Forum
+    $passtype[5]["hash"]=sha1(strtolower($user).$pwd);
+    $passtype[5]["rehash"]=sha1(strtolower($user).$pwd);
+    $passtype[5]["salt"]="";
+    $passtype[5]["dupehash"]=substr(sha1(md5($pwd)),30,10).substr(sha1(md5($pwd)),0,10);
+    // Type 6 - New xbtit hashing style
+    $passtype[6]["hash"]=sha1(substr(md5($pwd),0,16)."-".md5($row["salt"])."-".substr(md5($pwd),16,16));
+    $passtype[6]["rehash"]=sha1(substr(md5($pwd),0,16)."-".md5($salt)."-".substr(md5($pwd),16,16));
+    $passtype[6]["salt"]=$salt;
+    $passtype[6]["dupehash"]=substr(sha1(md5($pwd)),30,10).substr(sha1(md5($pwd)),0,10);
+
+    return $passtype;
+}
+
+function pass_the_salt($len=5)
+{
+    $salt = '';
+    srand( (double)microtime() * 1000000 );
+
+    for ( $i = 0; $i < $len; $i++ )
+    {
+        $num   = rand(33, 126);
+
+        if ( $num == '92' )
+        {
+            $num = 93;
+        }
+
+        $salt .= chr( $num );
+    }
+    return $salt;
 }
 
 // EOF

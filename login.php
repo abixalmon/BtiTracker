@@ -33,12 +33,11 @@
 if (!defined("IN_BTIT"))
       die("non direct access!");
 
-
 require_once(load_language("lang_login.php"));
 
-function login() {
- 
-   global $language, $logintpl;
+function login()
+{
+   global $language, $logintpl, $btit_settings;
 
     $logintpl->set("language",$language);
     $language["INSERT_USERNAME"]=AddSlashes($language["INSERT_USERNAME"]);
@@ -52,82 +51,97 @@ function login() {
     $logintpl->set("login",$login);
 }
 
-
 $logintpl=new bTemplate();
 
-
-if (!$CURUSER || $CURUSER["uid"]==1) {
-
-
-if (isset($_POST["uid"]) && $_POST["uid"])
-  $user=$_POST["uid"];
-else $user='';
-if (isset($_POST["pwd"]) && $_POST["pwd"])
-  $pwd=$_POST["pwd"];
-else $pwd='';
-
-if (isset($_POST["uid"]) && isset($_POST["pwd"]))
-  {
-    if ($FORUMLINK=="smf")
-        $smf_pass = sha1(strtolower($user) . $pwd);
-        $res = do_sqlquery("SELECT u.id, u.random, u.password".(($FORUMLINK=="smf") ? ", u.smf_fid, s.passwd, s.passwordSalt" : "")." FROM {$TABLE_PREFIX}users u ".(($FORUMLINK=="smf") ? "LEFT JOIN {$db_prefix}members s ON u.smf_fid=s.ID_MEMBER" : "" )." WHERE u.username ='".AddSlashes($user)."'",true);
-        $row = mysql_fetch_array($res);
-
-    if (!$row)
-        {
-          $logintpl->set("FALSE_USER",true,true);
-          $logintpl->set("FALSE_PASSWORD",false,true);
-          $logintpl->set("login_username_incorrect",$language["ERR_USERNAME_INCORRECT"]);
-          login();
-        }
-    elseif (md5($row["random"].$row["password"].$row["random"]) != md5($row["random"].md5($pwd).$row["random"]))
-        {
-          $logintpl->set("FALSE_USER",false,true);
-          $logintpl->set("FALSE_PASSWORD",true,true);
-          $logintpl->set("login_password_incorrect",$language["ERR_PASSWORD_INCORRECT"]);
-          login();
-        }
+if (!$CURUSER || $CURUSER["uid"]==1)
+{
+    if (isset($_POST["uid"]) && $_POST["uid"])
+        $user=$_POST["uid"];
     else
-      {
-       
-        logincookie($row["id"],md5($row["random"].$row["password"].$row["random"]));
-        if ($FORUMLINK=="smf" && $smf_pass==$row["passwd"])
-            set_smf_cookie($row["smf_fid"], $row["passwd"], $row["passwordSalt"]);
-        elseif ($FORUMLINK=="smf" && $row["password"]==$row["passwd"])
+        $user="";
+    if (isset($_POST["pwd"]) && $_POST["pwd"])
+        $pwd=$_POST["pwd"];
+    else
+        $pwd="";
+
+    if (isset($_POST["uid"]) && isset($_POST["pwd"]))
+    {
+        if ($FORUMLINK=="smf")
+            $smf_pass = sha1(strtolower($user) . $pwd);
+
+        $res = do_sqlquery("SELECT `u`.`salt`, `u`.`pass_type`, `u`.`username`, `u`.`id`, `u`.`random`, `u`.`password`".(($FORUMLINK=="smf") ? ", `u`.`smf_fid`, `s`.`passwd`, `s`.`passwordSalt`":"")." FROM `{$TABLE_PREFIX}users` `u` ".(($FORUMLINK=="smf") ? "LEFT JOIN `{$db_prefix}members` `s` ON `u`.`smf_fid`=`s`.`ID_MEMBER`":"")." WHERE `u`.`username` ='".AddSlashes($user)."'",true);
+        $row = mysql_fetch_assoc($res);
+
+        if (!$row)
         {
-            $salt=substr(md5(rand()), 0, 4);
-            @mysql_query("UPDATE {$db_prefix}members SET passwd='$smf_pass', passwordSalt='$salt' WHERE ID_MEMBER=".$row["smf_fid"]);
-            set_smf_cookie($row["smf_fid"], $smf_pass, $salt);
+            $logintpl->set("FALSE_USER",true,true);
+            $logintpl->set("FALSE_PASSWORD",false,true);
+            $logintpl->set("login_username_incorrect",$language["ERR_USERNAME_INCORRECT"]);
+            login();
         }
-        if (isset($_GET["returnto"]))
-           $url=urldecode($_GET["returnto"]);
         else
-            $url="index.php";
-        redirect($url);
-        die();
-      }
-  }
-
+        {
+            $passtype=hash_generate($row, $pwd, $user);
+            if($row["password"]==$passtype[$row["pass_type"]]["hash"])
+            {
+                // We have a correct password entry
+                
+                // If stored password type is not the same as the current set type
+                if($row["pass_type"]!=$btit_settings["secsui_pass_type"])
+                {
+                    // We need to update the password
+                    do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `password`='".mysql_real_escape_string($passtype[$btit_settings["secsui_pass_type"]]["rehash"])."', `salt`='".mysql_real_escape_string($passtype[$btit_settings["secsui_pass_type"]]["salt"])."', `pass_type`='".mysql_real_escape_string($btit_settings["secsui_pass_type"])."', `dupe_hash`='".mysql_real_escape_string($passtype[$btit_settings["secsui_pass_type"]]["dupehash"])."' WHERE `id`=".$row["id"],true);
+                    // And update the values we got from the database earlier
+                    $row["pass_type"]=$btit_settings["secsui_pass_type"];
+                    $row["password"]=$passtype[$btit_settings["secsui_pass_type"]]["rehash"];
+                    $row["salt"]=$passtype[$btit_settings["secsui_pass_type"]]["salt"];
+                }
+                // If we've reached this point we can set the cookies
+                
+                // call the logoutcookie function for good measure, just in case we have some old cookies that need destroying.
+                logoutcookie();
+                // Then login
+                logincookie($row, $user);
+                if ($FORUMLINK=="smf" && $smf_pass==$row["passwd"])
+                    set_smf_cookie($row["smf_fid"], $row["passwd"], $row["passwordSalt"]);
+                elseif ($FORUMLINK=="smf" && $row["password"]==$row["passwd"])
+                {
+                    $salt=substr(md5(rand()), 0, 4);
+                    @mysql_query("UPDATE {$db_prefix}members SET passwd='$smf_pass', passwordSalt='$salt' WHERE ID_MEMBER=".$row["smf_fid"]);
+                    set_smf_cookie($row["smf_fid"], $smf_pass, $salt);
+                }
+                if (isset($_GET["returnto"]))
+                    $url=urldecode($_GET["returnto"]);
+                else
+                    $url="index.php";
+                redirect($url);
+                die();
+            }
+            else
+            {
+                // We have a bad password entry
+                $logintpl->set("FALSE_USER",false,true);
+                $logintpl->set("FALSE_PASSWORD",true,true);
+                $logintpl->set("login_password_incorrect",$language["ERR_PASSWORD_INCORRECT"]);
+                login();
+            }
+        }
+    }
+    else
+    {
+        $logintpl->set("FALSE_USER",false,true);
+        $logintpl->set("FALSE_PASSWORD",false,true);
+        login();
+    }
+}
 else
-  {
-    $logintpl->set("FALSE_USER",false,true);
-    $logintpl->set("FALSE_PASSWORD",false,true);
-    login();
-  }
-
-
-
-
-
-
+{
+    if (isset($_GET["returnto"]))
+        $url=urldecode($_GET["returnto"]);
+    else
+        $url="index.php";
+    redirect($url);
+    die();
 }
-else {
 
-  if (isset($_GET["returnto"]))
-     $url=urldecode($_GET["returnto"]);
-  else
-      $url="index.php";
-  redirect($url);
-  die();
-}
 ?>

@@ -141,14 +141,11 @@ if ($random!=$arr["random"])
 
     $email = $arr["email"];
 
-    // generate new password;
-    $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    $newpassword=pass_the_salt(30);
+    $multipass=hash_generate(array("salt" => ""), $newpassword, $arr["username"]);
+    $i=$btit_settings["secsui_pass_type"];
 
-    $newpassword = "";
-    for ($i = 0; $i < 10; $i++)
-      $newpassword .= $chars[mt_rand(0, strlen($chars) - 1)];
-
-    do_sqlquery("UPDATE {$TABLE_PREFIX}users SET password='".md5($newpassword)."' WHERE id=$id AND random=$random",true);
+    do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `password`='".mysql_real_escape_string($multipass[$i]["rehash"])."', `salt`='".mysql_real_escape_string($multipass[$i]["salt"])."', `pass_type`='".$i."', `dupe_hash`='".mysql_real_escape_string($multipass[$i]["dupehash"])."' WHERE `id`=$id AND `random`=$random",true);
 
     if (!mysql_affected_rows())
         stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);

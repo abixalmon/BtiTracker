@@ -37,53 +37,90 @@ if (!defined("IN_BTIT"))
 switch ($action)
 {
     case 'post':
-            if ($_POST["old_pwd"]=="")
-          {
-        err_msg($language["ERROR"],$language["INS_OLD_PWD"]);
-        stdfoot();
-        exit;
-          }
-            elseif ($_POST["new_pwd"]=="")
-          {
-        err_msg($language["ERROR"],$language["INS_NEW_PWD"]);
-        stdfoot();
-        exit;
-          }
-            elseif ($_POST["new_pwd"]!=$_POST["new_pwd1"])
-          {
-        err_msg($language["ERROR"],$language["DIF_PASSWORDS"]);
-        stdfoot();
-        exit;
-          }
+        $pass_to_test=$_POST["new_pwd"];
+        $pass_min_req=explode(",", $btit_settings["secsui_pass_min_req"]);
+
+        $lct_count=0;
+        $uct_count=0;
+        $num_count=0;
+        $sym_count=0;
+        $pass_end=(int)(strlen($pass_to_test)-1);
+        $pass_position=0;
+        $pattern1='#[a-z]#';
+        $pattern2='#[A-Z]#';
+        $pattern3='#[0-9]#';
+        $pattern4='/[¬!"£$%^&*()`{}\[\]:@~;\'#<>?,.\/\\-=_+\|]/';
+
+        for($pass_position=0;$pass_position<=$pass_end;$pass_position++)
+        {
+            if(preg_match($pattern1,substr($pass_to_test,$pass_position,1),$matches))
+                $lct_count++;
+            elseif(preg_match($pattern2,substr($pass_to_test,$pass_position,1),$matches))
+                $uct_count++;
+            elseif(preg_match($pattern3,substr($pass_to_test,$pass_position,1),$matches))
+                $num_count++;
+            elseif(preg_match($pattern4,substr($pass_to_test,$pass_position,1),$matches))
+                $sym_count++;
+        }
+        if ($_POST["old_pwd"]=="")
+            stderr($language["ERROR"],$language["INS_OLD_PWD"]);
+        elseif ($_POST["new_pwd"]=="")
+            stderr($language["ERROR"],$language["INS_NEW_PWD"]);
+        elseif ($_POST["new_pwd"]!=$_POST["new_pwd1"])
+            stderr($language["ERROR"],$language["DIF_PASSWORDS"]);
+        elseif(strlen($pass_to_test)<$pass_min_req[0])
+            stderr($language["ERROR"],$language["ERR_PASS_LENGTH_1"]." <b><span style=\"color:blue;\">".$pass_min_req[0]."</span></b> ".$language["ERR_PASS_LENGTH_2"]);
+        elseif($lct_count<$pass_min_req[1] || $uct_count<$pass_min_req[2] || $num_count<$pass_min_req[3] || $sym_count<$pass_min_req[4])
+        {
+            $newpassword=pass_the_salt(30);
+            stderr($language["ERROR"],$language["ERR_PASS_TOO_WEAK_1"].":<br /><br />".(($pass_min_req[1]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[1]."</span> ".(($pass_min_req[1]==1)?$language["ERR_PASS_TOO_WEAK_2"]:$language["ERR_PASS_TOO_WEAK_2A"])."</li>":"").(($pass_min_req[2]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[2]."</span> ".(($pass_min_req[2]==1)?$language["ERR_PASS_TOO_WEAK_3"]:$language["ERR_PASS_TOO_WEAK_3A"])."</li>":"").(($pass_min_req[3]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[3]."</span> ".(($pass_min_req[3]==1)?$language["ERR_PASS_TOO_WEAK_4"]:$language["ERR_PASS_TOO_WEAK_4A"])."</li>":"").(($pass_min_req[4]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[4]."</span> ".(($pass_min_req[4]==1)?$language["ERR_PASS_TOO_WEAK_5"]:$language["ERR_PASS_TOO_WEAK_5A"])."</li>":"")."<br />".$language["ERR_PASS_TOO_WEAK_6"].":<br /><br /><span style='color:blue;font-weight:bold;'>".$newpassword."</span><br />");
+        }
+        else
+        {
+            $testpass=hash_generate(array("salt" => $CURUSER["salt"]), $_POST["old_pwd"], $CURUSER["username"]);
+            $respwd = do_sqlquery("SELECT * FROM `{$TABLE_PREFIX}users` WHERE `id`=$uid AND `password`='".mysql_real_escape_string($testpass[$CURUSER["pass_type"]]["hash"])."' AND username=".sqlesc($CURUSER["username"])."",true);
+            if (!$respwd || mysql_num_rows($respwd)==0)
+                stderr($language["ERROR"],$language["ERR_RETR_DATA"]);
             else
-                {
-                $respwd = do_sqlquery("SELECT * FROM {$TABLE_PREFIX}users WHERE id=$uid AND password='".md5($_POST["old_pwd"])."' AND username=".sqlesc($CURUSER["username"])."",true);
-                if (!$respwd || mysql_num_rows($respwd)==0)
-                   err_msg($language["ERROR"],$language["ERR_RETR_DATA"]);
-                else {
-                    $arr=mysql_fetch_assoc($respwd);
-                    do_sqlquery("UPDATE {$TABLE_PREFIX}users SET password='".md5($_POST["new_pwd"])."' WHERE id=$uid AND password='".md5($_POST["old_pwd"])."' AND username=".sqlesc($CURUSER["username"])."",true);
-                    
+            {
+                $arr=mysql_fetch_assoc($respwd);
+                $multipass=hash_generate(array("salt" => ""), $_POST["new_pwd"], $CURUSER["username"]);
+                $i=$btit_settings["secsui_pass_type"];
+                do_sqlquery("UPDATE {$TABLE_PREFIX}users SET `password`='".mysql_real_escape_string($multipass[$i]["rehash"])."', `salt`='".mysql_real_escape_string($multipass[$i]["salt"])."', `pass_type`='".$i."', `dupe_hash`='".mysql_real_escape_string($multipass[$i]["dupehash"])."' WHERE id=$uid AND password='".mysql_real_escape_string($testpass[$CURUSER["pass_type"]]["hash"])."' AND username=".sqlesc($CURUSER["username"])."",true);
                 if($GLOBALS["FORUMLINK"]=="smf")
                 {
                     $passhash=smf_passgen($CURUSER["username"], $_POST["new_pwd"]);
                     do_sqlquery("UPDATE {$db_prefix}members SET passwd='$passhash[0]', passwordSalt='$passhash[1]' WHERE ID_MEMBER=".$arr["smf_fid"],true);
                 }
-                    
-            success_msg($language["PWD_CHANGED"], "".$language["NOW_LOGIN"]."<br /><a href=\"index.php?page=login\">Go</a>");
-            stdfoot(true,false);
-            exit;
-                    }
-                }
+                success_msg($language["PWD_CHANGED"], "".$language["NOW_LOGIN"]."<br /><a href=\"index.php?page=login\">Go</a>");
+                stdfoot(true,false);
+                exit;
+            }
+        }
     break;
 
     case '':
     case 'change':
     default:
-    $pwdtpl=array();
-    $pwdtpl["frm_action"]="index.php?page=usercp&amp;do=pwd&amp;action=post&amp;uid=".$uid."";
-    $pwdtpl["frm_cancel"]="index.php?page=usercp&amp;uid=".$uid."";
-    $usercptpl->set("pwd",$pwdtpl);
+        $pwdtpl=array();
+        $pwdtpl["frm_action"]="index.php?page=usercp&amp;do=pwd&amp;action=post&amp;uid=".$uid."";
+        $pwdtpl["frm_cancel"]="index.php?page=usercp&amp;uid=".$uid."";
+        $usercptpl->set("pwd",$pwdtpl);
+        $pass_min_req=explode(",", $btit_settings["secsui_pass_min_req"]);
+        $usercptpl->set("pass_min_char",$pass_min_req[0]);
+        $usercptpl->set("pass_min_lct",$pass_min_req[1]);
+        $usercptpl->set("pass_min_uct",$pass_min_req[2]);
+        $usercptpl->set("pass_min_num",$pass_min_req[3]);
+        $usercptpl->set("pass_min_sym",$pass_min_req[4]);
+        $usercptpl->set("pass_char_plural", (($pass_min_req[0]==1)?false:true),true);
+        $usercptpl->set("pass_lct_plural", (($pass_min_req[1]==1)?false:true),true);
+        $usercptpl->set("pass_uct_plural", (($pass_min_req[2]==1)?false:true),true);
+        $usercptpl->set("pass_num_plural", (($pass_min_req[3]==1)?false:true),true);
+        $usercptpl->set("pass_sym_plural", (($pass_min_req[4]==1)?false:true),true);
+        $usercptpl->set("pass_lct_set", (($pass_min_req[1]>0)?true:false),true);
+        $usercptpl->set("pass_uct_set", (($pass_min_req[2]>0)?true:false),true);
+        $usercptpl->set("pass_num_set", (($pass_min_req[3]>0)?true:false),true);
+        $usercptpl->set("pass_sym_set", (($pass_min_req[4]>0)?true:false),true);
     break;
 }
 ?>

@@ -51,21 +51,139 @@ $text = $c; # comment from the form
 $uid = (int)$u;  # userid from the form
 
 
-if($_COOKIE["uid"]!=$uid)
+session_name("xbtit");
+session_start();
+
+include("../include/settings.php");
+include("../include/common.php");
+
+mysql_select_db($database, mysql_connect($dbhost,$dbuser,$dbpass));
+
+$secsui_res=mysql_query("SELECT * FROM `{$TABLE_PREFIX}settings` WHERE `key` LIKE('secsui_%')");
+while($secsui_arr=mysql_fetch_assoc($secsui_res))
 {
+        $secsui[$secsui_arr["key"]]=$secsui_arr["value"];
+}
 
-    include("../include/settings.php");
-    include("../include/common.php");
-    mysql_select_db($database, mysql_connect($dbhost,$dbuser,$dbpass));
-
+if($secsui["secsui_cookie_type"]==1)
+{
+    $cookie_id=(int)0+$_COOKIE["uid"];
+    $cookie_hash=$_COOKIE["pass"];
+}
+elseif($secsui["secsui_cookie_type"]==2)
+{
+    $cookie_name=((isset($secsui["secsui_cookie_name"]) && !empty($secsui["secsui_cookie_name"]))?$secsui["secsui_cookie_name"]:"xbtitLoginCookie");
+    $cookie_array=unserialize($_COOKIE[$cookie_name]);
+    $cookie_id=(int)0+$cookie_array["id"];
+    $cookie_hash=$cookie_array["hash"];
+    unset($cookie_array);
+}
+elseif($secsui["secsui_cookie_type"]==3)
+{
+    $cookie_array=unserialize($_SESSION["login_cookie"]);
+    $cookie_id=(int)0+$cookie_array["id"];
+    $cookie_hash=$cookie_array["hash"];
+    unset($cookie_array);
+}
+else
+{
+    $cookie_id=1;
+    $cookie_hash="";
+}
+if($cookie_id!=$uid)
+{
     // select first owner (default id_level=8) from users table
-    $ra=mysql_fetch_assoc(mysql_query("SELECT id FROM `{$TABLE_PREFIX}users` WHERE user_level=8 ORDER BY id LIMIT 1"));
+    $ra=mysql_fetch_assoc(mysql_query("SELECT `id` FROM `{$TABLE_PREFIX}users` WHERE `id_level`=8 ORDER BY `id` LIMIT 1"));
     $admin_pm_id=$ra['id'];
 
-
-    $res=mysql_query("SELECT `username`, `password`, `random` FROM `{$TABLE_PREFIX}users` WHERE `id`=".$_COOKIE["uid"]);
+    $res=mysql_query("SELECT `username`, `password`, `random`, `salt` FROM `{$TABLE_PREFIX}users` WHERE `id`=".$cookie_id);
     $row=mysql_fetch_assoc($res);
-    if($_COOKIE["pass"]!=md5($row["random"].$row["password"].$row["random"]))
+
+    if($secsui["secsui_cookie_type"]==1)
+    {
+        $user_hash=md5($row["random"].$row["password"].$row["random"]);
+    }
+    elseif($secsui["secsui_cookie_type"]==2  || $secsui["secsui_cookie_type"]==3)
+    {
+        $cookie_items=explode(",", $secsui["secsui_cookie_items"]);
+        $cookie_string="";
+
+        foreach($cookie_items as $ci_value)
+        {
+            $ci_exp=explode("-",$ci_value);
+            if($ci_exp[0]==8)
+            {
+                $ci_exp2=explode("[+]", $ci_exp[1]);
+                if($ci_exp2[0]==1)
+                {
+                    $ip_parts=explode(".", getip());
+
+                    if($ci_exp2[1]==1)
+                        $cookie_string.=$ip_parts[0]."-";
+                    if($ci_exp2[1]==2)
+                        $cookie_string.=$ip_parts[1]."-";
+                    if($ci_exp2[1]==3)
+                        $cookie_string.=$ip_parts[2]."-";
+                    if($ci_exp2[1]==4)
+                        $cookie_string.=$ip_parts[3]."-";
+                    if($ci_exp2[1]==5)
+                        $cookie_string.=$ip_parts[0].".".$ip_parts[1]."-";
+                    if($ci_exp2[1]==6)
+                        $cookie_string.=$ip_parts[1].".".$ip_parts[2]."-";
+                    if($ci_exp2[1]==7)
+                        $cookie_string.=$ip_parts[2].".".$ip_parts[3]."-";
+                    if($ci_exp2[1]==8)
+                        $cookie_string.=$ip_parts[0].".".$ip_parts[2]."-";
+                    if($ci_exp2[1]==9)
+                        $cookie_string.=$ip_parts[0].".".$ip_parts[3]."-";
+                    if($ci_exp2[1]==10)
+                        $cookie_string.=$ip_parts[1].".".$ip_parts[3]."-";
+                    if($ci_exp2[1]==11)
+                        $cookie_string.=$ip_parts[0].".".$ip_parts[1].".".$ip_parts[2]."-";
+                    if($ci_exp2[1]==12)
+                        $cookie_string.=$ip_parts[1].".".$ip_parts[2].".".$ip_parts[3]."-";
+                    if($ci_exp2[1]==13)
+                        $cookie_string.=$ip_parts[0].".".$ip_parts[1].".".$ip_parts[2].".".$ip_parts[3]."-";
+
+                    unset($ci_exp2);
+                }
+            }
+            else
+            {
+                if($ci_exp[0]==1 && $ci_exp[1]==1)
+                {
+                    $cookie_string.=$cookie_id."-";
+                }
+                if($ci_exp[0]==2 && $ci_exp[1]==1)
+                {
+                    $cookie_string.=$row["password"]."-";
+                }
+                if($ci_exp[0]==3 && $ci_exp[1]==1)
+                {
+                    $cookie_string.=$row["random"]."-";
+                }
+                if($ci_exp[0]==4 && $ci_exp[1]==1)
+                {
+                    $cookie_string.=strtolower($row["username"])."-";
+                }
+                if($ci_exp[0]==5 && $ci_exp[1]==1)
+                {
+                    $cookie_string.=$row["salt"]."-";
+                }
+                if($ci_exp[0]==6 && $ci_exp[1]==1)
+                {
+                    $cookie_string.=$_SERVER["HTTP_USER_AGENT"]."-";
+                }
+                if($ci_exp[0]==7 && $ci_exp[1]==1)
+                {
+                    $cookie_string.=$_SERVER["HTTP_ACCEPT_LANGUAGE"]."-";
+                }
+            }
+            unset($ci_exp);
+        }
+        $user_hash=sha1(trim($cookie_string, "-"));
+    }
+    if($cookie_hash!=$user_hash)
     {
         $ip=getip();
         $name="Hacker [$ip]";
@@ -81,28 +199,15 @@ if($_COOKIE["uid"]!=$uid)
             }
             $row1=mysql_fetch_assoc(mysql_query("SELECT `value` FROM `{$TABLE_PREFIX}settings` WHERE `key`='forum'"));
             $FORUMLINK=$row1["value"];
-            if($FORUMLINK=="smf")
-            {
-                $result=mysql_query("SELECT `smf_fid` FROM `{$TABLE_PREFIX}users` WHERE id=".$admin_pm_id);
-                $foundrow=mysql_fetch_assoc($result);
-                $smf_admin_pm_id=$foundrow["smf_fid"];
-                mysql_query("INSERT INTO `{$db_prefix}personal_messages` (`ID_MEMBER_FROM`, `fromName`, `msgtime`, `subject`, `body`) VALUES (0, 'System', UNIX_TIMESTAMP(), '".mysql_real_escape_string($subject)."', '".mysql_real_escape_string($msg)."')");
-                $pm_id=mysql_insert_id();
-                mysql_query("INSERT INTO `{$db_prefix}pm_recipients` (`ID_PM`, `ID_MEMBER`) VALUES (".$pm_id.", ".$smf_admin_pm_id.")");
-                mysql_query("UPDATE `{$db_prefix}members` SET `instantMessages`=`instantMessages`+1, `unreadMessages`=`unreadMessages`+1 WHERE `ID_MEMBER`=".$smf_admin_pm_id." LIMIT 1");
-            }
-            else
-            {
-                mysql_query("INSERT INTO `{$TABLE_PREFIX}messages` (`id`, `sender`, `receiver`, `added`, `subject`, `msg`, `readed`) VALUES ('', 0, ".$admin_pm_id.", UNIX_TIMESTAMP(), '".mysql_real_escape_string($subject)."', '".mysql_real_escape_string($msg)."', 'no')");
-            }
+            send_pm(0,$admin_pm_id,sqlesc($subject),sqlesc($msg));
         }
     }
     else
     {
         $name=$row["username"];
-        $uid=$_COOKIE["uid"];
+        $uid=$cookie_id;
     }
-    $text="[color=red][b]I am an asshole hacker who deserves to be banned![/b][/color] :axe:";  
+    $text="[color=red][b]I am a hacker who deserves to be banned![/b][/color] :axe:";  
 }
 
 

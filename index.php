@@ -66,6 +66,7 @@ $time_start = get_microtime();
 
 clearstatcache();
 
+session_name("xbtit");
 session_start();
 
 dbconn(true);
