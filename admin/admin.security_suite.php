@@ -27,12 +27,13 @@ if(isset($_POST) && !empty($_POST))
     (isset($_POST["pass_min_sym"]) && !empty($_POST["pass_min_sym"]) && is_numeric($_POST["pass_min_sym"]) && $_POST["pass_min_sym"]>=0) ? $pass_min_sym=(int)0+$_POST["pass_min_sym"] : $pass_min_sym=0;
 
     $char_type_count=($pass_min_lct+$pass_min_uct+$pass_min_num+$pass_min_sym);
-    echo $char_type_count;
+
     if($char_type_count>$pass_min_char)
         stderr($language["ERROR"], $language["SECSUI_PASS_ERR_1"]." (<span style='color:blue;font-weight:bold;'>".$char_type_count."</span>) ".$language["SECSUI_PASS_ERR_2"]." (<span style='color:blue;font-weight:bold;'>".$pass_min_char."</span>)");
 
     $secsui_pass_min_req=$pass_min_char.",".$pass_min_lct.",".$pass_min_uct.",".$pass_min_num.",".$pass_min_sym;
 
+    $cookie_items_changed=false;
     if($secsui_cookie_type!=1)
     {
         $cookie_items_arr[0]="1-1";
@@ -45,11 +46,59 @@ if(isset($_POST) && !empty($_POST))
         (isset($_POST["ipadd"]) && !empty($_POST["ipadd"]) && $_POST["ipadd"]=="yes") ? $cookie_items_arr[7]="8-1" : $cookie_items_arr[7]="8-0";
         (isset($_POST["secsui_ip_octets"]) && !empty($_POST["secsui_ip_octets"]) && is_numeric($_POST["secsui_ip_octets"]) && $_POST["secsui_ip_octets"]>=1 && $_POST["secsui_ip_octets"]<=13 && $cookie_items_arr[7]=="8-1") ? $cookie_items_arr[7].="[+]".$_POST["secsui_ip_octets"] : $cookie_items_arr[7].="[+]0";
 
+        $cookie_items=explode(",", $btit_settings["secsui_cookie_items"]);
+
+        $cookie_items_1=array();
+        foreach($cookie_items as $ci_value)
+        {
+            $ci_exp=explode("-",$ci_value);
+            if($ci_exp[0]==8)
+            {
+                $ci_exp2=explode("[+]", $ci_exp[1]);
+                $cookie_items_1[$ci_exp[0]]["enabled"]=$ci_exp2[0];
+                $cookie_items_1[$ci_exp[0]]["type"]=$ci_exp2[1];
+                unset($ci_exp2);
+            }
+            else
+            {
+                $cookie_items_1[$ci_exp[0]]["enabled"]=$ci_exp[1];
+            }
+            unset($ci_exp);
+        }
+
+        $cookie_items_2=array();
+        foreach($cookie_items_arr as $ci_value)
+        {
+            $ci_exp=explode("-",$ci_value);
+            if($ci_exp[0]==8)
+            {
+                $ci_exp2=explode("[+]", $ci_exp[1]);
+                $cookie_items_2[$ci_exp[0]]["enabled"]=$ci_exp2[0];
+                $cookie_items_2[$ci_exp[0]]["type"]=$ci_exp2[1];
+                unset($ci_exp2);
+            }
+            else
+            {
+                $cookie_items_2[$ci_exp[0]]["enabled"]=$ci_exp[1];
+            }
+            unset($ci_exp);
+        }
+        foreach($cookie_items_1 as $key => $value)
+        {
+            if($cookie_items_2[$key]!=$value)
+            {
+                $cookie_items_changed=true;
+                break;
+            }
+        }
         shuffle($cookie_items_arr);
         $secsui_cookie_items=mysql_real_escape_string(implode(",", $cookie_items_arr));
     }
     else
+    {
+        $cookie_items_changed=true;
         $secsui_cookie_items=mysql_real_escape_string("1-0,2-0,3-0,4-0,5-0,6-0,7-0,8-0[+]0");
+    }
 
     if($secsui_cookie_type==2)
     {
@@ -110,7 +159,7 @@ if(isset($_POST) && !empty($_POST))
         do_sqlquery("UPDATE `{$TABLE_PREFIX}settings` SET `value`='".$secsui_cookie_path."' WHERE `key`='secsui_cookie_path'", true);
     if($secsui_cookie_type==2 && $btit_settings["secsui_cookie_domain"]!=$secsui_cookie_domain)
         do_sqlquery("UPDATE `{$TABLE_PREFIX}settings` SET `value`='".$secsui_cookie_domain."' WHERE `key`='secsui_cookie_domain'", true);
-    if($btit_settings["secsui_cookie_items"]!=$secsui_cookie_items)
+    if($cookie_items_changed && $btit_settings["secsui_cookie_items"]!=$secsui_cookie_items)
         do_sqlquery("UPDATE `{$TABLE_PREFIX}settings` SET `value`='".$secsui_cookie_items."' WHERE `key`='secsui_cookie_items'", true);
     if($btit_settings["secsui_pass_min_req"]!=$secsui_pass_min_req) 
         do_sqlquery("UPDATE `{$TABLE_PREFIX}settings` SET `value`='".$secsui_pass_min_req."' WHERE `key`='secsui_pass_min_req'", true); 

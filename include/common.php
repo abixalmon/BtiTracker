@@ -697,5 +697,135 @@ if(!function_exists('stripos'))
    }
 }
 
+function test_my_cookie()
+{
+    global $btit_settings, $TABLE_PREFIX;
+
+    if($btit_settings["secsui_cookie_type"]==1)
+    {
+        $cookie_id=(isset($_COOKIE["uid"])?(int)0+$_COOKIE["uid"]:1);
+        $cookie_hash=(isset($_COOKIE["pass"])?$_COOKIE["pass"]:"");
+    }
+    elseif($btit_settings["secsui_cookie_type"]==2)
+    {
+        $cookie_name=((isset($btit_settings["secsui_cookie_name"]) && !empty($btit_settings["secsui_cookie_name"]))?$btit_settings["secsui_cookie_name"]:"xbtitLoginCookie");
+        $cookie_array=unserialize($_COOKIE[$cookie_name]);
+        $cookie_id=(isset($cookie_array["id"])?(int)0+$cookie_array["id"]:1);
+        $cookie_hash=(isset($cookie_array["hash"])?$cookie_array["hash"]:"");
+        unset($cookie_array);
+    }
+    elseif($btit_settings["secsui_cookie_type"]==3)
+    {
+        session_name("xbtit");
+        session_start();
+        $cookie_array=unserialize($_SESSION["login_cookie"]);
+        $cookie_id=(isset($cookie_array["id"])?(int)0+$cookie_array["id"]:1);
+        $cookie_hash=(isset($cookie_array["hash"])?$cookie_array["hash"]:"");
+        unset($cookie_array);
+    }
+    if($cookie_id<=1)
+        return array("is_valid" => false, "id" => 1);
+    else
+    {
+        $res=get_result("SELECT `username`, `password`, `random`, `salt` FROM `{$TABLE_PREFIX}users` WHERE `id`=".$cookie_id);
+        if(count($res)==1)
+            $row=$res[0];
+        else
+            return array("is_valid" => false, "id" => 1);
+
+        if($btit_settings["secsui_cookie_type"]==1)
+        {
+            $user_hash=md5($row["random"].$row["password"].$row["random"]);
+        }
+        elseif($btit_settings["secsui_cookie_type"]==2  || $btit_settings["secsui_cookie_type"]==3)
+        {
+            $cookie_items=explode(",", $btit_settings["secsui_cookie_items"]);
+            $cookie_string="";
+
+            foreach($cookie_items as $ci_value)
+            {
+                $ci_exp=explode("-",$ci_value);
+                if($ci_exp[0]==8)
+                {
+                    $ci_exp2=explode("[+]", $ci_exp[1]);
+                    if($ci_exp2[0]==1)
+                    {
+                        $ip_parts=explode(".", getip());
+
+                        if($ci_exp2[1]==1)
+                            $cookie_string.=$ip_parts[0]."-";
+                        if($ci_exp2[1]==2)
+                            $cookie_string.=$ip_parts[1]."-";
+                        if($ci_exp2[1]==3)
+                            $cookie_string.=$ip_parts[2]."-";
+                        if($ci_exp2[1]==4)
+                            $cookie_string.=$ip_parts[3]."-";
+                        if($ci_exp2[1]==5)
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[1]."-";
+                        if($ci_exp2[1]==6)
+                            $cookie_string.=$ip_parts[1].".".$ip_parts[2]."-";
+                        if($ci_exp2[1]==7)
+                            $cookie_string.=$ip_parts[2].".".$ip_parts[3]."-";
+                        if($ci_exp2[1]==8)
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[2]."-";
+                        if($ci_exp2[1]==9)
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[3]."-";
+                        if($ci_exp2[1]==10)
+                            $cookie_string.=$ip_parts[1].".".$ip_parts[3]."-";
+                        if($ci_exp2[1]==11)
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[1].".".$ip_parts[2]."-";
+                        if($ci_exp2[1]==12)
+                            $cookie_string.=$ip_parts[1].".".$ip_parts[2].".".$ip_parts[3]."-";
+                        if($ci_exp2[1]==13)
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[1].".".$ip_parts[2].".".$ip_parts[3]."-";
+
+                        unset($ci_exp2);
+                    }
+                }
+                else
+                {
+                    if($ci_exp[0]==1 && $ci_exp[1]==1)
+                    {
+                        $cookie_string.=$cookie_id."-";
+                    }
+                    if($ci_exp[0]==2 && $ci_exp[1]==1)
+                    {
+                        $cookie_string.=$row["password"]."-";
+                    }
+                    if($ci_exp[0]==3 && $ci_exp[1]==1)
+                    {
+                        $cookie_string.=$row["random"]."-";
+                    }
+                    if($ci_exp[0]==4 && $ci_exp[1]==1)
+                    {
+                        $cookie_string.=strtolower($row["username"])."-";
+                    }
+                    if($ci_exp[0]==5 && $ci_exp[1]==1)
+                    {
+                        $cookie_string.=$row["salt"]."-";
+                    }
+                    if($ci_exp[0]==6 && $ci_exp[1]==1)
+                    {
+                        $cookie_string.=$_SERVER["HTTP_USER_AGENT"]."-";
+                    }
+                    if($ci_exp[0]==7 && $ci_exp[1]==1)
+                    {
+                        $cookie_string.=$_SERVER["HTTP_ACCEPT_LANGUAGE"]."-";
+                    }
+                }
+                unset($ci_exp);
+            }
+            $user_hash=sha1(trim($cookie_string, "-"));
+        }
+        if($user_hash==$cookie_hash)
+            return array("is_valid" => true, "id" => $cookie_id);
+        else
+            return array("is_valid" => false, "id" => 1);
+    }
+}
+
+function sqlesc($x) {
+  return '\''.mysql_real_escape_string($x).'\'';
+}
 
 ?>

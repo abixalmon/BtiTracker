@@ -45,13 +45,13 @@ switch ($action)
            $timezone=intval($_POST["timezone"]);
 
            // Password confirmation required to update user record
-           (isset($_POST["passconf"])) ? $password=md5($_POST["passconf"]) : $password="";
-                      
-           $res=do_sqlquery("SELECT password FROM {$TABLE_PREFIX}users WHERE id=".$CURUSER["uid"],true);
-           if(mysql_num_rows($res)>0)
-               $user=mysql_fetch_assoc($res);           
+           (isset($_POST["passconf"])) ? $passcheck=hash_generate(array("salt" => $CURUSER["salt"]), $_POST["passconf"], $CURUSER["username"]) : $passcheck=array();
+           if(isset($passcheck[$btit_settings["secsui_pass_type"]]) && is_array($passcheck[$btit_settings["secsui_pass_type"]]))
+               $password=$passcheck[$btit_settings["secsui_pass_type"]]["hash"];
+           else
+               $password="";           
 
-           if(!isset($user) || $password=="" || $user["password"]!=$password)
+           if($password=="" || $CURUSER["password"]!=$password)
            {
                stderr($language["ERROR"], $language["ERR_PASS_WRONG"]);
                stdfoot();

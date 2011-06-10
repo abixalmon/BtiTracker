@@ -58,33 +58,35 @@ if (isset($_FILES["torrent"]))
       $fd = fopen($_FILES["torrent"]["tmp_name"], "rb") or stderr($language["ERROR"],$language["FILE_UPLOAD_ERROR_1"]);
       is_uploaded_file($_FILES["torrent"]["tmp_name"]) or stderr($language["ERROR"],$language["FILE_UPLOAD_ERROR_2"]);
 
-      $check_torr=check_upload($_FILES["torrent"]["tmp_name"], $_FILES["torrent"]["name"]);         
-
-      switch($check_torr)
+      if((isset($_FILES["torrent"]["tmp_name"]) && !empty($_FILES["torrent"]["tmp_name"])) && (isset($_FILES["torrent"]["name"]) && !empty($_FILES["torrent"]["name"])))
       {
-          case 1:              
-          case 2:
-            $check_torr_err=$language["ERR_MISSING_DATA"];
-            if(file_exists($_FILES["torrent"]["tmp_name"]))
-                @unlink($_FILES["torrent"]["tmp_name"]);
-            break;
+          $check_torr=check_upload($_FILES["torrent"]["tmp_name"], $_FILES["torrent"]["name"]);         
+
+          switch($check_torr)
+          {
+              case 1:
+              case 2:
+                $check_torr_err=$language["ERR_MISSING_DATA"];
+                if(file_exists($_FILES["torrent"]["tmp_name"]))
+                    @unlink($_FILES["torrent"]["tmp_name"]);
+                break;
                         
-          case 3:
-            $check_torr_err=$language["QUAR_TMP_FILE_MISS"];
-            break;
+              case 3:
+                $check_torr_err=$language["QUAR_TMP_FILE_MISS"];
+                break;
 
-          case 4:
-            $check_torr_err=$language["QUAR_OUTPUT"];
-            break;
+              case 4:
+                $check_torr_err=$language["QUAR_OUTPUT"];
+                break;
 
-          case 5:
-          default:
-            $check_torr_err="";
-            break;
+              case 5:
+              default:
+                $check_torr_err="";
+                break;
+          }
+          if($check_torr_err!="")
+              stderr($language["ERROR"], $check_torr_err);
       }
-      if($check_torr_err!="")
-          stderr($language["ERROR"], $check_torr_err);
-
       $length=filesize($_FILES["torrent"]["tmp_name"]);
       if ($length)
         $alltorrent = fread($fd, $length);
