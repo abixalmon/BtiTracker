@@ -45,6 +45,7 @@ echo "
 ";
 
 require_once($BASEDIR."/include/settings.php");
+require_once($BASEDIR."/include/common.php");
 require_once($BASEDIR."/language/english/lang_smf_import.php");
 
 // Lets open a connection to the database
