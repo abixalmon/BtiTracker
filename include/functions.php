@@ -588,7 +588,7 @@ function userlogin()
     }
     if($id==1)
     {
-        $res = do_sqlquery("SELECT u.lip, u.cip, $udownloaded as downloaded, $uuploaded as uploaded, u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1 LIMIT 1;",true);
+        $res = do_sqlquery("SELECT u.salt, u.lip, u.cip, $udownloaded as downloaded, $uuploaded as uploaded, u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1 LIMIT 1;",true);
         $row = mysql_fetch_assoc($res);
     }
 
@@ -978,6 +978,9 @@ function image_or_link($image,$pers_style='',$link='') {
 function success_msg($heading='Success!',$string,$close=false) {
   global $language,$STYLEPATH, $tpl, $page, $STYLEURL;
 
+  if(!isset($tpl) || empty($tpl))
+      die($heading."<br />".$string);
+
   $suc_tpl=new bTemplate();
   $suc_tpl->set('success_title',$heading);
   $suc_tpl->set('success_message',$string);
@@ -987,6 +990,9 @@ function success_msg($heading='Success!',$string,$close=false) {
 
 function err_msg($heading='Error!',$string,$close=false) {
   global $language,$STYLEPATH, $tpl, $page,$STYLEURL;
+
+  if(!isset($tpl) || empty($tpl))
+      die($heading."<br />".$string);
 
   // just in case not found the language
   if (!$language['BACK'])
@@ -1007,6 +1013,10 @@ function err_msg($heading='Error!',$string,$close=false) {
 
 function information_msg($heading='Error!',$string,$close=false) {
   global $language,$STYLEPATH, $tpl, $page,$STYLEURL;
+
+  if(!isset($tpl) || empty($tpl))
+      die($heading."<br />".$string);
+
   // just in case not found the language
   if (!$language['BACK'])
     $language['BACK']='Back';
@@ -1092,14 +1102,24 @@ function block_begin($title='-',$colspan=1,$calign='justify') {
 function block_end($colspan=1) {
 }
 
-function makesize($bytes) {
-  if (abs($bytes) < 1024000)
-    return number_format($bytes / 1024, 2).' KB';
-  if (abs($bytes) < 1048576000)
-    return number_format($bytes / 1048576, 2).' MB';
-  if (abs($bytes) < 1073741824000)
-    return number_format($bytes / 1073741824, 2).' GB';
-  return number_format($bytes / 1099511627776, 2).' TB';
+function makesize($bytes)
+{
+    if (abs($bytes) < 1048576)
+        return number_format($bytes / 1024, 2).' KB'; // (Kilobytes)
+    if (abs($bytes) < 1073741824)
+        return number_format($bytes / 1048576, 2).' MB'; // (Megabytes)
+    if (abs($bytes) < 1099511627776)
+        return number_format($bytes / 1073741824, 2).' GB'; // (Gigabytes)
+    if (abs($bytes) < 1125899906842624)
+        return number_format($bytes / 1099511627776, 2).' TB'; // (Terabytes)
+    if (abs($bytes) < 1152921504606846976)
+        return number_format($bytes / 1125899906842624, 2).' PB'; // (Petabytes)
+    if (abs($bytes) < 1180591620717411303424)
+        return number_format($bytes / 1152921504606846976, 2).' EB'; // (Exabytes)
+    if (abs($bytes) < 1208925819614629174706176)
+        return number_format($bytes / 1180591620717411303424, 2).' ZB'; // (Zettabytes)
+    else
+        return number_format($bytes / 1208925819614629174706176, 2).' YB'; // (Yottabytes)
 }
 
 function redirect($redirecturl) {
