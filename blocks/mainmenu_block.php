@@ -42,44 +42,44 @@ if (!$CURUSER)
 
        // anonymous=guest
    print("<td class=\"lista\" align=\"center\" style=\"text-align:center;\">".$language["WELCOME"]." ".$language["GUEST"]."\n");
-   print("<a class="mainmenu" href=\"login.php\">(".$language["LOGIN"].")</a></td>");
+   print("<a class=\"mainmenu\" href=\"login.php\">(".$language["LOGIN"].")</a></td>");
    }
 elseif ($CURUSER["uid"]==1)
        // anonymous=guest
     {
    print("<td class=\"lista\" align=\"center\" style=\"text-align:center;\">".$language["WELCOME"]." " . $CURUSER["username"] ." \n");
-   print("<a class="mainmenu" href=\"index.php?page=login\">(".$language["LOGIN"].")</a></td>\n");
+   print("<a class=\"mainmenu\" href=\"index.php?page=login\">(".$language["LOGIN"].")</a></td>\n");
     }
 else
     {
     print("<td class=\"lista\" align=\"center\" style=\"text-align:center;\">".$language["WELCOME_BACK"]." " . $CURUSER["username"] ." \n");
-    print("<a class="mainmenu" href=\"logout.php\">(".$language["LOGOUT"].")</a></td></tr></table>\n");
+    print("<a class=\"mainmenu\" href=\"logout.php\">(".$language["LOGOUT"].")</a></td></tr></table>\n");
     }
 ?>
 <table cellpadding="1" cellspacing="1" width="100%">
   <tr>
 <?php
-print("<td class=\"header\" align=\"center\"><a class="mainmenu" href=\"index.php\">".$language["MNU_INDEX"]."</a></td>\n");
+print("<td class=\"header\" align=\"center\"><a class=\"mainmenu\" href=\"index.php\">".$language["MNU_INDEX"]."</a></td>\n");
 
 if ($CURUSER["view_torrents"]=="yes")
     {
-    print("<td class=\"header\" align=\"center\"><a class="mainmenu" href=\"index.php?page=torrents\">".$language["MNU_TORRENT"]."</a></td>\n");
-    print("<td class=\"header\" align=\"center\"><a class="mainmenu" href=\"index.php?page=extra-stats\">".$language["MNU_STATS"]."</a></td>\n");
+    print("<td class=\"header\" align=\"center\"><a class=\"mainmenu\" href=\"index.php?page=torrents\">".$language["MNU_TORRENT"]."</a></td>\n");
+    print("<td class=\"header\" align=\"center\"><a class=\"mainmenu\" href=\"index.php?page=extra-stats\">".$language["MNU_STATS"]."</a></td>\n");
    }
 if ($CURUSER["can_upload"]=="yes")
-   print("<td class=\"header\" align=\"center\"><a class="mainmenu" href=\"index.php?page=upload\">".$language["MNU_UPLOAD"]."</a></td>\n");
+   print("<td class=\"header\" align=\"center\"><a class=\"mainmenu\" href=\"index.php?page=upload\">".$language["MNU_UPLOAD"]."</a></td>\n");
 if ($CURUSER["view_users"]=="yes")
-   print("<td class=\"header\" align=\"center\"><a class="mainmenu" href=\"index.php?page=users\">".$language["MNU_MEMBERS"]."</a></td>\n");
+   print("<td class=\"header\" align=\"center\"><a class=\"mainmenu\" href=\"index.php?page=users\">".$language["MNU_MEMBERS"]."</a></td>\n");
 if ($CURUSER["view_news"]=="yes")
-   print("<td class=\"header\" align=\"center\"><a class="mainmenu" href=\"index.php?page=viewnews\">".$language["MNU_NEWS"]."</a></td>\n");
+   print("<td class=\"header\" align=\"center\"><a class=\"mainmenu\" href=\"index.php?page=viewnews\">".$language["MNU_NEWS"]."</a></td>\n");
 if ($CURUSER["view_forum"]=="yes")
    {
    if ($GLOBALS["FORUMLINK"]=="" || $GLOBALS["FORUMLINK"]=="internal" || $GLOBALS["FORUMLINK"]=="smf")
-      print("<td class=\"header\" align=\"center\"><a class="mainmenu" href=\"index.php?page=forum\">".$language["MNU_FORUM"]."</a></td>\n");
+      print("<td class=\"header\" align=\"center\"><a class=\"mainmenu\" href=\"index.php?page=forum\">".$language["MNU_FORUM"]."</a></td>\n");
    elseif ($GLOBALS["FORUMLINK"]=="smf")
-       print("<td class=\"header\" align=\"center\"><a class="mainmenu" href=\"".$GLOBALS["FORUMLINK"]."\">".$language["MNU_FORUM"]."</a></td>\n");
+       print("<td class=\"header\" align=\"center\"><a class=\"mainmenu\" href=\"".$GLOBALS["FORUMLINK"]."\">".$language["MNU_FORUM"]."</a></td>\n");
    else
-       print("<td class=\"header\" align=\"center\"><a class="mainmenu" href=\"".$GLOBALS["FORUMLINK"]."\">".$language["MNU_FORUM"]."</a></td>\n");
+       print("<td class=\"header\" align=\"center\"><a class=\"mainmenu\" href=\"".$GLOBALS["FORUMLINK"]."\">".$language["MNU_FORUM"]."</a></td>\n");
     }
  
 ?>

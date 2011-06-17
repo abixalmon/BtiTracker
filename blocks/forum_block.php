@@ -76,7 +76,7 @@ if ($topics!=0) {
             $title=$title[0]['subject'];
             # cut it if necessary
             $post['title']=(strlen($title>33))?substr($title,0,30).'...':$title;
-            $postsList.='<tr><td class="lista"><b><a title="'.$language['FIRST_UNREAD'].': '.$post['title'].'" href="'.$btit_settings['url'].'/index.php?page=forum&amp;action=viewtopic&amp;topicid='.$post['tid'].'.msg'.$post['pid'].'#msg'.$post['pid'].'">'.$post['title'].'</a></b><br />'.$language['LAST_POST_BY'].' <a href="'.$btit_settings['url'].'/index.php?page=forum&amp;action=profile;u='.$post['userid'].'">'.$post['username'].'</a><br />On '.date('d/m/Y H:i:s',$post['added']).'</td></tr>';
+            $postsList.='<tr><td class="lista"><b><a class="forum" title="'.$language['FIRST_UNREAD'].': '.$post['title'].'" href="'.$btit_settings['url'].'/index.php?page=forum&amp;action=viewtopic&amp;topicid='.$post['tid'].'.msg'.$post['pid'].'#msg'.$post['pid'].'">'.$post['title'].'</a></b><br />'.$language['LAST_POST_BY'].' <a class="forum" href="'.$btit_settings['url'].'/index.php?page=forum&amp;action=profile;u='.$post['userid'].'">'.$post['username'].'</a><br />On '.date('d/m/Y H:i:s',$post['added']).'</td></tr>';
         }
     } else {
         # get posts based if can read
@@ -89,7 +89,7 @@ if ($topics!=0) {
                 $user=$user[0];
                 $post['username']=unesc($user['prefixcolor'].$user['username'].$user['suffixcolor']);
             } else $post['username']='[DELETED USER]';
-            $postsList.='<tr><td class="lista"><b><a href="'.$btit_settings['url'].'/index.php?page=forum&amp;action=viewtopic&amp;topicid='.$post['tid'].'&amp;msg='.$post['pid'].'#'.$post['pid'].'">'.htmlspecialchars(unesc($post['subject'])).'</a></b><br />'.$language['LAST_POST_BY'].' <a href="'.$btit_settings['url'].'/index.php?page=userdetails&amp;id='.$post['userid'].'">'.$post['username'].'</a><br />On '.get_date_time($post['added']).'</td></tr>';
+            $postsList.='<tr><td class="lista"><b><a class="forum" href="'.$btit_settings['url'].'/index.php?page=forum&amp;action=viewtopic&amp;topicid='.$post['tid'].'&amp;msg='.$post['pid'].'#'.$post['pid'].'">'.htmlspecialchars(unesc($post['subject'])).'</a></b><br />'.$language['LAST_POST_BY'].' <a class="forum" href="'.$btit_settings['url'].'/index.php?page=userdetails&amp;id='.$post['userid'].'">'.$post['username'].'</a><br />On '.get_date_time($post['added']).'</td></tr>';
         }
     }
 } else $postsList='<tr><td class="lista">'.$language['NO_TOPIC'].'</td></tr>';
