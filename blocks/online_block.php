@@ -54,7 +54,7 @@ else
             else
                $group[unesc(ucfirst($users_online["user_group"]))]=1;
             if ($users_online["user_id"]>1)
-                $uo[]="<a href=\"index.php?page=userdetails&amp;id=".$users_online["user_id"]."\" title=\"".unesc(ucfirst($users_online["location"]))."\">".
+                $uo[]="<a class=\"online\" href=\"index.php?page=userdetails&amp;id=".$users_online["user_id"]."\" title=\"".unesc(ucfirst($users_online["location"]))."\">".
                        unesc($users_online["prefixcolor"]).unesc($users_online["user_name"]).unesc($users_online["suffixcolor"])."</a>";
 
      }

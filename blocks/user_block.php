@@ -45,7 +45,7 @@ require_once(load_language("lang_account.php"));
             <tr><td style="text-align:center;" align="center" class="poller"><?php echo $language["USER_NAME"]?>:</td></tr><tr><td class="poller" style="text-align:center;" align="center"><input type="text" size="9" name="uid" value="<?php $user ?>" maxlength="40" /></td></tr>
             <tr><td style="text-align:center;" align="center" class="poller"><?php echo $language["USER_PWD"]?>:</td></tr><tr><td class="poller" style="text-align:center;" align="center"><input type="password" size="9" name="pwd" maxlength="40" /></td></tr>
             <tr><td colspan="2" class="poller" style="text-align:center;" align="center"><input type="submit" value="<?php echo $language["FRM_LOGIN"]?>" /></td></tr>
-            <tr><td class="lista" style="text-align:center;" align="center"><a href="index.php?page=signup"><?php echo $language["ACCOUNT_CREATE"]?></a></td></tr><tr><td class="lista" style="text-align:center;" align="center"><a href="index.php?page=recover"><?php echo $language["RECOVER_PWD"]?></a></td></tr>
+            <tr><td class="lista" style="text-align:center;" align="center"><a class="user" href="index.php?page=signup"><?php echo $language["ACCOUNT_CREATE"]?></a></td></tr><tr><td class="lista" style="text-align:center;" align="center"><a class="user" href="index.php?page=recover"><?php echo $language["RECOVER_PWD"]?></a></td></tr>
             </table>
             </form>
             <?php
@@ -65,9 +65,9 @@ require_once(load_language("lang_account.php"));
                 {
                  $mail=$resmail[0];
                  if ($mail['ur']>0)
-                    print("<tr><td align=\"center\"><a href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."&amp;do=pm&amp;action=list\">".$language["MAILBOX"]."</a> (<font color=\"#FF0000\"><b>".$mail['ur']."</b></font>)</td></tr>\n");
+                    print("<tr><td align=\"center\"><a class=\"user\" href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."&amp;do=pm&amp;action=list\">".$language["MAILBOX"]."</a> (<font color=\"#FF0000\"><b>".$mail['ur']."</b></font>)</td></tr>\n");
                  else
-                     print("<tr><td align=\"center\"><a href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."&amp;do=pm&amp;action=list\">".$language["MAILBOX"]."</a></td></tr>\n");
+                     print("<tr><td align=\"center\"><a class=\"user\" href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."&amp;do=pm&amp;action=list\">".$language["MAILBOX"]."</a></td></tr>\n");
                 }
              else
                  print("<tr><td align=\"center\">".$language["NO_MAIL"]."</td></tr>");
@@ -95,9 +95,9 @@ require_once(load_language("lang_account.php"));
                             }
              print("</select>");
              print("</td>\n</tr>\n");
-             print("\n<tr><td align=\"center\"><a href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."\">".$language["USER_CP"]."</a></td></tr>\n");
+             print("\n<tr><td align=\"center\"><a class=\"user\" href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."\">".$language["USER_CP"]."</a></td></tr>\n");
              if ($CURUSER["admin_access"]=="yes")
-                print("\n<tr><td align=\"center\"><a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."\">".$language["MNU_ADMINCP"]."</a></td></tr>\n");
+                print("\n<tr><td align=\"center\"><a class=\"user\" href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."\">".$language["MNU_ADMINCP"]."</a></td></tr>\n");
 
              print("</table>\n</form>");
              }
