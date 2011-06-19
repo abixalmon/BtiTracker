@@ -128,8 +128,16 @@ if($act=="")
         $count++;
     }
     (($count<35) ? $smf_installed=$lang[1] : $smf_installed=$lang[0]);
+
+    // Check the SMF Version
+    $res=mysql_query("SELECT `value` FROM `{$db_prefix}settings` WHERE `variable`='smfVersion'");
+    if(@mysql_num_rows($res)>0)
+    {
+        $row=mysql_fetch_assoc($res);
+        $smf_type=(((int)(substr($row["value"],0,1))==1)?"smf":"smf2");
+    }
     
-    echo $lang[10] . (($smf_installed==$lang[0]) ? "#00FF00" : "#FF0000") . $lang[4] . $smf_installed .  $lang[5];
+    echo $lang[10] . (($smf_installed==$lang[0]) ? "#00FF00" : "#FF0000") . $lang[4] . $smf_installed . ((isset($row["value"]) && !empty($row["value"]))?" (".$row["value"].") ":"") . $lang[5];
     if($smf_installed==$lang[1])
         die($lang[7] . $lang[8] . $lang[9] . $lang[35]);
 
@@ -152,14 +160,12 @@ if($act=="")
     elseif($status==$lang[12])
         die($lang[15] . $BASEDIR . "/smf/Themes/default/languages/Errors.english.php" . $lang[17] . $lang[9] . $lang[35]);
 
-    die($lang[19] . $_SERVER["PHP_SELF"] . "?act=init_setup" . $lang[20] . $lang[35]);
+    die($lang[19] . $_SERVER["PHP_SELF"] . "?act=init_setup&smf_type=" . $smf_type . $lang[20] . $lang[35]);
     
 }
 elseif($act=="init_setup"  && $confirm!="yes")
 {
-
     die($lang[21] . $lang[22] . $lang[23] . $lang[35]);
-
 }
 elseif($act=="init_setup"  && $confirm=="yes")
 {
@@ -169,6 +175,8 @@ elseif($act=="init_setup"  && $confirm=="yes")
        {
        die($lang[34] . $lang[35]);
     }
+
+    $smf_type=$_GET["smf_type"];
 
     // Purge the current forum settings we're about to rebuild
     @mysql_query("TRUNCATE TABLE {$db_prefix}board_permissions");
@@ -190,7 +198,7 @@ elseif($act=="init_setup"  && $confirm=="yes")
         // Rank is validating, set up limited access
         if($rank["id_level"]==12)
         {
-            $query1 ="INSERT INTO {$db_prefix}board_permissions (ID_GROUP, ID_BOARD, permission) VALUES ";
+            $query1 ="INSERT INTO `{$db_prefix}board_permissions` (".(($smf_type=="smf")?"`ID_GROUP`, `ID_BOARD`":"`id_group`, `id_profile`").", `permission`) VALUES ";
             $query1.="(".$rank["id_level"].", 0, 'poll_view'), ";
             $query1.="(".$rank["id_level"].", 0, 'report_any'), ";
             $query1.="(".$rank["id_level"].", 0, 'post_reply_own'), ";
@@ -201,7 +209,7 @@ elseif($act=="init_setup"  && $confirm=="yes")
             $query1.="(".$rank["id_level"].", 0, 'mark_any_notify'), ";
             $query1.="(".$rank["id_level"].", 0, 'mark_notify')";
 
-            $query2 ="INSERT INTO {$db_prefix}permissions (ID_GROUP, permission) VALUES ";
+            $query2 ="INSERT INTO `{$db_prefix}permissions` (".(($smf_type=="smf")?"`ID_GROUP`":"`id_group`").", `permission`) VALUES ";
             $query2.="(".$rank["id_level"].", 'calendar_view'), ";
             $query2.="(".$rank["id_level"].", 'search_posts'), ";
             $query2.="(".$rank["id_level"].", 'view_stats'), ";
@@ -209,13 +217,16 @@ elseif($act=="init_setup"  && $confirm=="yes")
             $query2.="(".$rank["id_level"].", 'profile_view_own'), ";
             $query2.="(".$rank["id_level"].", 'profile_identity_own')";
 
-            $query3 ="INSERT INTO {$db_prefix}membergroups (ID_GROUP, groupName, onlineColor, minPosts, stars) VALUES ";
+            if($smf_type=="smf")
+                $query3 ="INSERT INTO `{$db_prefix}membergroups` (`ID_GROUP`, `groupName`, `onlineColor`, `minPosts`, `stars`) VALUES ";
+            else
+                $query3 ="INSERT INTO `{$db_prefix}membergroups` (`id_group`, `group_name`, `online_color`, `min_posts`, `stars`) VALUES ";
             $query3.="(".$rank["id_level"].", 'Validating', '', -1, '')";
         }
         // Rank has full admin access
         elseif($rank["edit_forum"]=="yes" && $rank["admin_access"]=="yes")
         {
-            $query1 ="INSERT INTO {$db_prefix}board_permissions (ID_GROUP, ID_BOARD, permission) VALUES ";
+            $query1 ="INSERT INTO `{$db_prefix}board_permissions` (".(($smf_type=="smf")?"`ID_GROUP`, `ID_BOARD`":"`id_group`, `id_profile`").", `permission`) VALUES ";
             $query1.="(".$rank["id_level"].", 0, 'poll_lock_own'), ";
             $query1.="(".$rank["id_level"].", 0, 'poll_edit_any'), ";
             $query1.="(".$rank["id_level"].", 0, 'poll_edit_own'), ";
@@ -254,7 +265,7 @@ elseif($act=="init_setup"  && $confirm=="yes")
             $query1.="(".$rank["id_level"].", 0, 'view_attachments'), ";
             $query1.="(".$rank["id_level"].", 0, 'post_attachment')";
 
-            $query2 ="INSERT INTO {$db_prefix}permissions (ID_GROUP, permission) VALUES ";
+            $query2 ="INSERT INTO `{$db_prefix}permissions` (".(($smf_type=="smf")?"`ID_GROUP`":"`id_group`").", `permission`) VALUES ";
             $query2.="(".$rank["id_level"].", 'profile_remote_avatar'), ";
             $query2.="(".$rank["id_level"].", 'profile_upload_avatar'), ";
             $query2.="(".$rank["id_level"].", 'profile_server_avatar'), ";
@@ -288,13 +299,16 @@ elseif($act=="init_setup"  && $confirm=="yes")
             $query2.="(".$rank["id_level"].", 'view_mlist'), ";
             $query2.="(".$rank["id_level"].", 'view_stats')";
 
-            $query3 ="INSERT INTO {$db_prefix}membergroups (ID_GROUP, groupName, onlineColor, minPosts, stars) VALUES ";
+            if($smf_type=="smf")
+                $query3 ="INSERT INTO `{$db_prefix}membergroups` (`ID_GROUP`, `groupName`, `onlineColor`, `minPosts`, `stars`) VALUES ";
+            else
+                $query3 ="INSERT INTO `{$db_prefix}membergroups` (`id_group`, `group_name`, `online_color`, `min_posts`, `stars`) VALUES ";
             $query3.="(".$rank["id_level"].", '".$rank["level"]."', '#FF0000', -1, '5#staradmin.gif')";
         }
         // Rank has forum edit rights but no admin access (moderator/low level admin)
         elseif($rank["edit_forum"]=="yes" && $rank["admin_access"]=="no")
         {
-            $query1 ="INSERT INTO {$db_prefix}board_permissions (ID_GROUP, ID_BOARD, permission) VALUES ";
+            $query1 ="INSERT INTO `{$db_prefix}board_permissions` (".(($smf_type=="smf")?"`ID_GROUP`, `ID_BOARD`":"`id_group`, `id_profile`").", `permission`) VALUES ";
             $query1.="(".$rank["id_level"].", 0, 'delete_any'), ";
             $query1.="(".$rank["id_level"].", 0, 'delete_own'), ";
             $query1.="(".$rank["id_level"].", 0, 'remove_any'), ";
@@ -326,7 +340,7 @@ elseif($act=="init_setup"  && $confirm=="yes")
             $query1.="(".$rank["id_level"].", 0, 'view_attachments'), ";
             $query1.="(".$rank["id_level"].", 0, 'post_attachment')";
 
-            $query2 ="INSERT INTO {$db_prefix}permissions (ID_GROUP, permission) VALUES ";
+            $query2 ="INSERT INTO `{$db_prefix}permissions` (".(($smf_type=="smf")?"`ID_GROUP`":"`id_group`").", `permission`) VALUES ";
             $query2.="(".$rank["id_level"].", 'calendar_view'), ";
             $query2.="(".$rank["id_level"].", 'karma_edit'), ";
             $query2.="(".$rank["id_level"].", 'view_stats'), ";
@@ -345,13 +359,16 @@ elseif($act=="init_setup"  && $confirm=="yes")
             $query2.="(".$rank["id_level"].", 'profile_upload_avatar'), ";
             $query2.="(".$rank["id_level"].", 'profile_remote_avatar')";
 
-            $query3 ="INSERT INTO {$db_prefix}membergroups (ID_GROUP, groupName, onlineColor, minPosts, stars) VALUES ";
+            if($smf_type=="smf")
+                $query3 ="INSERT INTO `{$db_prefix}membergroups` (`ID_GROUP`, `groupName`, `onlineColor`, `minPosts`, `stars`) VALUES ";
+            else
+                $query3 ="INSERT INTO `{$db_prefix}membergroups` (`id_group`, `group_name`, `online_color`, `min_posts`, `stars`) VALUES ";
             $query3.="(".$rank["id_level"].", '".$rank["level"]."', '#00FF00', -1, '5#starmod.gif')";
         }
         else
         {
             // Bog standard settings
-            $query1 ="INSERT INTO {$db_prefix}board_permissions (ID_GROUP, ID_BOARD, permission) VALUES ";
+            $query1 ="INSERT INTO `{$db_prefix}board_permissions` (".(($smf_type=="smf")?"`ID_GROUP`, `ID_BOARD`":"`id_group`, `id_profile`").", `permission`) VALUES ";
             $query1.="(".$rank["id_level"].", 0, 'view_attachments'), ";
             $query1.="(".$rank["id_level"].", 0, 'send_topic'), ";
             $query1.="(".$rank["id_level"].", 0, 'report_any'), ";
@@ -368,7 +385,7 @@ elseif($act=="init_setup"  && $confirm=="yes")
             $query1.="(".$rank["id_level"].", 0, 'mark_notify'), ";
             $query1.="(".$rank["id_level"].", 0, 'mark_any_notify')";
 
-            $query2 ="INSERT INTO {$db_prefix}permissions (ID_GROUP, permission) VALUES ";
+            $query2 ="INSERT INTO `{$db_prefix}permissions` (".(($smf_type=="smf")?"`ID_GROUP`":"`id_group`").", `permission`) VALUES ";
             $query2.="(".$rank["id_level"].", 'who_view'), ";
             $query2.="(".$rank["id_level"].", 'view_stats'), ";
             $query2.="(".$rank["id_level"].", 'view_mlist'), ";
@@ -385,18 +402,22 @@ elseif($act=="init_setup"  && $confirm=="yes")
             $query2.="(".$rank["id_level"].", 'karma_edit'), ";
             $query2.="(".$rank["id_level"].", 'calendar_view')";
 
-            $query3 ="INSERT INTO {$db_prefix}membergroups (ID_GROUP, groupName, onlineColor, minPosts, stars) VALUES ";
+            if($smf_type=="smf")
+                $query3 ="INSERT INTO `{$db_prefix}membergroups` (`ID_GROUP`, `groupName`, `onlineColor`, `minPosts`, `stars`) VALUES ";
+            else
+                $query3 ="INSERT INTO `{$db_prefix}membergroups` (`id_group`, `group_name`, `online_color`, `min_posts`, `stars`) VALUES ";
             $query3.="(".$rank["id_level"].", '".$rank["level"]."', '', -1, '')";
         }
         // Run the queries
         @mysql_query($query1);
         @mysql_query($query2);
         @mysql_query($query3);
+        @mysql_query("UPDATE `{$TABLE_PREFIX}users_level` SET `smf_group_mirror`=".$rank["id_level"]." WHERE `level`='".mysql_real_escape_string($rank["level"])."'");
     }
     // Allow all ranks to see the initial test forum
-    @mysql_query("UPDATE {$db_prefix}boards SET memberGroups ='".substr($ranklist,0,strlen($ranklist)-1).",-1' WHERE ID_BOARD=1");
+    @mysql_query("UPDATE `{$db_prefix}boards` SET `member".(($smf_type=="smf")?"G":"_g")."roups`='".substr($ranklist,0,strlen($ranklist)-1).",-1' WHERE ".(($smf_type=="smf")?"`ID_BOARD`":"`id_board`")."=1");
     // Disable forum registration
-    @mysql_query("UPDATE {$db_prefix}settings SET value=3 WHERE variable='registration_method'");
+    @mysql_query("UPDATE `{$db_prefix}settings` SET `value`=3 WHERE `variable`='registration_method'");
 
     $smf_lang="smf/Themes/default/languages/Errors.english.php";
     require_once($smf_lang);
@@ -423,14 +444,24 @@ elseif($act=="init_setup"  && $confirm=="yes")
     fclose($fd);
 
     // Make sure there is an smf_fid column in the users table, if not add one
-    $query=mysql_query("SHOW COLUMNS FROM {$TABLE_PREFIX}users WHERE Field='smf_fid'");
+    $query=mysql_query("SHOW COLUMNS FROM `{$TABLE_PREFIX}users` WHERE `Field`='smf_fid'");
     $count=mysql_num_rows($query);
     if ($count==0)
-        @mysql_query("ALTER TABLE {$TABLE_PREFIX}users ADD smf_fid INT( 10 ) NOT NULL DEFAULT '0'");
+        @mysql_query("ALTER TABLE `{$TABLE_PREFIX}users` ADD `smf_fid` INT( 10 ) NOT NULL DEFAULT '0',  ADD INDEX (`smf_fid`)");
+    else
+    {
+        $indexed=mysql_query("SHOW INDEX FROM `{$TABLE_PREFIX}users` WHERE `Key_name`='smf_fid'");
+        if(@mysql_num_rows($indexed)==0)
+        {
+            mysql_query("ALTER TABLE `{$TABLE_PREFIX}users` ADD INDEX (`smf_fid`)");
+        }
+    }
     die($lang[24] . $lang[25] . $lang[35]);
 }
 elseif($act=="member_import" && $confirm=="yes")
 {
+    $smf_type=$_GET["smf_type"];
+
     if($start==2)
         $end=$start+98;
     else
@@ -439,69 +470,81 @@ elseif($act=="member_import" && $confirm=="yes")
     
     if($lastacc==0)
     {
-        $last=mysql_query("SELECT `id` FROM `[$TABLE_PREFIX]users` ORDER BY `id` DESC LIMIT 1");
+        $last=mysql_query("SELECT `id` FROM `{$TABLE_PREFIX}users` ORDER BY `id` DESC LIMIT 1");
         $acc=mysql_fetch_assoc($res);
         $lastacc=$acc["id"];
     }
     
     // Import Tracker accounts to the forum
-    $query="SELECT u.id, u.username, u.id_level +10 id_level, u.password, u.email, UNIX_TIMESTAMP(u.joined) joined, u.lip, COUNT(p.userid) posts FROM {$TABLE_PREFIX}users u LEFT JOIN {$TABLE_PREFIX}posts p ON u.id=p.userid WHERE u.id >=$start AND u.id <=$end GROUP BY u.id ORDER BY u.id ASC";
+    $query="SELECT `u`.`id`, `u`.`username`, `u`.`id_level`+10 `id_level`, `u`.`password`, `u`.`pass_type`, `u`.`email`, UNIX_TIMESTAMP(`u`.`joined`) `joined`, `u`.`lip`, COUNT(`p`.`userid`) `posts` FROM `{$TABLE_PREFIX}users` `u` LEFT JOIN `{$TABLE_PREFIX}posts` `p` ON `u`.`id`=`p`.`userid` WHERE `u`.`id` >=$start AND `u`.`id` <=$end GROUP BY `u`.`id` ORDER BY `u`.`id` ASC";
     $list=mysql_query($query);
     $count=mysql_num_rows($list);
     if($start==2)
-        @mysql_query("TRUNCATE TABLE {$db_prefix}members");
+        @mysql_query("TRUNCATE TABLE `{$db_prefix}members`");
     if($count>0)
     {
         while ($account=mysql_fetch_assoc($list))
         {
             $counter++;
-            @mysql_query("INSERT INTO {$db_prefix}members (ID_MEMBER, memberName, dateRegistered, ID_GROUP, realName, passwd, emailAddress, memberIP, memberIP2, is_activated, passwordSalt, posts) VALUES (".$account["id"].", '".$account["username"]."', ".$account["joined"].", ".$account["id_level"].", '".$account["username"]."', '".$account["password"]."', '".$account["email"]."', '".long2ip($account["lip"])."', '".long2ip($account["lip"])."', 1, '',".$account["posts"].")");
-            @mysql_query("UPDATE {$TABLE_PREFIX}users SET smf_fid=".$account["id"]." WHERE id=".$account["id"]);
+            @mysql_query("INSERT INTO `{$db_prefix}members` (".(($smf_type=="smf")?"`ID_MEMBER`, `memberName`, `dateRegistered`, `ID_GROUP`, `realName`, `passwd`, `emailAddress`, `memberIP`, `memberIP2`, `is_activated`, `passwordSalt`":"`id_member`, `member_name`, `date_registered`, `id_group`, `real_name`, `passwd`, `email_address`, `member_ip`, `member_ip2`, `is_activated`, `password_salt`").", `posts`) VALUES (".$account["id"].", '".$account["username"]."', ".$account["joined"].", ".$account["id_level"].", '".$account["username"]."', '".(($account["pass_type"]==1)?$account["password"]:"ffffffffffffffffffffffffffffffffffffffff")."', '".$account["email"]."', '".long2ip($account["lip"])."', '".long2ip($account["lip"])."', 1, '',".$account["posts"].")");
+            @mysql_query("UPDATE `{$TABLE_PREFIX}users` SET `smf_fid`=".$account["id"]." WHERE `id`=".$account["id"]);
         }
-        print("<script LANGUAGE=\"javascript\">window.location.href='".$_SERVER["PHP_SELF"]."?act=member_import&confirm=yes&start=$newstart&counter=$counter&lastacc=$lastacc'</script>");
+        print("<script LANGUAGE=\"javascript\">window.location.href='".$_SERVER["PHP_SELF"]."?act=member_import&confirm=yes&start=$newstart&counter=$counter&lastacc=$lastacc&smf_type=$smf_type'</script>");
     }
     elseif($lastacc > $end)
     {
-        print("<script LANGUAGE=\"javascript\">window.location.href='".$_SERVER["PHP_SELF"]."?act=member_import&confirm=yes&start=$newstart&counter=$counter&lastacc=$lastacc'</script>");
+        print("<script LANGUAGE=\"javascript\">window.location.href='".$_SERVER["PHP_SELF"]."?act=member_import&confirm=yes&start=$newstart&counter=$counter&lastacc=$lastacc&smf_type=$smf_type'</script>");
     }
     
-    $last=mysql_fetch_assoc(mysql_query("SELECT ID_MEMBER, memberName FROM {$db_prefix}members ORDER BY ID_MEMBER DESC LIMIT 1"));
-    @mysql_query("UPDATE {$db_prefix}settings SET value='".$last["memberName"]."' WHERE variable='latestRealName'");
-    @mysql_query("UPDATE {$db_prefix}settings SET value='".$last["ID_MEMBER"]."' WHERE variable='latestMember'");
+    $last=mysql_fetch_assoc(mysql_query("SELECT ".(($smf_type=="smf")?"`ID_MEMBER`, `memberName`":"`id_member`, `member_name`")." FROM `{$db_prefix}members` ORDER BY ".(($smf_type=="smf")?"`ID_MEMBER`":"`id_member`")." DESC LIMIT 1"));
+    @mysql_query("UPDATE {$db_prefix}settings SET value='".(($smf_type=="smf")?$last["memberName"]:$last["member_name"])."' WHERE variable='latestRealName'");
+    @mysql_query("UPDATE {$db_prefix}settings SET value='".(($smf_type=="smf")?$last["ID_MEMBER"]:$last["id_member"])."' WHERE variable='latestMember'");
     print($lang[28] . $counter . $lang[29]);
-    
 }
 elseif($act=="import_forum" && $confirm!="yes")
     die($lang[30] . $lang[31] . $lang[35]);
 elseif($act=="import_forum" && $confirm=="yes")
 {
-    $sqlquery ="SELECT MAX(boardOrder)+1 AS nextboard, membergroups, MAX(catOrder)+1 AS nextcat ";
-    $sqlquery.="FROM {$db_prefix}boards, {$db_prefix}categories ";
-    $sqlquery.="WHERE ID_BOARD=1 ";
-    $sqlquery.="GROUP BY membergroups";
+    $smf_type=$_GET["smf_type"];
 
-    $res=mysql_query($sqlquery);
+    if($smf_type=="smf")
+    {
+        $sqlquery ="SELECT MAX(`boardOrder`)+1 `nextboard`, `membergroups`, MAX(`catOrder`)+1 `nextcat` ";
+        $sqlquery.="FROM `{$db_prefix}boards`, `{$db_prefix}categories` ";
+        $sqlquery.="WHERE `ID_BOARD`=1 ";
+        $sqlquery.="GROUP BY `membergroups`";
+    }
+    else
+    {
+        $sqlquery ="SELECT MAX(`board_order`)+1 `nextboard`, `member_groups` `membergroups`, MAX(`cat_order`)+1 `nextcat` ";
+        $sqlquery.="FROM `{$db_prefix}boards`, `{$db_prefix}categories` ";
+        $sqlquery.="WHERE `id_board`=1 ";
+        $sqlquery.="GROUP BY `membergroups`";
+    }
+
+    $res=mysql_query($sqlquery) or die(mysql_error()."<br />SQL Query:<br />".$sqlquery);
     $row=mysql_fetch_assoc($res);
     $membergroups=substr($row["membergroups"], 0, strlen($row["membergroups"])-3);
     $nextboard=$row["nextboard"];
     $nextcat=$row["nextcat"];
 
-    $sqlquery ="INSERT INTO {$db_prefix}categories ";
-    $sqlquery.="SET catOrder=$nextcat, name='My BTI Import'";
+    $sqlquery ="INSERT INTO `{$db_prefix}categories` ";
+    $sqlquery.="SET `cat".(($smf_type=="smf")?"O":"_o")."rder`=$nextcat, `name`='My BTI Import'";
 
-    @mysql_query($sqlquery);
+    @mysql_query($sqlquery) or die(mysql_error()."<br />SQL Query:<br />".$sqlquery);
 
     $ourcat=mysql_insert_id();
 
     // SQL Query to grab the current Internal Forum Layout
     $sqlquery ="SELECT * ";
-    $sqlquery.="FROM {$TABLE_PREFIX}forums ";
-    $sqlquery.="ORDER BY id ASC";
+    $sqlquery.="FROM `{$TABLE_PREFIX}forums` ";
+    $sqlquery.="ORDER BY `id` ASC";
 
-    $res=mysql_query($sqlquery);
+    $res=mysql_query($sqlquery) or die(mysql_error()."<br />SQL Query:<br />".$sqlquery);
     $forumlist=array();
 
     // Lets put all the found results into a single array for later
+    $subcat="";
     while($forums=mysql_fetch_assoc($res))
     {
         $i=$forums["id"];
@@ -518,13 +561,16 @@ elseif($act=="import_forum" && $confirm=="yes")
         else
             $forumlist[$i]["permissions"]=substr($membergroups, strpos($membergroups, sprintf("%s", $forumlist[$i]["minclassread"])), strlen($membergroups));
     
-        $sqlquery ="INSERT INTO {$db_prefix}boards ";
-        $sqlquery.="(ID_CAT, boardOrder, memberGroups, name, description) ";
+        $sqlquery ="INSERT INTO `{$db_prefix}boards` ";
+        if($smf_type=="smf")
+            $sqlquery.="(`ID_CAT`, `boardOrder`, `memberGroups`, `name`, `description`) ";
+        else
+            $sqlquery.="(`id_cat`, `board_order`, `member_groups`, `name`, `description`) ";
         $sqlquery.="VALUES ($ourcat, $nextboard, '".$forumlist[$i]["permissions"]."', ";
         $sqlquery.=" '".mysql_real_escape_string($forumlist[$i]["name"])."', ";
         $sqlquery.="'".mysql_real_escape_string($forumlist[$i]["description"])."')";
 
-        @mysql_query($sqlquery);
+        @mysql_query($sqlquery) or die(mysql_error()."<br />SQL Query:<br />".$sqlquery);
         $forumlist[$i]["newid"]=mysql_insert_id();
         if($forumlist[$i]["id_parent"]!=0) $subcat.=$i .",";
         $nextboard++;
@@ -536,9 +582,14 @@ elseif($act=="import_forum" && $confirm=="yes")
         $main=$forumlist[$v]["id_parent"];
         $forid=$forumlist[$v]["newid"];
         $newparent=$forumlist[$main]["newid"];
-        @mysql_query("UPDATE {$db_prefix}boards SET ID_PARENT=$newparent WHERE ID_BOARD=$forid");
+        if($smf_type=="smf")
+            $sqlquery="UPDATE `{$db_prefix}boards` SET `ID_PARENT`=$newparent WHERE `ID_BOARD`=".$forid;
+        else
+            $sqlquery="UPDATE `{$db_prefix}boards` SET `id_parent`=$newparent WHERE `id_board`=".$forid;
+        @mysql_query($sqlquery) or die(mysql_error()."<br />SQL Query:<br />".$sqlquery);
     }
-    $res=mysql_query("SELECT * FROM {$TABLE_PREFIX}topics ORDER BY id ASC");
+    $sqlquery="SELECT * FROM `{$TABLE_PREFIX}topics` ORDER BY `id` ASC";
+    $res=mysql_query($sqlquery) or die(mysql_error()."<br />SQL Query:<br />".$sqlquery);
     while($topiclist=mysql_fetch_assoc($res))
     {
         $i=$topiclist["id"];
@@ -549,12 +600,17 @@ elseif($act=="import_forum" && $confirm=="yes")
         {
             $topics[$i][$k]=$v;
         }
-        $query="INSERT INTO {$db_prefix}topics (isSticky, ID_BOARD, ID_FIRST_MSG, ID_LAST_MSG, ID_MEMBER_STARTED, numViews, locked) VALUES (".$topics[$i]["sticky"].", ".$forumlist[$topics[$i]["forumid"]]["newid"].", ".rand(0,2147483647).", ".rand(0,2147483647).", ".$topics[$i]["userid"].", ".$topics[$i]["views"].", ".$topics[$i]["locked"].")";
-        @mysql_query($query);
+        if($smf_type=="smf")
+            $sqlquery="INSERT INTO `{$db_prefix}topics` (`isSticky`, `ID_BOARD`, `ID_FIRST_MSG`, `ID_LAST_MSG`, `ID_MEMBER_STARTED`, `numViews`, `locked`) ";
+        else
+            $sqlquery="INSERT INTO `{$db_prefix}topics` (`is_sticky`, `id_board`, `id_first_msg`, `id_last_msg`, `id_member_started`, `num_views`, `locked`) ";
+        $sqlquery.="VALUES (".$topics[$i]["sticky"].", ".$forumlist[$topics[$i]["forumid"]]["newid"].", ".rand(0,2147483647).", ".rand(0,2147483647).", ".$topics[$i]["userid"].", ".$topics[$i]["views"].", ".$topics[$i]["locked"].")";
+        @mysql_query($sqlquery) or die(mysql_error()."<br />SQL Query:<br />".$sqlquery);
         $topics[$i]["newtopicid"]=mysql_insert_id();
 
     }
-    $res=mysql_query("SELECT p.* , u.username, u.email, u.lip, ua.username AS edit_username FROM {$TABLE_PREFIX}posts p LEFT JOIN {$TABLE_PREFIX}users u ON p.userid = u.id LEFT JOIN {$TABLE_PREFIX}users ua ON p.editedby = ua.id ORDER BY p.id ASC");
+    $sqlquery="SELECT `p`.* , `u`.`username`, `u`.`email`, `u`.`lip`, `ua`.`username` `edit_username` FROM `{$TABLE_PREFIX}posts` `p` LEFT JOIN `{$TABLE_PREFIX}users` `u` ON `p`.`userid` = `u`.`id` LEFT JOIN `{$TABLE_PREFIX}users` `ua` ON `p`.`editedby` = `ua`.`id` ORDER BY `p`.`id` ASC";
+    $res=mysql_query($sqlquery) or die(mysql_error()."<br />SQL Query:<br />".$sqlquery);
 
     while($postlist=mysql_fetch_assoc($res))
     {
@@ -564,29 +620,36 @@ elseif($act=="import_forum" && $confirm=="yes")
         {
             $posts[$i][$k]=$v;
         }
-        $query="INSERT INTO {$db_prefix}messages (ID_TOPIC, ID_BOARD, posterTime, ID_MEMBER, subject, posterName, posterEmail, posterIP, smileysEnabled, modifiedTime, modifiedName, body) VALUES (".$topics[$posts[$i]["topicid"]]["newtopicid"].", ".$forumlist[$topics[$posts[$i]["topicid"]]["forumid"]]["newid"].", ".$posts[$i]["added"].", ".$posts[$i]["userid"].", '".mysql_real_escape_string($topics[$posts[$i]["topicid"]]["subject"])."', '".$posts[$i]["username"]."', '".$posts[$i]["email"]."', '".long2ip($posts[$i]["lip"])."', 1, ".$posts[$i]["editedat"].", '".(($posts[$i]["editedby"]==0) ? "" : $posts[$i]["edit_username"])."', '".mysql_real_escape_string($posts[$i]["body"])."')";
-        @mysql_query($query);
+        if($smf_type=="smf")
+            $sqlquery="INSERT INTO `{$db_prefix}messages` (`ID_TOPIC`, `ID_BOARD`, `posterTime`, `ID_MEMBER`, `subject`, `posterName`, `posterEmail`, `posterIP`, `smileysEnabled`, `modifiedTime`, `modifiedName`, `body`) ";
+        else
+            $sqlquery="INSERT INTO {$db_prefix}messages (`id_topic`, `id_board`, `poster_time`, `id_member`, `subject`, `poster_name`, `poster_email`, `poster_ip`, `smileys_enabled`, `modified_time`, `modified_name`, `body`) ";
+        $sqlquery.="VALUES (".$topics[$posts[$i]["topicid"]]["newtopicid"].", ".$forumlist[$topics[$posts[$i]["topicid"]]["forumid"]]["newid"].", ".$posts[$i]["added"].", ".$posts[$i]["userid"].", '".mysql_real_escape_string($topics[$posts[$i]["topicid"]]["subject"])."', '".$posts[$i]["username"]."', '".$posts[$i]["email"]."', '".long2ip($posts[$i]["lip"])."', 1, ".$posts[$i]["editedat"].", '".(($posts[$i]["editedby"]==0) ? "" : $posts[$i]["edit_username"])."', '".mysql_real_escape_string($posts[$i]["body"])."')";
+        @mysql_query($sqlquery) or die(mysql_error()."<br />SQL Query:<br />".$sqlquery);
         $posts[$i]["newpostid"]=mysql_insert_id();
     }
-    
-    $res=mysql_query("SELECT MAX(ID_MSG) AS max, ID_BOARD FROM {$db_prefix}messages GROUP BY ID_BOARD");
+    $sqlquery="SELECT MAX(".(($smf_type=="smf")?"`ID_MSG`":"`id_msg`").") `max`, ".(($smf_type=="smf")?"`ID_BOARD`":"`id_board`")." `idb` FROM `{$db_prefix}messages` GROUP BY `idb`";
+    $res=mysql_query($sqlquery) or die(mysql_error()."<br />SQL Query:<br />".$sqlquery);
     while($row=mysql_fetch_assoc($res))
     {
-        @mysql_query("UPDATE {$db_prefix}boards SET ID_LAST_MSG=".$row["max"]." WHERE ID_BOARD=".$row["ID_BOARD"]);
+        $sqlquery="UPDATE `{$db_prefix}boards` SET ".(($smf_type=="smf")?"`ID_LAST_MSG`":"`id_last_msg`")."=".$row["max"]." WHERE ".(($smf_type=="smf")?"`ID_BOARD`":"`id_board`")."=".$row["idb"];
+        @mysql_query($sqlquery) or die(mysql_error()."<br />SQL Query:<br />".$sqlquery);
     }
-    
-    $res=mysql_query("SELECT min( ID_MSG ) AS min, MAX( ID_MSG ) AS max, ID_TOPIC FROM {$db_prefix}messages GROUP BY ID_TOPIC");
+    $sqlquery="SELECT MIN(".(($smf_type=="smf")?"`ID_MSG`":"`id_msg`").") `min`, MAX(".(($smf_type=="smf")?"`ID_MSG`":"`id_msg`").") `max`, ".(($smf_type=="smf")?"`ID_TOPIC`":"`id_topic`")." `idt` FROM `{$db_prefix}messages` GROUP BY `idt`";
+    $res=mysql_query($sqlquery) or die(mysql_error()."<br />SQL Query:<br />".$sqlquery);
     while($row=mysql_fetch_assoc($res))
     {
-        @mysql_query("UPDATE {$db_prefix}topics SET ID_FIRST_MSG=".$row["min"].", ID_LAST_MSG=".$row["max"]." WHERE ID_TOPIC=".$row["ID_TOPIC"]);
+        $sqlquery="UPDATE `{$db_prefix}topics` SET ".(($smf_type=="smf")?"`ID_FIRST_MSG`":"`id_first_msg`")."=".$row["min"].", ".(($smf_type=="smf")?"`ID_LAST_MSG`":"`id_last_msg`")."=".$row["max"]." WHERE ".(($smf_type=="smf")?"`ID_TOPIC`":"`id_topic`")."=".$row["idt"];
+        @mysql_query($sqlquery) or die(mysql_error()."<br />SQL Query:<br />".$sqlquery);
     }
-print("<script LANGUAGE=\"javascript\">window.location.href='".$_SERVER["PHP_SELF"]."?act=completed'</script>");
+print("<script LANGUAGE=\"javascript\">window.location.href='".$_SERVER["PHP_SELF"]."?act=completed&smf_type=$smf_type'</script>");
 }
 elseif($act=="completed")
 {
+    $smf_type=$_GET["smf_type"];
     // Lock import file from future use and change to smf mode
-    @mysql_query("UPDATE {$TABLE_PREFIX}settings SET `value` ='smf' WHERE `key`='forum'");
-    @mysql_query("UPDATE {$TABLE_PREFIX}users SET random=54345 WHERE id=1");
+    @mysql_query("UPDATE `{$TABLE_PREFIX}settings` SET `value` ='smf".(($smf_type=="smf")?"":"2")."' WHERE `key`='forum'");
+    @mysql_query("UPDATE `{$TABLE_PREFIX}users` SET `random`=54345 WHERE `id`=1");
     echo $lang[32] . $lang[33] . $lang[35];
 }
 

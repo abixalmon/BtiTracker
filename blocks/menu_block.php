@@ -30,10 +30,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-global $CURUSER;
+global $CURUSER, $FORUMLINK, $language;
 
-   block_begin(BLOCK_MENU);
-   //print("<tr><td class=\"lista\" align=\"center\">\n");
    print("<table class=\"lista\" width=\"100%\" cellspacing=\"0\">\n<tr><td class=\"blocklist\" align=\"center\"><a class=\"menu\" href=\"index.php\">".$language["MNU_INDEX"]."</a></td></tr>\n");
 
    if ($CURUSER["view_torrents"]=="yes")
@@ -49,17 +47,14 @@ global $CURUSER;
       print("<tr><td class=\"blocklist\" align=\"center\"><a class=\"menu\" href=\"index.php?page=viewnews\">".$language["MNU_NEWS"]."</a></td></tr>\n");
    if ($CURUSER["view_forum"]=="yes")
       {
-        if ($GLOBALS["FORUMLINK"]=="" || $GLOBALS["FORUMLINK"]=="internal" || $GLOBALS["FORUMLINK"]=="smf")
+        if ($FORUMLINK=="" || $FORUMLINK=="internal" || substr($FORUMLINK,0,3)=="smf")
            print("<tr><td class=\"blocklist\" align=\"center\"><a class=\"menu\" href=\"index.php?page=forum\">".$language["MNU_FORUM"]."</a></td></tr>\n");
-        elseif ($GLOBALS["FORUMLINK"]=="smf")
-           print("<tr><td class=\"blocklist\" align=\"center\"><a class=\"menu\" href=\"".$GLOBALS["FORUMLINK"]."\">".$language["MNU_FORUM"]."</a></td></tr>\n");
         else
-            print("<tr><td class=\"blocklist\" align=\"center\"><a class=\"menu\" href=\"".$GLOBALS["FORUMLINK"]."\">".$language["MNU_FORUM"]."</a></td></tr>\n");
+            print("<tr><td class=\"blocklist\" align=\"center\"><a class=\"menu\" href=\"".$FORUMLINK."\">".$language["MNU_FORUM"]."</a></td></tr>\n");
       }
    if ($CURUSER["uid"]==1 || !$CURUSER)
       print("<tr><td class=\"blocklist\" align=\"center\"><a class=\"menu\" href=\"index.php?page=login\">".$language["LOGIN"]."</a></td></tr>\n</table>\n");
    else
        print("<tr><td class=\"blocklist\" align=\"center\"><a class=\"menu\" href=\"logout.php\">".$language["LOGOUT"]."</a></td></tr>\n</table>\n");
 
-   block_end();
 ?>

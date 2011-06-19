@@ -30,14 +30,14 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-global $CURUSER, $FORUMLINK, $THIS_BASEPATH, $db_prefix, $block_forumlimit, $btit_settings, $TABLE_PREFIX;
+global $CURUSER, $FORUMLINK, $THIS_BASEPATH, $db_prefix, $block_forumlimit, $btit_settings, $TABLE_PREFIX, $language;
 
 # return empty block if can't view
 if (!$CURUSER || $CURUSER['view_forum']=='no')
     return;
 
 # init based on forum type
-if ($FORUMLINK=='smf') {
+if (substr($FORUMLINK,0,3)=='smf') {
     $topicsTable=$db_prefix.'topics';
     $postsTable=$db_prefix.'messages';
 } else {
@@ -58,21 +58,24 @@ if ($topics!=0) {
     $limit='LIMIT '.((isset($block_forumlimit))?$block_forumlimit:5).';';
     $postsList='';
     # test forum type
-    if ($FORUMLINK=='smf') {
-        $boards=get_result('SELECT ID_BOARD, memberGroups FROM `'.$db_prefix.'boards`;',true,$btit_settings['cache_duration']);
-        $exclude=($realLastPosts)?'':'WHERE t.ID_LAST_MSG=m.ID_MSG';
+    if (substr($FORUMLINK,0,3)=='smf') {
+        $boards=get_result("SELECT ".(($FORUMLINK=="smf")?"`ID_BOARD`, `memberGroups`":"`id_board`, `member_groups`")." FROM `{$db_prefix}boards`",true,$btit_settings['cache_duration']);
+        $exclude=($realLastPosts)?"":(($FORUMLINK=="smf")?"WHERE `t`.`ID_LAST_MSG`=`m`.`ID_MSG`":"WHERE `t`.`id_last_msg`=`m`.`id_msg`");
         foreach ($boards as $check) {
-            $forumid=$check['ID_BOARD'];
-            $read=explode(',',$check['memberGroups']);
-            if (!in_array($CURUSER['id_level']+10, $read))
-                $exclude.=(($exclude=='')?'WHERE ':' AND ').'m.ID_BOARD!='.$forumid;
+            $forumid=(($FORUMLINK=="smf")?$check["ID_BOARD"]:$check["id_board"]);
+            $read=explode(',',(($FORUMLINK=="smf")?$check["memberGroups"]:$check["member_groups"]));
+            if (!in_array((($CURUSER["smf_group_mirror"]>0)?$CURUSER["smf_group_mirror"]:$CURUSER['id_level']+10), $read))
+                $exclude.=(($exclude=='')?"WHERE ":" AND ")."`m`.".(($FORUMLINK=="smf")?"`ID_BOARD`":"`id_board`")."!=".$forumid;
         }
         # get posts [ shoult also test for permissions ]
-        $lastPosts=get_result('SELECT m.ID_TOPIC AS tid, m.ID_MSG as pid, t.ID_FIRST_MSG as spid, m.posterTime AS added, m.posterName AS username, m.body as body, m.ID_MEMBER as userid FROM '.$db_prefix.'messages as m LEFT JOIN '.$db_prefix.'topics as t ON m.ID_TOPIC=t.ID_TOPIC '.$exclude.' ORDER BY m.posterTime DESC '.$limit,true,$btit_settings['cache_duration']);
+        if($FORUMLINK=="smf")
+            $lastPosts=get_result("SELECT `m`.`ID_TOPIC` `tid`, `m`.`ID_MSG` `pid`, `t`.`ID_FIRST_MSG` `spid`, `m`.`posterTime` `added`, `m`.`posterName` `username`, `m`.`body`, `m`.`ID_MEMBER` `userid` FROM `{$db_prefix}messages` `m` LEFT JOIN `{$db_prefix}topics` `t` ON `m`.`ID_TOPIC`=`t`.`ID_TOPIC` ".$exclude." ORDER BY `m`.`posterTime` DESC ".$limit,true,$btit_settings['cache_duration']);
+        else
+            $lastPosts=get_result("SELECT `m`.`id_topic` `tid`, `m`.`id_msg` `pid`, `t`.`id_first_msg` `spid`, `m`.`poster_time` `added`, `m`.`poster_name` `username`, `m`.`body`, `m`.`id_member` `userid` FROM `{$db_prefix}messages` `m` LEFT JOIN `{$db_prefix}topics` `t` ON `m`.`id_topic`=`t`.`id_topic` ".$exclude." ORDER BY `m`.`poster_time` DESC ".$limit,true,$btit_settings['cache_duration']);
         # format posts
         foreach ($lastPosts as $post) {
             # get topic subject
-            $title=get_result('SELECT subject FROM '.$db_prefix.'messages WHERE ID_MSG='.$post['spid'].' LIMIT 1;',true,$btit_settings['cache_duration']);
+            $title=get_result("SELECT `subject` FROM `{$db_prefix}messages` WHERE ".(($FORUMLINK=="smf")?"`ID_MSG`":"`id_msg`")."=".$post['spid']." LIMIT 1",true,$btit_settings['cache_duration']);
             $title=$title[0]['subject'];
             # cut it if necessary
             $post['title']=(strlen($title>33))?substr($title,0,30).'...':$title;

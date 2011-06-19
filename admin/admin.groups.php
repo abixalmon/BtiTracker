@@ -37,10 +37,11 @@ if (!defined("IN_BTIT"))
 if (!defined("IN_ACP"))
       die("non direct access!");
 
-
-
 $admintpl->set("add_new",false,true);
-
+$admintpl->set("smf_in_use_1", ((substr($FORUMLINK,0,3)=="smf")?true:false), true);
+$admintpl->set("smf_in_use_2", ((substr($FORUMLINK,0,3)=="smf")?true:false), true);
+$admintpl->set("smf_in_use_3", ((substr($FORUMLINK,0,3)=="smf")?true:false), true);
+$admintpl->set("colspan", ((substr($FORUMLINK,0,3)=="smf")?11:10));
 
 switch ($action)
     {
@@ -98,6 +99,19 @@ switch ($action)
           $current_group["can_upload"]=($current_group["can_upload"]=="yes"?"checked=\"checked\"":"");
           $current_group["can_download"]=($current_group["can_download"]=="yes"?"checked=\"checked\"":"");
           $current_group["admin_access"]=($current_group["admin_access"]=="yes"?"checked=\"checked\"":"");
+          if(substr($FORUMLINK,0,3)=="smf")
+          {
+              $current_group["forumlist"]=$language["SMF_LIST"];
+              $res=get_result("SELECT ".(($FORUMLINK=="smf")?"`ID_GROUP` `idg`, `groupName` `gn`":"`id_group` `idg`, `group_name` `gn`")." FROM `{$db_prefix}membergroups` ORDER BY `idg` ASC", true, $btit_settings["cache_duration"]);
+              if(count($res)>0)
+              {
+                  foreach($res as $row)
+                  {
+                      $current_group["forumlist"].=$row["gn"] . " = " . $row["idg"] . "<br />";
+                  }
+              }
+              $current_group["smf_group_mirror"]=unesc($current_group["smf_group_mirror"]);
+          }
           $admintpl->set("group",$current_group);
           break;
 
@@ -155,6 +169,8 @@ switch ($action)
                    $update[]="WT=".sqlesc($_POST["waiting"]);
                    $update[]="prefixcolor=".sqlesc($_POST["pcolor"]);
                    $update[]="suffixcolor=".sqlesc($_POST["scolor"]);
+                   if(substr($FORUMLINK,0,3)=="smf")
+                       $update[]="smf_group_mirror=".((int)0+$_POST["smf_group_mirror"]);
                    $strupdate=implode(",",$update);
                    do_sqlquery("UPDATE {$TABLE_PREFIX}users_level SET $strupdate WHERE id=$gid",true);
                    unset($update);
@@ -187,6 +203,8 @@ switch ($action)
                 $groups[$i]["can_download"]=$level["can_download"];
                 $groups[$i]["admin_access"]=$level["admin_access"];
                 $groups[$i]["WT"]=$level["WT"];
+                if(substr($FORUMLINK,0,3)=="smf")
+                    $groups[$i]["smf_group_mirror"]=$level["smf_group_mirror"];
                 $groups[$i]["delete"]=($level["can_be_deleted"]=="no"?"No":"<a onclick=\"return confirm('".AddSlashes($language["DELETE_CONFIRM"])."')\" href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=groups&amp;action=delete&amp;id=".$level["id"]."\">".image_or_link("$STYLEPATH/images/delete.png","",$language["DELETE"])."</a>");
                 $i++;
           }

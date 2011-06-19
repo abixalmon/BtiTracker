@@ -169,11 +169,11 @@ if ( $GLOBALS["FORUMLINK"] == '' || $GLOBALS["FORUMLINK"] == 'internal' )
    $posts_per_day = number_format(round($posts / $memberdays,2),2);
    $userdetailtpl-> set("userdetail_forum_posts", $posts . " &nbsp; [" . sprintf($language["POSTS_PER_DAY"], $posts_per_day) . "]");
 }
-elseif ($GLOBALS["FORUMLINK"]=="smf")
+elseif (substr($GLOBALS["FORUMLINK"],0,3)=="smf")
    {
-   $forum=get_result("SELECT dateRegistered, posts FROM {$db_prefix}members WHERE ID_MEMBER=".$row["smf_fid"],true,$btit_settings['cache_duration']);
+   $forum=get_result("SELECT `date".(($GLOBALS["FORUMLINK"]=="smf")?"R":"_r")."egistered`, `posts` FROM `{$db_prefix}members` WHERE ".(($GLOBALS["FORUMLINK"]=="smf")?"`ID_MEMBER`":"`id_member`")."=".$row["smf_fid"],true,$btit_settings['cache_duration']);
    $forum=$forum[0];
-   $memberdays = max(1, round( ( time() - $forum["dateRegistered"] ) / 86400 ));
+   $memberdays = max(1, round( ( time() - (($GLOBALS["FORUMLINK"]=="smf")?$forum["dateRegistered"]:$forum["date_registered"]) ) / 86400 ));
    $posts_per_day = number_format(round($forum["posts"] / $memberdays,2),2);
    $userdetailtpl-> set("userdetail_forum_posts", $forum["posts"] . " &nbsp; [" . sprintf($language["POSTS_PER_DAY"], $posts_per_day) . "]");
    unset($forum);

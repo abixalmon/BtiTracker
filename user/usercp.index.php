@@ -118,9 +118,8 @@ switch ($do)
            stderr($language["ERROR"], $language["BAD_ID"]);
        $random=max(0,$_GET["random"]);
        $idlevel=$CURUSER["id_level"];
-
        // Get the members random number, current email and temp email from their record
-       $getacc=mysql_fetch_assoc(do_sqlquery("SELECT random, email, temp_email".(($GLOBALS["FORUMLINK"]=="smf") ? ", smf_fid" : "")." from {$TABLE_PREFIX}users WHERE id=".$id,true));
+       $getacc=mysql_fetch_assoc(do_sqlquery("SELECT `u`.`random`, `u`.`email`, `u`.`temp_email`".((substr($GLOBALS["FORUMLINK"],0,3)=="smf") ? ", `u`.`smf_fid`, `ul`.`smf_group_mirror`" : "")." FROM `{$TABLE_PREFIX}users` `u` ".((substr($GLOBALS["FORUMLINK"],0,3)=="smf")?"LEFT JOIN `{$TABLE_PREFIX}users_level` `ul` ON 3=`ul`.`id`":"")." WHERE `u`.`id`=".$id,true));
        $oldmail=$getacc["email"];
        $dbrandom=$getacc["random"];
        $mailcheck=$getacc["temp_email"];
@@ -140,13 +139,13 @@ switch ($do)
             do_sqlquery("UPDATE {$TABLE_PREFIX}users SET email='".mysql_real_escape_string($newmail)."' WHERE id='".$id."'",true);
 
             // If using SMF, update their record on that too.            
-            if($GLOBALS["FORUMLINK"]=="smf")
+            if(substr($GLOBALS["FORUMLINK"],0,3)=="smf")
             {
                 $basedir=substr(str_replace("\\", "/", dirname(__FILE__)), 0, strrpos(str_replace("\\", "/", dirname(__FILE__)), '/'));
                 $language2=$language;
                 require_once($basedir."/smf/Settings.php");
                 $language=$language2;
-                do_sqlquery("UPDATE {$db_prefix}members SET emailAddress='".mysql_real_escape_string($newmail)."' WHERE ID_MEMBER=".$getacc["smf_fid"],true);
+                do_sqlquery("UPDATE `{$db_prefix}members` SET `email".(($GLOBALS["FORUMLINK"]=="smf")?"A":"_a")."ddress`='".mysql_real_escape_string($newmail)."' WHERE ".(($GLOBALS["FORUMLINK"]=="smf")?"`ID_MEMBER`":"`id_member`")."=".$getacc["smf_fid"],true);
             }
             
             // Print a message stating that their email has been successfully changed
@@ -157,8 +156,8 @@ switch ($do)
             {
                 // ...we may as well upgrade their rank to member whilst we're at it.
                 do_sqlquery("UPDATE {$TABLE_PREFIX}users SET id_level=3 WHERE id='".$id."'");
-                if($GLOBALS["FORUMLINK"]=="smf")
-                    do_sqlquery("UPDATE {$db_prefix}members SET ID_GROUP=13 WHERE ID_MEMBER=".$getacc["smf_fid"]);
+                if(substr($GLOBALS["FORUMLINK"],0,3)=="smf")
+                    do_sqlquery("UPDATE {$db_prefix}members SET ".(($GLOBALS["FORUMLINK"]=="smf")?"`ID_GROUP`":"`id_group`")."=".(($getacc["smf_group_mirror"]>0)?$getacc["smf_group_mirror"]:"13")." WHERE ".(($GLOBALS["FORUMLINK"]=="smf")?"`ID_MEMBER`":"`id_member`")."=".$getacc["smf_fid"]);
             }
        }
        // If the random number in the url is incorrect print an error message

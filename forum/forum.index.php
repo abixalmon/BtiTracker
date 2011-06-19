@@ -37,9 +37,9 @@ if (!defined("IN_BTIT"))
 if (!$CURUSER || $CURUSER["view_forum"]!="yes")
    stderr($language["ERROR"],$language["NOT_AUTHORIZED"]." ".$language["MNU_FORUM"]);
 
-if ($btit_settings["forum"]=="smf")
+if (substr($btit_settings["forum"],0,3)=="smf")
   {
-     $FORUMLINK=$BASEURL."/".$btit_settings["forum"];
+     $FORUMLINK=$BASEURL."/smf";
      $smf_content="";
      $smf_content.="
      <script type=\"text/javascript\" language=\"JavaScript\">

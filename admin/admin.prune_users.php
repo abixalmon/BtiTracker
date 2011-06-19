@@ -56,7 +56,7 @@ if ($action=="prune")
              }
      do_sqlquery("DELETE FROM {$TABLE_PREFIX}users WHERE id IN ('".implode("','",$del_id)."')",true);
      
-     if($GLOBALS["FORUMLINK"]=="smf")
+     if(substr($GLOBALS["FORUMLINK"],0,3)=="smf")
      {
          $smf_fid=array();
          foreach($_POST["smf_fid"] AS $v)
@@ -64,7 +64,7 @@ if ($action=="prune")
              $smf_fid[]=intval($v);
          }
          if (implode("", $smf_fid)!="")
-            do_sqlquery("DELETE FROM {$db_prefix}members WHERE ID_MEMBER IN ('".implode(",", $smf_fid)."')",true);
+            do_sqlquery("DELETE FROM `{$db_prefix}members` WHERE ".($GLOBALS["FORUMLINK"]=="smf")?"`ID_MEMBER`":"`id_member`")." IN ('".implode(",", $smf_fid)."')",true);
      }
      
      $block_title=$language["PRUNE_USERS_PRUNED"];
@@ -84,7 +84,7 @@ elseif ($action=="view")
           }
       $timeout=(60*60*24)*$days;
 
-      $res=get_result("SELECT u.id, u.username, UNIX_TIMESTAMP(u.joined) as joined, UNIX_TIMESTAMP(u.lastconnect) as lastconnect, ul.level".(($GLOBALS["FORUMLINK"]=="smf") ? ", u.smf_fid" : "")." from {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul ON ul.id=u.id_level WHERE (u.id>1 AND ul.id_level<3 AND UNIX_TIMESTAMP(joined)<(UNIX_TIMESTAMP()-$timeout)) OR (u.id>1 AND ul.id_level<7 AND UNIX_TIMESTAMP(lastconnect)<(UNIX_TIMESTAMP()-$timeout)) ORDER BY ul.id_level DESC, lastconnect",true);
+      $res=get_result("SELECT `u`.`id`, `u`.`username`, UNIX_TIMESTAMP(`u`.`joined`) `joined`, UNIX_TIMESTAMP(`u`.`lastconnect`) `lastconnect`, `ul`.`level`".((substr($GLOBALS["FORUMLINK"],0,3)=="smf") ? ", `u`.`smf_fid`" : "")." FROM `{$TABLE_PREFIX}users` `u` INNER JOIN `{$TABLE_PREFIX}users_level` `ul` ON `ul`.`id`=`u`.`id_level` WHERE (`u`.`id`>1 AND `ul`.`id_level`<3 AND UNIX_TIMESTAMP(`u`.`joined`)<(UNIX_TIMESTAMP()-$timeout)) OR (`u`.`id`>1 AND `ul`.`id_level`<7 AND UNIX_TIMESTAMP(`u`.`lastconnect`)<(UNIX_TIMESTAMP()-$timeout)) ORDER BY `ul`.`id_level` DESC, `u`.`lastconnect`",true);
 
 
       $block_title=$language["PRUNE_USERS"];
@@ -100,7 +100,7 @@ elseif ($action=="view")
              $ru[$i]["lastconnect"]=date("d/m/Y H:i",$rusers["lastconnect"]-$offset)." (".get_elapsed_time($rusers["lastconnect"]-$offset)." ago)";;
              $ru[$i]["level"]=unesc($rusers["level"]);
              $ru[$i]["id"]=$rusers["id"];
-             if($GLOBALS["FORUMLINK"]=="smf")
+             if(substr($GLOBALS["FORUMLINK"],0,3)=="smf")
                  $ru[$i]["smf_fid"]=$rusers["smf_fid"];
              else
                  $ru[$i]["smf_fid"]="";

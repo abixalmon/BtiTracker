@@ -29,7 +29,7 @@
 // EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 ////////////////////////////////////////////////////////////////////////////////////
-   global $CURUSER;
+   global $CURUSER, $FORUMLINK, $language;
 
 ?>
 <table cellpadding="4" cellspacing="1" width="100%" border="0" align="center" style="border-bottom:0px solid;">
@@ -74,12 +74,10 @@ if ($CURUSER["view_news"]=="yes")
    print("<td class=\"header\" align=\"center\"><a class=\"mainmenu\" href=\"index.php?page=viewnews\">".$language["MNU_NEWS"]."</a></td>\n");
 if ($CURUSER["view_forum"]=="yes")
    {
-   if ($GLOBALS["FORUMLINK"]=="" || $GLOBALS["FORUMLINK"]=="internal" || $GLOBALS["FORUMLINK"]=="smf")
+   if ($FORUMLINK=="" || $FORUMLINK=="internal" || substr($FORUMLINK,0,3)=="smf")
       print("<td class=\"header\" align=\"center\"><a class=\"mainmenu\" href=\"index.php?page=forum\">".$language["MNU_FORUM"]."</a></td>\n");
-   elseif ($GLOBALS["FORUMLINK"]=="smf")
-       print("<td class=\"header\" align=\"center\"><a class=\"mainmenu\" href=\"".$GLOBALS["FORUMLINK"]."\">".$language["MNU_FORUM"]."</a></td>\n");
    else
-       print("<td class=\"header\" align=\"center\"><a class=\"mainmenu\" href=\"".$GLOBALS["FORUMLINK"]."\">".$language["MNU_FORUM"]."</a></td>\n");
+       print("<td class=\"header\" align=\"center\"><a class=\"mainmenu\" href=\"".$FORUMLINK."\">".$language["MNU_FORUM"]."</a></td>\n");
     }
  
 ?>

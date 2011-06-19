@@ -30,7 +30,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-global $CURUSER, $FORUMLINK, $db_prefix,$XBTT_USE,$btit_settings;
+global $CURUSER, $FORUMLINK, $db_prefix, $btit_settings, $language;
 
   if (isset($CURUSER) && $CURUSER && $CURUSER["uid"]>1)
   {
@@ -51,10 +51,10 @@ if ($CURUSER["admin_access"]=="yes")
 
 print("<td style=\"text-align:center;\" align=\"center\"><a class=\"mainuser\" href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."\">".$language["USER_CP"]."</a></td>\n");
 
-if($FORUMLINK=="smf")
-    $resmail=get_result("SELECT unreadMessages as ur FROM {$db_prefix}members WHERE ID_MEMBER=".$CURUSER["smf_fid"],true,$btit_settings['cache_duration']);
+if(substr($FORUMLINK, 0, 3)=="smf")
+    $resmail=get_result("SELECT `unread".(($FORUMLINK=="smf")?"M":"_m")."essages` `ur` FROM `{$db_prefix}members` WHERE ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")."=".$CURUSER["smf_fid"],true,$btit_settings['cache_duration']);
 else
-    $resmail=get_result("SELECT COUNT(*) as ur FROM {$TABLE_PREFIX}messages WHERE readed='no' AND receiver=$CURUSER[uid]",true,$btit_settings['cache_duration']);
+    $resmail=get_result("SELECT COUNT(*) `ur` FROM `{$TABLE_PREFIX}messages` WHERE `readed`='no' AND `receiver`=".$CURUSER["uid"],true,$btit_settings['cache_duration']);
 if ($resmail && count($resmail)>0)
    {
     $mail=$resmail[0];
@@ -85,7 +85,7 @@ foreach($langue as $a)
                print(" value=\"account_change.php?langue=".$a["id"]."&amp;returnto=".urlencode($_SERVER['REQUEST_URI'])."\">".$a["language"]."</option>");
                }
 print("</select></td>");
-//print("<td class=lista align=center>".USER_LASTACCESS.": ".date("d/m/Y H:i:s",$CURUSER["lastconnect"])."</td>\n");
+
 ?>
 </tr>
 </table>

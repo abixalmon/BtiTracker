@@ -39,10 +39,11 @@ logoutcookie();
 
 dbconn();
 
-if ($GLOBALS["FORUMLINK"]=="smf")
+if (substr($GLOBALS["FORUMLINK"],0,3)=="smf")
 {
     require($THIS_BASEPATH.'/smf/SSI.php');
-    require($THIS_BASEPATH.'/smf/Sources/Subs-Auth.php');
+    if(!function_exists(setLoginCookie))
+        require($THIS_BASEPATH.'/smf/Sources/Subs-Auth.php');
     setLoginCookie(-3600, 0);
 }
 

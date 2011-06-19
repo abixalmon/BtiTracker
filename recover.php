@@ -133,7 +133,7 @@ elseif ($act == "generate")
 if (!$id || !$random || empty($random) || $random==0)
     stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);
 
-$res = do_sqlquery("SELECT username, email, random".(($GLOBALS["FORUMLINK"]=="smf") ? ", smf_fid" : "")." FROM {$TABLE_PREFIX}users WHERE id = $id",true);
+$res = do_sqlquery("SELECT `username`, `email`, `random`".((substr($GLOBALS["FORUMLINK"],0,3)=="smf") ? ", `smf_fid`" : "")." FROM `{$TABLE_PREFIX}users` WHERE `id` = $id",true);
 $arr = mysql_fetch_array($res);
 
 if ($random!=$arr["random"])
@@ -150,10 +150,10 @@ if ($random!=$arr["random"])
     if (!mysql_affected_rows())
         stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);
 
-    if($GLOBALS["FORUMLINK"]=="smf")
+    if(substr($GLOBALS["FORUMLINK"],0,3)=="smf")
     {
         $passhash=smf_passgen($arr["username"], $newpassword);
-        do_sqlquery("UPDATE {$db_prefix}members SET passwd='$passhash[0]', passwordSalt='$passhash[1]' WHERE ID_MEMBER=".$arr["smf_fid"],true);
+        do_sqlquery("UPDATE `{$db_prefix}members` SET `passwd`='$passhash[0]', `password".(($FORUMLINK=="smf")?"S":"_s")."alt`='$passhash[1]' WHERE ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")."=".$arr["smf_fid"],true);
     }
 
 
@@ -167,11 +167,11 @@ elseif ($act=="recover_ok")
 {
   $id = intval(0 + $_GET["id"]);
   $random = intval($_GET["random"]);
-                          
+                       
   if (!$id || !$random || empty($random) || $random==0)
        stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);
 
-  $res = do_sqlquery("SELECT username, email, random".(($GLOBALS["FORUMLINK"]=="smf") ? ", smf_fid" : "")." FROM {$TABLE_PREFIX}users WHERE id = $id",true);
+  $res = do_sqlquery("SELECT `username`, `email`, `random`".((substr($GLOBALS["FORUMLINK"],0,3)=="smf") ? ", `smf_fid`" : "")." FROM `{$TABLE_PREFIX}users` WHERE `id` = $id",true);
   $arr = mysql_fetch_array($res);
 
   if ($random!=$arr["random"])

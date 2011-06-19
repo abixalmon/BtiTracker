@@ -1,7 +1,7 @@
 
 INSERT INTO `xbtit_settings` (`key`, `value`) VALUES
 ('secsui_quarantine_dir', ''), 
-('secsui_quarantine_search_terms', '<?php,base64_decode,base64_encode,eval,phpinfo,fopen,fread,fwrite,file_get_contents'), 
+('secsui_quarantine_search_terms', '<?php,base64_decode,base64_encode,eval(,phpinfo,fopen,fread,fwrite,file_get_contents'), 
 ('secsui_cookie_name', ''), 
 ('secsui_quarantine_pm', '2'), 
 ('secsui_pass_type', '1'), 

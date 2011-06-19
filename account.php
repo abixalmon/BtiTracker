@@ -85,14 +85,14 @@ if ($act=="confirm") {
 
       $random=intval($_GET["confirm"]);
       $random2=rand(10000, 60000);
-      $res=do_sqlquery("UPDATE {$TABLE_PREFIX}users SET id_level=3".(($FORUMLINK=="smf") ? ", random=$random2" : "")." WHERE id_level=2 AND random=$random",true);
+      $res=do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `id_level`=3".((substr($FORUMLINK,0,3)=="smf") ? ", `random`=$random2" : "")." WHERE `id_level`=2 AND `random`=$random",true);
       if (!$res)
          die("ERROR: " . mysql_error() . "\n");
       else {
-          if($FORUMLINK=="smf")
+          if(substr($FORUMLINK,0,3)=="smf")
           {
-              $get=get_result("SELECT smf_fid FROM {$TABLE_PREFIX}users WHERE id_level=3 AND random=$random2",true,$btit_settings['cache_duration']);
-              do_sqlquery("UPDATE {$db_prefix}members SET ID_GROUP=13 WHERE ID_MEMBER=".$get[0]["smf_fid"],true);
+              $get=get_result("SELECT `u`.`smf_fid`, `ul`.`smf_group_mirror` FROM `{$TABLE_PREFIX}users` `u` LEFT JOIN `{$TABLE_PREFIX}users_level` `ul` ON `u`.`id_level`=`ul`.`id` WHERE `u`.`id_level`=3 AND `u`.`random`=$random2",true,$btit_settings['cache_duration']);
+              do_sqlquery("UPDATE `{$db_prefix}members` SET ".(($FORUMLINK=="smf")?"`ID_GROUP`":"`id_group`")."=".(($get[0]["smf_group_mirror"]>0)?$get[0]["smf_group_mirror"]:13)." WHERE ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")."=".$get[0]["smf_fid"],true);
           }
           success_msg($language["ACCOUNT_CREATED"],$language["ACCOUNT_CONGRATULATIONS"]);
           stdfoot();
@@ -515,21 +515,25 @@ do_sqlquery("INSERT INTO `{$TABLE_PREFIX}users` (`username`, `password`, `salt`,
 $newuid=mysql_insert_id();
 
 // Continue to create smf members if they disable smf mode
-// $test=do_sqlquery("SELECT COUNT(*) FROM {$db_prefix}members");
 $test=do_sqlquery("SHOW TABLES LIKE '{$db_prefix}members'",true);
 
-if ($FORUMLINK=="smf" || mysql_num_rows($test))
+if (substr($FORUMLINK,0,3)=="smf" || mysql_num_rows($test))
 {
     $smfpass=smf_passgen($utente, $pwd);
-    $flevel=$idlevel+10;
+    $fetch=get_result("SELECT `smf_group_mirror` FROM `{$TABLE_PREFIX}users_level` WHERE `id`=".$idlevel, true, $btit_settings["cache_duration"]);
+    $flevel=(($fetch[0]["smf_group_mirror"]>0)?$fetch[0]["smf_group_mirror"]:$idlevel+10);
 
-    do_sqlquery("INSERT INTO {$db_prefix}members (memberName, dateRegistered, ID_GROUP, realName, passwd, emailAddress, memberIP, memberIP2, is_activated, passwordSalt) VALUES ('$utente', UNIX_TIMESTAMP(), $flevel, '$utente', '$smfpass[0]', '$email', '".getip()."', '".getip()."', 1, '$smfpass[1]')",true);
+    if($FORUMLINK=="smf")
+        do_sqlquery("INSERT INTO `{$db_prefix}members` (`memberName`, `dateRegistered`, `ID_GROUP`, `realName`, `passwd`, `emailAddress`, `memberIP`, `memberIP2`, `is_activated`, `passwordSalt`) VALUES ('$utente', UNIX_TIMESTAMP(), $flevel, '$utente', '$smfpass[0]', '$email', '".getip()."', '".getip()."', 1, '$smfpass[1]')",true);
+    else
+        do_sqlquery("INSERT INTO `{$db_prefix}members` (`member_name`, `date_registered`, `id_group`, `real_name`, `passwd`, `email_address`, `member_ip`, `member_ip2`, `is_activated`, `password_salt`) VALUES ('$utente', UNIX_TIMESTAMP(), $flevel, '$utente', '$smfpass[0]', '$email', '".getip()."', '".getip()."', 1, '$smfpass[1]')",true);
+
     $fid=mysql_insert_id();
     do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = $fid WHERE `variable` = 'latestMember'",true);
     do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = '$utente' WHERE `variable` = 'latestRealName'",true);
     do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = UNIX_TIMESTAMP() WHERE `variable` = 'memberlist_updated'",true);
     do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = `value` + 1 WHERE `variable` = 'totalMembers'",true);
-    do_sqlquery("UPDATE {$TABLE_PREFIX}users SET smf_fid=$fid WHERE id=$newuid",true);
+    do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `smf_fid`=$fid WHERE `id`=$newuid",true);
 }
 
 // xbt

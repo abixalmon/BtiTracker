@@ -87,10 +87,10 @@ switch ($action)
                 $multipass=hash_generate(array("salt" => ""), $_POST["new_pwd"], $CURUSER["username"]);
                 $i=$btit_settings["secsui_pass_type"];
                 do_sqlquery("UPDATE {$TABLE_PREFIX}users SET `password`='".mysql_real_escape_string($multipass[$i]["rehash"])."', `salt`='".mysql_real_escape_string($multipass[$i]["salt"])."', `pass_type`='".$i."', `dupe_hash`='".mysql_real_escape_string($multipass[$i]["dupehash"])."' WHERE id=$uid AND password='".mysql_real_escape_string($testpass[$CURUSER["pass_type"]]["hash"])."' AND username=".sqlesc($CURUSER["username"])."",true);
-                if($GLOBALS["FORUMLINK"]=="smf")
+                if(substr($GLOBALS["FORUMLINK"],0,3)=="smf")
                 {
                     $passhash=smf_passgen($CURUSER["username"], $_POST["new_pwd"]);
-                    do_sqlquery("UPDATE {$db_prefix}members SET passwd='$passhash[0]', passwordSalt='$passhash[1]' WHERE ID_MEMBER=".$arr["smf_fid"],true);
+                    do_sqlquery("UPDATE `{$db_prefix}members` SET `passwd`='$passhash[0]', `password".(($GLOBALS["FORUMLINK"]=="smf")?"S":"_s")."alt`='$passhash[1]' WHERE ".(($GLOBALS["FORUMLINK"]=="smf")?"`ID_MEMBER`":"`id_member`")."=".$arr["smf_fid"],true);
                 }
                 success_msg($language["PWD_CHANGED"], "".$language["NOW_LOGIN"]."<br /><a href=\"index.php?page=login\">Go</a>");
                 stdfoot(true,false);

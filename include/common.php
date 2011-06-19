@@ -41,7 +41,7 @@ if (!function_exists('bcsub')) {
 function send_pm($sender,$recepient,$subject,$msg) {
     global $FORUMLINK, $TABLE_PREFIX, $db_prefix, $CACHE_DURATION;
 
-    if ($FORUMLINK=='smf') {
+    if (substr($FORUMLINK,0,3)=='smf') {
         # smf forum
         # get smf_fid of recepient
         $recepient=get_result('SELECT smf_fid FROM '.$TABLE_PREFIX.'users WHERE id='.$recepient.' LIMIT 1;', true, $CACHE_DURATION);
@@ -61,13 +61,16 @@ function send_pm($sender,$recepient,$subject,$msg) {
             $sender['username']='System';
         } else $sender=$sender[0];
         # insert message
-        quickQuery('INSERT INTO '.$db_prefix.'personal_messages (ID_MEMBER_FROM, fromName, msgtime, subject, body) VALUES ('.$sender['smf_fid'].', '.sqlesc($sender['username']).', UNIX_TIMESTAMP(), '.$subject.', '.$msg.');');
+        quickQuery("INSERT INTO `{$db_prefix}personal_messages` (".(($FORUMLINK=="smf")?"`ID_MEMBER_FROM`, `fromName`":"`id_member_from`, `from_name`").", `msgtime`, `subject`, `body`) VALUES (".$sender['smf_fid'].", ".sqlesc($sender['username']).", UNIX_TIMESTAMP(), ".$subject.", ".$msg.")");
         # get id of message
         $pm_id=mysql_insert_id();
         # insert recepient for message
-        quickQuery('INSERT INTO '.$db_prefix.'pm_recipients (ID_PM, ID_MEMBER) VALUES ('.$pm_id.', '.$recepient.');');
+        quickQuery("INSERT INTO `{$db_prefix}pm_recipients` (".(($FORUMLINK=="smf")?"`ID_PM`, `ID_MEMBER`":"`id_pm`, `id_member`").") VALUES (".$pm_id.", ".$recepient.")");
         # notify recepient
-        quickQuery('UPDATE '.$db_prefix.'members SET instantMessages=instantMessages+1, unreadMessages=unreadMessages+1 WHERE ID_MEMBER='.$recepient.' LIMIT 1;');
+        if($FORUMLINK=="smf")
+            quickQuery("UPDATE `{$db_prefix}members` SET `instantMessages`=`instantMessages`+1, `unreadMessages`=`unreadMessages`+1 WHERE `ID_MEMBER`=".$recepient." LIMIT 1");
+        else
+            quickQuery("UPDATE `{$db_prefix}members` SET `instant_messages`=`instant_messages`+1, `unread_messages`=`unread_messages`+1 WHERE `id_member`=".$recepient." LIMIT 1");
         return true;
     } else {
         # internal PM system

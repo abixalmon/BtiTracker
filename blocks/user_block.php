@@ -57,8 +57,8 @@ require_once(load_language("lang_account.php"));
              $langue=language_list();
              print("\n<form name=\"jump\" method=\"post\" action=\"index.php\">\n<table class=\"poller\" width=\"100%\" cellspacing=\"0\">\n<tr><td align=\"center\">".$language["USER_NAME"].":  " .unesc($CURUSER["username"])."</td></tr>\n");
              print("<tr><td align=\"center\">".$language["USER_LEVEL"].": ".$CURUSER["level"]."</td></tr>\n");
-             if($FORUMLINK=="smf")
-                 $resmail=get_result("SELECT unreadMessages as ur FROM {$db_prefix}members WHERE ID_MEMBER=".$CURUSER["smf_fid"],true,$btit_settings['cache_duration']);
+             if(substr($FORUMLINK,0,3)=="smf")
+                 $resmail=get_result("SELECT `unread".(($FORUMLINK=="smf")?"M":"_m")."essages` `ur` FROM `{$db_prefix}members` WHERE ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")."=".$CURUSER["smf_fid"],true,$btit_settings['cache_duration']);
              else
                  $resmail=get_result("SELECT COUNT(*) as ur FROM {$TABLE_PREFIX}messages WHERE readed='no' AND receiver=$CURUSER[uid]",true,$btit_settings['cache_duration']);
              if ($resmail && count($resmail)>0)

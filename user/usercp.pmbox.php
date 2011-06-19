@@ -97,19 +97,6 @@ switch ($action)
              if ($subject=="''")
                 $subject="'no subject'";
 
-             /*
-             if($FORUMLINK=="smf")
-             {
-                 do_sqlquery("INSERT INTO {$db_prefix}personal_messages (ID_MEMBER_FROM, fromName, msgtime, subject, body) VALUES (".$CURUSER["smf_fid"].", '".$CURUSER["username"]."', UNIX_TIMESTAMP(), $subject, $msg)",true);
-                 $pm_id=mysql_insert_id();
-                 do_sqlquery("INSERT INTO {$db_prefix}pm_recipients (ID_PM, ID_MEMBER) VALUES ($pm_id, $rec)");
-                 do_sqlquery("UPDATE {$db_prefix}members SET instantMessages=instantMessages+1, unreadMessages=unreadMessages+1 WHERE ID_MEMBER=$rec");
-             }
-             else
-                 do_sqlquery("INSERT INTO {$TABLE_PREFIX}messages (sender, receiver, added, subject, msg) VALUES ($send,$rec,UNIX_TIMESTAMP(),$subject,$msg)") or die(mysql_error());
-             */
-
-             // replaced by send_pm function
              send_pm($CURUSER['uid'],$rec,$subject, $msg);
              redirect("index.php?page=usercp&uid=".$uid."&do=pm&action=list");
              exit();
@@ -118,7 +105,7 @@ switch ($action)
     break;
 
      case 'deleteall':
-        if($FORUMLINK=="smf")
+        if(substr($FORUMLINK,0,3)=="smf")
             redirect("index.php?page=forum&action=pm".(($_GET["type"]=="out")?";f=outbox":""));
         // MODIFIED DELETE ALL VERSION BY gAnDo
             if (isset($_GET["type"]))
@@ -144,7 +131,7 @@ switch ($action)
             break;
 
     case 'delete':
-            if($FORUMLINK=="smf")
+            if(substr($FORUMLINK,0,3)=="smf")
                 redirect("index.php?page=forum&action=pm".(($_GET["type"]=="out")?";f=outbox":""));
             $id=intval($_GET["id"]);
             if($_GET["type"]=="out"){
@@ -166,9 +153,16 @@ switch ($action)
            $pmoutboxtpl["frm_action"]="index.php?page=usercp&amp;do=pm&amp;action=deleteall&amp;uid=".$uid."&amp;type=out";
            $usercptpl->set("pmbox",$pmoutboxtpl);
 
-           if($FORUMLINK=="smf")
+           if(substr($FORUMLINK,0,3)=="smf")
            {
-               $res=do_sqlquery("SELECT pm.ID_PM id, pmr.ID_MEMBER receiver, pm.msgtime added, pm.subject, pm.body msg, IF(pmr.is_read=0,'no','yes') readed, u.username receivername FROM {$db_prefix}personal_messages pm LEFT JOIN {$db_prefix}pm_recipients pmr ON pm.ID_PM=pmr.ID_PM LEFT JOIN {$TABLE_PREFIX}users u ON pmr.ID_MEMBER=u.smf_fid WHERE pm.ID_MEMBER_FROM=".$CURUSER["smf_fid"]." AND pm.deletedBySender!=1 ORDER BY added DESC",true);
+               if($FORUMLINK=="smf")
+                   $res=do_sqlquery("SELECT pm.ID_PM id, pmr.ID_MEMBER receiver, pm.msgtime added, pm.subject, pm.body msg, IF(pmr.is_read=0,'no','yes') readed, u.username receivername FROM {$db_prefix}personal_messages pm LEFT JOIN {$db_prefix}pm_recipients pmr ON pm.ID_PM=pmr.ID_PM LEFT JOIN {$TABLE_PREFIX}users u ON pmr.ID_MEMBER=u.smf_fid WHERE pm.ID_MEMBER_FROM=".$CURUSER["smf_fid"]." AND pm.deletedBySender!=1 ORDER BY added DESC",true);
+               else
+                   $res=do_sqlquery("SELECT `pm`.`id_pm` `id`, `pmr`.`id_member` `receiver`, `pm`.`msgtime` `added`, `pm`.`subject`, `pm`.`body` `msg`, IF(`pmr`.`is_read`=0,'no','yes') `readed`, `u`.`username` `receivername` FROM `{$db_prefix}personal_messages` `pm` LEFT JOIN `{$db_prefix}pm_recipients` `pmr` ON `pm`.`id_pm`=`pmr`.`id_pm` LEFT JOIN `{$TABLE_PREFIX}users` `u` ON `pmr`.`id_member`=`u`.`smf_fid` WHERE `pm`.`id_member_from`=".$CURUSER["smf_fid"]." AND `pm`.`deleted_by_sender`!=1 ORDER BY `added` DESC",true);
+
+
+
+
            }
            else
                $res=do_sqlquery("select m.*, IF(m.receiver=0,'System',u.username) as receivername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.receiver WHERE sender=$uid AND deletedBySender=0 ORDER BY added DESC",true);
@@ -184,10 +178,10 @@ switch ($action)
                         while ($result=mysql_fetch_array($res))
                 {
                 $pmouttpl[$i]["readed"]=unesc($result["readed"]);
-                $pmouttpl[$i]["senderid"]=($result["receiver"]==0||empty($result["receivername"])?"#":(($FORUMLINK=="smf")?$BASEURL."/index.php?page=forum&action=profile;u=".$result["receiver"]:"index.php?page=userdetails&amp;id=".$result["receiver"]));
+                $pmouttpl[$i]["senderid"]=($result["receiver"]==0||empty($result["receivername"])?"#":((substr($FORUMLINK,0,3)=="smf")?$BASEURL."/index.php?page=forum&action=profile;u=".$result["receiver"]:"index.php?page=userdetails&amp;id=".$result["receiver"]));
                 $pmouttpl[$i]["sendername"]=unesc($result["receivername"]);
                 $pmouttpl[$i]["added"]=get_date_time($result["added"]);
-                $pmouttpl[$i]["pmlink"]=(($FORUMLINK=="smf")?$BASEURL."/index.php?page=forum&amp;action=pm;f=outbox":"index.php?page=usercp&amp;do=pm&amp;action=read&amp;uid=".$uid."&amp;id=".$result["id"]."&amp;what=outbox");
+                $pmouttpl[$i]["pmlink"]=((substr($FORUMLINK,0,3)=="smf")?$BASEURL."/index.php?page=forum&amp;action=pm;f=outbox":"index.php?page=usercp&amp;do=pm&amp;action=read&amp;uid=".$uid."&amp;id=".$result["id"]."&amp;what=outbox");
                 $pmouttpl[$i]["subject"]=format_comment(unesc($result["subject"]));
                 $pmouttpl[$i]["msgid"]=$result["id"];
                 $i++;
@@ -202,9 +196,12 @@ switch ($action)
            $pminboxtpl["frm_action"]="index.php?page=usercp&amp;do=pm&amp;action=deleteall&amp;uid=".$uid."&amp;type=in";
            $usercptpl->set("pmbox",$pminboxtpl);
 
-           if($FORUMLINK=="smf")
+           if(substr($FORUMLINK,0,3)=="smf")
            {
-               $res=do_sqlquery("SELECT pm.ID_PM id, pm.ID_MEMBER_FROM sender, pmr.ID_MEMBER receiver, pm.msgtime added, pm.subject, pm.body msg, IF(pmr.is_read=0,'no','yes') readed, pm.fromName sendername FROM {$db_prefix}personal_messages pm LEFT JOIN {$db_prefix}pm_recipients pmr ON pm.ID_PM=pmr.ID_PM WHERE pmr.ID_MEMBER=".$CURUSER["smf_fid"]." AND pmr.deleted!=1 ORDER BY added DESC",true);
+               if($FORUMLINK=="smf")
+                   $res=do_sqlquery("SELECT `pm`.`ID_PM` `id`, `pm`.`ID_MEMBER_FROM` `sender`, `pmr`.`ID_MEMBER` `receiver`, `pm`.`msgtime` `added`, `pm`.`subject`, `pm`.`body` `msg`, IF(`pmr`.`is_read`=0,'no','yes') `readed`, `pm`.`fromName` `sendername` FROM `{$db_prefix}personal_messages` `pm` LEFT JOIN `{$db_prefix}pm_recipients` `pmr` ON `pm`.`ID_PM`=`pmr`.`ID_PM` WHERE `pmr`.`ID_MEMBER`=".$CURUSER["smf_fid"]." AND `pmr`.`deleted`!=1 ORDER BY `added` DESC",true);
+               else
+                   $res=do_sqlquery("SELECT `pm`.`id_pm` `id`, `pm`.`id_member_from` `sender`, `pmr`.`id_member` `receiver`, `pm`.`msgtime` `added`, `pm`.`subject`, `pm`.`body` `msg`, IF(`pmr`.`is_read`=0,'no','yes') `readed`, `pm`.`from_name` `sendername` FROM `{$db_prefix}personal_messages` `pm` LEFT JOIN `{$db_prefix}pm_recipients` `pmr` ON `pm`.`id_pm`=`pmr`.`id_pm` WHERE `pmr`.`id_member`=".$CURUSER["smf_fid"]." AND `pmr`.`deleted`!=1 ORDER BY `added` DESC",true);
            }
            else
                $res=do_sqlquery("select m.*, IF(m.sender=0,'System',u.username) as sendername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.sender WHERE receiver=$uid ORDER BY added DESC",true);
@@ -220,10 +217,10 @@ switch ($action)
                 while ($result=mysql_fetch_array($res))
         {
         $pmintpl[$i]["readed"]=unesc($result["readed"]);
-        $pmintpl[$i]["senderid"]=($result["sender"]==0||empty($result["sendername"])?"#":(($FORUMLINK=="smf")?$BASEURL."/index.php?page=forum&amp;action=profile;u=".$result["sender"]:"index.php?page=userdetails&amp;id=".$result["sender"]));
+        $pmintpl[$i]["senderid"]=($result["sender"]==0||empty($result["sendername"])?"#":((substr($FORUMLINK,0,3)=="smf")?$BASEURL."/index.php?page=forum&amp;action=profile;u=".$result["sender"]:"index.php?page=userdetails&amp;id=".$result["sender"]));
         $pmintpl[$i]["sendername"]=unesc($result["sendername"]);
         $pmintpl[$i]["added"]=get_date_time($result["added"]);
-        $pmintpl[$i]["pmlink"]=(($FORUMLINK=="smf")?$BASEURL."/index.php?page=forum&amp;action=pm":"index.php?page=usercp&amp;do=pm&amp;action=read&amp;uid=".$uid."&amp;id=".$result["id"]."&amp;what=inbox");
+        $pmintpl[$i]["pmlink"]=((substr($FORUMLINK,0,3)=="smf")?$BASEURL."/index.php?page=forum&amp;action=pm":"index.php?page=usercp&amp;do=pm&amp;action=read&amp;uid=".$uid."&amp;id=".$result["id"]."&amp;what=inbox");
         $pmintpl[$i]["subject"]=format_comment(unesc($result["subject"]));
         $pmintpl[$i]["msgid"]=$result["id"];
         $i++;

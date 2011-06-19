@@ -49,6 +49,20 @@ include("$THIS_BASEPATH/btemplate/bTemplate.php");
 
 require("$THIS_BASEPATH/include/functions.php");
 
+
+
+// If they've updated to SMF 2.0 and their tracker settings still thinks they're using SMF 1.x.x force an update
+if($FORUMLINK=="smf")
+{
+    $check_ver=get_result("SELECT `value` FROM `{$db_prefix}settings` WHERE `variable`='smfVersion'", true, 60);
+    if(((int)substr($check_ver[0]["value"],0,1))==2)
+        do_sqlquery("UPDATE `{$TABLE_PREFIX}settings` SET `value`='smf2' WHERE `key`='forum'",true);
+    foreach (glob($THIS_BASEPATH."/cache/*.txt") as $filename)
+        unlink($filename);
+}
+
+
+
 $sp = $_SERVER['SERVER_PORT']; $ss = $_SERVER['HTTPS']; if ( $sp =='443' || $ss == 'on' || $ss == '1') $p = 's';
 $domain = 'http'.$p.'://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
 $domain = str_replace('/index.php', '', $domain);
@@ -99,9 +113,7 @@ else
 
 }
 
-
 $style_css=load_css("main.css");
-
 
 $idlang=intval($_GET["language"]);
 
@@ -242,13 +254,7 @@ switch ($pageID) {
         ob_end_clean();
         $tpl->set("main_content",set_block($language["SHOUTBOX"]." ".$language["HISTORY"],"left",$out));
         break;
-/*
-    case 'allshout':
-        require("$THIS_BASEPATH/allshout.php");
-        $tpl->set("main_content",set_block($language["SHOUTBOX"]." ".$language["HISTORY"],"center",$tpl_shout->fetch(load_template("shoutbox_history.tpl")),($GLOBALS["usepopup"]?false:true)));
-        $tpl->set("main_title","Index->All Shout");
-        break;
-*/
+
     case 'comment':
         require("$THIS_BASEPATH/comment.php");
         $tpl->set("main_content",set_block($language["COMMENTS"],"center",$tpl_comment->fetch(load_template("comment.tpl")),false));
@@ -304,7 +310,6 @@ switch ($pageID) {
         $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Torrent->Peers");
         break;
 
-
     case 'recover':
         require("$THIS_BASEPATH/recover.php");
         $tpl->set("main_content",set_block($language["RECOVER_PWD"],"center",$recovertpl->fetch(load_template("recover.tpl"))));
@@ -331,7 +336,6 @@ switch ($pageID) {
         $tpl->set("main_content",set_block($language["MEMBERS_LIST"],"center",$userstpl->fetch(load_template("users.tpl"))));
         $tpl->set("main_title",$btit_settings["name"]." .::. "."Index->Users");
         break;
-
 
     case 'usercp':
         require("$THIS_BASEPATH/user/usercp.index.php");
@@ -365,8 +369,6 @@ switch ($pageID) {
         break;
 }
 
-
-
 // controll if client can handle gzip
 if ($GZIP_ENABLED)
     {
@@ -391,9 +393,6 @@ if ($GZIP_ENABLED)
 }
 else
     $gzip='disabled';
-
-
-
 
 // fetch page with right template
 switch ($pageID) {
@@ -429,8 +428,5 @@ switch ($pageID) {
         stdfoot();
         break;
 }
-
-
-
 
 ?>
