@@ -507,6 +507,11 @@ elseif($act=="import_forum" && $confirm=="yes")
 {
     $smf_type=$_GET["smf_type"];
 
+    $res=mysql_query("SELECT COUNT(*) `count` FROM `{$TABLE_PREFIX}forums`");
+    $row=mysql_fetch_assoc($res);
+    if($row["count"]==0)
+        print("<script LANGUAGE='javascript'>window.location.href='".$_SERVER["PHP_SELF"]."?act=completed&smf_type=$smf_type'</script>");
+
     if($smf_type=="smf")
     {
         $sqlquery ="SELECT MAX(`boardOrder`)+1 `nextboard`, `membergroups`, MAX(`catOrder`)+1 `nextcat` ";

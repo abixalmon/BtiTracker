@@ -559,9 +559,14 @@ elseif ($action == 'save_tracker') {
         // Now to check they've actually installed it by checking the database
         require (dirname(__FILE__)."/smf/Settings.php");
         
-        $smf=mysql_query("SELECT memberName FROM `{$db_prefix}members` LIMIT 1;");
+        $smf=mysql_query("SELECT `value` FROM `{$db_prefix}settings` WHERE variable='smfVersion'");
         if(mysql_num_rows($smf)==0)
             die($install_lang["smf_err_2"]);
+        else
+        {
+            $ver=mysql_fetch_assoc($smf);
+            $forum=(((int)(substr($ver["value"],0,1))==1)?"smf":"smf2");
+        }
         
         // Now lets check if the SMF English Language file is writable
         if(!is_writable($smf_lang))
@@ -693,11 +698,11 @@ elseif ($action == 'save_owner') {
 
     $smf_fid=0;
 
-    if($forum=="smf")
+    if(substr($forum,0,3)=="smf")
     {
         require (dirname(__FILE__)."/smf/Settings.php");
 
-        $filename=dirname(__FILE__) . '/sql/smf.sql';
+        $filename=dirname(__FILE__) . '/sql/'.$forum.'.sql';
         $fd=fopen($filename, "r");
         $sql=fread($fd, filesize($filename));
 
@@ -710,8 +715,10 @@ elseif ($action == 'save_owner') {
 
         $smfpass = array(sha1(strtolower($username) . $password), substr(md5(rand()), 0, 4));
 
-
-   @mysql_query("INSERT INTO {$db_prefix}members (ID_MEMBER, memberName, dateRegistered, ID_GROUP, realName, passwd, emailAddress, memberIP, memberIP2, is_activated, passwordSalt) VALUES (2 ,'$username', UNIX_TIMESTAMP(), 18, '$username', '$smfpass[0]', '$email', '".$_SERVER["REMOTE_ADDR"]."', '".$_SERVER["REMOTE_ADDR"]."', 1, '$smfpass[1]')");
+    if($forum=="smf")
+        @mysql_query("INSERT INTO `{$db_prefix}members` (`ID_MEMBER`, `memberName`, `dateRegistered`, `ID_GROUP`, `realName`, `passwd`, `emailAddress`, `memberIP`, `memberIP2`, `is_activated`, `passwordSalt`) VALUES (2 ,'$username', UNIX_TIMESTAMP(), 18, '$username', '$smfpass[0]', '$email', '".$_SERVER["REMOTE_ADDR"]."', '".$_SERVER["REMOTE_ADDR"]."', 1, '$smfpass[1]')");
+    else
+        @mysql_query("INSERT INTO `{$db_prefix}members` (`id_member`, `member_name`, `date_registered`, `id_group`, `real_name`, `passwd`, `email_address`, `member_ip`, `member_ip2`, `is_activated`, `password_salt`) VALUES (2 ,'$username', UNIX_TIMESTAMP(), 18, '$username', '$smfpass[0]', '$email', '".$_SERVER["REMOTE_ADDR"]."', '".$_SERVER["REMOTE_ADDR"]."', 1, '$smfpass[1]')");
     @mysql_query("UPDATE `{$db_prefix}settings` SET `value` = 2 WHERE `variable` = 'latestMember'");
     @mysql_query("UPDATE `{$db_prefix}settings` SET `value` = '$username' WHERE `variable` = 'latestRealName'");
     @mysql_query("UPDATE `{$db_prefix}settings` SET `value` = UNIX_TIMESTAMP() WHERE `variable` = 'memberlist_updated'");
