@@ -69,7 +69,7 @@ if (!$CURUSER || $CURUSER["uid"]==1)
         if (substr($FORUMLINK,0,3)=="smf")
             $smf_pass = sha1(strtolower($user) . $pwd);
 
-        $res = do_sqlquery("SELECT `u`.`salt`, `u`.`pass_type`, `u`.`username`, `u`.`id`, `u`.`random`, `u`.`password`".((substr($FORUMLINK,0,3)=="smf") ? ", `u`.`smf_fid`, `s`.`passwd`":"")." FROM `{$TABLE_PREFIX}users` `u` ".((substr($FORUMLINK,0,3)=="smf") ? "LEFT JOIN `{$db_prefix}members` `s` ON `u`.`smf_fid`=`s`.".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")."":"")." WHERE `u`.`username` ='".AddSlashes($user)."'",true);
+        $res = do_sqlquery("SELECT `u`.`salt`, `u`.`pass_type`, `u`.`username`, `u`.`id`, `u`.`random`, `u`.`password`".((substr($FORUMLINK,0,3)=="smf") ? ", `u`.`smf_fid`, `s`.`passwd`":(($FORUMLINK=="ipb")?", `u`.`ipb_fid`, `i`.`members_pass_hash`, `i`.`members_pass_salt`, `i`.`name`, `i`.`member_group_id`":""))." FROM `{$TABLE_PREFIX}users` `u` ".((substr($FORUMLINK,0,3)=="smf") ? "LEFT JOIN `{$db_prefix}members` `s` ON `u`.`smf_fid`=`s`.".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")."":(($FORUMLINK=="ipb")?"LEFT JOIN `{$ipb_prefix}members` `i` ON `u`.`ipb_fid`=`i`.`member_id`":""))." WHERE `u`.`username` ='".AddSlashes($user)."'",true);
         $row = mysql_fetch_assoc($res);
 
         if (!$row)
@@ -112,14 +112,27 @@ if (!$CURUSER || $CURUSER["uid"]==1)
                 elseif (substr($FORUMLINK,0,3)=="smf" && $row["pass_type"]==1 && $row["password"]==$row["passwd"])
                 {
                     $salt=substr(md5(rand()), 0, 4);
-                    @mysql_query("UPDATE `{$db_prefix}members` SET `passwd`='$smf_pass', ".(($FORUMLINK=="smf")?"`passwordSalt`='$salt' WHERE `ID_MEMBER`":"`password_salt`='$salt' WHERE `id_member`")."=".$row["smf_fid"]);
+                    do_sqlquery("UPDATE `{$db_prefix}members` SET `passwd`='$smf_pass', ".(($FORUMLINK=="smf")?"`passwordSalt`='$salt' WHERE `ID_MEMBER`":"`password_salt`='$salt' WHERE `id_member`")."=".$row["smf_fid"]);
                     set_smf_cookie($row["smf_fid"], $smf_pass, $salt);
                 }
                 elseif (substr($FORUMLINK,0,3)=="smf" && $row["passwd"]=="ffffffffffffffffffffffffffffffffffffffff")
                 {
                     $fix_pass=smf_passgen($user, $pwd);
-                    @mysql_query("UPDATE `{$db_prefix}members` SET `passwd`='".$fix_pass[0]."', ".(($FORUMLINK=="smf")?"`passwordSalt`='".$fix_pass[1]."' WHERE `ID_MEMBER`":"`password_salt`='".$fix_pass[1]."' WHERE `id_member`")."=".$row["smf_fid"]);
+                    do_sqlquery("UPDATE `{$db_prefix}members` SET `passwd`='".$fix_pass[0]."', ".(($FORUMLINK=="smf")?"`passwordSalt`='".$fix_pass[1]."' WHERE `ID_MEMBER`":"`password_salt`='".$fix_pass[1]."' WHERE `id_member`")."=".$row["smf_fid"]);
                     set_smf_cookie($row["smf_fid"], $fix_pass[0], $fix_pass[1]);
+                }
+                elseif ($FORUMLINK=="ipb" && md5(md5($row["members_pass_salt"]).md5($pwd))==$row["members_pass_hash"])
+                    set_ipb_cookie($row["ipb_fid"], $row["name"], $row["member_group_id"]);
+                elseif ($FORUMLINK=="ipb" && $row["members_pass_hash"]=="ffffffffffffffffffffffffffffffffffffffff")
+                {
+                    require_once($THIS_BASEPATH. '/ipb/initdata.php' );
+                    require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
+                    require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
+                    $registry = ipsRegistry::instance(); 
+                    $registry->init();
+                    $ipbhash=ipb_passgen($pwd);
+                    IPSMember::save($arr["ipb_fid"], array("members" => array("member_login_key" => "", "member_login_key_expire" => "0", "members_pass_hash" => "$ipbhash[0]", "members_pass_salt" => "$ipbhash[1]")));
+                    set_ipb_cookie($row["ipb_fid"], $row["name"], $row["member_group_id"]);
                 }
                 if (isset($_GET["returnto"]))
                     $url=urldecode($_GET["returnto"]);

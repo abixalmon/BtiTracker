@@ -90,6 +90,7 @@ switch ($action)
         $btit_settings["validation"]=$_POST["validation"];
         $btit_settings["imagecode"]=isset($_POST["imagecode"])?"true":"false";
         $btit_settings["forum"]=$_POST["f_link"];
+        $btit_settings["ipb_autoposter"]=((isset($_POST["ipb_autoposter"]) && !empty($_POST["ipb_autoposter"]))?(int)0+$_POST["ipb_autoposter"]:0);
         $btit_settings["clocktype"]=$_POST["clocktype"];
         $btit_settings["forumblocktype"]=$_POST["forumblocktype"];
         $btit_settings["newslimit"]=$_POST["newslimit"];
@@ -332,6 +333,7 @@ switch ($action)
 
         $admintpl->set("config",$btit_settings);
         $admintpl->set("frm_action","index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=config&amp;action=write");
+        $admintpl->set("ipb_in_use", (($btit_settings["forum"]=="ipb")?true:false), true);
         break;
 }
 ?>

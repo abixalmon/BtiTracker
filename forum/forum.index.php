@@ -117,6 +117,90 @@ if (substr($btit_settings["forum"],0,3)=="smf")
 
 
 }
+elseif ($btit_settings["forum"]=="ipb")
+  {
+     $FORUMLINK=$BASEURL."/".$btit_settings["forum"];
+     $ipb_content="";
+     $ipb_content.="
+     <script type=\"text/javascript\" language=\"JavaScript\">
+
+     function autoIframe(frameId){
+     var newheight
+              try{
+                newheight = document.getElementById(frameId).contentWindow.document.body.scrollHeight;
+                document.getElementById(frameId).height = newheight + 45;
+              }
+                catch(err){
+                window.status = err.message;
+              }
+     }
+
+
+     function autoResize(id){
+
+     var newheight;
+
+     if (!window.opera && !document.mimeType && document.all && document.getElementById){
+
+     newheight=document.getElementById(id).contentWindow.document.body.offsetHeight;
+
+     }else if(document.getElementById){
+
+     newheight=document.getElementById(id).contentWindow.document.body.scrollHeight;
+
+     }
+
+     document.getElementById(id).height= (newheight + 45) + \"px\";
+
+     }
+
+     </script>
+     <noscript>".
+     err_msg($language["ERROR"], "Resizable window will not work without Javascript.<br />Please enable Javascript or view the forum in a new window <a target='_new' href='$BASEURL/$FORUMLINK'>Here</a>")
+     ."</noscript>";
+    
+     $topic=intval($_GET["topicid"]);;
+     $action=htmlspecialchars($_GET["action"]);
+     $user=intval($_GET["userid"]);
+     
+     if ($action=="viewtopic")
+       {
+       $ipb_content.="
+          <div align=\"center\">
+          <iframe id=\"forum_ifrm\" onload=\"autoIframe('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php?showtopic=$topic&view=getnewpost\" width=\"98%\">Your browser don't support iframe, then click <a href=\"$FORUMLINK/index.php?showtopic=$topic&view=getnewpost\">here</a> to get forum page</iframe>
+          </div>";
+      }
+     elseif ($action=="showuser")
+       {
+       $ipb_content.="
+          <div align=\"center\">
+          <iframe id=\"forum_ifrm\" onload=\"autoIframe('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php?showuser=$user\" width=\"98%\">Your browser don't support iframe, then click <a href=\"$FORUMLINK/index.php?showuser=$user\">here</a> to get forum page</iframe>
+          </div>";
+      }
+     elseif ($action=="pm")
+       {
+       $ipb_content.="
+          <div align=\"center\">
+          <iframe id=\"forum_ifrm\" onload=\"autoIframe('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php?app=members&module=messaging\" width=\"98%\">Your browser don't support iframe, then click <a href=\"$FORUMLINK/index.php?app=members&module=messaging\">here</a> to get forum page</iframe>
+          </div>";
+      }
+     elseif ($action=="newpm")
+       {
+       $ipb_content.="
+          <div align=\"center\">
+          <iframe id=\"forum_ifrm\" onload=\"autoIframe('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php?app=members&module=messaging&section=send&do=form&entered_name=".(isset($_GET['to'])?htmlentities($_GET['to']):'')."\" width=\"98%\">Your browser don't support iframe, then click <a href=\"$FORUMLINK/index.php?app=members&module=messaging&section=send&do=form&entered_name=".(isset($_GET['to'])?htmlentities($_GET['to']):'')."\">here</a> to get forum page</iframe>
+          </div>";//added name inserts into ipb form.
+      }
+     else
+       {
+       $ipb_content.="
+          <div align=\"center\">
+          <iframe id=\"forum_ifrm\" onload=\"autoIframe('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php\" width=\"98%\">Your browser don't support iframe, then click <a href=\"$FORUMLINK/index.php\">here</a> to get forum page</iframe>
+          </div>";
+      }
+
+     $tpl->set("main_content",set_block($block_title,"center",$ipb_content));
+}
 else
   {
     if (isset($_GET["action"])) $action = $_GET["action"];

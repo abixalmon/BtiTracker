@@ -30,7 +30,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-global $CURUSER, $FORUMLINK, $THIS_BASEPATH, $db_prefix, $block_forumlimit, $btit_settings, $TABLE_PREFIX, $language;
+global $CURUSER, $FORUMLINK, $THIS_BASEPATH, $db_prefix, $block_forumlimit, $btit_settings, $TABLE_PREFIX, $language, $ipb_prefix;
 
 # return empty block if can't view
 if (!$CURUSER || $CURUSER['view_forum']=='no')
@@ -40,7 +40,12 @@ if (!$CURUSER || $CURUSER['view_forum']=='no')
 if (substr($FORUMLINK,0,3)=='smf') {
     $topicsTable=$db_prefix.'topics';
     $postsTable=$db_prefix.'messages';
-} else {
+}
+elseif ($FORUMLINK=='ipb') {
+    $topicsTable=$ipb_prefix.'topics';
+    $postsTable=$ipb_prefix.'posts';
+}
+else {
     $topicsTable=$TABLE_PREFIX.'topics';
     $postsTable=$TABLE_PREFIX.'posts';
 }
@@ -81,7 +86,72 @@ if ($topics!=0) {
             $post['title']=(strlen($title>33))?substr($title,0,30).'...':$title;
             $postsList.='<tr><td class="lista"><b><a class="forum" title="'.$language['FIRST_UNREAD'].': '.$post['title'].'" href="'.$btit_settings['url'].'/index.php?page=forum&amp;action=viewtopic&amp;topicid='.$post['tid'].'.msg'.$post['pid'].'#msg'.$post['pid'].'">'.$post['title'].'</a></b><br />'.$language['LAST_POST_BY'].' <a class="forum" href="'.$btit_settings['url'].'/index.php?page=forum&amp;action=profile;u='.$post['userid'].'">'.$post['username'].'</a><br />On '.date('d/m/Y H:i:s',$post['added']).'</td></tr>';
         }
-    } else {
+    }
+    elseif($FORUMLINK=="ipb")
+    {
+        $level=$CURUSER["id_level"];
+        $query=get_result("SELECT `f`.`id`, `p`.`perm_view`, `f`.`parent_id` FROM `{$ipb_prefix}forums` `f` LEFT JOIN `{$ipb_prefix}permission_index` `p` ON (`f`.`id`=`p`.`perm_type_id` AND `p`.`app`='forums' AND `p`.`perm_type`='forum') ORDER BY `f`.`id` ASC", true, $btit_settings["cache_duration"]);
+        $exclude="";
+
+        foreach($query as $check)
+        {
+            $forumid=$check["id"];
+            if($check["parent_id"]==-1)
+                $exclude=($exclude." AND forum_id!=".$forumid);
+            else
+            {
+                if($check["perm_view"]!="*")
+                {
+                    $perm=trim($check["perm_view"], ",");
+                    $read=explode(',',$perm);
+                    if(is_array($read))
+                    {
+                        if (!in_array($level, $read))
+                        {
+                            $exclude=($exclude." AND forum_id!=".$forumid);
+                        }
+                    }
+                    else
+                    {
+                        $exclude=($exclude." AND forum_id!=".$forumid);
+                    }
+                }
+            }
+        }
+        // --- Use the value defined in the site config or use 5 by default
+        if (isset($GLOBALS["block_forumlimit"]))
+               $limit="LIMIT " . $GLOBALS["block_forumlimit"];
+        else
+               $limit="LIMIT 5";
+
+        // --- SQL Query to get the X topics to display in the forum block
+        $sqlquery = "SELECT tp.tid, tp.title, tp.last_poster_id, tp.last_post, tp.last_poster_name, tp.forum_id, ";
+        $sqlquery.= "fm.id ";
+        $sqlquery.= "FROM {$ipb_prefix}topics tp ";
+        $sqlquery.= "LEFT JOIN {$ipb_prefix}forums fm ON fm.id = tp.forum_id ";
+        $sqlquery.= "WHERE tp.state!='link' ";
+        $sqlquery.= $exclude." ORDER BY last_post DESC ".$limit;
+
+        $tres = get_result($sqlquery, true, $btit_settings["cache_duration"]);
+
+        // --- Lets grab their time offset so that we can offset the post time appropriately
+        include("include/offset.php");
+
+        foreach($tres as $post)
+        {
+            $title=$post["title"];
+
+            # cut it if necessary
+            $head=wordwrap($title, 25 ,"\n", true);
+            $post['title']=$head;
+            
+            $href="href='".$btit_settings["url"]."/index.php?page=forum&amp;action=viewtopic&amp;topicid=".$post["tid"]."'";
+            $href2="href='".$btit_settings["url"]."/index.php?page=forum&amp;action=showuser&amp;userid=".$post["last_poster_id"]."'";
+            
+            $postsList.='<tr><td class="lista"><b><a title="'.$language['FIRST_UNREAD'].': '.$post['title'].'" '.$href.'>'.$post['title'].'</a></b><br />'.$language['LAST_POST_BY'].' <a '.$href2.'>'.$post['last_poster_name'].(($btit_settings["fmhack_simple_donor_display"]=="enabled")?get_user_icons($user):"").(($btit_settings["fmhack_simple_donor_display"]=="enabled")?get_user_icons($post):"").'</a><br />On '.date('d/m/Y H:i:s',$post['last_post']).'</td></tr>';
+       }
+    }
+     else {
         # get posts based if can read
         $lastPosts=get_result('SELECT p.topicid as tid, p.id as pid, t.subject, p.added, p.body, p.userid FROM '.$topicsTable.' as t LEFT JOIN '.$postsTable.' as p ON p.topicid=t.id LEFT JOIN '.$TABLE_PREFIX.'forums as f ON f.id=t.forumid WHERE f.minclassread<='.$CURUSER['id_level'].(($realLastPosts)?'':' AND p.id=t.lastpost').' ORDER BY p.added DESC '.$limit,true,$btit_settings['cache_duration']);
         # format posts

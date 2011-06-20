@@ -133,7 +133,7 @@ elseif ($act == "generate")
 if (!$id || !$random || empty($random) || $random==0)
     stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);
 
-$res = do_sqlquery("SELECT `username`, `email`, `random`".((substr($GLOBALS["FORUMLINK"],0,3)=="smf") ? ", `smf_fid`" : "")." FROM `{$TABLE_PREFIX}users` WHERE `id` = $id",true);
+$res = do_sqlquery("SELECT `username`, `email`, `random`".((substr($GLOBALS["FORUMLINK"],0,3)=="smf") ? ", `smf_fid`" : (($GLOBALS["FORUMLINK"]=="ipb")?", ipb_fid":""))." FROM `{$TABLE_PREFIX}users` WHERE `id` = $id",true);
 $arr = mysql_fetch_array($res);
 
 if ($random!=$arr["random"])
@@ -155,7 +155,16 @@ if ($random!=$arr["random"])
         $passhash=smf_passgen($arr["username"], $newpassword);
         do_sqlquery("UPDATE `{$db_prefix}members` SET `passwd`='$passhash[0]', `password".(($FORUMLINK=="smf")?"S":"_s")."alt`='$passhash[1]' WHERE ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")."=".$arr["smf_fid"],true);
     }
-
+    elseif($GLOBALS["FORUMLINK"]=="ipb")
+    {
+        require_once($THIS_BASEPATH. '/ipb/initdata.php' );
+        require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
+        require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
+        $registry = ipsRegistry::instance(); 
+        $registry->init();
+        $ipbhash=ipb_passgen($newpassword);
+        IPSMember::save($arr["ipb_fid"], array("members" => array("member_login_key" => "", "member_login_key_expire" => "0", "members_pass_hash" => "$ipbhash[0]", "members_pass_salt" => "$ipbhash[1]")));
+    }
 
 $body=sprintf($language["RECOVER_EMAIL_2"],$arr["username"],$newpassword,"$BASEURL/index.php?page=login",$SITENAME);
 

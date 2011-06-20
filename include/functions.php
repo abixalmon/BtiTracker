@@ -494,7 +494,7 @@ function userlogin()
 
     if($id>1)
     {
-        $res = do_sqlquery("SELECT u.salt, u.pass_type, u.lip, u.cip, $udownloaded as downloaded, $uuploaded as uploaded, u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = $id LIMIT 1;",true);
+        $res = do_sqlquery("SELECT u.salt, u.pass_type, u.lip, u.cip, $udownloaded as downloaded, $uuploaded as uploaded, u.smf_fid, u.ipb_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = $id LIMIT 1;",true);
         $row = mysql_fetch_assoc($res);
 
         if($btit_settings["secsui_cookie_type"]==1)
@@ -588,7 +588,7 @@ function userlogin()
     }
     if($id==1)
     {
-        $res = do_sqlquery("SELECT u.salt, u.pass_type, u.lip, u.cip, $udownloaded as downloaded, $uuploaded as uploaded, u.smf_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1 LIMIT 1;",true);
+        $res = do_sqlquery("SELECT u.salt, u.pass_type, u.lip, u.cip, $udownloaded as downloaded, $uuploaded as uploaded, u.smf_fid, u.ipb_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1 LIMIT 1;",true);
         $row = mysql_fetch_assoc($res);
     }
 
@@ -1434,6 +1434,163 @@ function pass_the_salt($len=5)
     }
     return $salt;
 }
+
+function ipb_passgen($pwd)
+{
+    $salt=pass_the_salt(5);
+    $passhash = md5( md5( $salt ) . md5( $pwd ) );
+    return array($passhash, $salt);
+}
+function ipb_md5_passgen($pwd)
+{
+    $salt=pass_the_salt(5);
+    $passhash = md5( md5( $salt ) .  $pwd );
+    return array($passhash, $salt);
+}
+
+function set_ipb_cookie($ipb_fid, $name, $member_group_id)
+{
+    global $ipb_prefix;
+    $expires=(time()+604800);
+    $login_key=md5(time() . substr(md5(mt_rand()),0, 5));
+    session_destroy();
+    session_name("session_id");
+    session_start();
+    $sessid=session_id();
+    quickQuery("UPDATE `{$ipb_prefix}members` SET `member_login_key`='".$login_key."', `member_login_key_expire`=UNIX_TIMESTAMP()+31536000 WHERE member_id=".$ipb_fid);
+    quickQuery("DELETE FROM `{$ipb_prefix}sessions` WHERE ip_address='".getip()."'");
+    quickQuery("INSERT INTO `{$ipb_prefix}sessions` (`id`, `member_name`, `member_id`, `ip_address`, `browser`, `running_time`, `login_type`, `location`, `member_group`) VALUES ('".$sessid."', '".$name."', ".$ipb_fid.", '".getip()."', '".$_SERVER['HTTP_USER_AGENT']."', UNIX_TIMESTAMP(), 0, 'idx,,', ".$member_group_id.")") or die(mysql_error());
+       setcookie('member_id', $ipb_fid, $expires, '/');
+       setcookie('pass_hash', $login_key, $expires, '/');
+}
+
+function kill_ipb_cookie()
+{
+    setcookie('session_id', "", -3600, '/');
+    setcookie('member_id', "", -3600, '/');
+    setcookie('pass_hash', "", -3600, '/');
+}
+
+function ipb_create($username, $email, $password, $id_level, $newuid)
+{
+    global $THIS_BASEPATH, $TABLE_PREFIX;
+
+    if(!defined('IPB_THIS_SCRIPT'))
+        define( 'IPB_THIS_SCRIPT', 'public' );
+    require_once($THIS_BASEPATH.'/ipb/initdata.php');
+    require_once(IPS_ROOT_PATH.'sources/base/ipsRegistry.php');
+    require_once(IPS_ROOT_PATH.'sources/base/ipsController.php');
+    $registry = ipsRegistry::instance(); 
+    $registry->init();
+    $member_info = IPSMember::create(array("members"=>array("name" => "$username", "members_display_name" => "$username", "email" => "$email", "password" => "$password", "member_group_id" => "$id_level", "hide_email" => "1", "allow_admin_mails" => "1", "members_created_remote" => "1")));
+    $ipb_fid=$member_info["member_id"];
+    do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `ipb_fid`=".$ipb_fid." WHERE `id`=".$newuid);
+}
+
+function ipb_send_pm($ipb_sender=0, $ipb_recepient, $ipb_subject, $ipb_msg, $system=false)
+{
+    global $ipb_prefix, $THIS_BASEPATH, $btit_settings, $TABLE_PREFIX;
+
+    if($ipb_sender==0)
+    {
+        $system=true;
+        if(isset($btit_settings["ipb_autoposter"]) && $btit_settings["ipb_autoposter"]!=0)
+            $ipb_sender=(int)(0+$btit_settings["ipb_autoposter"]);
+        else
+            return false;
+        $get=get_result("SELECT `ipb_fid` `recipient` FROM `{$TABLE_PREFIX}users` WHERE `id`=".$ipb_recepient);
+    }
+    else
+    {
+        $get=get_result("SELECT (SELECT `ipb_fid` FROM `{$TABLE_PREFIX}users` WHERE `id`=".$ipb_sender.") `sender`, (SELECT `ipb_fid` FROM `{$TABLE_PREFIX}users` WHERE `id`=".$ipb_recepient.") `recipient`");
+        $ipb_sender=(int)(0+$get[0]["sender"]);
+    }
+    $ipb_recepient=(int)(0+$get[0]["recipient"]);
+    
+    if($ipb_sender==0 || $ipb_recepient==0 || $ipb_sender==$ipb_recipient)
+    {
+        // Something is not right. fail
+        return false;
+    }
+    if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
+        $THIS_BASEPATH=str_replace(array("\\", "/include"), array("/", ""), dirname(__FILE__));
+    if(!defined('IPB_THIS_SCRIPT'))
+        define( 'IPB_THIS_SCRIPT', 'public' );
+
+    require_once( $THIS_BASEPATH.'/ipb/initdata.php' );
+    require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
+    require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
+    $registry = ipsRegistry::instance(); 
+    $registry->init();
+    require_once( IPSLib::getAppDir('members') . '/sources/classes/messaging/messengerFunctions.php' );
+    $clean_subj=trim($ipb_subject,"'");
+    $clean_post=trim($ipb_msg,"'");
+    $classMessage = new messengerFunctions($registry);
+    // Reciever, Sender, array of other users to invite (Display Name), Subject, Message, Is system message
+    $classMessage->sendNewPersonalTopic($ipb_recepient, $ipb_sender, array(), $clean_subj, $clean_post, (($system===true)?array("isSystem" => true):array()));
+
+}
+
+function ipb_make_post($forum_id, $forum_subj, $forum_post, $poster_id=0, $update_old_topic=true)
+{
+    global $ipb_prefix, $THIS_BASEPATH, $btit_settings;
+
+    if($poster_id==0)
+    {
+        if(isset($btit_settings["ipb_autoposter"]) && $btit_settings["ipb_autoposter"]!=0)
+            $poster_id=(int)(0+$btit_settings["ipb_autoposter"]);
+        else
+            return;
+    }
+
+    if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
+        $THIS_BASEPATH=str_replace(array("\\", "/include"), array("/", ""), dirname(__FILE__));
+    if(!defined('IPB_THIS_SCRIPT'))
+        define( 'IPB_THIS_SCRIPT', 'public' );
+
+    require_once( $THIS_BASEPATH.'/ipb/initdata.php' );
+    require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
+    require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
+    $registry = ipsRegistry::instance(); 
+    $registry->init();
+    require_once( IPSLib::getAppDir('forums') . '/sources/classes/post/classPost.php' );
+    $classPost = new classPost($registry);
+    $old_topic=false;
+    $clean_subj=trim($forum_subj,"'");
+    $clean_post=trim($forum_post,"'");
+    $forum = ipsRegistry::getClass('class_forums')->forum_by_id[$forum_id];
+    $classPost->setForumID($forum_id);
+    $classPost->setForumData($forum);
+    $classPost->setAuthor($poster_id);
+    $classPost->setPostContentPreFormatted($clean_post);
+    $classPost->setPublished(TRUE);
+
+    if($update_old_topic===false)
+        $mycount=0;
+    else
+    {
+        $res = get_result("SELECT `t`.* FROM `{$ipb_prefix}topics` `t` LEFT JOIN `{$ipb_prefix}posts` `p` ON `t`.`tid`=`p`.`topic_id` WHERE `t`.`forum_id`=".$forum_id." AND `t`.`title`='".mysql_real_escape_string($clean_subj)."' AND `t`.`last_post`=`p`.`post_date` AND `t`.`last_poster_id`=`p`.`author_id`");
+        $mycount=count($res);
+    }
+    if($mycount>0)
+    {
+        $topic=$res[0];
+        $topicID = $topic["tid"];
+        $classPost->setTopicID($topicID);
+        $classPost->setTopicData($topic);
+        $classPost->addReply();
+    }
+    else
+    {
+        $topic=get_result("SELECT MAX(`tid`)+1 `tid` FROM `{$ipb_prefix}topics`");
+        $topicID = $topic[0]["tid"];
+        $classPost->setTopicID($topicID);
+        $classPost->setTopicTitle($clean_subj);
+        $classPost->addTopic();
+    }
+    return $topicID;
+}
+
 
 // EOF
 ?>

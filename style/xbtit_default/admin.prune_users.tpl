@@ -41,7 +41,7 @@
       <td class="lista" style="text-align:center"><tag:users[].joined /></td>
       <td class="lista" style="text-align:center"><tag:users[].lastconnect /></td>
       <td class="lista" style="text-align:center"><tag:users[].level /></td>
-      <td class="lista" style="text-align:center"><input type="checkbox" name="id[]" value="<tag:users[].id />" /><input type="hidden" name="smf_fid[]" value="<tag:users[].smf_fid />" /></td>
+      <td class="lista" style="text-align:center"><input type="checkbox" name="id[]" value="<tag:users[].id />" /><input type="hidden" name="smf_fid[]" value="<tag:users[].smf_fid />" /><input type="hidden" name="ipb_fid[]" value="<tag:users[].ipb_fid />" /></td>
     </tr>
     </loop:users>
     </if:no_records>

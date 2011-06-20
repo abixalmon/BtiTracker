@@ -39,9 +39,13 @@ if (!function_exists('bcsub')) {
 }
 
 function send_pm($sender,$recepient,$subject,$msg) {
-    global $FORUMLINK, $TABLE_PREFIX, $db_prefix, $CACHE_DURATION;
+    global $FORUMLINK, $TABLE_PREFIX, $db_prefix, $CACHE_DURATION, $ipb_prefix;
 
-    if (substr($FORUMLINK,0,3)=='smf') {
+    if($FORUMLINK=="ipb")
+    {
+        ipb_send_pm($sender,$recepient,$subject,$msg);
+    }
+    elseif (substr($FORUMLINK,0,3)=='smf') {
         # smf forum
         # get smf_fid of recepient
         $recepient=get_result('SELECT smf_fid FROM '.$TABLE_PREFIX.'users WHERE id='.$recepient.' LIMIT 1;', true, $CACHE_DURATION);

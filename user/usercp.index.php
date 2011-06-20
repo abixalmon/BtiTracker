@@ -111,6 +111,14 @@ switch ($do)
 
     if ($do=="verify" && $action=="changemail")
        {
+       if($GLOBALS["FORUMLINK"]=="ipb")
+       {
+           require_once($THIS_BASEPATH. '/ipb/initdata.php' );
+           require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
+           require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
+           $registry = ipsRegistry::instance();
+           $registry->init();
+       }
        // Get the other values we need from the url
        $newmail=$_GET["newmail"];
        (isset($_GET["uid"]) && !empty($_GET["uid"]) && is_numeric($_GET["uid"]) && $_GET["uid"]>0) ? $id=max(0,$_GET["uid"]) : $id=0;
@@ -119,7 +127,7 @@ switch ($do)
        $random=max(0,$_GET["random"]);
        $idlevel=$CURUSER["id_level"];
        // Get the members random number, current email and temp email from their record
-       $getacc=mysql_fetch_assoc(do_sqlquery("SELECT `u`.`random`, `u`.`email`, `u`.`temp_email`".((substr($GLOBALS["FORUMLINK"],0,3)=="smf") ? ", `u`.`smf_fid`, `ul`.`smf_group_mirror`" : "")." FROM `{$TABLE_PREFIX}users` `u` ".((substr($GLOBALS["FORUMLINK"],0,3)=="smf")?"LEFT JOIN `{$TABLE_PREFIX}users_level` `ul` ON 3=`ul`.`id`":"")." WHERE `u`.`id`=".$id,true));
+       $getacc=mysql_fetch_assoc(do_sqlquery("SELECT `u`.`random`, `u`.`email`, `u`.`temp_email`".((substr($GLOBALS["FORUMLINK"],0,3)=="smf")?", `u`.`smf_fid`, `ul`.`smf_group_mirror`":(($GLOBALS["FORUMLINK"]=="ipb")?", `u`.`ipb_fid`, `ul`.`ipb_group_mirror`":""))." FROM `{$TABLE_PREFIX}users` `u` ".((substr($GLOBALS["FORUMLINK"],0,3)=="smf" || $GLOBALS["FORUMLINK"]=="ipb")?"LEFT JOIN `{$TABLE_PREFIX}users_level` `ul` ON 3=`ul`.`id`":"")." WHERE `u`.`id`=".$id,true));
        $oldmail=$getacc["email"];
        $dbrandom=$getacc["random"];
        $mailcheck=$getacc["temp_email"];
@@ -147,6 +155,8 @@ switch ($do)
                 $language=$language2;
                 do_sqlquery("UPDATE `{$db_prefix}members` SET `email".(($GLOBALS["FORUMLINK"]=="smf")?"A":"_a")."ddress`='".mysql_real_escape_string($newmail)."' WHERE ".(($GLOBALS["FORUMLINK"]=="smf")?"`ID_MEMBER`":"`id_member`")."=".$getacc["smf_fid"],true);
             }
+            elseif($GLOBALS["FORUMLINK"]=="ipb")
+                IPSMember::save($getacc["ipb_fid"], array("members" => array("email" => "$newmail")));
             
             // Print a message stating that their email has been successfully changed
             success_msg($language["SUCCESS"],$language["REVERIFY_CONGRATS1"]." ".$oldmail." ".$language["REVERIFY_CONGRATS2"]." ".$newmail." ".$language["REVERIFY_CONGRATS3"]."<a href=\"".$BASEURL."\">".$language["MNU_INDEX"]."</a>");
@@ -158,6 +168,11 @@ switch ($do)
                 do_sqlquery("UPDATE {$TABLE_PREFIX}users SET id_level=3 WHERE id='".$id."'");
                 if(substr($GLOBALS["FORUMLINK"],0,3)=="smf")
                     do_sqlquery("UPDATE {$db_prefix}members SET ".(($GLOBALS["FORUMLINK"]=="smf")?"`ID_GROUP`":"`id_group`")."=".(($getacc["smf_group_mirror"]>0)?$getacc["smf_group_mirror"]:"13")." WHERE ".(($GLOBALS["FORUMLINK"]=="smf")?"`ID_MEMBER`":"`id_member`")."=".$getacc["smf_fid"]);
+                elseif($GLOBALS["FORUMLINK"]=="ipb")
+                {
+                    $ipblev=(($getacc["ipb_group_mirror"]>0)?$getacc["ipb_group_mirror"]:"3");
+                    IPSMember::save($getacc["ipb_fid"], array("members" => array("member_group_id" => "$ipblev")));
+                }
             }
        }
        // If the random number in the url is incorrect print an error message

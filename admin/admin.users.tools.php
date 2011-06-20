@@ -46,9 +46,9 @@ if ($uid==$CURUSER['uid'] || $uid==1) {
 
 # get uid info
 if ($XBTT_USE)
-    $curu=get_result('SELECT u.username, u.cip, ul.level, ul.id_level as base_level, u.email, u.avatar, u.joined, u.lastconnect, u.id_level, u.language, u.style, u.flag, u.time_offset, u.topicsperpage, u.postsperpage, u.torrentsperpage, (u.downloaded+x.downloaded) as downloaded, (u.uploaded+x.uploaded) as uploaded FROM '.$TABLE_PREFIX.'users u INNER JOIN '.$TABLE_PREFIX.'users_level ul ON ul.id=u.id_level LEFT JOIN xbt_users x ON x.uid=u.id WHERE u.id='.$uid.' LIMIT 1',true);
+    $curu=get_result('SELECT u.username, u.cip, ul.level, ul.id_level as base_level, u.email, u.avatar, u.joined, u.lastconnect, u.id_level, u.language, u.style, u.flag, u.time_offset, u.topicsperpage, u.postsperpage, u.torrentsperpage, (u.downloaded+x.downloaded) as downloaded, (u.uploaded+x.uploaded) as uploaded, u.smf_fid, u.ipb_fid FROM '.$TABLE_PREFIX.'users u INNER JOIN '.$TABLE_PREFIX.'users_level ul ON ul.id=u.id_level LEFT JOIN xbt_users x ON x.uid=u.id WHERE u.id='.$uid.' LIMIT 1',true);
 else
-    $curu=get_result('SELECT u.username, u.cip, ul.level, ul.id_level as base_level, u.email, u.avatar, u.joined, u.lastconnect, u.id_level, u.language, u.style, u.flag, u.time_offset, u.topicsperpage, u.postsperpage, u.torrentsperpage, u.downloaded, u.uploaded FROM '.$TABLE_PREFIX.'users u INNER JOIN '.$TABLE_PREFIX.'users_level ul ON ul.id=u.id_level WHERE u.id='.$uid.' LIMIT 1',true);
+    $curu=get_result('SELECT u.username, u.cip, ul.level, ul.id_level as base_level, u.email, u.avatar, u.joined, u.lastconnect, u.id_level, u.language, u.style, u.flag, u.time_offset, u.topicsperpage, u.postsperpage, u.torrentsperpage, u.downloaded, u.uploaded, u.smf_fid, u.ipb_fid FROM '.$TABLE_PREFIX.'users u INNER JOIN '.$TABLE_PREFIX.'users_level ul ON ul.id=u.id_level WHERE u.id='.$uid.' LIMIT 1',true);
 
 # test for bad id
 if (!isset($curu[0]))
@@ -64,19 +64,48 @@ if ($CURUSER['id_level'] < $curu['base_level']){
 }
 $note='';
 # find smf_id
+$smf_fid=false;
+$ipb_fid=false;
 if (substr($FORUMLINK,0,3)=='smf') {
-    if (!isset($curu['smf_id']) || $curu['smf_id']==0) {
+{
+    if (!isset($curu['smf_fid']) || $curu['smf_fid']==0)
+    {
         # go full mysql search on it's ass
         $smf_user=get_result("SELECT ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")." FROM `{$db_prefix}members` WHERE `member".(($FORUMLINK=="smf")?"N":"_n")."ame`=".sqlesc($curu['username'])." LIMIT 1");
-        if (isset($smf_user[0])) {
-            $smf_fid=(($FORUMLINK=="smf")?$smf_user[0]['ID_MEMBER']:$smf_user[0]['id_member']);
-            quickQuery("UPDATE `{$TABLE_PREFIX}users` SET `smf_fid`=".$smf_fid." WHERE `id`=".$uid." LIMIT 1");
-        } else {
+        if (isset($smf_user[0]))
+        {
+            $smf_fid=$smf_user[0]['ID_MEMBER'];
+            quickQuery('UPDATE `'.$TABLE_PREFIX.'users` SET `smf_fid`='.$smf_fid.' WHERE `id`='.$uid.' LIMIT 1;');
+        }
+        else
+        {
             $smf_fid=false;
             $note=' User not found in SMF.';
         }
-    } else $smf_fid=$curu['smf_fid'];
-} else $smf_fid=false;
+    }
+    else
+        $smf_fid=$curu['smf_fid'];
+}
+elseif ($FORUMLINK=='ipb') 
+{
+    if (!isset($curu['ipb_fid']) || $curu['ipb_fid']==0)
+    {
+        # go full mysql search on it's ass
+        $ipb_user=get_result('SELECT `member_id` FROM `'.$ipb_prefix.'members` WHERE `name`='.sqlesc($curu['username']).' LIMIT 1;');
+        if (isset($ipb_user[0]))
+        {
+            $ipb_fid=$ipb_user[0]['member_id'];
+            quickQuery('UPDATE `'.$TABLE_PREFIX.'users` SET `ipb_fid`='.$ipb_fid.' WHERE `id`='.$uid.' LIMIT 1;');
+        }
+        else
+        {
+            $ipb_fid=false;
+            $note=' User not found in IPB.';
+        }
+    }
+    else
+        $ipb_fid=$curu['ipb_fid'];
+}
 
 # init vars
 if (isset($_GET['returnto'])) {
@@ -203,6 +232,14 @@ switch ($action) {
     case 'save':
         if ($_POST['confirm']==$language['FRM_CONFIRM']) {
 
+            if($FORUMLINK=="ipb")
+            {
+                require_once($THIS_BASEPATH. '/ipb/initdata.php' );
+                require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
+                require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
+                $registry = ipsRegistry::instance(); 
+                $registry->init();
+            }
 
             $idlangue=(int)$_POST['language'];
             $idstyle=(int)$_POST['style'];
@@ -220,7 +257,7 @@ switch ($action) {
             $pass=$_POST['pass'];
             $chpass=(isset($_POST['chpass']) && $pass!='');
             # new level of the user
-            $rlev=do_sqlquery("SELECT `id_level` `base_level`, `level` `name`".((substr($FORUMLINK,0,3)=='smf')?", `smf_group_mirror`":"")." FROM {$TABLE_PREFIX}users_level WHERE id=".$level." LIMIT 1");
+            $rlev=do_sqlquery("SELECT `id_level` `base_level`, `level` `name`".((substr($FORUMLINK,0,3)=='smf')?", `smf_group_mirror`":(($FORUMLINK=='ipb')?", `ipb_group_mirror`":""))." FROM {$TABLE_PREFIX}users_level WHERE id=".$level." LIMIT 1");
             $reslev=mysql_fetch_assoc($rlev);
             if ( ($CURUSER['id_level'] < $reslev['base_level']))
                 $level=0;
@@ -252,12 +289,37 @@ switch ($action) {
                     }
                     else $note.=' Group not found in SMF.';
                 }
+                elseif($FORUMLINK=="ipb")
+                {
+                    # find the coresponding level in ipb
+                    if($reslev["ipb_group_mirror"]==0)
+                    $ipb_group=get_result("SELECT `perm_id` FROM `{$ipb_prefix}forum_perms` WHERE `perm_name`='".$reslev["name"]."' LIMIT 1;", true, $CACHE_DURATION);
+                    # if there is one update it
+                    if (isset($ipb_group[0]) || $reslev["ipb_group_mirror"]>0)
+                    {
+                        if($reslev["smf_group_mirror"]>0)
+                            $ipb_group[0]["perm_id"]=$reslev["smf_group_mirror"];
+                        $ipblevel=$ipb_group[0]["perm_id"];
+                        IPSMember::save($ipb_fid, array("members" => array("member_group_id" => "$ipblevel")));
+                    }
+                    else $note.=' Group not found in IPB.';
+                }
                 $set[]='id_level='.$level;
             }
             if ($time != $curu['time_offset'])
                 $set[]='time_offset='.$time;
             if ($email != $curu['email'])
+            {
                 $set[]='email='.sqlesc($email);
+                if(substr($FORUMLINK,0,3)=="smf")
+                {
+                    $smfset[]="email".(($FORUMLINK=="smf")?"A":"_a")."ddress=".sqlesc($email);
+                }
+                elseif($FORUMLINK=="ipb")
+                {
+                    IPSMember::save($ipb_fid, array("members" => array("email" => "$email")));
+                }
+            }
             if ($avatar != $curu['avatar'])
                 $set[]='avatar='.sqlesc(htmlspecialchars($avatar));
             if ($username != $curu['username']) {
@@ -280,6 +342,13 @@ switch ($action) {
                             $smfset[]='realName='.$username;
                         } else
                             $newname.=', dupe name in smf realName';
+                    }
+                    elseif($FORUMLINK=='ipb')
+                    {
+                        $new_username=trim($username,"'");
+                        $new_l_username=strtolower($new_username);
+                        $new_seoname=IPSText::makeSeoTitle($new_username);
+                        IPSMember::save($ipb_fid, array("members" => array("name" => "$new_username", "members_display_name" => "$new_username", "members_l_display_name" => "$new_l_username", "members_l_username" => "$new_l_username", "members_seo_name" => "$new_seoname")));
                     }
                     $newname.=' )';
                 } else $note.=' Dupe name in XBTIT.';
@@ -347,6 +416,11 @@ switch ($action) {
                 $passhash=smf_passgen($un, $pass);
                 $smfset[]='`passwd`='.sqlesc($passhash[0]);
                 $smfset[]='`password'.(($FORUMLINK=="smf")?"S":"_s").'alt`='.sqlesc($passhash[1]);
+                if($FORUMLINK=="ipb")
+                {
+                    $ipbhash=ipb_passgen($pass);
+                    IPSMember::save($ipb_fid, array("members" => array("member_login_key" => "", "member_login_key_expire" => "0", "members_pass_hash" => "$ipbhash[0]", "members_pass_salt" => "$ipbhash[1]")));
+                }
             }
 
             $updateset=(isset($set))?implode(',',$set):'';

@@ -92,6 +92,16 @@ switch ($action)
                     $passhash=smf_passgen($CURUSER["username"], $_POST["new_pwd"]);
                     do_sqlquery("UPDATE `{$db_prefix}members` SET `passwd`='$passhash[0]', `password".(($GLOBALS["FORUMLINK"]=="smf")?"S":"_s")."alt`='$passhash[1]' WHERE ".(($GLOBALS["FORUMLINK"]=="smf")?"`ID_MEMBER`":"`id_member`")."=".$arr["smf_fid"],true);
                 }
+                elseif($GLOBALS["FORUMLINK"]=="ipb")
+                {
+                    require_once($THIS_BASEPATH. '/ipb/initdata.php' );
+                    require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
+                    require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
+                    $registry = ipsRegistry::instance();
+                    $registry->init();
+                    $ipbhash=ipb_passgen($_POST["new_pwd"]);
+                    IPSMember::save($arr["ipb_fid"], array("members" => array("member_login_key" => "", "member_login_key_expire" => "0", "members_pass_hash" => "$ipbhash[0]", "members_pass_salt" => "$ipbhash[1]")));
+                }
                 success_msg($language["PWD_CHANGED"], "".$language["NOW_LOGIN"]."<br /><a href=\"index.php?page=login\">Go</a>");
                 stdfoot(true,false);
                 exit;

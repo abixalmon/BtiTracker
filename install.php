@@ -486,6 +486,7 @@ elseif ($action == 'site_config') {
     // finding the base path.
     $baseurl = 'http://' . $host . substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/'));
     $smf_lang=str_replace("\\", "/", dirname(__FILE__))."/smf/Themes/default/languages/Errors.english.php";
+    $ipb_lang=str_replace("\\", "/", dirname(__FILE__))."/ipb/cache/lang_cache/1/core_public_error.php";
     
     echo ("<form action=\"".$_SERVER['PHP_SELF']."?lang_file=".$_SESSION["install_lang"]."&amp;action=save_tracker\" method=\"post\">");
     echo ("<h2>".$install_lang["site_config"]."</h2>");
@@ -515,11 +516,15 @@ elseif ($action == 'site_config') {
     echo ("<tr><td>".$install_lang["forum_type"].":</td><td><select name=\"forumtype\">");
     echo ("<option value=\"1\" selected=\"selected\">".$install_lang["forum_internal"]."</option>");
     echo ("<option value=\"2\">".$install_lang["forum_smf"]."</option>");
-    echo ("<option value=\"3\">".$install_lang["forum_other"]."</option>");
+    echo ("<option value=\"3\">".$install_lang["forum_ipb"]."</option>");
+    echo ("<option value=\"4\">".$install_lang["forum_other"]."</option>");
     echo ("</select>");
     echo ("&nbsp;&nbsp;&nbsp;<input type='text' name='externalforum' size='30' maxlength='200' value='')></td></tr>");
     echo ("<tr><td colspan=\"2\">");
     echo ("<p><table border='0' width='100%' align='left' bgcolor='#FFFFCC'><tr><td>" . $install_lang["smf_download_a"] . $smf_lang . $install_lang["smf_download_b"] . "</td></tr></table></p>");
+    echo ("</td></tr>");
+    echo ("<tr><td colspan=\"2\">");
+    echo ("<p><table border='0' width='100%' align='left' bgcolor='#FFFFCC'><tr><td>" . $install_lang["ipb_download_a"] . $ipb_lang . $install_lang["ipb_download_b"] . "</td></tr></table></p>");
     echo ("</td></tr>");
     echo ("<tr><td colspan=\"2\">".$install_lang["more_settings"]."</td></tr></table>");
     echo ("<div align=\"right\"><input type=\"submit\" value=\"". $install_lang["next"]."\" /></div></form>");
@@ -540,7 +545,8 @@ elseif ($action == 'save_tracker') {
     $forum_type = intval($_POST["forumtype"]);
     if($forum_type==1) $forum="";
     elseif($forum_type==2) $forum="smf";
-    elseif($forum_type==3) $forum=mysql_real_escape_string($_POST["externalforum"]);
+    elseif($forum_type==3) $forum="ipb";
+    elseif($forum_type==4) $forum=mysql_real_escape_string($_POST["externalforum"]);
 
     // getting started
     require (dirname(__FILE__)."/include/settings.php");
@@ -591,6 +597,75 @@ elseif ($action == 'save_tracker') {
                 fclose($fd);
             }
         }
+    }
+    elseif($forum=="ipb")
+    {
+        $BASEDIR=str_replace("\\", "/", dirname(__FILE__));
+        $ipb_lang=$BASEDIR."/ipb/cache/lang_cache/1/core_public_error.php";
+        
+        // Lets check the main IPB Config file is present
+        if (!file_exists($BASEDIR."/ipb/conf_global.php"))
+            die($install_lang["ipb_err_1"]);
+
+        // Now to check they've actually installed it by checking the database
+        require ($BASEDIR."/ipb/conf_global.php");
+        
+        $ipb=mysql_query("SELECT `name` FROM `".$INFO["sql_tbl_prefix"]."members` LIMIT 1;");
+        if(@mysql_num_rows($ipb)==0)
+            die($install_lang["ipb_err_2"]);
+
+        // Let's check if the default IPB Language cache file exists
+        if(!file_exists($ipb_lang))
+            die($install_lang["ipb_err_4a"] . $ipb_lang . $install_lang["ipb_err_4b"]);
+        
+        // Now lets check if the IPB English Language file is writable
+        if(!is_writable($ipb_lang))
+            die($install_lang["ipb_err_3a"] . $ipb_lang . $install_lang["ipb_err_3b"]);
+
+        $ipb_conf_writable=((is_writable($BASEDIR."/ipb/conf_global.php"))?true:false);
+
+        if($ipb_conf_writable===true)
+        {
+            $filename=$BASEDIR."/ipb/conf_global.php";
+            $fd=fopen($filename,"r+");
+            $data=fread($fd,filesize($filename));
+            ftruncate($fd,0);
+            rewind($fd);
+            $search=array("\$INFO['banned_group']\t\t\t=\t'5';", "\$INFO['admin_group']\t\t\t=\t'4';", "\$INFO['guest_group']\t\t\t=\t'2';", "\$INFO['auth_group']\t\t\t=\t'1';");
+            $replace=array("\$INFO['banned_group']\t\t\t=\t'0';", "\$INFO['admin_group']\t\t\t=\t'8';", "\$INFO['guest_group']\t\t\t=\t'1';", "\$INFO['auth_group']\t\t\t=\t'2';");
+            $data=str_replace($search, $replace, $data);
+            $start=strpos($data, "\$INFO['sql_tbl_prefix']");
+            $end=strpos(substr($data,$start),";")+1;
+            $data2=substr($data,$start,$end);
+            fwrite($fd,$data);
+            fclose($fd);
+            $data=str_replace(array("\$INFO['sql_tbl_prefix']", "\t","'"), array("\$ipb_prefix","","\""),$data2);
+            $data=str_replace("x=\"", "x = \"", $data);
+
+            $filename=$BASEDIR."/include/settings.php";
+            if (file_exists($filename))
+            {
+                if (is_writable($filename))
+                {
+                    $filesize=filesize($filename);
+                    $fd = fopen($filename, "w");
+                    $contents ="<?php\n\n";
+                    $contents.="\$dbhost = \"$dbhost\";\n";
+                    $contents.="\$dbuser = \"$dbuser\";\n";
+                    $contents.="\$dbpass = \"$dbpass\";\n";
+                    $contents.="\$database = \"$database\";\n";
+                    $contents.= "\$TABLE_PREFIX = \"$TABLE_PREFIX\";\n";
+                    $contents.= $data."\n";
+                    $contents.= "\n?>";
+                    fwrite($fd,$contents);
+                    fclose($fd);
+                }
+                else
+                    die($install_lang["ipb_err_6"] . $filename . $install_lang["ipb_err_3b"]);
+            }
+        }
+        else
+            die($install_lang["ipb_err_5"] . $BASEDIR."/ipb/conf_global.php" . $install_lang["ipb_err_3b"]);
     }
     
     @mysql_query("ALTER TABLE {$TABLE_PREFIX}users CHANGE `language` `language` TINYINT( 4 ) NOT NULL DEFAULT '$default_lang'") or mysql_error();
@@ -661,6 +736,27 @@ elseif ($action == 'save_owner') {
              echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$back."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=owner'\" /></div>");
              die;
     }
+    function ipb_passgen($pwd)
+    {
+        $salt = '';
+        $len=5;
+        srand( (double)microtime() * 1000000 );
+
+        for ( $i = 0; $i < $len; $i++ )
+        {
+            $num   = rand(33, 126);
+
+            if ( $num == '92' )
+            {
+                $num = 93;
+            }
+
+            $salt .= chr( $num );
+        }
+        $passhash = md5( md5( $salt ) . md5( $pwd ) );
+        return array($passhash, $salt);
+    }
+
     // getting variables
     $username = $_POST["username"];
     $password = mysql_real_escape_string($_POST["password"]);
@@ -697,6 +793,7 @@ elseif ($action == 'save_owner') {
     }
 
     $smf_fid=0;
+    $ipb_fid=0;
 
     if(substr($forum,0,3)=="smf")
     {
@@ -750,8 +847,79 @@ elseif ($action == 'save_owner') {
 
     $smf_fid=2;
     }
+    elseif($forum=="ipb")
+    {
+        $BASEDIR=str_replace("\\", "/", dirname(__FILE__));
 
-    mysql_query("INSERT INTO {$TABLE_PREFIX}users (id, username, password, random, id_level, email, joined, lastconnect, pid, time_offset, smf_fid) VALUES (2, '$username', '" . md5($password) . "', $random, 8, '$email', NOW(), NOW(), '".md5(uniqid(rand(),true))."', 0, $smf_fid)");
+        require ($BASEDIR."/include/settings.php");
+
+        $filename=dirname(__FILE__) . '/sql/ipb.sql';
+        $fd=fopen($filename, "r");
+        $sql=fread($fd, filesize($filename));
+
+        $sql_lines=str_replace("{\$ipb_prefix}", $ipb_prefix, explode(";", $sql));
+
+        foreach($sql_lines as $v)
+        {
+            @mysql_query($v);
+        }
+        // Disable forum registration
+        $res=mysql_query("SELECT `cs_value` FROM `{$ipb_prefix}cache_store` WHERE `cs_key`='settings'");
+        $row=mysql_fetch_assoc($res);
+        $array=unserialize($row["cs_value"]);
+        $array["no_reg"]=1;
+        $cs_value=serialize($array);
+        @mysql_query("UPDATE `{$ipb_prefix}cache_store` SET `cs_value`='".mysql_real_escape_string($cs_value)."' WHERE `cs_key`='settings'");
+        @mysql_query("UPDATE {$ipb_prefix}core_sys_conf_settings` SET `conf_value`=1 WHERE `conf_key`='no_reg'");
+
+        // Update the registration closed message to something more appropriate
+
+        // finding the host
+        $host = empty($_SERVER['HTTP_HOST']) ? $_SERVER['SERVER_NAME'] . (empty($_SERVER['SERVER_PORT']) || $_SERVER['SERVER_PORT'] == '80' ? '' : ':' . $_SERVER['SERVER_PORT']) : $_SERVER['HTTP_HOST'];
+    // finding the base path. 
+        $baseurl = 'http://' . $host . substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/'));
+
+        $ipb_lang=$BASEDIR."/ipb/cache/lang_cache/1/core_public_error.php";
+        $fd=fopen($ipb_lang, "r+");
+        $lang_data=fread($fd, filesize($ipb_lang));
+        ftruncate($fd,0);
+        rewind($fd);
+        $lang_search="The administrator is currently not accepting new membership registrations.";
+        $lang_replace="Sorry, registration via IPB is disabled. Registration for this forum must be done via the Tracker <a target='_self' href='".$baseurl."/index.php?page=signup'>Here</a>.<br /><br />If you already have a tracker account please <a target='_self' href='index.php?app=core&module=global&section=login'>login here</a> with the same credentials.";
+        $lang_data=str_replace($lang_search, $lang_replace, $lang_data);
+        fwrite($fd,$lang_data);
+        fclose($fd);
+
+        if(!defined('IPB_THIS_SCRIPT'))
+            define( 'IPB_THIS_SCRIPT', 'public' );
+
+        require_once( dirname(__FILE__).'/ipb/initdata.php' );
+        require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
+        require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
+        $registry = ipsRegistry::instance(); 
+        $registry->init();
+
+        $l_username=strtolower($username);
+        $seo_username=IPSText::makeSeoTitle($username);
+        $ipbpass=ipb_passgen($password);
+
+        @mysql_query("INSERT INTO `{$ipb_prefix}members` (`member_id`,`name`, `member_group_id`, `email`, `joined`, `ip_address`, `allow_admin_mails`, `time_offset`, `hide_email`, `language`, `members_display_name`, `members_seo_name`, `members_created_remote`, `members_l_display_name`, `members_l_username`, `members_pass_hash`, `members_pass_salt`, `bday_day`, `bday_month`, `bday_year`, `msg_show_notification`, `last_visit`, `last_activity`) VALUES (2, '".mysql_real_escape_string($username)."', 8, '".mysql_real_escape_string($email)."', UNIX_TIMESTAMP(), '".mysql_real_escape_string($_SERVER["REMOTE_ADDR"])."', 1, 0, 1, 1, '".mysql_real_escape_string($username)."', '".mysql_real_escape_string($seo_username)."', 1, '".mysql_real_escape_string($l_username)."', '".mysql_real_escape_string($l_username)."', '".mysql_real_escape_string($ipbpass[0])."', '".mysql_real_escape_string($ipbpass[1])."', 0, 0, 0, 1, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+        @mysql_query("INSERT INTO `{$ipb_prefix}pfields_content` (`member_id`) VALUES (2)");
+        @mysql_query("INSERT INTO `{$ipb_prefix}profile_portal` (`pp_member_id`, `pp_setting_count_friends`, `pp_setting_count_comments`) VALUES (2, 1, 1)");
+        $myres=mysql_query("SELECT `cs_value` FROM `{$ipb_prefix}cache_store` WHERE `cs_key`='stats'");
+        $myrow=mysql_fetch_assoc($myres);
+        $in=unserialize($myrow["cs_value"]);
+        $in["mem_count"]=1;
+        $in["last_mem_name"]=$username;
+        $in["last_mem_id"]=2;
+        $in["last_mem_name_seo"]=$seo_username;
+        $out=serialize($in);
+        @mysql_query("UPDATE `{$ipb_prefix}cache_store` SET `cs_value`='".mysql_real_escape_string($out)."'  WHERE `cs_key`='stats'");
+        @mysql_query("UPDATE `{$TABLE_PREFIX}users_level` SET `ipb_group_mirror`=`id`");
+        $ipb_fid=2;
+    }
+
+    mysql_query("INSERT INTO {$TABLE_PREFIX}users (id, username, password, random, id_level, email, joined, lastconnect, pid, time_offset, smf_fid, ipb_fid) VALUES (2, '$username', '" . md5($password) . "', $random, 8, '$email', NOW(), NOW(), '".md5(uniqid(rand(),true))."', 0, $smf_fid, $ipb_fid)");
     echo ($install_lang["create_owner_account"]."&nbsp;".$install_lang["is_succes"]);
     echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=finished'\" /></div>");
 }

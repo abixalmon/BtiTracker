@@ -46,6 +46,8 @@ if (substr($GLOBALS["FORUMLINK"],0,3)=="smf")
         require($THIS_BASEPATH.'/smf/Sources/Subs-Auth.php');
     setLoginCookie(-3600, 0);
 }
+elseif($GLOBALS["FORUMLINK"]=="ipb")
+    kill_ipb_cookie();
 
 header("Location: index.php");
 

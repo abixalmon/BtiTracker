@@ -84,10 +84,8 @@ if ($CURUSER["view_news"]=="yes")
     print("<ul class='level2'>\n");
 		if ($CURUSER["view_forum"]=="yes")
     {
-        if ($GLOBALS["FORUMLINK"]=="" || $GLOBALS["FORUMLINK"]=="internal" || substr($GLOBALS["FORUMLINK"],0,3)=="smf")
+        if ($GLOBALS["FORUMLINK"]=="" || $GLOBALS["FORUMLINK"]=="internal" || substr($GLOBALS["FORUMLINK"],0,3)=="smf" || $GLOBALS["FORUMLINK"]=="ipb")
             print("<li><a href='index.php?page=forum'>".$language["MNU_FORUM"]."</a></li>\n");
-        elseif (substr($GLOBALS["FORUMLINK"],0,3)=="smf")
-            print("<li><a href='".$GLOBALS["FORUMLINK"]."'>".$language["MNU_FORUM"]."</a></li>\n");
         else
             print("<li><a href='".$GLOBALS["FORUMLINK"]."'>".$language["MNU_FORUM"]."</a></li>\n");
     }

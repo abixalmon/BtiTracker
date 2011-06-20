@@ -30,7 +30,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-global $CURUSER, $user, $USERLANG, $FORUMLINK, $db_prefix,$btit_settings;
+global $CURUSER, $user, $USERLANG, $FORUMLINK, $db_prefix,$btit_settings, $ipb_prefix;
 
 require_once(load_language("lang_account.php"));
 
@@ -59,6 +59,8 @@ require_once(load_language("lang_account.php"));
              print("<tr><td align=\"center\">".$language["USER_LEVEL"].": ".$CURUSER["level"]."</td></tr>\n");
              if(substr($FORUMLINK,0,3)=="smf")
                  $resmail=get_result("SELECT `unread".(($FORUMLINK=="smf")?"M":"_m")."essages` `ur` FROM `{$db_prefix}members` WHERE ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")."=".$CURUSER["smf_fid"],true,$btit_settings['cache_duration']);
+             elseif($FORUMLINK=="ipb")
+                 $resmail=get_result("SELECT `msg_count_new` `ur` FROM `{$ipb_prefix}members` WHERE `member_id`=".$CURUSER["ipb_fid"],true,$btit_settings['cache_duration']);
              else
                  $resmail=get_result("SELECT COUNT(*) as ur FROM {$TABLE_PREFIX}messages WHERE readed='no' AND receiver=$CURUSER[uid]",true,$btit_settings['cache_duration']);
              if ($resmail && count($resmail)>0)

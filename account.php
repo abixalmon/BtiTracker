@@ -85,7 +85,7 @@ if ($act=="confirm") {
 
       $random=intval($_GET["confirm"]);
       $random2=rand(10000, 60000);
-      $res=do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `id_level`=3".((substr($FORUMLINK,0,3)=="smf") ? ", `random`=$random2" : "")." WHERE `id_level`=2 AND `random`=$random",true);
+      $res=do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `id_level`=3".((substr($FORUMLINK,0,3)=="smf" || $FORUMLINK=="ipb") ? ", `random`=$random2" : "")." WHERE `id_level`=2 AND `random`=$random",true);
       if (!$res)
          die("ERROR: " . mysql_error() . "\n");
       else {
@@ -93,6 +93,18 @@ if ($act=="confirm") {
           {
               $get=get_result("SELECT `u`.`smf_fid`, `ul`.`smf_group_mirror` FROM `{$TABLE_PREFIX}users` `u` LEFT JOIN `{$TABLE_PREFIX}users_level` `ul` ON `u`.`id_level`=`ul`.`id` WHERE `u`.`id_level`=3 AND `u`.`random`=$random2",true,$btit_settings['cache_duration']);
               do_sqlquery("UPDATE `{$db_prefix}members` SET ".(($FORUMLINK=="smf")?"`ID_GROUP`":"`id_group`")."=".(($get[0]["smf_group_mirror"]>0)?$get[0]["smf_group_mirror"]:13)." WHERE ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")."=".$get[0]["smf_fid"],true);
+          }
+          elseif($FORUMLINK=="ipb")
+          {
+              require_once($THIS_BASEPATH. '/ipb/initdata.php' );
+              require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
+              require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
+              $registry = ipsRegistry::instance(); 
+              $registry->init();
+
+              $get=get_result("SELECT `u`.`ipb_fid`, `ul`.`ipb_group_mirror` FROM `{$TABLE_PREFIX}users` `u` LEFT JOIN `{$TABLE_PREFIX}users_level` `ul` ON `u`.`id_level`=`ul`.`id` WHERE `u`.`id_level`=3 AND `u`.`random`=$random2",true,$btit_settings['cache_duration']);
+              $forum_level=(($get[0]["ipb_group_mirror"]>0)?$get[0]["ipb_group_mirror"]:3);
+              IPSMember::save($get[0]["ipb_fid"], array("members" => array("member_group_id" => "$forum_level")));  
           }
           success_msg($language["ACCOUNT_CREATED"],$language["ACCOUNT_CONGRATULATIONS"]);
           stdfoot();
@@ -534,6 +546,14 @@ if (substr($FORUMLINK,0,3)=="smf" || mysql_num_rows($test))
     do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = UNIX_TIMESTAMP() WHERE `variable` = 'memberlist_updated'",true);
     do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = `value` + 1 WHERE `variable` = 'totalMembers'",true);
     do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `smf_fid`=$fid WHERE `id`=$newuid",true);
+}
+
+// Continue to create ipb members if they disable ipb mode
+$test=do_sqlquery("SHOW TABLES LIKE '{$ipb_prefix}members'");
+
+if ($FORUMLINK=="ipb" || mysql_num_rows($test))
+{
+    ipb_create($utente, $email, $pwd, $idlevel, $newuid);
 }
 
 // xbt

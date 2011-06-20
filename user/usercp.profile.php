@@ -100,7 +100,22 @@ switch ($action)
 
                if ($VALIDATION!="user") {
                    if ($email!="")
-                   $set[]="email='$email'";
+                   {
+                       $set[]="email='$email'";
+                       if(substr($GLOBALS["FORUMLINK"],0,3)=="smf")
+                       {
+                           do_sqlquery("UPDATE `{$db_prefix}members` SET `email".(($GLOBALS["FORUMLINK"]=="smf")?"A":"_a")."ddress`='".$email."' WHERE ".(($GLOBALS["FORUMLINK"]=="smf")?"`ID_MEMBER`":"`id_member`")."=".$CURUSER["smf_fid"]);
+                       }
+                       elseif($GLOBALS["FORUMLINK"]=="ipb")
+                       {
+                           require_once($THIS_BASEPATH. '/ipb/initdata.php' );
+                           require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
+                           require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
+                           $registry = ipsRegistry::instance(); 
+                           $registry->init();
+                           IPSMember::save($CURUSER["ipb_fid"], array("members" => array("email" => "$email")));
+                       }
+                   }
                 }
                 // <--- Reverify Mail Hack by Petr1fied - End
                if ($idlangue>0)

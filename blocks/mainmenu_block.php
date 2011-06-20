@@ -74,7 +74,7 @@ if ($CURUSER["view_news"]=="yes")
    print("<td class=\"header\" align=\"center\"><a class=\"mainmenu\" href=\"index.php?page=viewnews\">".$language["MNU_NEWS"]."</a></td>\n");
 if ($CURUSER["view_forum"]=="yes")
    {
-   if ($FORUMLINK=="" || $FORUMLINK=="internal" || substr($FORUMLINK,0,3)=="smf")
+   if ($FORUMLINK=="" || $FORUMLINK=="internal" || substr($FORUMLINK,0,3)=="smf" || $FORUMLINK=="ipb")
       print("<td class=\"header\" align=\"center\"><a class=\"mainmenu\" href=\"index.php?page=forum\">".$language["MNU_FORUM"]."</a></td>\n");
    else
        print("<td class=\"header\" align=\"center\"><a class=\"mainmenu\" href=\"".$FORUMLINK."\">".$language["MNU_FORUM"]."</a></td>\n");

@@ -47,7 +47,7 @@ global $CURUSER, $FORUMLINK, $language;
       print("<tr><td class=\"blocklist\" align=\"center\"><a class=\"menu\" href=\"index.php?page=viewnews\">".$language["MNU_NEWS"]."</a></td></tr>\n");
    if ($CURUSER["view_forum"]=="yes")
       {
-        if ($FORUMLINK=="" || $FORUMLINK=="internal" || substr($FORUMLINK,0,3)=="smf")
+        if ($FORUMLINK=="" || $FORUMLINK=="internal" || substr($FORUMLINK,0,3)=="smf" || $FORUMLINK=="ipb")
            print("<tr><td class=\"blocklist\" align=\"center\"><a class=\"menu\" href=\"index.php?page=forum\">".$language["MNU_FORUM"]."</a></td></tr>\n");
         else
             print("<tr><td class=\"blocklist\" align=\"center\"><a class=\"menu\" href=\"".$FORUMLINK."\">".$language["MNU_FORUM"]."</a></td></tr>\n");

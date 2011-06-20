@@ -41,7 +41,10 @@ $admintpl->set("add_new",false,true);
 $admintpl->set("smf_in_use_1", ((substr($FORUMLINK,0,3)=="smf")?true:false), true);
 $admintpl->set("smf_in_use_2", ((substr($FORUMLINK,0,3)=="smf")?true:false), true);
 $admintpl->set("smf_in_use_3", ((substr($FORUMLINK,0,3)=="smf")?true:false), true);
-$admintpl->set("colspan", ((substr($FORUMLINK,0,3)=="smf")?11:10));
+$admintpl->set("ipb_in_use_1", (($FORUMLINK=="ipb")?true:false), true);
+$admintpl->set("ipb_in_use_2", (($FORUMLINK=="ipb")?true:false), true);
+$admintpl->set("ipb_in_use_3", (($FORUMLINK=="ipb")?true:false), true);
+$admintpl->set("colspan", ((substr($FORUMLINK,0,3)=="smf" || $FORUMLINK=="ipb")?11:10));
 
 switch ($action)
     {
@@ -112,6 +115,19 @@ switch ($action)
               }
               $current_group["smf_group_mirror"]=unesc($current_group["smf_group_mirror"]);
           }
+          elseif($FORUMLINK=="ipb")
+          {
+              $current_group["forumlist"].=$language["IPB_LIST"];
+              $res=do_sqlquery("SELECT * FROM `{$ipb_prefix}forum_perms` ORDER BY `perm_id` ASC",true);
+              if(@mysql_num_rows($res)>0)
+              {
+                  while($row=mysql_fetch_assoc($res))
+                  {
+                      $current_group["forumlist"].=$row["perm_name"] . " = " . $row["perm_id"] . "<br />";
+                  }
+              }
+              $current_group["ipb_group_mirror"]=unesc($current_group["ipb_group_mirror"]);
+          }
           $admintpl->set("group",$current_group);
           break;
 
@@ -171,6 +187,8 @@ switch ($action)
                    $update[]="suffixcolor=".sqlesc($_POST["scolor"]);
                    if(substr($FORUMLINK,0,3)=="smf")
                        $update[]="smf_group_mirror=".((int)0+$_POST["smf_group_mirror"]);
+                   elseif($FORUMLINK=="ipb")
+                       $update[]="ipb_group_mirror=".((int)0+$_POST["ipb_group_mirror"]);
                    $strupdate=implode(",",$update);
                    do_sqlquery("UPDATE {$TABLE_PREFIX}users_level SET $strupdate WHERE id=$gid",true);
                    unset($update);
@@ -205,6 +223,8 @@ switch ($action)
                 $groups[$i]["WT"]=$level["WT"];
                 if(substr($FORUMLINK,0,3)=="smf")
                     $groups[$i]["smf_group_mirror"]=$level["smf_group_mirror"];
+                elseif($FORUMLINK=="ipb")
+                    $groups[$i]["ipb_group_mirror"]=$level["ipb_group_mirror"];
                 $groups[$i]["delete"]=($level["can_be_deleted"]=="no"?"No":"<a onclick=\"return confirm('".AddSlashes($language["DELETE_CONFIRM"])."')\" href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=groups&amp;action=delete&amp;id=".$level["id"]."\">".image_or_link("$STYLEPATH/images/delete.png","",$language["DELETE"])."</a>");
                 $i++;
           }
