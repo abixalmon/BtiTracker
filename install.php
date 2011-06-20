@@ -722,6 +722,7 @@ elseif ($action == 'save_owner') {
     @mysql_query("UPDATE `{$db_prefix}settings` SET `value` = 2 WHERE `variable` = 'latestMember'");
     @mysql_query("UPDATE `{$db_prefix}settings` SET `value` = '$username' WHERE `variable` = 'latestRealName'");
     @mysql_query("UPDATE `{$db_prefix}settings` SET `value` = UNIX_TIMESTAMP() WHERE `variable` = 'memberlist_updated'");
+    @mysql_query("UPDATE `{$TABLE_PREFIX}users_level` SET `smf_group_mirror`=`id`+10");
     
     $smf_lang="smf/Themes/default/languages/Errors.english.php";
 
