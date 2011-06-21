@@ -79,7 +79,7 @@ else
 
 
 if ($id>1) {
-   $res=get_result("SELECT u.avatar,u.email,u.cip,u.username,$udownloaded as downloaded,$uuploaded as uploaded,UNIX_TIMESTAMP(u.joined) as joined,UNIX_TIMESTAMP(u.lastconnect) as lastconnect,ul.level, u.flag, c.name, c.flagpic, u.pid, u.time_offset, u.smf_fid FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON ul.id=u.id_level LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag=c.id WHERE u.id=$id",true,$btit_settings['cache_duration']);
+   $res=get_result("SELECT u.avatar,u.email,u.cip,u.username,$udownloaded as downloaded,$uuploaded as uploaded,UNIX_TIMESTAMP(u.joined) as joined,UNIX_TIMESTAMP(u.lastconnect) as lastconnect,ul.level, u.flag, c.name, c.flagpic, u.pid, u.time_offset, u.smf_fid, u.ipb_fid FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON ul.id=u.id_level LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag=c.id WHERE u.id=$id",true,$btit_settings['cache_duration']);
    $num=count($res);
    if ($num==0)
       {
@@ -157,11 +157,11 @@ $userdetailtpl -> set("userdetail_local_time", (date("d/m/Y H:i:s",time()-$offse
 $userdetailtpl -> set("userdetail_downloaded", (makesize($row["downloaded"])));
 $userdetailtpl -> set("userdetail_uploaded", (makesize($row["uploaded"])));
 $userdetailtpl -> set("userdetail_ratio", ($ratio));
-$userdetailtpl-> set("userdetail_forum_internal", ( $GLOBALS["FORUMLINK"] == '' || $GLOBALS["FORUMLINK"] == 'internal' || $GLOBALS["FORUMLINK"] == 'smf'), TRUE);
+$userdetailtpl-> set("userdetail_forum_internal", ( $GLOBALS["FORUMLINK"] == '' || $GLOBALS["FORUMLINK"] == 'internal' || substr($GLOBALS["FORUMLINK"],0,3) == 'smf' || $GLOBALS["FORUMLINK"] == 'ipb'), TRUE);
 
 // Only show if forum is internal
 if ( $GLOBALS["FORUMLINK"] == '' || $GLOBALS["FORUMLINK"] == 'internal' )
-   {
+{
    $sql = get_result("SELECT count(*) as tp FROM {$TABLE_PREFIX}posts p INNER JOIN {$TABLE_PREFIX}users u ON p.userid = u.id WHERE u.id = " . $id,true,$btit_settings['cache_duration']);
    $posts = $sql[0]['tp'];
    unset($sql);
@@ -170,10 +170,19 @@ if ( $GLOBALS["FORUMLINK"] == '' || $GLOBALS["FORUMLINK"] == 'internal' )
    $userdetailtpl-> set("userdetail_forum_posts", $posts . " &nbsp; [" . sprintf($language["POSTS_PER_DAY"], $posts_per_day) . "]");
 }
 elseif (substr($GLOBALS["FORUMLINK"],0,3)=="smf")
-   {
+{
    $forum=get_result("SELECT `date".(($GLOBALS["FORUMLINK"]=="smf")?"R":"_r")."egistered`, `posts` FROM `{$db_prefix}members` WHERE ".(($GLOBALS["FORUMLINK"]=="smf")?"`ID_MEMBER`":"`id_member`")."=".$row["smf_fid"],true,$btit_settings['cache_duration']);
    $forum=$forum[0];
    $memberdays = max(1, round( ( time() - (($GLOBALS["FORUMLINK"]=="smf")?$forum["dateRegistered"]:$forum["date_registered"]) ) / 86400 ));
+   $posts_per_day = number_format(round($forum["posts"] / $memberdays,2),2);
+   $userdetailtpl-> set("userdetail_forum_posts", $forum["posts"] . " &nbsp; [" . sprintf($language["POSTS_PER_DAY"], $posts_per_day) . "]");
+   unset($forum);
+}
+elseif ($GLOBALS["FORUMLINK"]=="ipb")
+{
+   $forum=get_result("SELECT `joined`, `posts` FROM `{$ipb_prefix}members` WHERE `member_id`=".$row["ipb_fid"],true,$btit_settings['cache_duration']);
+   $forum=$forum[0];
+   $memberdays = max(1, round( ( time() - $forum["joined"] ) / 86400 ));
    $posts_per_day = number_format(round($forum["posts"] / $memberdays,2),2);
    $userdetailtpl-> set("userdetail_forum_posts", $forum["posts"] . " &nbsp; [" . sprintf($language["POSTS_PER_DAY"], $posts_per_day) . "]");
    unset($forum);

@@ -146,7 +146,7 @@ if ($_POST["conferma"]) {
        elseif ($ret==-4)
         stderr($language["ERROR"],$language["ERR_USER_ALREADY_EXISTS"]);
        elseif ($ret==-7)
-         stderr($language["ERROR"],"<font color=\"black\">".$language["ERR_NO_SPACE"]."<strong><font color=\"red\">".preg_replace('/\ /', '_', mysql_real_escape_string($_POST["user"]))."</strong></font></font><br />");
+         stderr($language["ERROR"],$language["ERR_NO_SPACE"]."<span style=\"color:red;font-weight:bold;\">".preg_replace('/\ /', '_', mysql_real_escape_string($_POST["user"]))."</span><br />");
        elseif ($ret==-8)
          stderr($language["ERROR"],$language["ERR_SPECIAL_CHAR"]);
        elseif ($ret==-9)

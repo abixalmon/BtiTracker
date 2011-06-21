@@ -1,7 +1,7 @@
 <hack>
   <title>Signature on (Internal) Forum</title>
   <author>Lupin</author>
-  <version>1.1</version>
+  <version>1.1 (r690)</version>
   <!-- database -->
   <file>
     <name>"database"</name>
@@ -96,31 +96,20 @@
   <file>
   <name>"$DEFAULT_ROOT/include/functions.php"</name>
   <operation>
-    <action>"replace"</action>
-    <search><![CDATA[(int)$_COOKIE['uid']);
-
-  $res = get_result("SELECT]]></search>
-    <data><![CDATA[(int)$_COOKIE['uid']);
-
-  $res = get_result("SELECT u.signature,]]></data>
+    <search><![CDATA[    if($id>1)
+    {
+        $res = do_sqlquery("SELECT ]]></search>
+    <action>"add"</action>
+    <data><![CDATA[u.signature,]]></data>
+    <where>"after"</where>
   </operation>
   <operation>
-    <action>"replace"</action>
-    <search><![CDATA[if (!$row) {
-    $id=1;
-    $res = get_result("SELECT]]></search>
-    <data><![CDATA[if (!$row) {
-    $id=1;
-    $res = get_result("SELECT u.signature,]]></data>
-  </operation>
-  <operation>
-    <action>"replace"</action>
-    <search><![CDATA[if (($_COOKIE['pass']!=md5($row['random'].$row['password'].$row['random'])) && $id!=1) {
-    $id=1;
-    $res = get_result("SELECT]]></search>
-    <data><![CDATA[if (($_COOKIE['pass']!=md5($row['random'].$row['password'].$row['random'])) && $id!=1) {
-    $id=1;
-    $res = get_result("SELECT u.signature,]]></data>
+    <search><![CDATA[    if($id==1)
+    {
+        $res = do_sqlquery("SELECT ]]></search>
+    <action>"add"</action>
+    <data><![CDATA[u.signature,]]></data>
+    <where>"after"</where>
   </operation>
   </file>
 
@@ -128,31 +117,27 @@
   <file>
   <name>"$DEFAULT_ROOT/forum/forum.viewtopic.php"</name>
   <operation>
-    <action>"replace"</action>
-    <search><![CDATA[
-if ($XBTT_USE)
-   $query = "SELECT]]>
-    </search>
-    <data><![CDATA[
-if ($XBTT_USE)
-   $query = "SELECT u.signature,]]></data>
-  </operation>
-  <operation>
-    <action>"replace"</action>
-    <search><![CDATA[else
-   $query = "SELECT ]]>
-    </search>
-    <data><![CDATA[else
-   $query = "SELECT u.signature,]]></data>
-  </operation>
-  <operation>
+    <search><![CDATA[if ($XBTT_USE)
+   $query = "SELECT ]]></search>
     <action>"add"</action>
+    <data><![CDATA[u.signature,]]></data>
     <where>"after"</where>
-    <search><![CDATA[$posts[$pn]["body"].= "<p><font size=\"1\">".$language["LAST_EDITED_BY"]." <a href=\"index.php?page=userdetails&amp;id=".$arr["editedby"]."\"><b>".$arr["editor"]."</b></a> at ".get_date_time($arr['editedat'])."</font></p>\n";]]></search>
+  </operation>
+  <operation>
+    <search><![CDATA[else
+   $query = "SELECT ]]></search>
+    <action>"add"</action>
+    <data><![CDATA[u.signature,]]></data>
+    <where>"after"</where>
+  </operation>
+  <operation>
+    <search><![CDATA[get_date_time($arr['editedat'])."</font></p>\n";]]></search>
+    <action>"add"</action>
     <data><![CDATA[
   if ($arr["signature"])
     $posts[$pn]["body"].= "<p style='vertical-align:bottom'><br />_______________________________________________<br />" . format_comment($arr["signature"]) . "</p>";
 ]]></data>
+    <where>"after"</where>
   </operation>
   </file>
 
@@ -160,9 +145,11 @@ if ($XBTT_USE)
   <file>
   <name>"$DEFAULT_ROOT/userdetails.php"</name>
   <operation>
-    <action>"replace"</action>
-    <search><![CDATA[$res=get_result("SELECT ]]></search>
-    <data><![CDATA[$res=get_result("SELECT u.signature, ]]></data>
+    <search><![CDATA[if ($id>1) {
+   $res=get_result("SELECT ]]></search>
+    <action>"add"</action>
+    <data><![CDATA[u.signature,]]></data>
+    <where>"after"</where>
   </operation>
 
   <operation>
