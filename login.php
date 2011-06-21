@@ -121,18 +121,29 @@ if (!$CURUSER || $CURUSER["uid"]==1)
                     do_sqlquery("UPDATE `{$db_prefix}members` SET `passwd`='".$fix_pass[0]."', ".(($FORUMLINK=="smf")?"`passwordSalt`='".$fix_pass[1]."' WHERE `ID_MEMBER`":"`password_salt`='".$fix_pass[1]."' WHERE `id_member`")."=".$row["smf_fid"]);
                     set_smf_cookie($row["smf_fid"], $fix_pass[0], $fix_pass[1]);
                 }
-                elseif ($FORUMLINK=="ipb" && md5(md5($row["members_pass_salt"]).md5($pwd))==$row["members_pass_hash"])
-                    set_ipb_cookie($row["ipb_fid"], $row["name"], $row["member_group_id"]);
-                elseif ($FORUMLINK=="ipb" && $row["members_pass_hash"]=="ffffffffffffffffffffffffffffffffffffffff")
+                elseif($FORUMLINK=="ipb")
                 {
+
+                    if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
+                        $THIS_BASEPATH=dirname(__FILE__);
                     require_once($THIS_BASEPATH. '/ipb/initdata.php' );
                     require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
                     require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
                     $registry = ipsRegistry::instance(); 
                     $registry->init();
-                    $ipbhash=ipb_passgen($pwd);
-                    IPSMember::save($arr["ipb_fid"], array("members" => array("member_login_key" => "", "member_login_key_expire" => "0", "members_pass_hash" => "$ipbhash[0]", "members_pass_salt" => "$ipbhash[1]")));
-                    set_ipb_cookie($row["ipb_fid"], $row["name"], $row["member_group_id"]);
+        
+                    $password=IPSText::parseCleanValue(urldecode(trim($pwd)));
+                    $hash=md5(md5($row["members_pass_salt"]).md5($password));
+                    $salt=pass_the_salt(5);
+                    $rehash=$hash=md5(md5($salt).md5($password));
+
+                    if ($ipbhash[0]==$row["members_pass_hash"])
+                        set_ipb_cookie($row["ipb_fid"], $row["name"], $row["member_group_id"]);
+                    elseif ($row["members_pass_hash"]=="ffffffffffffffffffffffffffffffff")
+                    {
+                        IPSMember::save($row["ipb_fid"], array("members" => array("member_login_key" => "", "member_login_key_expire" => "0", "members_pass_hash" => "$rehash", "members_pass_salt" => "$salt")));
+                        set_ipb_cookie($row["ipb_fid"], $row["name"], $row["member_group_id"]);
+                    }
                 }
                 if (isset($_GET["returnto"]))
                     $url=urldecode($_GET["returnto"]);

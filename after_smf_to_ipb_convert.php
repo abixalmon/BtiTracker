@@ -316,7 +316,7 @@ elseif($act=="member_bridge" && $confirm=="yes")
             if($account["pass_type"]==1)
                 $passhash=ipb_md5_passgen($account["password"]);
             else
-                $passhash=array("ffffffffffffffffffffffffffffffffffffffff", "fffff");
+                $passhash=array("ffffffffffffffffffffffffffffffff", "fffff");
             // Try a username check
             $res=mysql_query("SELECT `member_id` FROM `{$ipb_prefix}members` WHERE `name`='".mysql_real_escape_string($account["username"])."'");
             if(@mysql_num_rows($res)==1)

@@ -1437,8 +1437,23 @@ function pass_the_salt($len=5)
 
 function ipb_passgen($pwd)
 {
+    global $THIS_BASEPATH;
+
+    if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
+        $THIS_BASEPATH=str_replace(array("\\", "/include"), array("/", ""), dirname(__FILE__));
+    if(!defined('IPB_THIS_SCRIPT'))
+        define( 'IPB_THIS_SCRIPT', 'public' );
+
+    require_once( $THIS_BASEPATH.'/ipb/initdata.php' );
+    require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
+    require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
+    $registry = ipsRegistry::instance(); 
+    $registry->init();
+
+    $password=IPSText::parseCleanValue(urldecode(trim($pwd)));
+
     $salt=pass_the_salt(5);
-    $passhash = md5( md5( $salt ) . md5( $pwd ) );
+    $passhash = md5( md5( $salt ) . md5( $password ) );
     return array($passhash, $salt);
 }
 function ipb_md5_passgen($pwd)

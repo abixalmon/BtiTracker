@@ -330,7 +330,7 @@ elseif($act=="member_import" && $confirm=="yes")
             if($account["pass_type"]==1)
                 $passhash=ipb_md5_passgen($account["password"]);
             else
-                $passhash=array("ffffffffffffffffffffffffffffffffffffffff", "fffff");
+                $passhash=array("ffffffffffffffffffffffffffffffff", "fffff");
             $hash=$passhash[0];
             $salt=$passhash[1];
             $joined=$account["joined"];

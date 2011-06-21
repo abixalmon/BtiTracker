@@ -66,7 +66,7 @@ $note='';
 # find smf_id
 $smf_fid=false;
 $ipb_fid=false;
-if (substr($FORUMLINK,0,3)=='smf') {
+if (substr($FORUMLINK,0,3)=='smf')
 {
     if (!isset($curu['smf_fid']) || $curu['smf_fid']==0)
     {
@@ -125,6 +125,8 @@ switch ($action) {
             quickQuery('DELETE FROM '.$TABLE_PREFIX.'users WHERE id='.$uid.' LIMIT 1;',true);
             if (substr($FORUMLINK,0,3)=='smf')
                 quickQuery("DELETE FROM `{$db_prefix}members` WHERE ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")."=".$smf_fid." LIMIT 1");
+            elseif ($FORUMLINK=='ipb')
+                quickQuery("DELETE FROM `{$ipb_prefix}members` WHERE `member_id`=".$ipb_fid." LIMIT 1");
             if ($XBTT_USE)
                 quickQuery('DELETE FROM xbt_users WHERE uid='.$uid.' LIMIT 1;');
 
