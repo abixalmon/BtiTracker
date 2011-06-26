@@ -45,13 +45,6 @@ $admintpl->set("ipb_in_use_1", (($FORUMLINK=="ipb")?true:false), true);
 $admintpl->set("ipb_in_use_2", (($FORUMLINK=="ipb")?true:false), true);
 $admintpl->set("ipb_in_use_3", (($FORUMLINK=="ipb")?true:false), true);
 
-$colspan=10;
-
-if(substr($FORUMLINK,0,3)=="smf" || $FORUMLINK=="ipb")
-    $colspan++;
-
-$admintpl->set("colspan", $colspan);
-
 switch ($action)
     {
         
