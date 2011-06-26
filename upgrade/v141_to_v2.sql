@@ -121,7 +121,7 @@ INSERT INTO `btit_language` (`id`, `language`, `language_url`) VALUES
 (1, 'English', 'language/english'),
 (2, 'Romanian', 'language/romanian'),
 (3, 'Polish', 'language/polish'),
-(4, 'Serbocroatian', 'language/serbocroatian'),
+(4, 'Srpsko-Hrvatski', 'language/serbocroatian'),
 (5, 'Dutch', 'language/dutch'),
 (6, 'Italiano', 'language/italian'),
 (7, 'Russian','language/russian'),
@@ -134,7 +134,12 @@ INSERT INTO `btit_language` (`id`, `language`, `language_url`) VALUES
 (14, 'Bulgarian','language/bulgarian'),
 (15, 'Spanish','language/spanish'),
 (16, 'Portuguese-BR','language/portuguese-BR'),
-(17, 'Portuguese-PT','language/portuguese-PT');
+(17, 'Portuguese-PT','language/portuguese-PT'),
+(18, 'Swedish','language/swedish'),
+(19, 'Arabic','language/arabic'),
+(20, 'Danish','language/danish'),
+(21, 'Chinese-Simplified','language/chinese'),
+(22, 'Bengali','language/bangla');
 
 --- new modules system
 CREATE TABLE `btit_modules` (
@@ -221,8 +226,8 @@ CREATE TABLE `btit_settings` (
 
 --- default, need to be change by owner!
 INSERT INTO `btit_settings` (`key`, `value`) VALUES 
-('name', 'Btit Local Test'),
-('url', 'http://localhost'),
+('name', 'BTI-Tracker'),
+('url', 'http://127.0.0.1/dev'),
 ('announce', 'a:2:{i:0;s:30:"http://localhost/announce.php\r";i:1;s:30:"http://localhost:2710/announce";}'),
 ('email', 'admin@localhost'),
 ('torrentdir', 'torrents'),
@@ -266,7 +271,21 @@ INSERT INTO `btit_settings` (`key`, `value`) VALUES
 ('xbtt_url', 'http://localhost:2710'),
 ('cache_duration', '0'),
 ('cut_name', '0'),
-('mail_type', 'php');
+('mail_type', 'php'),
+('secsui_quarantine_dir', ''), 
+('secsui_quarantine_search_terms', '<?php,base64_decode,base64_encode,eval(,phpinfo,fopen,fread,fwrite,file_get_contents'), 
+('secsui_cookie_name', ''), 
+('secsui_quarantine_pm', '2'), 
+('secsui_pass_type', '1'), 
+('secsui_ss', ''), 
+('secsui_cookie_type', '1'), 
+('secsui_cookie_exp1', '1'), 
+('secsui_cookie_exp2', '3'), 
+('secsui_cookie_path', ''), 
+('secsui_cookie_domain', ''), 
+('secsui_cookie_items', '1-0,2-0,3-0,4-0,5-0,6-0,7-0,8-0[+]0'),
+('secsui_pass_min_req', '4,0,0,0,0'),
+('ipb_autoposter', '0');
 
 TRUNCATE TABLE `btit_style`;
 
@@ -278,18 +297,22 @@ INSERT INTO `btit_style` (`id`, `style`, `style_url`) VALUES
 (5, 'Frosted', 'style/frosted'),
 (6, 'Holiday Spirit', 'style/holiday-spirit');
 
-
 ALTER TABLE `btit_users`
 CHANGE `avatar` `avatar` VARCHAR( 200 ) default NULL,
 ADD `smf_fid` int(10) NOT NULL default '0',
-ADD INDEX ( `smf_fid` );
-
-ALTER TABLE `btit_users` ADD INDEX (`smf_fid`);
+ADD `ipb_fid` int(10) NOT NULL default '0',
+ADD INDEX ( `smf_fid` ),
+ADD INDEX ( `ipb_fid` );
 
 # update guest PID ;)
 UPDATE btit_users SET pid='00000000000000000000000000000000' WHERE id=1;
 
 ALTER TABLE `btit_users_level`
 CHANGE `prefixcolor` `prefixcolor` VARCHAR( 200 ) NOT NULL,
-CHANGE `suffixcolor` `suffixcolor` VARCHAR( 200 ) NOT NULL;
+CHANGE `suffixcolor` `suffixcolor` VARCHAR( 200 ) NOT NULL,
+ADD `smf_group_mirror` int(11) NOT NULL default '0',
+ADD `ipb_group_mirror` int(11) NOT NULL default '0',
+ADD INDEX ( `smf_group_mirror` ),
+ADD INDEX ( `ipb_group_mirror` );
+
 ALTER TABLE `btit_messages `ADD`deletedBySender` tinyint(3) unsigned NOT NULL DEFAULT '0';
