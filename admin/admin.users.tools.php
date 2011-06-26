@@ -336,12 +336,12 @@ switch ($action) {
                     {
                         $dupe=get_result("SELECT ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")." FROM `{$db_prefix}members` WHERE `member".(($FORUMLINK=="smf")?"N":"_n")."ame`=".$username." LIMIT 1", true, $CACHE_DURATION);
                         if (!isset($dupe[0])) {
-                            $smfset[]='memberName='.$username;
+                            $smfset[]='member'.(($FORUMLINK=="smf")?"N":"_n").'ame='.$username;
                         } else
                             $newname.=', dupe name in smf memberName';
                         $dupe=get_result("SELECT ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")." FROM {$db_prefix}members WHERE `real".(($FORUMLINK=="smf")?"N":"_n")."ame`=".$username." LIMIT 1", true, $CACHE_DURATION);
                         if (!isset($dupe[0])) {
-                            $smfset[]='realName='.$username;
+                            $smfset[]='real'.(($FORUMLINK=="smf")?"N":"_n").'ame='.$username;
                         } else
                             $newname.=', dupe name in smf realName';
                     }
