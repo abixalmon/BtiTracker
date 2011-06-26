@@ -106,8 +106,7 @@ elseif ($action=="view")
           }
       $timeout=(60*60*24)*$days;
 
-      $res=get_result("SELECT `u`.`id`, `u`.`username`, UNIX_TIMESTAMP(`u`.`joined`) `joined`, UNIX_TIMESTAMP(`u`.`lastconnect`) `lastconnect`, `ul`.`level`".((substr($GLOBALS["FORUMLINK"],0,3)=="smf")?", `u`.`smf_fid`":(($GLOBALS["FORUMLINK"]=="smf")?", `u`.`ipb_fid`":""))." FROM `{$TABLE_PREFIX}users` `u` INNER JOIN `{$TABLE_PREFIX}users_level` `ul` ON `ul`.`id`=`u`.`id_level` WHERE (`u`.`id`>1 AND `ul`.`id_level`<3 AND UNIX_TIMESTAMP(`u`.`joined`)<(UNIX_TIMESTAMP()-$timeout)) OR (`u`.`id`>1 AND `ul`.`id_level`<7 AND UNIX_TIMESTAMP(`u`.`lastconnect`)<(UNIX_TIMESTAMP()-$timeout)) ORDER BY `ul`.`id_level` DESC, `u`.`lastconnect`",true);
-
+      $res=get_result("SELECT `u`.`id`, `u`.`username`, UNIX_TIMESTAMP(`u`.`joined`) `joined`, UNIX_TIMESTAMP(`u`.`lastconnect`) `lastconnect`, `ul`.`level`".((substr($GLOBALS["FORUMLINK"],0,3)=="smf")?", `u`.`smf_fid`":(($GLOBALS["FORUMLINK"]=="ipb")?", `u`.`ipb_fid`":""))." FROM `{$TABLE_PREFIX}users` `u` INNER JOIN `{$TABLE_PREFIX}users_level` `ul` ON `ul`.`id`=`u`.`id_level` WHERE (`u`.`id`>1 AND `ul`.`id_level`<3 AND UNIX_TIMESTAMP(`u`.`joined`)<(UNIX_TIMESTAMP()-$timeout)) OR (`u`.`id`>1 AND `ul`.`id_level`<7 AND UNIX_TIMESTAMP(`u`.`lastconnect`)<(UNIX_TIMESTAMP()-$timeout)) ORDER BY `ul`.`id_level` DESC, `u`.`lastconnect`",true);
 
       $block_title=$language["PRUNE_USERS"];
 
