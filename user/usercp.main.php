@@ -90,7 +90,7 @@ if (!defined("IN_BTIT"))
      $usercptpl->set("posts",$posts."&nbsp;[" . sprintf($language["POSTS_PER_DAY"], $posts_per_day) . "]");
   }
   elseif (substr($GLOBALS["FORUMLINK"],0,3)=="smf")
-     {
+  {
      $forum=get_result("SELECT `date".(($GLOBALS["FORUMLINK"]=="smf")?"R":"_r")."egistered`, `posts` FROM `{$db_prefix}members` WHERE ".(($GLOBALS["FORUMLINK"]=="smf")?"`ID_MEMBER`":"`id_member`")."=".$CURUSER["smf_fid"],true,$btit_settings['cache_duration']);
      $forum=$forum[0];
      $memberdays = max(1, round( ( time() - (($GLOBALS["FORUMLINK"]=="smf")?$forum["dateRegistered"]:$forum["date_registered"]) ) / 86400 ));
@@ -99,6 +99,18 @@ if (!defined("IN_BTIT"))
      $usercptpl->set("posts",$forum["posts"]."&nbsp;[" . sprintf($language["POSTS_PER_DAY"], $posts_per_day) . "]");
      unset($forum);
   }
+  elseif ($GLOBALS["FORUMLINK"]=="ipb")
+  {
+     $forum=get_result("SELECT `joined`, `posts` FROM `{$ipb_prefix}members` WHERE `member_id`=".$CURUSER["ipb_fid"],true,$btit_settings['cache_duration']);
+      $forum=$forum[0];
+      $memberdays = max(1, round( ( time() - $forum["joined"] ) / 86400 ));
+      $posts_per_day = number_format(round($forum["posts"] / $memberdays,2),2);
+      $usercptpl->set("INTERNAL_FORUM",true,true);
+      $usercptpl->set("posts",$forum["posts"]."&nbsp;[" . sprintf($language["POSTS_PER_DAY"], $posts_per_day) . "]");
+   unset($forum);
+}
+
+
   if ($XBTT_USE)
      {
       $tseeds="f.seeds+ifnull(x.seeders,0)";
