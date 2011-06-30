@@ -89,7 +89,7 @@ $language['EMAIL_VERIFY_MSG']='Hello,'."\n\n".'This email has been sent because 
 $language['EMAIL_VERIFY_SENT1']='<br /><center>A verification email has been sent to:<br /><br /><strong><font color="red">';
 $language['EMAIL_VERIFY_SENT2']='</font></strong><br /><br />You will need to click on the link contained within the email in order<br />to update your email address. The email should arrive within 10 minutes<br />(usually instantly) although some email providers may mark it as SPAM<br />so be sure to check your SPAM folder if you can&rsquo;t find it.<br /><br />';
 $language['ERR_500']='HTTP/1.0 500 Unauthorized access!';
-$language['ERR_AVATAR_EXT']='Sorry only gif,jpg,bmp or png allowed';
+$language['ERR_AVATAR_EXT']='Sorry either the image doesn&rsquo;t exist or the file type is incorrect (only gif, jpg, bmp or png images allowed).';
 $language['ERR_BAD_LAST_POST']='';
 $language['ERR_BAD_NEWS_ID']='Bad news ID!';
 $language['ERR_BODY_EMPTY']='Body cannot be empty!';
@@ -479,9 +479,10 @@ $language["SECSUI_ACC_PWD_5"]="lower case letter";
 $language["SECSUI_ACC_PWD_5A"]="lower case letters";
 $language["SECSUI_ACC_PWD_6"]="upper case letter";
 $language["SECSUI_ACC_PWD_6A"]="upper case letters";
-$language["SECSUI_ACC_PWD_7"]="symbol";
-$language["SECSUI_ACC_PWD_7A"]="symbols";
-$language["SECSUI_ACC_PWD_8"]="number";
-$language["SECSUI_ACC_PWD_8A"]="numbers";
+$language["SECSUI_ACC_PWD_7"]="number";
+$language["SECSUI_ACC_PWD_7A"]="numbers";
+$language["SECSUI_ACC_PWD_8"]="symbol";
+$language["SECSUI_ACC_PWD_8A"]="symbols";
+
 
 ?>

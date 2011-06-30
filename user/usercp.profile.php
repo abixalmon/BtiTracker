@@ -59,14 +59,13 @@ switch ($action)
            }
            // Password confirmation required to update user record
 
-
-           // check avatar image extension if someone have better idea ;)
-           if ($avatar && $avatar!="" && !in_array(substr($avatar,strlen($avatar)-4),array(".gif",".jpg",".bmp",".png")))
-              {
-                stderr($language["ERROR"], $language["ERR_AVATAR_EXT"]);
-                stdfoot();
-                exit;
-              }
+           // check avatar is a valid image and one of the supported file types
+           if($avatar && $avatar!="")
+           {
+               $imagearr=@getimagesize($avatar);
+               if(!is_array($imagearr) || !in_array($imagearr["mime"], array("image/bmp", "image/jpeg", "image/pjpeg", "image/gif", "image/x-png", "image/png")))
+                   stderr($language["ERROR"], $language["ERR_AVATAR_EXT"]);
+           }
 
            if ($email=="")
           {
