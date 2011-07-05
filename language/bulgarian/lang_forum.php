@@ -31,7 +31,7 @@ $language["TOPIC_NOT_FOUND"]="Темата не е намерена";
 $language["TOPIC_UNREAD_POSTS"]="Теми с непрочетени коментари";
 $language["POST"]="Пост";
 $language["SEARCH_AGAIN"]="Търси отново";
-$language["SEARCH_HELP"]="Напишете една или повече думи за да търсите.<br /> Думи с по-малко от 3 символа се игнорират.";
+$language["SEARCH_HELP"]="Напишете една или повече думи, за да търсите.<br /> Думи с по-малко от 3 символа се игнорират.";
 $language["SEARCHED_FOR"]="Търсене за";
 
 ?>

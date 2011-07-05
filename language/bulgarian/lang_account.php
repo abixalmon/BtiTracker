@@ -1,5 +1,5 @@
 <?php
-$language["ACCOUNT_CREATED"]="Акаунта е създаден успешно!";
+$language["ACCOUNT_CREATED"]="Акаунтът е създаден успешно!";
 $language["USER_NAME"]="Потребител";
 $language["USER_PWD_AGAIN"]="Повторете паролата";
 $language["USER_PWD"]="Парола";
@@ -12,12 +12,12 @@ $language["DIF_PASSWORDS"]="Въведените пароли не съвпад�
 $language["ERR_NO_EMAIL"]="Трябва да въведете валиден e-mail адрес";
 $language["USER_EMAIL_AGAIN"]="Повторете e-mail адреса";
 $language["ERR_NO_EMAIL_AGAIN"]="Повторете e-mail aдреса";
-$language["DIF_EMAIL"]="e-mail адресите не съвпадат!";
+$language["DIF_EMAIL"]="Е-mail адресите не съвпадат!";
 $language["SECURITY_CODE"]="Отговорете на въпроса";
 # Password strength
 $language["WEEK"]="Слаба";
 $language["MEDIUM"]="Средна";
 $language["SAFE"]="Сигурна";
 $language["STRONG"]="Силна";
-
+$language["ERR_GENERIC"]="Нестандартна грешка: ".mysql_error();
 ?>

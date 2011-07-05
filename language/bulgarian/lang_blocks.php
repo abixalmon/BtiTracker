@@ -13,11 +13,11 @@ $language["BLOCK_LASTTORRENTS"]="Последно качени";
 $language["BLOCK_NEWS"]="Последни новини";
 $language["BLOCK_SERVERLOAD"]="Натоварване на тракера";
 $language["BLOCK_POLL"]="Анкета";
-$language["BLOCK_SEEDWANTED"]="Торенти искащи сийд";
+$language["BLOCK_SEEDWANTED"]="Торенти, искащи сийд";
 $language["BLOCK_PAYPAL"]="Подкрепете ни";
 $language["BLOCK_MAINTRACKERTOOLBAR"]="Главно меню на тракера";
 $language["BLOCK_MAINUSERTOOLBAR"]="Главно потребителско меню";
-$language["WELCOME_LASTUSER"]=" Добре дошли в нашия тракер ";
+$language["WELCOME_LASTUSER"]=" Добре дошли в нашия тракер, ";
 $language["BLOCK_MINCLASSVIEW"]="Минимален ранг";
 $language["BLOCK_MAXCLASSVIEW"]="Максимален ранг";
 ?>
