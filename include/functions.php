@@ -409,8 +409,9 @@ function logoutcookie()
     setcookie("$my_cookie_name", "", (time()-3600), "/");
     session_name("xbtit");
     session_start();
-    if(isset($_SESSION["login_cookie"]))
-        unset($_SESSION["login_cookie"]);
+    $_SESSION=array();
+    setcookie("xbtit", "", time()-3600, "/");
+    session_destroy();
 }
 
 function hash_pad($hash) {

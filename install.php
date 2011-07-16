@@ -498,7 +498,7 @@ elseif ($action == 'site_config') {
 
     $lres=language_list();
     foreach ($lres as $l)
-            echo ("<option value=\"".$l["id"].($l["id"]==1?" selected=\"selected\"":"")."\">".StripSlashes($l["language"])."</option>");
+            echo ("<option value=\"".$l["id"]."\"".($l["id"]==1?" selected=\"selected\"":"").">".StripSlashes($l["language"])."</option>");
 
     echo ("</select></td>");
     echo ("<tr><td>".$install_lang["default_style"].":</td><td><select name=\"style\">");

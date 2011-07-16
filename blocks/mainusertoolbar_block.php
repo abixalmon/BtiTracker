@@ -95,7 +95,13 @@ print("</select></td>");
 <?php
 }
 else
-    {
+{
+    session_name("xbtit");
+    session_start();
+    $_SESSION=array();
+    setcookie("xbtit", "", time()-3600, "/");
+    session_destroy();
+
     if (!isset($user)) $user = '';
     ?>
     <form action="index.php?page=login" name="login" method="post">

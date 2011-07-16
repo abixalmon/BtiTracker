@@ -166,9 +166,16 @@ if(isset($_POST) && !empty($_POST))
 
     foreach (glob($THIS_BASEPATH."/cache/*.txt") as $filename)
         unlink($filename);
-    redirect("index.php?page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=security_suite");
-    stdfoot();
-    exit();
+    
+    if($btit_settings["secsui_cookie_type"]!=$secsui_cookie_type || $btit_settings["secsui_pass_type"]!=$secsui_pass_type)
+    {
+        logoutcookie();
+        redirect("index.php");
+    }
+    else
+    {
+        redirect("index.php?page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=security_suite");
+    }
 }
 
 $get_pm_user=get_result("SELECT `u`.`username`, `ul`.`prefixcolor`, `ul`.`suffixcolor` FROM `{$TABLE_PREFIX}users` `u` LEFT JOIN `{$TABLE_PREFIX}users_level` `ul` ON `u`.`id_level`=`ul`.`id` WHERE `u`.`id`=".mysql_real_escape_string($btit_settings["secsui_quarantine_pm"]), true, $btit_settings["cache_duration"]);

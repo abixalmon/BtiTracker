@@ -33,6 +33,12 @@
 if (!defined("IN_BTIT"))
       die("non direct access!");
 
+session_name("xbtit");
+session_start();
+$_SESSION=array();
+setcookie("xbtit", "", time()-3600, "/");
+session_destroy();
+
 require_once(load_language("lang_login.php"));
 
 function xbtit_login()
