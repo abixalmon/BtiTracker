@@ -37,7 +37,6 @@ $morescript='
     <script type="text/javascript" src="'.$BASEURL.'/jscript/ajax.js"></script>
     <script type="text/javascript" src="'.$BASEURL.'/jscript/ajax-poller.js"></script>
     <script type="text/javascript" src="'.$BASEURL.'/jscript/animatedcollapse.js"></script>
-    <script type="text/javascript" src="'.$BASEURL.'/jscript/DV.js"></script>
     <script type="text/javascript" src="'.$BASEURL.'/jscript/xbtit.js"></script>
 ';
 

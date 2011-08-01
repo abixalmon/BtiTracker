@@ -67,7 +67,7 @@ if ($GLOBALS["ajax_poller"])
       }      
       ?>      
       <!-- <a href="#poll" onclick="castMyVote(<?php echo $pollerId; ?>,document.forms['poller'])"><img src="images/vote_button.gif"></a> -->
-      <img src="images/vote_button.gif" alt="<?php echo $language["CAST_VOTE"]; ?>" title="<?php echo $language["CAST_VOTE"]; ?>" onclick="castMyVote(<?php echo $pollerId; ?>,document.forms['poller'])" style="cursor:pointer; cursor:hand;"/>
+      <img src="images/vote_button.gif" alt="<?php echo $language["CAST_VOTE"]; ?>" title="<?php echo $language["CAST_VOTE"]; ?>" onclick="castMyVote(<?php echo $pollerId; ?>,document.forms['poller'])" style="cursor:pointer;"/>
 
       </div>
       <div class="poller_waitMessage" id="poller_waitMessage<?php echo $pollerId; ?>" align="center">

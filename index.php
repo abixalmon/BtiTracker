@@ -173,7 +173,7 @@ require_once("$THIS_BASEPATH/include/blocks.php");
 $logo.="<div></div>";
 $dropdown=dropdown_menu();
 $extra=extra_menu();
-$slideIt="<span style=\"align:left;\"><a href=\"javascript:collapse2.slideit()\"><img src=\"$STYLEURL/images/slide.png\" border=\"0\" alt=\"click\" /></a></span>";
+$slideIt="<span style=\"text-align:left;\"><a href=\"javascript:collapse2.slideit()\"><img src=\"$STYLEURL/images/slide.png\" border=\"0\" alt=\"click\" /></a></span>";
 $header.="<div>".main_menu()."</div>";
 
 
