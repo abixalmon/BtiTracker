@@ -72,7 +72,7 @@ function parseimage($matches) {
   global $img_count;
 
   $img_count++;
-  return "\n<div id=\"img{$img_count}\" style=\"font-size:1px; display:inline;\">\n<img name=\"img{$img_count}\" onload='resize(this);' src='$matches[1]' border='0' alt='' /></div>";
+  return "\n<div id=\"img{$img_count}\" style=\"font-size:x-small; display:inline;\">\n<img name=\"img{$img_count}\" onload='resize(this);' src='$matches[1]' border='0' alt='' /></div>";
 }
 
 function bbcode($content) {
