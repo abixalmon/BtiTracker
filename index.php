@@ -145,7 +145,14 @@ else
   $USERLANG=$_SESSION['CURUSER']['language_path'];
 }
 
+//which module by cooly
+if($pageID=="modules")
+{
+$MID=(isset($_GET["module"])?htmlentities($_GET["module"]):$MID="");
+check_online(session_id(), ($MID==""?"index":$MID));
+}else{
 check_online(session_id(), ($pageID==""?"index":$pageID));
+}
 
 require(load_language("lang_main.php"));
 
