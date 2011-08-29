@@ -4,6 +4,7 @@ Je remercie au créateur de xbtit de me permettre de traduire son tracker.
 
 Shad.
 
-24/04/2009
-Quelques corrections par RBert pour la version beta 554.
+27/08/2011
+Corrections par RBert pour la version 2.2.2 rev 680.
 
+Ajout des réglages de sécurité

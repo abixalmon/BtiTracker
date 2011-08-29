@@ -89,6 +89,7 @@ $language["SETTING_SMTP_PASSWORD"]="Mot de passe SMTP";
 $language["SETTING_SMTP_PASSWORD_REPEAT"]="Mot de passe SMTP (confirmation)";
 $language["XBTT_TABLES_ERROR"]="Vous devez insérer un tableau xbtt (voir fichier d'aide)";
 $language["XBTT_URL_ERROR"]="L'URL de base est obligatoire";
+
 // BAN FORM
 $language["BAN_NOTE"]="Dans cette partie du panneau d'administration, vous pouvez voir les IP bannies.<br />\nVous devez insérer une gamme de (première IP) (dernière IP).";
 $language["BAN_NOIP"]="Il n'y a pas d'IP bannies";
@@ -102,11 +103,13 @@ $language["BAN_INSERT"]="Ajouter une nouvelle gamme d'IP bannies";
 $language["BAN_IP_ERROR"]="Mauvaise adresse IP.";
 $language["BAN_NO_IP_WRITE"]="Vous n'avez pas écrit d'adresse IP. Désolé !";
 $language["BAN_DELETED"]="La gamme d'adresse IP a été supprimée de la bdd.<br />\n<br />\n<a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=banip&amp;action=read\">Retour</a>";
+
 // LANGUAGES
 $language["LANGUAGE_SETTINGS"]="Configurer le language";
 $language["LANGUAGE"]="Language";
 $language["LANGUAGE_ADD"]="Insérer une nouvelle langue";
 $language["LANGUAGE_SAVED"]="Félicitations, les changement ont bien été prit en compte !";
+
 // STYLES
 $language["STYLE_SETTINGS"]="Configuration du style";
 $language["STYLE_EDIT"]="Èditer le style";
@@ -115,6 +118,7 @@ $language["STYLE_NAME"]="Nom du style";
 $language["STYLE_URL"]="Lien du style";
 $language["STYLE_FOLDER"]="Dossier du style ";
 $language["STYLE_NOTE"]="Dans cette section, vous pouvez gérer vos paramêtres de style, mais vous devez transférer des fichiers par FTP ou sftp.";
+
 // CATEGORIES
 $language["CATEGORY_SETTINGS"]="Configurer les catégories";
 $language["CATEGORY_IMAGE"]="Images des catégories";
@@ -124,9 +128,11 @@ $language["CATEGORY_FULL"]="Catégorie";
 $language["CATEGORY_EDIT"]="Èditer la catégorie";
 $language["CATEGORY_SUB"]="Sous-catégorie";
 $language["CATEGORY_NAME"]="Catégorie";
+
 // CENSORED
 $language["CENSORED_NOTE"]="Ècrire <b>un mot par ligne</b> pour le censurer (sera transformé en *censuré*)";
 $language["CENSORED_EDIT"]="Èditer";
+
 // BLOCKS
 $language["BLOCKS_SETTINGS"]="Configurer les blocs";
 $language["ENABLED"]="Activer";
@@ -137,12 +143,14 @@ $language["BLOCK_TITLE"]="Titre du language (sera utilisé pour afficher le titr
 $language["BLOCK_USE_CACHE"]="Mettre en cache ce bloc ?";
 $language["ERR_BLOCK_NAME"]="Vous devez sélectionner quelque chose dans la liste déroulante !";
 $language["BLOCK_ADD_NEW"]="Ajouter un nouveau bloc";
+
 // POLLS (more in lang_polls.php)
 $language["POLLS_SETTINGS"]="Configurer le sondage";
 $language["POLLID"]="Identifiant du sondage";
 $language["INSERT_NEW_POLL"]="Ajouter un nouveau sondage";
 $language["CANT_FIND_POLL"]="Ne peut trouver le sondage";
 $language["ADD_NEW_POLL"]="Ajouter un sondage";
+
 // GROUPS
 $language["USER_GROUPS"]="Configurer le groupe";
 $language["VIEW_EDIT_DEL"]="Voir/Èditer/Supprimer";
@@ -176,6 +184,7 @@ $language["GROUP_DELETE"]="Supprimer";
 $language["INSERT_USER_GROUP"]="Insérer un nouveau groupe d'utilisateurs";
 $language["ERR_CANT_FIND_GROUP"]="Impossible de trouver le groupe !";
 $language["GROUP_DELETED"]="Le groupe à bien été supprimé !";
+
 // MASS PM
 $language["USERS_FOUND"]="Utilisateurs trouvés";
 $language["USERS_PMED"]="Utilisateurs MP";
@@ -189,21 +198,25 @@ $language["RATIO_LOW"]="inférieur à ce ratio";
 $language["RATIO_FROM"]="De";
 $language["RATIO_TO"]="Pour";
 $language["MASSPM_INFO"]="Info";
+
 // PRUNE USERS
 $language["PRUNE_USERS_PRUNED"]="Utilisateurs bannis";
 $language["PRUNE_USERS"]="Bannir l'utilisateur";
 $language["PRUNE_USERS_INFO"]="Entrez le nombre de jours pendant lesquels les utilisateurs doivent être considérés comme \"inactif\"";
+
 // SEARCH DIFF
 $language["SEARCH_DIFF"]="Chercher une diff.";
 $language["SEARCH_DIFF_MESSAGE"]="Message";
 $language["DIFFERENCE"]="Différence";
 $language["SEARCH_DIFF_CHANGE_GROUP"]="Changer le groupe";
+
 // PRUNE TORRENTS
 $language["PRUNE_TORRENTS_PRUNED"]="Torrent bannis";
 $language["PRUNE_TORRENTS"]="Torrents bannis";
 $language["PRUNE_TORRENTS_INFO"]="Entrez le nombre de jours pendant lesquels les torrents doivent être considérés comme \"inactif\"";
 $language["LEECHERS"]="leecher(s)";
 $language["SEEDS"]="seed(s)";
+
 // DBUTILS
 $language["DBUTILS_TABLENAME"]="Nom de la table";
 $language["DBUTILS_RECORDS"]="Enregistrements";
@@ -218,10 +231,13 @@ $language["DBUTILS_OPERATION"]="Opération";
 $language["DBUTILS_INFO"]="Info";
 $language["DBUTILS_STATUS"]="Statut";
 $language["DBUTILS_TABLES"]="Tables";
+
 // MYSQL STATUS
 $language["MYSQL_STATUS"]="Statut de MySQL";
+
 // SITE LOG
 $language["SITE_LOG"]="Journal";
+
 // FORUMS
 $language["FORUM_MIN_CREATE"]="Droit minimum de création";
 $language["FORUM_MIN_WRITE"]="Droit minimum d'écriture";
@@ -235,6 +251,7 @@ $language["FORUM_PRUNE_1"]="Il y a des sujets et/ou messages dans ce forum !<br 
 $language["FORUM_PRUNE_2"]="Si vous êtes sur";
 $language["FORUM_PRUNE_3"]="sinon faîtes retour.";
 $language["FORUM_ERR_CANNOT_DELETE_PARENT"]="Vous ne pouvez pas supprimer un forum qui possède des fils, déplacez l'enfant vers d'autres forums et essayez à nouveau";
+
 // MODULES
 $language["ADD_NEW_MODULE"]="Ajouter un nouveau module";
 $language["TYPE"]="Type";
@@ -250,6 +267,7 @@ $language["MISC"]="Divers";
 $language["TORRENT"]="Torrent";
 $language["STYLE"]="Style";
 $language["ID_MODULE"]="ID";
+
 // HACKS
 $language["HACK_TITLE"]="Titre";
 $language["HACK_VERSION"]="Version";
@@ -266,14 +284,115 @@ $language["HACK_BAD_ID"]="Erreur de récupération des informations sur le hack 
 $language["HACK_UNINSTALLED_OK"]="Le hack a été désinstallé avec succès!<br />\nPour voir quels hacks sont installés retour au <a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=hacks&amp;action=read\">panneau d'administration (Hacks)</a>";
 $language["HACK_OPERATION"]="Opération";
 $language["HACK_SOLUTION"]="Solution";
-// added rev 520
+
+// ADDED REV 520
 $language["HACK_WHY_FTP"]="Certains fichiers de l'installateur du hack ne sont pas inscriptibles. <br />\nVous devez mettre vos fichiers en CHMOD 777 sur votre serveur. <br />\nLes informations de votre FTP peuvent être temporairement misent en cache pour le fonctionnement correct de l'installateur de hack.";
 $language["HACK_FTP_SERVER"]="Serveur du FTP";
 $language["HACK_FTP_PORT"]="Port du FTP";
 $language["HACK_FTP_USERNAME"]="Nom d'utilisateur du FTP";
 $language["HACK_FTP_PASSWORD"]="Mot de passe du FTP";
 $language["HACK_FTP_BASEDIR"]="Chemin d'accès local pour xbtit (chemin de la racine lorsque vous vous connectez via FTP)";
+
 // USERS TOOLS
 $language["USER_NOT_DELETE"]="Vous ne pouvez pas supprimer l'utilisateur Invité ou vous meme !";
 $language["USER_NOT_EDIT"]="Vous ne pouvez pas éditer l'utilisateur Invité ou vous-meme !";
+
+// MANUAL HACK INSTALL
+$language['MHI_VIEW_INSRUCT'] = 'Voir les instructions d\'installation manuel ?';
+$language['MHI_MAN_INSRUCT_FOR'] = 'Instructions d\'installation manuel pour';
+$language['MHI_RUN_QUERY'] = 'Lancez la requête SQL par phpMyAdmin';
+$language['MHI_IN'] = 'Dans';
+$language['MHI_ALSO_IN'] = 'Aussi dans';
+$language['MHI_FIND_THIS'] = 'trouvez ceci';
+$language['MHI_ADD_THIS'] = 'Ajoutez cela';
+$language['MHI_IT'] = 'il';
+$language['MHI_REPLACE'] = 'Remplacez avec';
+$language['MHI_COPY'] = 'Copier';
+$language['MHI_AS'] = 'en';
+
+// SECURITE SUITE
+$language["ACP_SECSUI_SET"]="R&eacute;glages de la Suite de S&eacute;curit&eacute;";
+$language["SECSUI_QUAR_SETTING"]="R&eacute;glages de quarantaine des fichiers envoy&eacute;s";
+$language["SECSUI_QUAR_TERMS_1"]="Termes de recherche de quarantaine (une par ligne)";
+$language["SECSUI_QUAR_TERMS_2"]="S'il vous plaît ajouter ci-dessous des mots qui vont déclencher le fichier de quarantaine :";
+$language["SECSUI_QUAR_TERMS_3"]="REMARQUE : Il n'est pas conseillé d'ajouter <b>&lt;?php</b> et <b>?&gt;</b>,  car ils peuvent se produire naturellement dans le fichier, vous devez définir la valeur de <b>short_open_tag</b> &agrave; <b>Off</b> dans le fichier php.ini, cela empêchera votre site d'exécuter du code php qui commence avec <b>&lt?</b> et va forcer les potentiels pirates &agrave; utiliser le longue php open tag.<br /><br />La valeur PHP actuelle est :</b><br />";
+$language["SECSUI_QUAR_DIR_1"]="Dossier de quarantaine";
+$language["SECSUI_QUAR_DIR_2"]="Ce dossier devrait idéalement être impossible d'accés via l'Internet et au moins un niveau au-dessus de votre dossier racine de votre tracker par exemple :";
+$language["SECSUI_QUAR_DIR_3"]="S'il vous plaît assurez vous que le CHOWN/CHMOD de ce répertoire soit de manière appropriée afin que le serveur puisse y écrire des fichiers.";
+$language["SECSUI_QUAR_PM"]="ID utilisateur pour envoyer les messages des fichiers mis en quarantaine";
+$language["SECSUI_QUAR_INV_USR"]="Utilisateur invalide";
+$language["SECSUI_PASS_SETTINGS"]="R&eacute;glages du mot de passe";
+$language["SECSUI_PASS_TYPE"]="M&eacute;thode de hachage du mot de passe";
+$language["SECSUI_PASS_INFO"]="Ici vous pouvez s&eacute;lectionner l'algorithme de hachage du mot de passe que xbtit utilisera quand il le m&eacute;morisera dans la base :";
+$language["SECSUI_NO_MEMBER"]="Aucun utilisateur dans le site avec cet id";
+$language["SECSUI_GAZ_TITLE"]="Gazelle Site Salt";
+$language["SECSUI_GAZ_DESC"]="&nbsp;Vous devez définir une valeur aléatoire ici, une fois mise vous ne devriez pas le changer, tout le monde aura &agrave; r&eacute;cup&eacute;rer leurs mots de passe.";
+$language["SECSUI_COOKIE_SETTINGS"]="R&eacute;glages du cookie";
+$language["SECSUI_COOKIE_PRIMARY"]="R&eacute;glages du cookie principal";
+$language["SECSUI_COOKIE_TYPE"]="Type de cookie";
+$language["SECSUI_COOKIE_EXPIRE"]="Le cookie expirera dans";
+$language["SECSUI_COOKIE_T1"]="Classic xbtit";
+$language["SECSUI_COOKIE_T2"]="New xbtit (Regular)";
+$language["SECSUI_COOKIE_T3"]="New xbtit (Session)";
+$language["SECSUI_COOKIE_NAME"]="Nom du cookie";
+$language["SECSUI_COOKIE_ITEMS"]="Items du cookie";
+$language["SECSUI_COOKIE_PATH"]="Chemin du cookie";
+$language["SECSUI_COOKIE_DOMAIN"]="Domaine du cookie";
+$language["SECSUI_COOKIE_MIN"]="Minute";
+$language["SECSUI_COOKIE_MINS"]="Minutes";
+$language["SECSUI_COOKIE_HOUR"]="Heure";
+$language["SECSUI_COOKIE_HOURS"]="Heures";
+$language["SECSUI_COOKIE_DAY"]="Jour";
+$language["SECSUI_COOKIE_DAYS"]="Jours";
+$language["SECSUI_COOKIE_WEEK"]="Semaine";
+$language["SECSUI_COOKIE_WEEKS"]="Semaines";
+$language["SECSUI_COOKIE_MONTH"]="Mois";
+$language["SECSUI_COOKIE_MONTHS"]="Mois";
+$language["SECSUI_COOKIE_YEAR"]="Ann&eacute;e";
+$language["SECSUI_COOKIE_YEARS"]="Ann&eacute;es";
+$language["SECSUI_COOKIE_TOO_FAR"]="Je suis désolé, ce serait mettre la dernière date d'expiration de la limite actuelle au mardi 19 Janvier 2038 03:14:07 GMT, s'il vous plaît ajuster votre date d'expiration en conséquence!";
+$language["SECSUI_COOKIE_PSALT"]="Mot de passe Salt ";
+$language["SECSUI_COOKIE_UAGENT"]="Agent utilisateur ";
+$language["SECSUI_COOKIE_ALANG"]="Accepte la langue ";
+$language["SECSUI_COOKIE_IP"]="Adresse IP ";
+$language["SECSUI_COOKIE_DEF"]="REMARQUE : Tous les types de cookies auront les valeurs suivantes par défaut :<br /><br /><li>Tracker ID</li><li>Password Hash</li><li>Random Number</li>";
+$language["SECSUI_COOKIE_PD"]="REMARQUE: Si vous ne savez pas quoi mettre pour le \"chemin du cookie\" ou pour le \"Domaine du Cookie\", vous pouvez les laisser vides et les valeurs par défaut seront utilis&eacute;e";
+$language["SECSUI_COOKIE_IP_TYPE_1"] = "1st octet only (Y.N.N.N)";
+$language["SECSUI_COOKIE_IP_TYPE_2"] = "2nd octet only (N.Y.N.N)";
+$language["SECSUI_COOKIE_IP_TYPE_3"] = "3rd octet only (N.N.Y.N)";
+$language["SECSUI_COOKIE_IP_TYPE_4"] = "4th octet only (N.N.N.Y)";
+$language["SECSUI_COOKIE_IP_TYPE_5"] = "1st & 2nd octets (Y.Y.N.N)";
+$language["SECSUI_COOKIE_IP_TYPE_6"] = "2nd & 3rd octets (N.Y.Y.N)";
+$language["SECSUI_COOKIE_IP_TYPE_7"] = "3rd & 4th octets (N.N.Y.Y)";
+$language["SECSUI_COOKIE_IP_TYPE_8"] = "1st & 3rd octets (Y.N.Y.N)";
+$language["SECSUI_COOKIE_IP_TYPE_9"] = "1st & 4th octets (Y.N.N.Y)";
+$language["SECSUI_COOKIE_IP_TYPE_10"] = "2nd & 4th octets (N.Y.N.Y)";
+$language["SECSUI_COOKIE_IP_TYPE_11"] = "1st, 2nd & 3rd octets (Y.Y.Y.N)";
+$language["SECSUI_COOKIE_IP_TYPE_12"] = "2nd, 3rd & 4th octets (N.Y.Y.Y)";
+$language["SECSUI_COOKIE_IP_TYPE_13"] = "Entire IP address (Y.Y.Y.Y)";
+$language["SECSUI_PASSHASH_TYPE_1"] = "Classic xbtit";
+$language["SECSUI_PASSHASH_TYPE_2"] = "TBDev";
+$language["SECSUI_PASSHASH_TYPE_3"] = "TorrentStrike";
+$language["SECSUI_PASSHASH_TYPE_4"] = "Gazelle";
+$language["SECSUI_PASSHASH_TYPE_5"] = "Simple Machines Forum";
+$language["SECSUI_PASSHASH_TYPE_6"] = "New xbtit";
+$language["SECSUI_PASS_MUST"] = "Le mot de passe doit";
+$language["SECSUI_PASS_BE_AT_LEAST"] = "&Ecirc;tre au moins de ";
+$language["SECSUI_PASS_HAVE_AT_LEAST"] = "Avoir au moins ";
+$language["SECSUI_PASS_CHAR_IN_LEN"] = "caract&egrave;re de long ";
+$language["SECSUI_PASS_CHAR_IN_LEN_A"] = "caract&egrave;res de long ";
+$language["SECSUI_PASS_LC_LET"] = "lettre minuscule";
+$language["SECSUI_PASS_LC_LET_A"] = "lettres minuscule";
+$language["SECSUI_PASS_UC_LET"] = "lettre majuscule";
+$language["SECSUI_PASS_UC_LET_A"] = "lettres majuscule";
+$language["SECSUI_PASS_NUM"] = "nombre";
+$language["SECSUI_PASS_NUM_A"] = "nombres";
+$language["SECSUI_PASS_SYM"] = "symbole";
+$language["SECSUI_PASS_SYM_A"] = "symboles";
+$language["SECSUI_PASS_ERR_1"] = "Vous ne pouvez pas avoir une valeur plus &eacute;lev&eacute;e pour les majuscules + minuscules + chiffres + symboles";
+$language["SECSUI_PASS_ERR_2"] = "que vous avez pour le nombre de caract&egrave;res minimum n&eacute;cessaire pour le mot de passe";
+//  AJOUTS MANQUANT
+$language["USERNAME"]="Nom d'utilisateur ";
+$language["SUBMIT"]="Valider";
+
 ?>
