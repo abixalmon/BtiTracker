@@ -79,7 +79,7 @@ if ($XBTT_USE)
 
 
 // controll if client can handle gzip
-if ($GZIP_ENABLED && isset($_SERVER['HTTP_ACCEPT_ENCODING']))
+if ($GZIP_ENABLED)
     {
 	if (stristr($_SERVER["HTTP_ACCEPT_ENCODING"],"gzip") && extension_loaded('zlib') && ini_get("zlib.output_compression") == 0)
          {
