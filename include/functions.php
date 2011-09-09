@@ -911,14 +911,34 @@ function stdfoot($normalpage=true, $update=true, $adminpage=false, $torrentspage
   $tpl->set('style_copyright',print_designer());
   $tpl->set('xbtit_debug',print_debug());
 
-  if ($normalpage && !$no_columns)
-    echo $tpl->fetch(load_template('main.tpl'));
-  elseif ($adminpage)
-    echo $tpl->fetch(load_template('main.left_column.tpl'));
-  elseif ($torrentspage || $forumpage || $no_columns==1)
-    echo $tpl->fetch(load_template('main.no_columns.tpl'));
-  else
-    echo $tpl->fetch(load_template('main.no_header_1_column.tpl')); 
+// Improvement of template by atmoner
+if ($normalpage && !$no_columns) {
+       	$tpl->set("RIGHT_COL",TRUE,TRUE);
+    	$tpl->set("LEFT_COL",TRUE,TRUE);
+    	$tpl->set("NO_HEADER",TRUE,TRUE);
+    	$tpl->set("NO_FOOTER",TRUE,TRUE);
+
+  } elseif ($adminpage) {
+        $tpl->set("RIGHT_COL",FALSE,TRUE);
+    	$tpl->set("LEFT_COL",TRUE,TRUE);
+    	$tpl->set("NO_HEADER",TRUE,TRUE);
+    	$tpl->set("NO_FOOTER",TRUE,TRUE);
+
+ } elseif ($torrentspage || $forumpage || $no_columns==1) {
+     	$tpl->set("RIGHT_COL",FALSE,TRUE);
+    	$tpl->set("LEFT_COL",FALSE,TRUE);
+    	$tpl->set("NO_HEADER",TRUE,TRUE);
+    	$tpl->set("NO_FOOTER",TRUE,TRUE);
+
+ } else {
+      	$tpl->set("RIGHT_COL",FALSE,TRUE);
+    	$tpl->set("LEFT_COL",FALSE,TRUE);
+    	$tpl->set("NO_HEADER",FALSE,TRUE);
+    	$tpl->set("NO_FOOTER",FALSE,TRUE);
+
+}
+
+    echo $tpl->fetch(load_template('main.tpl')); 
   ob_end_flush();
 
   if ($update)
