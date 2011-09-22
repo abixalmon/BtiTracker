@@ -71,6 +71,8 @@ if($CURUSER["admin_access"]=="yes" && $_SERVER["QUERY_STRING"]=="page=admin&user
     unset($ban2[7]);
 if($CURUSER["admin_access"]=="yes" && $_SERVER["QUERY_STRING"]=="page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=security_suite")
     $ban2=array('delete from','insert into','<script', '<object', '.write', '.location', '.cookie', 'vbscript:', '<iframe', '<layer', '<style', ':expression', '<base', 'id_level', 'users_level', 'xbt_', 'c99.txt', 'c99shell', 'r57.txt', 'r57shell.txt', '$_GET', '$_POST', '$_REQUEST', 'window.open', 'javascript:', 'xp_cmdshell',  '.htpasswd', '.htaccess', '</script>');
+if($CURUSER["admin_access"]=="yes" && $_SERVER["QUERY_STRING"]=="page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=php_log&action=save")
+    $ban2=array('delete from','insert into','<script', '<object', '.write', '.location', '.cookie', 'vbscript:', '<iframe', '<layer', '<style', ':expression', '<base', 'id_level', 'users_level', 'xbt_', 'c99.txt', 'c99shell', 'r57.txt', 'r57shell.txt', '$_GET', '$_POST', '$_REQUEST', 'window.open', 'javascript:', 'xp_cmdshell',  '.htpasswd', '.htaccess', '</script>');
 
 $host=FALSE;
 $host=@getenv("SERVER_NAME");
