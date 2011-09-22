@@ -203,6 +203,11 @@ switch ($do)
       include("$ADMIN_PATH/admin.security_suite.php");
       $tpl->set("main_content",set_block($language["ACP_SECSUI_SET"],"center",$admintpl->fetch(load_template("admin.security_suite.tpl"))));
       break;
+	  
+    case 'php_log':
+      include("$ADMIN_PATH/admin.php_errors_log.php");
+      $tpl->set("main_content",set_block($language["LOGS_PHP"],"center",$admintpl->fetch(load_template("admin.php_errors_log.tpl"))));
+      break;
 
     case 'sanity':
       require_once("$THIS_BASEPATH/include/sanity.php");

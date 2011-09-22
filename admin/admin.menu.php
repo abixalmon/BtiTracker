@@ -75,7 +75,10 @@ else
                     "description"=>$language["ACP_STYLES"]),
                           4=>array(
                     "url"=>"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=security_suite" ,
-                    "description"=>$language["ACP_SECSUI_SET"])
+                    "description"=>$language["ACP_SECSUI_SET"]),
+					      5=>array(
+                    "url"=>"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=php_log" ,
+                    "description"=>$language["LOGS_PHP"])
                                  )),
     1=>array(
             "title"=>$language["ACP_FRONTEND"],

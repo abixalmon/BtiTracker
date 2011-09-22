@@ -955,7 +955,10 @@ INSERT INTO `{$db_prefix}settings` (`key`, `value`) VALUES
 ('secsui_cookie_domain', ''), 
 ('secsui_cookie_items', '1-0,2-0,3-0,4-0,5-0,6-0,7-0,8-0[+]0'),
 ('secsui_pass_min_req', '4,0,0,0,0'),
-('ipb_autoposter', '0');
+('ipb_autoposter', '0'),
+('php_log_name', 'xbtit-errors'),
+('php_log_path', '/full/path/to/the/web/root/include/logs'),
+('php_log_lines', '5');
 
 -- --------------------------------------------------------
 

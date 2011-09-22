@@ -484,5 +484,15 @@ $language["SECSUI_ACC_PWD_7A"]="numbers";
 $language["SECSUI_ACC_PWD_8"]="symbol";
 $language["SECSUI_ACC_PWD_8A"]="symbols";
 
+$language["LOGS_PHP"]="PHP Error Log";
+$language["LOGS_LINE_AMT"]="<b>Line amount:</b>";
+$language["LOGS_LINE_AMT_1"]="<b>How many lines to show of the log</b>";
+$language["LOGS_COOLY_NAME"]="<b>Log Name:</b>&nbsp;The name you wish to call your logs. Think of something authentic.";
+$language["LOGS_COOLY_NAMES"]="This will be the same name for each log apart from the date stamp.";
+$language["LOGS_COOLY_PATH"]="<b>Log Path:</b>&nbsp;Above doc root would be a good choice \"if possible\" no forward slash<br /> and folder must be writable.If you have an open basedir restriction you are best to keep the current path.";
+$language["LOGS_COOLY_PATHS"]="Recommended:";
+$language["LOGS_COOLY_NOTE"]="<b>If u change path to another doc root dir be sure to copy the .htaccess to the new dir.</b>";
+$language["LOGS_COOLY_LIST"]="The list of old logs in your folder.";
+$language["LOGS_COOLY_FLUSH"]="Flush out</a> old logs";
 
 ?>

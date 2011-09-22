@@ -30,7 +30,21 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
+$CURRENTPATH = dirname(__FILE__);
+if (version_compare(PHP_VERSION, '5.0.0', '>=')) {
+error_reporting(E_ALL ^ E_NOTICE | E_STRICT);
+}else{
 error_reporting(E_ALL ^ E_NOTICE);
+}
+//create some logging :)
+require_once($CURRENTPATH.'/conextra.php');
+$signon= getConnection ();
+$prefix=getPrefix ();
+$logname=mysql_fetch_row(mysql_query("SELECT `value` FROM {$prefix}settings WHERE `key`='php_log_name' LIMIT 1",$signon));
+$logpath=mysql_fetch_row(mysql_query("SELECT `value` FROM {$prefix}settings WHERE `key`='php_log_path' LIMIT 1",$signon));
+$when=date("d.m.y");
+ini_set('log_errors','On'); // enable or disable php error logging (use 'On' or 'Off')
+ini_set('error_log',''.$logpath[0].'/'.$logname[0].'_'.$when.'_.log'); // path to server-writable log file
 
 #
 // Emulate register_globals off
@@ -70,8 +84,6 @@ if(get_magic_quotes_gpc()){
 }
 
 @date_default_timezone_set(@date_default_timezone_get());
-
-$CURRENTPATH = dirname(__FILE__);
 
 include $CURRENTPATH.'/xbtit_version.php';
 require_once $CURRENTPATH.'/config.php';
