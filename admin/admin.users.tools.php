@@ -299,8 +299,8 @@ switch ($action) {
                     # if there is one update it
                     if (isset($ipb_group[0]) || $reslev["ipb_group_mirror"]>0)
                     {
-                        if($reslev["smf_group_mirror"]>0)
-                            $ipb_group[0]["perm_id"]=$reslev["smf_group_mirror"];
+                        if($reslev["ipb_group_mirror"]>0)
+                            $ipb_group[0]["perm_id"]=$reslev["ipb_group_mirror"];
                         $ipblevel=$ipb_group[0]["perm_id"];
                         IPSMember::save($ipb_fid, array("members" => array("member_group_id" => "$ipblevel")));
                     }
