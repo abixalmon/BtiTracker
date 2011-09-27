@@ -46,10 +46,10 @@ require_once(dirname(dirname(__FILE__)).'/btemplate/bTemplate.php');
 
 $THIS_BASEPATH=dirname(dirname(__FILE__));
 
-if (!empty($_SESSION['user']['style_url']))
+if (!empty($_SESSION['CURUSER']['style_url']))
 {
- $STYLEURL=$_SESSION['user']['style_url'];
- $STYLEPATH=$_SESSION['user']['style_path'];
+ $STYLEURL=$_SESSION['CURUSER']['style_url'];
+ $STYLEPATH=$_SESSION['CURUSER']['style_path'];
 }
 else
 {
@@ -57,12 +57,10 @@ else
   $STYLEURL="$BASEURL/style/xbtit_default";
 }
 
-if (!empty($_SESSION['user']['language_path']))
-   $USERLANG=$_SESSION['user']['language_path'];
+if (!empty($_SESSION['CURUSER']['language_path']))
+   $USERLANG=$_SESSION['CURUSER']['language_path'];
 else
    $USERLANG="$THIS_BASEPATH/language/english";
-
-//die (dirname(dirname(__FILE__)).'/include/functions.php');
 
 $btit_url_last="";
 $btit_url_rss="";
