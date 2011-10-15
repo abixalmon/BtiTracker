@@ -1,4 +1,4 @@
-<table class="lista" width="150">
+<table class="lista" width="100%">
   <loop:admin_menu>
   <tr>
     <td class="header">
