@@ -52,7 +52,7 @@ $uid = (int)$u;  # userid from the form
 
 include("../include/settings.php");
 include("../include/common.php");
-
+require("../include/crk_protection.php");//xss fix
 mysql_select_db($database, mysql_connect($dbhost,$dbuser,$dbpass));
 
 $secsui_res=mysql_query("SELECT * FROM `{$TABLE_PREFIX}settings`");
