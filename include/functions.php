@@ -1534,7 +1534,7 @@ function ipb_create($username, $email, $password, $id_level, $newuid)
     require_once(IPS_ROOT_PATH.'sources/base/ipsController.php');
     $registry = ipsRegistry::instance(); 
     $registry->init();
-    $member_info = IPSMember::create(array("members"=>array("name" => "$username", "members_display_name" => "$username", "email" => "$email", "password" => "$password", "member_group_id" => "$id_level", "hide_email" => "1", "allow_admin_mails" => "1", "members_created_remote" => "1")));
+    $member_info = IPSMember::create(array("members"=>array("name" => "$username", "members_display_name" => "$username", "email" => "$email", "password" => "$password", "member_group_id" => "$id_level", "allow_admin_mails" => "1", "members_created_remote" => "1")));
     $ipb_fid=$member_info["member_id"];
     do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `ipb_fid`=".$ipb_fid." WHERE `id`=".$newuid);
 }
