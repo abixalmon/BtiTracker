@@ -35,6 +35,8 @@ require_once($BASEDIR."/include/settings.php");
 require_once($BASEDIR."/include/functions.php");
 require_once($BASEDIR."/language/english/lang_ipb_import.php");
 
+if(!defined('IPS_ENFORCE_ACCESS'))
+    define('IPS_ENFORCE_ACCESS', true);
 if(!defined('IPB_THIS_SCRIPT'))
     define( 'IPB_THIS_SCRIPT', 'public' );
 
@@ -61,7 +63,7 @@ if(!isset($row["admin_access"]))
 if($cookie["is_valid"]===false || $row["admin_access"]=="no")
     die($lang[38]);
 
-$lock=mysql_fetch_assoc(mysql_query("SELECT random FROM {$TABLE_PREFIX}users WHERE id=1"));
+$lock=mysql_fetch_assoc(mysql_query("SELECT `random` FROM `{$TABLE_PREFIX}users` WHERE `id`=1"));
 if($lock["random"]==12321)
     die($lang[26] . $lang[27] . $lang[35]);
 
@@ -140,7 +142,7 @@ if($act=="")
             die($lang[6] . $lang[8] . $lang[9] . $lang[35]);
 
     // Make sure IPB is installed by checking the tables are there
-    // (There should be 127 as of v3.1.4 but lets be generous and ensure
+    // (There should be 128 as of v3.2.2 but lets be generous and ensure
     // there are at least 100 IPB tables)
     $count=0;
     $tablelist=mysql_query("SHOW TABLES LIKE '".$ipb_prefix."%'"); 
@@ -189,14 +191,14 @@ elseif($act=="init_setup"  && $confirm=="yes")
     }
 
     // Purge the current forum settings we're about to rebuild
-    @mysql_query("TRUNCATE TABLE {$ipb_prefix}forum_perms");
-    @mysql_query("TRUNCATE TABLE {$ipb_prefix}groups");
+    @mysql_query("TRUNCATE TABLE `{$ipb_prefix}forum_perms`");
+    @mysql_query("TRUNCATE TABLE `{$ipb_prefix}groups`");
 
     // Get current tracker ranks
-    $query ="SELECT id, level, edit_forum, admin_access ";
-    $query.="FROM {$TABLE_PREFIX}users_level ";
-    $query.="WHERE id>=1 ";
-    $query.="ORDER BY id ASC";
+    $query ="SELECT `id`, `level`, `edit_forum`, `admin_access` ";
+    $query.="FROM `{$TABLE_PREFIX}users_level` ";
+    $query.="WHERE `id`>=1 ";
+    $query.="ORDER BY `id` ASC";
     
     $getranks=mysql_query($query);
     $ranklist=",";
@@ -211,34 +213,34 @@ elseif($act=="init_setup"  && $confirm=="yes")
         // Rank is guest, set default guest settings
         if($rank["id"]==1)
         {
-            $query2="INSERT INTO `{$ipb_prefix}groups` (`g_id`, `g_view_board`, `g_mem_info`, `g_other_topics`, `g_use_search`, `g_email_friend`, `g_edit_profile`, `g_post_new_topics`, `g_reply_own_topics`, `g_reply_other_topics`, `g_edit_posts`, `g_delete_own_posts`, `g_open_close_posts`, `g_delete_own_topics`, `g_post_polls`, `g_vote_polls`, `g_use_pm`, `g_is_supmod`, `g_access_cp`, `g_title`, `g_append_edit`, `g_access_offline`, `g_avoid_q`, `g_avoid_flood`, `g_icon`, `g_attach_max`, `g_avatar_upload`, `prefix`, `suffix`, `g_max_messages`, `g_max_mass_pm`, `g_search_flood`, `g_edit_cutoff`, `g_promotion`, `g_hide_from_list`, `g_post_closed`, `g_perm_id`, `g_photo_max_vars`, `g_dohtml`, `g_edit_topic`, `g_email_limit`, `g_bypass_badwords`, `g_can_msg_attach`, `g_attach_per_post`, `g_topic_rate_setting`, `g_dname_changes`, `g_dname_date`, `g_mod_preview`, `g_rep_max_positive`, `g_rep_max_negative`, `g_signature_limits`, `g_can_add_friends`, `g_hide_online_list`, `g_bitoptions`, `g_pm_perday`, `g_mod_post_unit`, `g_ppd_limit`, `g_ppd_unit`, `g_displayname_unit`, `g_sig_unit`, `g_pm_flood_mins`, `g_max_notifications`, `g_max_bgimg_upload`) VALUES
-(".$rank["id"].", 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, '".$rank["level"]."', 0, 0, 0, 0, '', -1, 0, '', '', 50, 0, 0, 0, '-1&-1', 0, 0, ".$rank["id"].", '50:150:150', 0, 0, '10:15', 0, 0, 0, 0, 0, 0, 0, 10, 0, '0:::::', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)";
+            $query2="INSERT INTO `{$ipb_prefix}groups` (`g_id`, `g_view_board`, `g_mem_info`, `g_other_topics`, `g_use_search`, `g_edit_profile`, `g_post_new_topics`, `g_reply_own_topics`, `g_reply_other_topics`, `g_edit_posts`, `g_delete_own_posts`, `g_open_close_posts`, `g_delete_own_topics`, `g_post_polls`, `g_vote_polls`, `g_use_pm`, `g_is_supmod`, `g_access_cp`, `g_title`, `g_append_edit`, `g_access_offline`, `g_avoid_q`, `g_avoid_flood`, `g_icon`, `g_attach_max`, `prefix`, `suffix`, `g_max_messages`, `g_max_mass_pm`, `g_search_flood`, `g_edit_cutoff`, `g_promotion`, `g_hide_from_list`, `g_post_closed`, `g_perm_id`, `g_photo_max_vars`, `g_dohtml`, `g_edit_topic`, `g_bypass_badwords`, `g_can_msg_attach`, `g_attach_per_post`, `g_topic_rate_setting`, `g_dname_changes`, `g_dname_date`, `g_mod_preview`, `g_rep_max_positive`, `g_rep_max_negative`, `g_signature_limits`, `g_can_add_friends`, `g_hide_online_list`, `g_bitoptions`, `g_pm_perday`, `g_mod_post_unit`, `g_ppd_limit`, `g_ppd_unit`, `g_displayname_unit`, `g_sig_unit`, `g_pm_flood_mins`, `g_max_notifications`, `g_max_bgimg_upload`) VALUES
+(".$rank["id"].", 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, '".$rank["level"]."', 0, 0, 0, 0, '', -1, '', '', 50, 0, 0, 0, '-1&-1', 0, 0, ".$rank["id"].", '50:150:150', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, '0:::::', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)";
         }
 
         // Rank is validating, set up limited access
         if($rank["id"]==2)
         {
-            $query2="INSERT INTO `{$ipb_prefix}groups` (`g_id`, `g_view_board`, `g_mem_info`, `g_other_topics`, `g_use_search`, `g_email_friend`, `g_edit_profile`, `g_post_new_topics`, `g_reply_own_topics`, `g_reply_other_topics`, `g_edit_posts`, `g_delete_own_posts`, `g_open_close_posts`, `g_delete_own_topics`, `g_post_polls`, `g_vote_polls`, `g_use_pm`, `g_is_supmod`, `g_access_cp`, `g_title`, `g_append_edit`, `g_access_offline`, `g_avoid_q`, `g_avoid_flood`, `g_icon`, `g_attach_max`, `g_avatar_upload`, `prefix`, `suffix`, `g_max_messages`, `g_max_mass_pm`, `g_search_flood`, `g_edit_cutoff`, `g_promotion`, `g_hide_from_list`, `g_post_closed`, `g_perm_id`, `g_photo_max_vars`, `g_dohtml`, `g_edit_topic`, `g_email_limit`, `g_bypass_badwords`, `g_can_msg_attach`, `g_attach_per_post`, `g_topic_rate_setting`, `g_dname_changes`, `g_dname_date`, `g_mod_preview`, `g_rep_max_positive`, `g_rep_max_negative`, `g_signature_limits`, `g_can_add_friends`, `g_hide_online_list`, `g_bitoptions`, `g_pm_perday`, `g_mod_post_unit`, `g_ppd_limit`, `g_ppd_unit`, `g_displayname_unit`, `g_sig_unit`, `g_pm_flood_mins`, `g_max_notifications`, `g_max_bgimg_upload`) VALUES
-(".$rank["id"].", 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '".$rank["level"]."', 1, 0, 0, 0, '', 0, 0, '', '', 50, 0, 20, 0, '-1&-1', 0, 0, ".$rank["id"].", '50:150:150', 0, 0, '10:15', 0, 0, 0, 0, 0, 0, 0, 0, 0, '0:::::', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)";
+            $query2="INSERT INTO `{$ipb_prefix}groups` (`g_id`, `g_view_board`, `g_mem_info`, `g_other_topics`, `g_use_search`, `g_edit_profile`, `g_post_new_topics`, `g_reply_own_topics`, `g_reply_other_topics`, `g_edit_posts`, `g_delete_own_posts`, `g_open_close_posts`, `g_delete_own_topics`, `g_post_polls`, `g_vote_polls`, `g_use_pm`, `g_is_supmod`, `g_access_cp`, `g_title`, `g_append_edit`, `g_access_offline`, `g_avoid_q`, `g_avoid_flood`, `g_icon`, `g_attach_max`, `prefix`, `suffix`, `g_max_messages`, `g_max_mass_pm`, `g_search_flood`, `g_edit_cutoff`, `g_promotion`, `g_hide_from_list`, `g_post_closed`, `g_perm_id`, `g_photo_max_vars`, `g_dohtml`, `g_edit_topic`, `g_bypass_badwords`, `g_can_msg_attach`, `g_attach_per_post`, `g_topic_rate_setting`, `g_dname_changes`, `g_dname_date`, `g_mod_preview`, `g_rep_max_positive`, `g_rep_max_negative`, `g_signature_limits`, `g_can_add_friends`, `g_hide_online_list`, `g_bitoptions`, `g_pm_perday`, `g_mod_post_unit`, `g_ppd_limit`, `g_ppd_unit`, `g_displayname_unit`, `g_sig_unit`, `g_pm_flood_mins`, `g_max_notifications`, `g_max_bgimg_upload`) VALUES
+(".$rank["id"].", 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '".$rank["level"]."', 1, 0, 0, 0, '', 0, '', '', 50, 0, 20, 0, '-1&-1', 0, 0, ".$rank["id"].", '50:150:150', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0:::::', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)";
         }
         // Rank has full admin access
         elseif($rank["edit_forum"]=="yes" && $rank["admin_access"]=="yes")
         {
             $ranklist2.=$rank["id"].",";
-            $query2="INSERT INTO `{$ipb_prefix}groups` (`g_id`, `g_view_board`, `g_mem_info`, `g_other_topics`, `g_use_search`, `g_email_friend`, `g_edit_profile`, `g_post_new_topics`, `g_reply_own_topics`, `g_reply_other_topics`, `g_edit_posts`, `g_delete_own_posts`, `g_open_close_posts`, `g_delete_own_topics`, `g_post_polls`, `g_vote_polls`, `g_use_pm`, `g_is_supmod`, `g_access_cp`, `g_title`, `g_append_edit`, `g_access_offline`, `g_avoid_q`, `g_avoid_flood`, `g_icon`, `g_attach_max`, `g_avatar_upload`, `prefix`, `suffix`, `g_max_messages`, `g_max_mass_pm`, `g_search_flood`, `g_edit_cutoff`, `g_promotion`, `g_hide_from_list`, `g_post_closed`, `g_perm_id`, `g_photo_max_vars`, `g_dohtml`, `g_edit_topic`, `g_email_limit`, `g_bypass_badwords`, `g_can_msg_attach`, `g_attach_per_post`, `g_topic_rate_setting`, `g_dname_changes`, `g_dname_date`, `g_mod_preview`, `g_rep_max_positive`, `g_rep_max_negative`, `g_signature_limits`, `g_can_add_friends`, `g_hide_online_list`, `g_bitoptions`, `g_pm_perday`, `g_mod_post_unit`, `g_ppd_limit`, `g_ppd_unit`, `g_displayname_unit`, `g_sig_unit`, `g_pm_flood_mins`, `g_max_notifications`, `g_max_bgimg_upload`) VALUES
-(".$rank["id"].", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, '".$rank["level"]."', 1, 1, 1, 1, 'public/style_extra/team_icons/admin.png', 0, 1, '<span style=''color:red;''>', '</span>', 50, 6, 20, 5, '-1&-1', 0, 1, ".$rank["id"].", '500:170:240', 1, 1, '10000:0', 1, 1, 0, 2, 3, 30, 0, 100, 100, '0:::::', 1, 0, 1048512, 0, 0, 0, 0, 0, 0, 0, 0, 0)";
+            $query2="INSERT INTO `{$ipb_prefix}groups` (`g_id`, `g_view_board`, `g_mem_info`, `g_other_topics`, `g_use_search`, `g_edit_profile`, `g_post_new_topics`, `g_reply_own_topics`, `g_reply_other_topics`, `g_edit_posts`, `g_delete_own_posts`, `g_open_close_posts`, `g_delete_own_topics`, `g_post_polls`, `g_vote_polls`, `g_use_pm`, `g_is_supmod`, `g_access_cp`, `g_title`, `g_append_edit`, `g_access_offline`, `g_avoid_q`, `g_avoid_flood`, `g_icon`, `g_attach_max`, `prefix`, `suffix`, `g_max_messages`, `g_max_mass_pm`, `g_search_flood`, `g_edit_cutoff`, `g_promotion`, `g_hide_from_list`, `g_post_closed`, `g_perm_id`, `g_photo_max_vars`, `g_dohtml`, `g_edit_topic`, `g_bypass_badwords`, `g_can_msg_attach`, `g_attach_per_post`, `g_topic_rate_setting`, `g_dname_changes`, `g_dname_date`, `g_mod_preview`, `g_rep_max_positive`, `g_rep_max_negative`, `g_signature_limits`, `g_can_add_friends`, `g_hide_online_list`, `g_bitoptions`, `g_pm_perday`, `g_mod_post_unit`, `g_ppd_limit`, `g_ppd_unit`, `g_displayname_unit`, `g_sig_unit`, `g_pm_flood_mins`, `g_max_notifications`, `g_max_bgimg_upload`) VALUES
+(".$rank["id"].", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, '".$rank["level"]."', 1, 1, 1, 1, 'public/style_extra/team_icons/admin.png', 0, '<span style=''color:red;''>', '</span>', 50, 6, 20, 5, '-1&-1', 0, 1, ".$rank["id"].", '500:170:240', 1, 1, 1, 1, 0, 2, 3, 30, 0, 100, 100, '0:::::', 1, 0, 1048512, 0, 0, 0, 0, 0, 0, 0, 0, 0)";
         }
         // Rank has forum edit rights but no admin access (moderator/low level admin)
         elseif($rank["edit_forum"]=="yes" && $rank["admin_access"]=="no")
         {
             $ranklist2.=$rank["id"].",";
-            $query2="INSERT INTO `{$ipb_prefix}groups` (`g_id`, `g_view_board`, `g_mem_info`, `g_other_topics`, `g_use_search`, `g_email_friend`, `g_edit_profile`, `g_post_new_topics`, `g_reply_own_topics`, `g_reply_other_topics`, `g_edit_posts`, `g_delete_own_posts`, `g_open_close_posts`, `g_delete_own_topics`, `g_post_polls`, `g_vote_polls`, `g_use_pm`, `g_is_supmod`, `g_access_cp`, `g_title`, `g_append_edit`, `g_access_offline`, `g_avoid_q`, `g_avoid_flood`, `g_icon`, `g_attach_max`, `g_avatar_upload`, `prefix`, `suffix`, `g_max_messages`, `g_max_mass_pm`, `g_search_flood`, `g_edit_cutoff`, `g_promotion`, `g_hide_from_list`, `g_post_closed`, `g_perm_id`, `g_photo_max_vars`, `g_dohtml`, `g_edit_topic`, `g_email_limit`, `g_bypass_badwords`, `g_can_msg_attach`, `g_attach_per_post`, `g_topic_rate_setting`, `g_dname_changes`, `g_dname_date`, `g_mod_preview`, `g_rep_max_positive`, `g_rep_max_negative`, `g_signature_limits`, `g_can_add_friends`, `g_hide_online_list`, `g_bitoptions`, `g_pm_perday`, `g_mod_post_unit`, `g_ppd_limit`, `g_ppd_unit`, `g_displayname_unit`, `g_sig_unit`, `g_pm_flood_mins`, `g_max_notifications`, `g_max_bgimg_upload`) VALUES
-(".$rank["id"].", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, '".$rank["level"]."', 1, 0, 0, 0, 'public/style_extra/team_icons/staff.png', 500, 1, '', '', 50, 5, 0, 0, '-1&-1', 0, 0, ".$rank["id"].", '50:150:150', 0, 1, '10:15', 0, 0, 0, 1, 3, 30, 0, 100, 10, '0:::::', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)";
+            $query2="INSERT INTO `{$ipb_prefix}groups` (`g_id`, `g_view_board`, `g_mem_info`, `g_other_topics`, `g_use_search`, `g_edit_profile`, `g_post_new_topics`, `g_reply_own_topics`, `g_reply_other_topics`, `g_edit_posts`, `g_delete_own_posts`, `g_open_close_posts`, `g_delete_own_topics`, `g_post_polls`, `g_vote_polls`, `g_use_pm`, `g_is_supmod`, `g_access_cp`, `g_title`, `g_append_edit`, `g_access_offline`, `g_avoid_q`, `g_avoid_flood`, `g_icon`, `g_attach_max`, `prefix`, `suffix`, `g_max_messages`, `g_max_mass_pm`, `g_search_flood`, `g_edit_cutoff`, `g_promotion`, `g_hide_from_list`, `g_post_closed`, `g_perm_id`, `g_photo_max_vars`, `g_dohtml`, `g_edit_topic`, `g_bypass_badwords`, `g_can_msg_attach`, `g_attach_per_post`, `g_topic_rate_setting`, `g_dname_changes`, `g_dname_date`, `g_mod_preview`, `g_rep_max_positive`, `g_rep_max_negative`, `g_signature_limits`, `g_can_add_friends`, `g_hide_online_list`, `g_bitoptions`, `g_pm_perday`, `g_mod_post_unit`, `g_ppd_limit`, `g_ppd_unit`, `g_displayname_unit`, `g_sig_unit`, `g_pm_flood_mins`, `g_max_notifications`, `g_max_bgimg_upload`) VALUES
+(".$rank["id"].", 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, '".$rank["level"]."', 1, 0, 0, 0, 'public/style_extra/team_icons/staff.png', 500, '', '', 50, 5, 0, 0, '-1&-1', 0, 0, ".$rank["id"].", '50:150:150', 0, 1, 0, 0, 0, 1, 3, 30, 0, 100, 10, '0:::::', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)";
         }
         else
         {
-            $query2="INSERT INTO `{$ipb_prefix}groups` (`g_id`, `g_view_board`, `g_mem_info`, `g_other_topics`, `g_use_search`, `g_email_friend`, `g_edit_profile`, `g_post_new_topics`, `g_reply_own_topics`, `g_reply_other_topics`, `g_edit_posts`, `g_delete_own_posts`, `g_open_close_posts`, `g_delete_own_topics`, `g_post_polls`, `g_vote_polls`, `g_use_pm`, `g_is_supmod`, `g_access_cp`, `g_title`, `g_append_edit`, `g_access_offline`, `g_avoid_q`, `g_avoid_flood`, `g_icon`, `g_attach_max`, `g_avatar_upload`, `prefix`, `suffix`, `g_max_messages`, `g_max_mass_pm`, `g_search_flood`, `g_edit_cutoff`, `g_promotion`, `g_hide_from_list`, `g_post_closed`, `g_perm_id`, `g_photo_max_vars`, `g_dohtml`, `g_edit_topic`, `g_email_limit`, `g_bypass_badwords`, `g_can_msg_attach`, `g_attach_per_post`, `g_topic_rate_setting`, `g_dname_changes`, `g_dname_date`, `g_mod_preview`, `g_rep_max_positive`, `g_rep_max_negative`, `g_signature_limits`, `g_can_add_friends`, `g_hide_online_list`, `g_bitoptions`, `g_pm_perday`, `g_mod_post_unit`, `g_ppd_limit`, `g_ppd_unit`, `g_displayname_unit`, `g_sig_unit`, `g_pm_flood_mins`, `g_max_notifications`, `g_max_bgimg_upload`) VALUES
-(".$rank["id"].", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, '".$rank["level"]."', 1, 0, 0, 0, '', 500, 1, '', '', 50, 5, 0, 0, '-1&-1', 0, 0, ".$rank["id"].", '50:150:150', 0, 1, '10:15', 0, 0, 0, 1, 3, 30, 0, 10, 1, '0:::::', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)";
+            $query2="INSERT INTO `{$ipb_prefix}groups` (`g_id`, `g_view_board`, `g_mem_info`, `g_other_topics`, `g_use_search`, `g_edit_profile`, `g_post_new_topics`, `g_reply_own_topics`, `g_reply_other_topics`, `g_edit_posts`, `g_delete_own_posts`, `g_open_close_posts`, `g_delete_own_topics`, `g_post_polls`, `g_vote_polls`, `g_use_pm`, `g_is_supmod`, `g_access_cp`, `g_title`, `g_append_edit`, `g_access_offline`, `g_avoid_q`, `g_avoid_flood`, `g_icon`, `g_attach_max`, `prefix`, `suffix`, `g_max_messages`, `g_max_mass_pm`, `g_search_flood`, `g_edit_cutoff`, `g_promotion`, `g_hide_from_list`, `g_post_closed`, `g_perm_id`, `g_photo_max_vars`, `g_dohtml`, `g_edit_topic`, `g_bypass_badwords`, `g_can_msg_attach`, `g_attach_per_post`, `g_topic_rate_setting`, `g_dname_changes`, `g_dname_date`, `g_mod_preview`, `g_rep_max_positive`, `g_rep_max_negative`, `g_signature_limits`, `g_can_add_friends`, `g_hide_online_list`, `g_bitoptions`, `g_pm_perday`, `g_mod_post_unit`, `g_ppd_limit`, `g_ppd_unit`, `g_displayname_unit`, `g_sig_unit`, `g_pm_flood_mins`, `g_max_notifications`, `g_max_bgimg_upload`) VALUES
+(".$rank["id"].", 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, '".$rank["level"]."', 1, 0, 0, 0, '', 500, '', '', 50, 5, 0, 0, '-1&-1', 0, 0, ".$rank["id"].", '50:150:150', 0, 1, 0, 0, 0, 1, 3, 30, 0, 10, 1, '0:::::', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)";
         }
         // Run the queries
         @mysql_query($query1);
@@ -309,12 +311,12 @@ elseif($act=="member_import" && $confirm=="yes")
 
     // Import Tracker accounts to the forum
 
-    $query="SELECT u.id, u.username, u.id_level, u.password, u.pass_type, u.email, UNIX_TIMESTAMP(u.joined) joined, u.lip, COUNT(p.userid) posts, u.time_offset FROM {$TABLE_PREFIX}users u LEFT JOIN {$TABLE_PREFIX}posts p ON u.id=p.userid WHERE u.id >=$start AND u.id <=$end GROUP BY u.id ORDER BY u.id ASC";
+    $query="SELECT `u`.`id`, `u`.`username`, `u`.`id_level`, `u`.`password`, `u`.`pass_type`, `u`.`email`, UNIX_TIMESTAMP(`u`.`joined`) `joined`, `u`.`lip`, COUNT(`p`.`userid`) `posts`, `u`.`time_offset` FROM `{$TABLE_PREFIX}users` `u` LEFT JOIN `{$TABLE_PREFIX}posts` `p` ON `u`.`id`=`p`.`userid` WHERE `u`.`id` >=$start AND `u`.`id` <=$end GROUP BY `u`.`id` ORDER BY `u`.`id` ASC";
     $list=mysql_query($query);
     $count=mysql_num_rows($list);
     if($start==2)
     {
-        @mysql_query("TRUNCATE TABLE {$ipb_prefix}members");
+        @mysql_query("TRUNCATE TABLE `{$ipb_prefix}members`");
         @mysql_query("TRUNCATE TABLE `{$ipb_prefix}pfields_content`");
         @mysql_query("TRUNCATE TABLE `{$ipb_prefix}profile_portal`");
     }
@@ -338,7 +340,7 @@ elseif($act=="member_import" && $confirm=="yes")
             $ip_address=long2ip($account["lip"]);
             $posts=$account["posts"];
 
-            @mysql_query("INSERT INTO `{$ipb_prefix}members` (`name`, `member_group_id`, `email`, `joined`, `ip_address`, `posts`, `allow_admin_mails`, `time_offset`, `hide_email`, `language`, `members_display_name`, `members_seo_name`, `members_created_remote`, `members_l_display_name`, `members_l_username`, `members_pass_hash`, `members_pass_salt`, `bday_day`, `bday_month`, `bday_year`, `msg_show_notification`, `last_visit`, `last_activity`) VALUES ('".mysql_real_escape_string($username)."', ".$id_level.", '".mysql_real_escape_string($email)."', ".$joined.", '".mysql_real_escape_string($ip_address)."', ".$posts.", 1, '".$account["time_offset"]."', 1, 1, '".mysql_real_escape_string($username)."', '".mysql_real_escape_string($seo_username)."', 1, '".mysql_real_escape_string($l_username)."', '".mysql_real_escape_string($l_username)."', '".mysql_real_escape_string($hash)."', '".mysql_real_escape_string($salt)."', 0, 0, 0, 1, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+            @mysql_query("INSERT INTO `{$ipb_prefix}members` (`name`, `member_group_id`, `email`, `joined`, `ip_address`, `posts`, `allow_admin_mails`, `time_offset`, `language`, `members_display_name`, `members_seo_name`, `members_created_remote`, `members_l_display_name`, `members_l_username`, `members_pass_hash`, `members_pass_salt`, `bday_day`, `bday_month`, `bday_year`, `msg_show_notification`, `last_visit`, `last_activity`) VALUES ('".mysql_real_escape_string($username)."', ".$id_level.", '".mysql_real_escape_string($email)."', ".$joined.", '".mysql_real_escape_string($ip_address)."', ".$posts.", 1, '".$account["time_offset"]."', 1, '".mysql_real_escape_string($username)."', '".mysql_real_escape_string($seo_username)."', 1, '".mysql_real_escape_string($l_username)."', '".mysql_real_escape_string($l_username)."', '".mysql_real_escape_string($hash)."', '".mysql_real_escape_string($salt)."', 0, 0, 0, 1, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
             $ipb_fid=mysql_insert_id();
             @mysql_query("INSERT INTO `{$ipb_prefix}pfields_content` (`member_id`) VALUES (".$ipb_fid.")");
             @mysql_query("INSERT INTO `{$ipb_prefix}profile_portal` (`pp_member_id`, `pp_setting_count_friends`, `pp_setting_count_comments`) VALUES (".$ipb_fid.", 1, 1)");

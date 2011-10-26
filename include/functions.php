@@ -1474,6 +1474,8 @@ function ipb_passgen($pwd)
 
     if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
         $THIS_BASEPATH=str_replace(array("\\", "/include"), array("/", ""), dirname(__FILE__));
+    if(!defined('IPS_ENFORCE_ACCESS'))
+        define('IPS_ENFORCE_ACCESS', true);
     if(!defined('IPB_THIS_SCRIPT'))
         define( 'IPB_THIS_SCRIPT', 'public' );
 
@@ -1507,7 +1509,7 @@ function set_ipb_cookie($ipb_fid, $name, $member_group_id)
     $sessid=session_id();
     quickQuery("UPDATE `{$ipb_prefix}members` SET `member_login_key`='".$login_key."', `member_login_key_expire`=UNIX_TIMESTAMP()+31536000 WHERE member_id=".$ipb_fid);
     quickQuery("DELETE FROM `{$ipb_prefix}sessions` WHERE ip_address='".getip()."'");
-    quickQuery("INSERT INTO `{$ipb_prefix}sessions` (`id`, `member_name`, `member_id`, `ip_address`, `browser`, `running_time`, `login_type`, `location`, `member_group`) VALUES ('".$sessid."', '".$name."', ".$ipb_fid.", '".getip()."', '".$_SERVER['HTTP_USER_AGENT']."', UNIX_TIMESTAMP(), 0, 'idx,,', ".$member_group_id.")") or die(mysql_error());
+    quickQuery("INSERT INTO `{$ipb_prefix}sessions` (`id`, `member_name`, `member_id`, `ip_address`, `browser`, `running_time`, `login_type`, `member_group`) VALUES ('".$sessid."', '".$name."', ".$ipb_fid.", '".getip()."', '".$_SERVER['HTTP_USER_AGENT']."', UNIX_TIMESTAMP(), 0, ".$member_group_id.")") or die(mysql_error());
        setcookie('member_id', $ipb_fid, $expires, '/');
        setcookie('pass_hash', $login_key, $expires, '/');
 }
@@ -1523,6 +1525,8 @@ function ipb_create($username, $email, $password, $id_level, $newuid)
 {
     global $THIS_BASEPATH, $TABLE_PREFIX;
 
+    if(!defined('IPS_ENFORCE_ACCESS'))
+        define('IPS_ENFORCE_ACCESS', true);
     if(!defined('IPB_THIS_SCRIPT'))
         define( 'IPB_THIS_SCRIPT', 'public' );
     require_once($THIS_BASEPATH.'/ipb/initdata.php');
@@ -1562,6 +1566,8 @@ function ipb_send_pm($ipb_sender=0, $ipb_recepient, $ipb_subject, $ipb_msg, $sys
     }
     if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
         $THIS_BASEPATH=str_replace(array("\\", "/include"), array("/", ""), dirname(__FILE__));
+    if(!defined('IPS_ENFORCE_ACCESS'))
+        define('IPS_ENFORCE_ACCESS', true);
     if(!defined('IPB_THIS_SCRIPT'))
         define( 'IPB_THIS_SCRIPT', 'public' );
 
@@ -1575,7 +1581,7 @@ function ipb_send_pm($ipb_sender=0, $ipb_recepient, $ipb_subject, $ipb_msg, $sys
     $clean_post=trim($ipb_msg,"'");
     $classMessage = new messengerFunctions($registry);
     // Reciever, Sender, array of other users to invite (Display Name), Subject, Message, Is system message
-    $classMessage->sendNewPersonalTopic($ipb_recepient, $ipb_sender, array(), $clean_subj, $clean_post, (($system===true)?array("isSystem" => true):array()));
+    $classMessage->sendNewPersonalTopic($ipb_recepient, $ipb_sender, array(), $clean_subj, $clean_post, (($system===true)?array("isSystem" => true, "forcePm" => 1):array("forcePm" => 1)));
 
 }
 
@@ -1593,6 +1599,8 @@ function ipb_make_post($forum_id, $forum_subj, $forum_post, $poster_id=0, $updat
 
     if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
         $THIS_BASEPATH=str_replace(array("\\", "/include"), array("/", ""), dirname(__FILE__));
+    if(!defined('IPS_ENFORCE_ACCESS'))
+        define('IPS_ENFORCE_ACCESS', true);
     if(!defined('IPB_THIS_SCRIPT'))
         define( 'IPB_THIS_SCRIPT', 'public' );
 

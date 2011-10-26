@@ -890,6 +890,8 @@ elseif ($action == 'save_owner') {
         fwrite($fd,$lang_data);
         fclose($fd);
 
+        if(!defined('IPS_ENFORCE_ACCESS'))
+            define('IPS_ENFORCE_ACCESS', true);
         if(!defined('IPB_THIS_SCRIPT'))
             define( 'IPB_THIS_SCRIPT', 'public' );
 
@@ -903,7 +905,7 @@ elseif ($action == 'save_owner') {
         $seo_username=IPSText::makeSeoTitle($username);
         $ipbpass=ipb_passgen($password);
 
-        @mysql_query("INSERT INTO `{$ipb_prefix}members` (`member_id`,`name`, `member_group_id`, `email`, `joined`, `ip_address`, `allow_admin_mails`, `time_offset`, `hide_email`, `language`, `members_display_name`, `members_seo_name`, `members_created_remote`, `members_l_display_name`, `members_l_username`, `members_pass_hash`, `members_pass_salt`, `bday_day`, `bday_month`, `bday_year`, `msg_show_notification`, `last_visit`, `last_activity`) VALUES (2, '".mysql_real_escape_string($username)."', 8, '".mysql_real_escape_string($email)."', UNIX_TIMESTAMP(), '".mysql_real_escape_string($_SERVER["REMOTE_ADDR"])."', 1, 0, 1, 1, '".mysql_real_escape_string($username)."', '".mysql_real_escape_string($seo_username)."', 1, '".mysql_real_escape_string($l_username)."', '".mysql_real_escape_string($l_username)."', '".mysql_real_escape_string($ipbpass[0])."', '".mysql_real_escape_string($ipbpass[1])."', 0, 0, 0, 1, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+        @mysql_query("INSERT INTO `{$ipb_prefix}members` (`member_id`,`name`, `member_group_id`, `email`, `joined`, `ip_address`, `allow_admin_mails`, `time_offset`, `language`, `members_display_name`, `members_seo_name`, `members_created_remote`, `members_l_display_name`, `members_l_username`, `members_pass_hash`, `members_pass_salt`, `bday_day`, `bday_month`, `bday_year`, `msg_show_notification`, `last_visit`, `last_activity`) VALUES (2, '".mysql_real_escape_string($username)."', 8, '".mysql_real_escape_string($email)."', UNIX_TIMESTAMP(), '".mysql_real_escape_string($_SERVER["REMOTE_ADDR"])."', 1, 0, 1, '".mysql_real_escape_string($username)."', '".mysql_real_escape_string($seo_username)."', 1, '".mysql_real_escape_string($l_username)."', '".mysql_real_escape_string($l_username)."', '".mysql_real_escape_string($ipbpass[0])."', '".mysql_real_escape_string($ipbpass[1])."', 0, 0, 0, 1, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
         @mysql_query("INSERT INTO `{$ipb_prefix}pfields_content` (`member_id`) VALUES (2)");
         @mysql_query("INSERT INTO `{$ipb_prefix}profile_portal` (`pp_member_id`, `pp_setting_count_friends`, `pp_setting_count_comments`) VALUES (2, 1, 1)");
         $myres=mysql_query("SELECT `cs_value` FROM `{$ipb_prefix}cache_store` WHERE `cs_key`='stats'");

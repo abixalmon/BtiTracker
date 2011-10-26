@@ -96,11 +96,18 @@ if ($act=="confirm") {
           }
           elseif($FORUMLINK=="ipb")
           {
-              require_once($THIS_BASEPATH. '/ipb/initdata.php' );
-              require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
-              require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
-              $registry = ipsRegistry::instance(); 
-              $registry->init();
+                    if(!defined('IPS_ENFORCE_ACCESS'))
+                        define('IPS_ENFORCE_ACCESS', true);
+                    if(!defined('IPB_THIS_SCRIPT'))
+                        define('IPB_THIS_SCRIPT', 'public');
+
+                    if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
+                        $THIS_BASEPATH=dirname(__FILE__);
+                    require_once($THIS_BASEPATH. '/ipb/initdata.php' );
+                    require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
+                    require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
+                    $registry = ipsRegistry::instance(); 
+                    $registry->init();
 
               $get=get_result("SELECT `u`.`ipb_fid`, `ul`.`ipb_group_mirror` FROM `{$TABLE_PREFIX}users` `u` LEFT JOIN `{$TABLE_PREFIX}users_level` `ul` ON `u`.`id_level`=`ul`.`id` WHERE `u`.`id_level`=3 AND `u`.`random`=$random2",true,$btit_settings['cache_duration']);
               $forum_level=(($get[0]["ipb_group_mirror"]>0)?$get[0]["ipb_group_mirror"]:3);

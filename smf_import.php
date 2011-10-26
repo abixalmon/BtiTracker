@@ -591,7 +591,7 @@ elseif($act=="import_forum" && $confirm=="yes")
             $sqlquery="UPDATE `{$db_prefix}boards` SET `ID_PARENT`=$newparent WHERE `ID_BOARD`=".$forid;
         else
             $sqlquery="UPDATE `{$db_prefix}boards` SET `id_parent`=$newparent WHERE `id_board`=".$forid;
-        @mysql_query($sqlquery) or die(mysql_error()."<br />SQL Query:<br />".$sqlquery);
+        @mysql_query($sqlquery); /* or die(mysql_error()."<br />SQL Query:<br />".$sqlquery); */
     }
     $sqlquery="SELECT * FROM `{$TABLE_PREFIX}topics` ORDER BY `id` ASC";
     $res=mysql_query($sqlquery) or die(mysql_error()."<br />SQL Query:<br />".$sqlquery);

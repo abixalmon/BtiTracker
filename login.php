@@ -130,6 +130,11 @@ if (!$CURUSER || $CURUSER["uid"]==1)
                 elseif($FORUMLINK=="ipb")
                 {
 
+                    if(!defined('IPS_ENFORCE_ACCESS'))
+                        define('IPS_ENFORCE_ACCESS', true);
+                    if(!defined('IPB_THIS_SCRIPT'))
+                        define('IPB_THIS_SCRIPT', 'public');
+
                     if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
                         $THIS_BASEPATH=dirname(__FILE__);
                     require_once($THIS_BASEPATH. '/ipb/initdata.php' );
@@ -139,11 +144,11 @@ if (!$CURUSER || $CURUSER["uid"]==1)
                     $registry->init();
         
                     $password=IPSText::parseCleanValue(urldecode(trim($pwd)));
-                    $hash=md5(md5($row["members_pass_salt"]).md5($password));
+                    $ipbhash=md5(md5($row["members_pass_salt"]).md5($password));
                     $salt=pass_the_salt(5);
-                    $rehash=$hash=md5(md5($salt).md5($password));
+                    $rehash=md5(md5($salt).md5($password));
 
-                    if ($ipbhash[0]==$row["members_pass_hash"])
+                    if ($ipbhash==$row["members_pass_hash"])
                         set_ipb_cookie($row["ipb_fid"], $row["name"], $row["member_group_id"]);
                     elseif ($row["members_pass_hash"]=="ffffffffffffffffffffffffffffffff")
                     {

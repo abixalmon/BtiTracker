@@ -113,6 +113,11 @@ switch ($do)
        {
        if($GLOBALS["FORUMLINK"]=="ipb")
        {
+           if(!defined('IPS_ENFORCE_ACCESS'))
+               define('IPS_ENFORCE_ACCESS', true);
+           if(!defined('IPB_THIS_SCRIPT'))
+               define( 'IPB_THIS_SCRIPT', 'public' );
+
            require_once($THIS_BASEPATH. '/ipb/initdata.php' );
            require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
            require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
