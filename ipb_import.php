@@ -338,13 +338,21 @@ elseif($act=="member_import" && $confirm=="yes")
             $joined=$account["joined"];
             $id_level=$account["id_level"];
             $ip_address=long2ip($account["lip"]);
-            $posts=$account["posts"];
+            $posts=(($account["id"]==2)?($account["posts"]+1):$account["posts"]);
 
             @mysql_query("INSERT INTO `{$ipb_prefix}members` (`name`, `member_group_id`, `email`, `joined`, `ip_address`, `posts`, `allow_admin_mails`, `time_offset`, `language`, `members_display_name`, `members_seo_name`, `members_created_remote`, `members_l_display_name`, `members_l_username`, `members_pass_hash`, `members_pass_salt`, `bday_day`, `bday_month`, `bday_year`, `msg_show_notification`, `last_visit`, `last_activity`) VALUES ('".mysql_real_escape_string($username)."', ".$id_level.", '".mysql_real_escape_string($email)."', ".$joined.", '".mysql_real_escape_string($ip_address)."', ".$posts.", 1, '".$account["time_offset"]."', 1, '".mysql_real_escape_string($username)."', '".mysql_real_escape_string($seo_username)."', 1, '".mysql_real_escape_string($l_username)."', '".mysql_real_escape_string($l_username)."', '".mysql_real_escape_string($hash)."', '".mysql_real_escape_string($salt)."', 0, 0, 0, 1, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
             $ipb_fid=mysql_insert_id();
             @mysql_query("INSERT INTO `{$ipb_prefix}pfields_content` (`member_id`) VALUES (".$ipb_fid.")");
             @mysql_query("INSERT INTO `{$ipb_prefix}profile_portal` (`pp_member_id`, `pp_setting_count_friends`, `pp_setting_count_comments`) VALUES (".$ipb_fid.", 1, 1)");
             @mysql_query("UPDATE `{$TABLE_PREFIX}users` SET `ipb_fid`=".$ipb_fid." WHERE `id`=".$account["id"]);
+
+            if($account["id"]==2)
+            {
+                @mysql_query("UPDATE `{$ipb_prefix}forums` SET `last_poster_id`='".$ipb_fid."', `last_poster_name`='".mysql_real_escape_string($username)."' WHERE `id`=2");
+                @mysql_query("UPDATE `{$ipb_prefix}posts` SET `author_id`= '".$ipb_fid."', `author_name`='".mysql_real_escape_string($username)."' WHERE `pid`=1");
+                @mysql_query("UPDATE `{$ipb_prefix}topics` SET `starter_id`='".$ipb_fid."', `last_poster_id`='".$ipb_fid."', `starter_name`='".mysql_real_escape_string($username)."', `last_poster_name`='".mysql_real_escape_string($username)."', `seo_last_name`='".mysql_real_escape_string($seo_username)."', `seo_first_name`='".mysql_real_escape_string($seo_username)."' WHERE `tid`=1");
+            }
+
         }
         print("<script LANGUAGE=\"javascript\">window.location.href='".$_SERVER["PHP_SELF"]."?act=member_import&confirm=yes&start=$newstart&counter=$counter&lastacc=$lastacc'</script>");
     }
