@@ -1498,20 +1498,33 @@ function ipb_md5_passgen($pwd)
     return array($passhash, $salt);
 }
 
-function set_ipb_cookie($ipb_fid, $name, $member_group_id)
+function set_ipb_cookie($ipb_fid=0)
 {
-    global $ipb_prefix;
-    $expires=(time()+604800);
-    $login_key=md5(time() . substr(md5(mt_rand()),0, 5));
-    session_destroy();
-    session_name("session_id");
-    session_start();
-    $sessid=session_id();
-    quickQuery("UPDATE `{$ipb_prefix}members` SET `member_login_key`='".$login_key."', `member_login_key_expire`=UNIX_TIMESTAMP()+31536000 WHERE member_id=".$ipb_fid);
-    quickQuery("DELETE FROM `{$ipb_prefix}sessions` WHERE ip_address='".getip()."'");
-    quickQuery("INSERT INTO `{$ipb_prefix}sessions` (`id`, `member_name`, `member_id`, `ip_address`, `browser`, `running_time`, `login_type`, `member_group`) VALUES ('".$sessid."', '".$name."', ".$ipb_fid.", '".getip()."', '".$_SERVER['HTTP_USER_AGENT']."', UNIX_TIMESTAMP(), 0, ".$member_group_id.")") or die(mysql_error());
-       setcookie('member_id', $ipb_fid, $expires, '/');
-       setcookie('pass_hash', $login_key, $expires, '/');
+    global $THIS_BASEPATH, $registry;
+
+    if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
+        $THIS_BASEPATH=str_replace(array("\\", "/include"), array("/", ""), dirname(__FILE__));
+    if(!defined('IPS_ENFORCE_ACCESS'))
+        define('IPS_ENFORCE_ACCESS', true);
+    if(!defined('IPB_THIS_SCRIPT'))
+        define( 'IPB_THIS_SCRIPT', 'public' );
+
+    if(!isset($registry) || empty($registry))
+    {
+        require_once($THIS_BASEPATH.'/ipb/initdata.php');
+        require_once(IPS_ROOT_PATH.'sources/base/ipsRegistry.php');
+        require_once(IPS_ROOT_PATH.'sources/base/ipsController.php');
+        $registry = ipsRegistry::instance(); 
+        $registry->init();
+    }
+
+    if($ipb_fid>0)
+    {
+        require_once(IPS_ROOT_PATH.'sources/handlers/han_login.php');
+
+        $ipb_login = new han_login($registry);
+        $ipb_login->loginWithoutCheckingCredentials($ipb_fid);
+    }
 }
 
 function kill_ipb_cookie()
@@ -1523,17 +1536,23 @@ function kill_ipb_cookie()
 
 function ipb_create($username, $email, $password, $id_level, $newuid)
 {
-    global $THIS_BASEPATH, $TABLE_PREFIX;
+    global $THIS_BASEPATH, $TABLE_PREFIX, $registry;
 
+    if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
+        $THIS_BASEPATH=str_replace(array("\\", "/include"), array("/", ""), dirname(__FILE__));
     if(!defined('IPS_ENFORCE_ACCESS'))
         define('IPS_ENFORCE_ACCESS', true);
     if(!defined('IPB_THIS_SCRIPT'))
         define( 'IPB_THIS_SCRIPT', 'public' );
-    require_once($THIS_BASEPATH.'/ipb/initdata.php');
-    require_once(IPS_ROOT_PATH.'sources/base/ipsRegistry.php');
-    require_once(IPS_ROOT_PATH.'sources/base/ipsController.php');
-    $registry = ipsRegistry::instance(); 
-    $registry->init();
+
+    if(!isset($registry) || empty($registry))
+    {
+        require_once($THIS_BASEPATH.'/ipb/initdata.php');
+        require_once(IPS_ROOT_PATH.'sources/base/ipsRegistry.php');
+        require_once(IPS_ROOT_PATH.'sources/base/ipsController.php');
+        $registry = ipsRegistry::instance(); 
+        $registry->init();
+    }
     $member_info = IPSMember::create(array("members"=>array("name" => "$username", "members_display_name" => "$username", "email" => "$email", "password" => "$password", "member_group_id" => "$id_level", "allow_admin_mails" => "1", "members_created_remote" => "1")));
     $ipb_fid=$member_info["member_id"];
     do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `ipb_fid`=".$ipb_fid." WHERE `id`=".$newuid);
@@ -1541,7 +1560,7 @@ function ipb_create($username, $email, $password, $id_level, $newuid)
 
 function ipb_send_pm($ipb_sender=0, $ipb_recepient, $ipb_subject, $ipb_msg, $system=false)
 {
-    global $ipb_prefix, $THIS_BASEPATH, $btit_settings, $TABLE_PREFIX;
+    global $ipb_prefix, $THIS_BASEPATH, $btit_settings, $TABLE_PREFIX, $registry;
 
     if($ipb_sender==0)
     {
@@ -1564,6 +1583,7 @@ function ipb_send_pm($ipb_sender=0, $ipb_recepient, $ipb_subject, $ipb_msg, $sys
         // Something is not right. fail
         return false;
     }
+
     if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
         $THIS_BASEPATH=str_replace(array("\\", "/include"), array("/", ""), dirname(__FILE__));
     if(!defined('IPS_ENFORCE_ACCESS'))
@@ -1571,11 +1591,14 @@ function ipb_send_pm($ipb_sender=0, $ipb_recepient, $ipb_subject, $ipb_msg, $sys
     if(!defined('IPB_THIS_SCRIPT'))
         define( 'IPB_THIS_SCRIPT', 'public' );
 
-    require_once( $THIS_BASEPATH.'/ipb/initdata.php' );
-    require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
-    require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
-    $registry = ipsRegistry::instance(); 
-    $registry->init();
+    if(!isset($registry) || empty($registry))
+    {
+        require_once($THIS_BASEPATH.'/ipb/initdata.php');
+        require_once(IPS_ROOT_PATH.'sources/base/ipsRegistry.php');
+        require_once(IPS_ROOT_PATH.'sources/base/ipsController.php');
+        $registry = ipsRegistry::instance(); 
+        $registry->init();
+    }
     require_once( IPSLib::getAppDir('members') . '/sources/classes/messaging/messengerFunctions.php' );
     $clean_subj=trim($ipb_subject,"'");
     $clean_post=trim($ipb_msg,"'");
@@ -1587,7 +1610,7 @@ function ipb_send_pm($ipb_sender=0, $ipb_recepient, $ipb_subject, $ipb_msg, $sys
 
 function ipb_make_post($forum_id, $forum_subj, $forum_post, $poster_id=0, $update_old_topic=true)
 {
-    global $ipb_prefix, $THIS_BASEPATH, $btit_settings;
+    global $ipb_prefix, $THIS_BASEPATH, $btit_settings, $registry;
 
     if($poster_id==0)
     {
@@ -1604,11 +1627,14 @@ function ipb_make_post($forum_id, $forum_subj, $forum_post, $poster_id=0, $updat
     if(!defined('IPB_THIS_SCRIPT'))
         define( 'IPB_THIS_SCRIPT', 'public' );
 
-    require_once( $THIS_BASEPATH.'/ipb/initdata.php' );
-    require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
-    require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
-    $registry = ipsRegistry::instance(); 
-    $registry->init();
+    if(!isset($registry) || empty($registry))
+    {
+        require_once($THIS_BASEPATH.'/ipb/initdata.php');
+        require_once(IPS_ROOT_PATH.'sources/base/ipsRegistry.php');
+        require_once(IPS_ROOT_PATH.'sources/base/ipsController.php');
+        $registry = ipsRegistry::instance(); 
+        $registry->init();
+    }
     require_once( IPSLib::getAppDir('forums') . '/sources/classes/post/classPost.php' );
     $classPost = new classPost($registry);
     $old_topic=false;
@@ -1646,7 +1672,6 @@ function ipb_make_post($forum_id, $forum_subj, $forum_post, $poster_id=0, $updat
     }
     return $topicID;
 }
-
 
 // EOF
 ?>

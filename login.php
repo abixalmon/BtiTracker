@@ -75,7 +75,7 @@ if (!$CURUSER || $CURUSER["uid"]==1)
         if (substr($FORUMLINK,0,3)=="smf")
             $smf_pass = sha1(strtolower($user) . $pwd);
 
-        $res = do_sqlquery("SELECT `u`.`salt`, `u`.`pass_type`, `u`.`username`, `u`.`id`, `u`.`random`, `u`.`password`".((substr($FORUMLINK,0,3)=="smf") ? ", `u`.`smf_fid`, `s`.`passwd`":(($FORUMLINK=="ipb")?", `u`.`ipb_fid`, `i`.`members_pass_hash`, `i`.`members_pass_salt`, `i`.`name`, `i`.`member_group_id`":""))." FROM `{$TABLE_PREFIX}users` `u` ".((substr($FORUMLINK,0,3)=="smf") ? "LEFT JOIN `{$db_prefix}members` `s` ON `u`.`smf_fid`=`s`.".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")."":(($FORUMLINK=="ipb")?"LEFT JOIN `{$ipb_prefix}members` `i` ON `u`.`ipb_fid`=`i`.`member_id`":""))." WHERE `u`.`username` ='".AddSlashes($user)."'",true);
+        $res = do_sqlquery("SELECT `u`.`salt`, `u`.`pass_type`, `u`.`username`, `u`.`id`, `u`.`random`, `u`.`password`".((substr($FORUMLINK,0,3)=="smf") ? ", `u`.`smf_fid`, `s`.`passwd`":(($FORUMLINK=="ipb")?", `u`.`ipb_fid`, `i`.`members_pass_hash`":""))." FROM `{$TABLE_PREFIX}users` `u` ".((substr($FORUMLINK,0,3)=="smf") ? "LEFT JOIN `{$db_prefix}members` `s` ON `u`.`smf_fid`=`s`.".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")."":(($FORUMLINK=="ipb")?"LEFT JOIN `{$ipb_prefix}members` `i` ON `u`.`ipb_fid`=`i`.`member_id`":""))." WHERE `u`.`username` ='".AddSlashes($user)."'",true);
         $row = mysql_fetch_assoc($res);
 
         if (!$row)
@@ -129,32 +129,31 @@ if (!$CURUSER || $CURUSER["uid"]==1)
                 }
                 elseif($FORUMLINK=="ipb")
                 {
-
-                    if(!defined('IPS_ENFORCE_ACCESS'))
-                        define('IPS_ENFORCE_ACCESS', true);
-                    if(!defined('IPB_THIS_SCRIPT'))
-                        define('IPB_THIS_SCRIPT', 'public');
-
-                    if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
-                        $THIS_BASEPATH=dirname(__FILE__);
-                    require_once($THIS_BASEPATH. '/ipb/initdata.php' );
-                    require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
-                    require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
-                    $registry = ipsRegistry::instance(); 
-                    $registry->init();
-        
-                    $password=IPSText::parseCleanValue(urldecode(trim($pwd)));
-                    $ipbhash=md5(md5($row["members_pass_salt"]).md5($password));
-                    $salt=pass_the_salt(5);
-                    $rehash=md5(md5($salt).md5($password));
-
-                    if ($ipbhash==$row["members_pass_hash"])
-                        set_ipb_cookie($row["ipb_fid"], $row["name"], $row["member_group_id"]);
-                    elseif ($row["members_pass_hash"]=="ffffffffffffffffffffffffffffffff")
+                    if ($row["members_pass_hash"]=="ffffffffffffffffffffffffffffffff")
                     {
+                        if(!defined('IPS_ENFORCE_ACCESS'))
+                            define('IPS_ENFORCE_ACCESS', true);
+                        if(!defined('IPB_THIS_SCRIPT'))
+                            define('IPB_THIS_SCRIPT', 'public');
+
+                        if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
+                            $THIS_BASEPATH=dirname(__FILE__);
+                        require_once($THIS_BASEPATH. '/ipb/initdata.php' );
+                        require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
+                        require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
+                        $registry = ipsRegistry::instance(); 
+                        $registry->init();
+        
+                        $password=IPSText::parseCleanValue(urldecode(trim($pwd)));
+                        $ipbhash=md5(md5($row["members_pass_salt"]).md5($password));
+                        $salt=pass_the_salt(5);
+                        $rehash=md5(md5($salt).md5($password));
+
                         IPSMember::save($row["ipb_fid"], array("members" => array("member_login_key" => "", "member_login_key_expire" => "0", "members_pass_hash" => "$rehash", "members_pass_salt" => "$salt")));
-                        set_ipb_cookie($row["ipb_fid"], $row["name"], $row["member_group_id"]);
+                        set_ipb_cookie($row["ipb_fid"]);
                     }
+                    else
+                        set_ipb_cookie($row["ipb_fid"]);
                 }
                 if (isset($_GET["returnto"]))
                     $url=urldecode($_GET["returnto"]);
