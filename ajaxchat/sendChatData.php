@@ -121,11 +121,15 @@ if ($name != '' && $text != '' && $uid !='') {
 # adds new data to the database
 function addData($name,$text,$uid) {
   include("../include/settings.php");   # getting table prefix
-  //include("../include/config.php");
   $now = time();
-    $sql = "INSERT INTO {$TABLE_PREFIX}chat (time,name,text,uid) VALUES ('".$now."','".$name."','".$text."','".$uid."')";
-    $conn = getDBConnection();
-    if($GLOBALS['charset']=="UTF-8" && function_exists('mysql_set_charset'))
+  //final name check cos although crk is in you can still use somebody elses name!
+  $namecheck=mysql_query("SELECT username FROM {$TABLE_PREFIX}users WHERE id=$uid",$conn);
+  $namecollect=mysql_fetch_row($namecheck);
+  if($namecollect[0]!=$name){
+  $name=$namecollect[0];
+  }
+  $sql = "INSERT INTO {$TABLE_PREFIX}chat (time,name,text,uid) VALUES ('".$now."','".$name."','".$text."','".$uid."')";
+   if($GLOBALS['charset']=="UTF-8" && function_exists('mysql_set_charset'))
         mysql_set_charset('utf8',$conn);
 
     $results = mysql_query($sql, $conn);
