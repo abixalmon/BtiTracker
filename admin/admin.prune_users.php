@@ -64,7 +64,7 @@ if ($action=="prune")
              $smf_fid[]=intval($v);
          }
          if (implode("", $smf_fid)!="")
-            do_sqlquery("DELETE FROM `{$db_prefix}members` WHERE ".($GLOBALS["FORUMLINK"]=="smf")?"`ID_MEMBER`":"`id_member`")." IN ('".implode(",", $smf_fid)."')",true);
+             do_sqlquery("DELETE FROM `{$db_prefix}members` WHERE ".(($GLOBALS["FORUMLINK"]=="smf")?"`ID_MEMBER`":"`id_member`")." IN ('".implode(",", $smf_fid)."')",true);
      }
     elseif($GLOBALS["FORUMLINK"]=="ipb")
     {
