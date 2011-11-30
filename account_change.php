@@ -31,7 +31,6 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 require_once(dirname(__FILE__)."/include/functions.php");
-//require_once(dirname(__FILE__)."/include/config.php");
 include(dirname(__FILE__)."/btemplate/bTemplate.php");
 
 if (isset($_GET["style"]))
@@ -39,13 +38,13 @@ if (isset($_GET["style"]))
 else
     $style=0;
 if (isset($_GET["returnto"]))
-   $url=urldecode($_GET["returnto"]);
+    $url=urldecode($_GET["returnto"]);
 else
-   $url="index.php";
+    $url="index.php";
 if (isset($_GET["langue"]))
-   $langue=intval($_GET["langue"]);
+    $langue=intval($_GET["langue"]);
 else
-   $langue=0;
+    $langue=0;
 
 dbconn();
 session_name("xbtit");
@@ -53,20 +52,29 @@ session_start();
 
 // guest don't need to change language!
 if (!$CURUSER || $CURUSER["uid"]==1)
-  {
-  redirect($url);
-  exit;
- }
+{
+    redirect($url);
+    exit;
+}
 
 if ($style!=0)
 {
-   do_sqlquery("UPDATE {$TABLE_PREFIX}users SET style=$style WHERE id=".(int)$CURUSER["uid"],true);
-   $_SESSION["CURUSER"]["style"]=$style;
+    do_sqlquery("UPDATE {$TABLE_PREFIX}users SET style=$style WHERE id=".(int)$CURUSER["uid"],true);
+    if($btit_settings["cache_duration"]>0)
+    {
+        unset($_SESSION["CURUSER"]["style_url"],$_SESSION["CURUSER"]["style_path"]);
+    }
+    $_SESSION["CURUSER"]["style"]=$style;
+   
 }
 if ($langue!=0)
 {
-   do_sqlquery("UPDATE {$TABLE_PREFIX}users SET language=$langue WHERE id=".(int)$CURUSER["uid"],true);
-   $_SESSION["CURUSER"]["language"]=$langue;
+    do_sqlquery("UPDATE {$TABLE_PREFIX}users SET language=$langue WHERE id=".(int)$CURUSER["uid"],true);
+    if($btit_settings["cache_duration"]>0)
+    {
+        unset($_SESSION['CURUSER']['language_path']);
+    }
+    $_SESSION["CURUSER"]["language"]=$langue;
 }
 
 redirect($url);
