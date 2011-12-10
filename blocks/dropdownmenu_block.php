@@ -150,7 +150,7 @@ if ($CURUSER["view_news"]=="yes")
         print("<ul class='level4'>\n");
         print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=groups&action=read'>".$language['ACP_USER_GROUP']."</a></li>\n");
         print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=masspm&action=write'>".$language['ACP_MASSPM']."</a></li>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=pruneu'>".$language['ACP_PRUNE_USERS']."</li>\n");
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=pruneu'>".$language['ACP_PRUNE_USERS']."</a></li>\n");
         print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=searchdiff'>".$language['ACP_SEARCH_DIFF']."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
         
         print("<li><a class='fly' href='#'>".$language['ACP_TORRENTS_TOOLS']."</a>\n");
