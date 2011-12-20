@@ -125,7 +125,7 @@ function load_language($mod_language_name) {
 
   if (@file_exists($USERLANG.'/'.$mod_language_name)) {
     if ($USERLANG != $THIS_BASEPATH.'/language/english')
-      include $THIS_BASEPATH.'/language/english/'.$mod_language_name;
+      include_once $THIS_BASEPATH.'/language/english/'.$mod_language_name;
     return $USERLANG.'/'.$mod_language_name;
   }
   return $THIS_BASEPATH.'/language/english/'.$mod_language_name;
