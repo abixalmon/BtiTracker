@@ -1,6 +1,6 @@
 xbtit - Bittorrent tracker/frontend
 
-Copyright (C) 2004 - 2011  Btiteam
+Copyright (C) 2004 - 2012  Btiteam
 
 Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:

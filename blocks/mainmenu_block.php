@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2011  Btiteam
+// Copyright (C) 2004 - 2012  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -83,4 +83,3 @@ if ($CURUSER["view_forum"]=="yes")
 ?>
   </tr>
    </table>
-     
