@@ -1,38 +1,38 @@
 <?php
-//ÖÐÎÄ·­Òë:ziggear 
-//Äã¿ÉÒÔ×ÔÓÉÐÞ¸ÄºÍ·¢²¼£¬µ«²»ÒªÉ¾³ý×¢ÊÍºÍ×÷ÕßÐÅÏ¢¡£
-$language['TORRENT_SEARCH']='ËÑË÷×ÊÔ´';
-$language['TORRENT_STATUS']='×´Ì¬';
-$language['CATEGORY_FULL']='·ÖÀà';
-$language['ALL']='È«²¿';
-$language['ACTIVE_ONLY']='»î¶¯µÄ';
-$language['DEAD_ONLY']='²»»î¶¯µÄ';
-$language['SEARCH']='ËÑË÷';
-$language['CATEGORY']='·ÖÀà';
-$language['FILE']='ÖÖ×Ó±êÌâ';
-$language['COMMENT']='ÆÀÂÛ';
-$language['RATING']='ÆÀ¼¶';
-$language['DOWN']='ÏÂÔØ';
-$language['ADDED']='ÉÏ´«ÈÕÆÚ';
-$language['SIZE']='×ÊÔ´´óÐ¡';
-$language['UPLOADER']='¹±Ï×Õß';
+//ä¸­æ–‡ç¿»è¯‘:ziggear 
+//ä½ å¯ä»¥è‡ªç”±ä¿®æ”¹å’Œå‘å¸ƒï¼Œä½†ä¸è¦åˆ é™¤æ³¨é‡Šå’Œä½œè€…ä¿¡æ¯ã€‚
+$language['TORRENT_SEARCH']='æœç´¢èµ„æº';
+$language['TORRENT_STATUS']='çŠ¶æ€';
+$language['CATEGORY_FULL']='åˆ†ç±»';
+$language['ALL']='å…¨éƒ¨';
+$language['ACTIVE_ONLY']='æ´»åŠ¨çš„';
+$language['DEAD_ONLY']='ä¸æ´»åŠ¨çš„';
+$language['SEARCH']='æœç´¢';
+$language['CATEGORY']='åˆ†ç±»';
+$language['FILE']='ç§å­æ ‡é¢˜';
+$language['COMMENT']='è¯„è®º';
+$language['RATING']='è¯„çº§';
+$language['DOWN']='ä¸‹è½½';
+$language['ADDED']='ä¸Šä¼ æ—¥æœŸ';
+$language['SIZE']='èµ„æºå¤§å°';
+$language['UPLOADER']='è´¡çŒ®è€…';
 $language['SHORT_S']='S';
 $language['SHORT_L']='L';
 $language['SHORT_C']='C';
-$language['DOWNLOADED']='ÏÂÔØ';
-$language['SPEED']='ËÙ¶È';
-$language['AVERAGE']='Íê³É¶È';
-$language['VOTE']='Í¶Æ±';
-$language['VOTES_RATING']='µÄÆ±Êý (ÆÀ¼¶';
-$language['FIVE_STAR']='5ÐÇ¼¶';
-$language['FOUR_STAR']='2ÐÇ¼¶';
-$language['ONE_STAR']='1ÐÇ¼¶';
-$language['THREE_STAR']='3ÐÇ¼¶';
-$language['TWO_STAR']='2ÐÇ¼¶';
-$language['YOU_RATE']='Äã½«´Ë×ÊÔ´ÆÀÎª';
-$language['ADD_RATING']='Ôö¼ÓÆÀ¼¶';
-$language['RATING']='ÆÀ¼¶';
-$language['ERR_NO_VOTE']='±ØÐëÑ¡ÔñÒ»¸öÍ¶Æ±Ñ¡Ïî.';
-$language['VOTES']='µÃÆ±Êý';
-$language['SHOW_HIDE']='ÏÔÊ¾/Òþ²Ø×ÊÔ´';
+$language['DOWNLOADED']='ä¸‹è½½';
+$language['SPEED']='é€Ÿåº¦';
+$language['AVERAGE']='å®Œæˆåº¦';
+$language['VOTE']='æŠ•ç¥¨';
+$language['VOTES_RATING']='çš„ç¥¨æ•° (è¯„çº§';
+$language['FIVE_STAR']='5æ˜Ÿçº§';
+$language['FOUR_STAR']='2æ˜Ÿçº§';
+$language['ONE_STAR']='1æ˜Ÿçº§';
+$language['THREE_STAR']='3æ˜Ÿçº§';
+$language['TWO_STAR']='2æ˜Ÿçº§';
+$language['YOU_RATE']='ä½ å°†æ­¤èµ„æºè¯„ä¸º';
+$language['ADD_RATING']='å¢žåŠ è¯„çº§';
+$language['RATING']='è¯„çº§';
+$language['ERR_NO_VOTE']='å¿…é¡»é€‰æ‹©ä¸€ä¸ªæŠ•ç¥¨é€‰é¡¹.';
+$language['VOTES']='å¾—ç¥¨æ•°';
+$language['SHOW_HIDE']='æ˜¾ç¤º/éšè—èµ„æº';
 ?>

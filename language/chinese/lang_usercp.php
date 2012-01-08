@@ -1,16 +1,16 @@
 <?php
-//ÖÐÎÄ·­Òë:ziggear 
-//Äã¿ÉÒÔ×ÔÓÉÐÞ¸ÄºÍ·¢²¼£¬µ«²»ÒªÉ¾³ý×¢ÊÍºÍ×÷ÕßÐÅÏ¢¡£
-$language['DELETE_READED']='É¾³ý';
-$language['USER_LANGUE']='ÓïÑÔÑ¡Ôñ';
-$language['USER_STYLE']='Ä¬ÈÏ·ç¸ñ';
-$language['CURRENTLY_PEER']='µ±Ç°ÄãÔÚ×öÖÖ»òÏÂÔØÖÖ×Ó.';
-$language['STOP_PEER']='Äã±ØÐë¹Ø±ÕÄãµÄ¿Í»§¶Ë.';
-$language['USER_PWD_AGAIN']='ÖØ¸´ÃÜÂë';
-$language['EMAIL_FAILED']='·¢ËÍemailÊ§°Ü!';
-$language['NO_SUBJECT']='Ã»ÓÐÏîÄ¿';
-$language['MUST_ENTER_PASSWORD']='<br /><font color="#FF0000"><strong>Äã±ØÐëÊäÈëÃÜÂëÀ´Íê³ÉÓÃ»§×ÊÁÏµÄ¸üÐÂ.</strong></font>';
-$language['ERR_PASS_WRONG']='ÃÜÂëÎª¿Õ»òÃÜÂë´íÎó, ÎÞ·¨¸üÐÂÓÃ»§×ÊÁÏ.';
-$language['MSG_DEL_ALL_PM']='ÄãÑ¡ÔñÁËÎ´¶ÁÕ¾ÄÚÐÅ, ËûÃÇ½«»áÔÚÄã¶ÁÖ®Ç°±»É¾³ý';
-$language['ERR_PM_GUEST']='¶Ô²»ÆðÄã²»ÄÜ¸ø·Ã¿Í»òÄã×Ô¼º·¢Õ¾ÄÚÐÅ!';
+//ä¸­æ–‡ç¿»è¯‘:ziggear 
+//ä½ å¯ä»¥è‡ªç”±ä¿®æ”¹å’Œå‘å¸ƒï¼Œä½†ä¸è¦åˆ é™¤æ³¨é‡Šå’Œä½œè€…ä¿¡æ¯ã€‚
+$language['DELETE_READED']='åˆ é™¤';
+$language['USER_LANGUE']='è¯­è¨€é€‰æ‹©';
+$language['USER_STYLE']='é»˜è®¤é£Žæ ¼';
+$language['CURRENTLY_PEER']='å½“å‰ä½ åœ¨åšç§æˆ–ä¸‹è½½ç§å­.';
+$language['STOP_PEER']='ä½ å¿…é¡»å…³é—­ä½ çš„å®¢æˆ·ç«¯.';
+$language['USER_PWD_AGAIN']='é‡å¤å¯†ç ';
+$language['EMAIL_FAILED']='å‘é€emailå¤±è´¥!';
+$language['NO_SUBJECT']='æ²¡æœ‰é¡¹ç›®';
+$language['MUST_ENTER_PASSWORD']='<br /><font color="#FF0000"><strong>ä½ å¿…é¡»è¾“å…¥å¯†ç æ¥å®Œæˆç”¨æˆ·èµ„æ–™çš„æ›´æ–°.</strong></font>';
+$language['ERR_PASS_WRONG']='å¯†ç ä¸ºç©ºæˆ–å¯†ç é”™è¯¯, æ— æ³•æ›´æ–°ç”¨æˆ·èµ„æ–™.';
+$language['MSG_DEL_ALL_PM']='ä½ é€‰æ‹©äº†æœªè¯»ç«™å†…ä¿¡, ä»–ä»¬å°†ä¼šåœ¨ä½ è¯»ä¹‹å‰è¢«åˆ é™¤';
+$language['ERR_PM_GUEST']='å¯¹ä¸èµ·ä½ ä¸èƒ½ç»™è®¿å®¢æˆ–ä½ è‡ªå·±å‘ç«™å†…ä¿¡!';
 ?>

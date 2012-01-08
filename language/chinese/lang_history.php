@@ -1,10 +1,10 @@
 <?php
-//ÖÐÎÄ·­Òë:ziggear 
-//Äã¿ÉÒÔ×ÔÓÉÐÞ¸ÄºÍ·¢²¼£¬µ«²»ÒªÉ¾³ý×¢ÊÍºÍ×÷ÕßÐÅÏ¢¡£
-$language['PEER_PROGRESS']='ÎÄ¼þ½ø¶È';
-$language['PEER_COUNTRY']='À´×Ô';
-$language['PEER_PORT']='¶Ë¿Ú';
-$language['PEER_STATUS']='×´Ì¬';
-$language['PEER_CLIENT']='¿Í»§¶Ë°æ±¾';
-$language['NO_HISTORY']='ÎÞÀúÊ·Êý¾Ý...';
+//ä¸­æ–‡ç¿»è¯‘:ziggear 
+//ä½ å¯ä»¥è‡ªç”±ä¿®æ”¹å’Œå‘å¸ƒï¼Œä½†ä¸è¦åˆ é™¤æ³¨é‡Šå’Œä½œè€…ä¿¡æ¯ã€‚
+$language['PEER_PROGRESS']='æ–‡ä»¶è¿›åº¦';
+$language['PEER_COUNTRY']='æ¥è‡ª';
+$language['PEER_PORT']='ç«¯å£';
+$language['PEER_STATUS']='çŠ¶æ€';
+$language['PEER_CLIENT']='å®¢æˆ·ç«¯ç‰ˆæœ¬';
+$language['NO_HISTORY']='æ— åŽ†å²æ•°æ®...';
 ?>

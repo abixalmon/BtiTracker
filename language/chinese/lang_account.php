@@ -1,25 +1,25 @@
 <?php
-//ÖÐÎÄ·­Òë:ziggear 
-//Äã¿ÉÒÔ×ÔÓÉÐÞ¸ÄºÍ·¢²¼£¬µ«²»ÒªÉ¾³ý×¢ÊÍºÍ×÷ÕßÐÅÏ¢¡£
-$language['ACCOUNT_CREATED']='ÕÊºÅÒÑ´´½¨';
-$language['USER_NAME']='ÓÃ»§Ãû';
-$language['USER_PWD_AGAIN']='ÖØ¸´ÃÜÂë';
-$language['USER_PWD']='ÃÜÂë';
-$language['USER_STYLE']='Ä¬ÈÏÖ÷Ìâ';
-$language['USER_LANGUE']='ÓïÑÔÑ¡Ôñ';
-$language['IMAGE_CODE']='ÑéÖ¤Âë';
-$language['INSERT_USERNAME']='Äã±ØÐëÊäÈëÓÃ»§Ãû!';
-$language['INSERT_PASSWORD']='Äã±ØÐëÊäÈëÃÜÂë!';
-$language['DIF_PASSWORDS']='Á½´ÎÊäÈëµÄÃÜÂë²»Æ¥Åä!';
-$language['ERR_NO_EMAIL']='emailµØÖ·²»ºÏ·¨';
-$language['USER_EMAIL_AGAIN']='ÖØ¸´emailµØÖ·';
-$language['ERR_NO_EMAIL_AGAIN']='ÖØ¸´ÊäÈëemailµØÖ·';
-$language['DIF_EMAIL']='Á½´ÎÊäÈëµÄemailµØÖ·²»Æ¥Åä!';
-$language['SECURITY_CODE']='Çë»Ø´ðÎÊÌâ';
+//ä¸­æ–‡ç¿»è¯‘:ziggear 
+//ä½ å¯ä»¥è‡ªç”±ä¿®æ”¹å’Œå‘å¸ƒï¼Œä½†ä¸è¦åˆ é™¤æ³¨é‡Šå’Œä½œè€…ä¿¡æ¯ã€‚
+$language['ACCOUNT_CREATED']='å¸å·å·²åˆ›å»º';
+$language['USER_NAME']='ç”¨æˆ·å';
+$language['USER_PWD_AGAIN']='é‡å¤å¯†ç ';
+$language['USER_PWD']='å¯†ç ';
+$language['USER_STYLE']='é»˜è®¤ä¸»é¢˜';
+$language['USER_LANGUE']='è¯­è¨€é€‰æ‹©';
+$language['IMAGE_CODE']='éªŒè¯ç ';
+$language['INSERT_USERNAME']='ä½ å¿…é¡»è¾“å…¥ç”¨æˆ·å!';
+$language['INSERT_PASSWORD']='ä½ å¿…é¡»è¾“å…¥å¯†ç !';
+$language['DIF_PASSWORDS']='ä¸¤æ¬¡è¾“å…¥çš„å¯†ç ä¸åŒ¹é…!';
+$language['ERR_NO_EMAIL']='emailåœ°å€ä¸åˆæ³•';
+$language['USER_EMAIL_AGAIN']='é‡å¤emailåœ°å€';
+$language['ERR_NO_EMAIL_AGAIN']='é‡å¤è¾“å…¥emailåœ°å€';
+$language['DIF_EMAIL']='ä¸¤æ¬¡è¾“å…¥çš„emailåœ°å€ä¸åŒ¹é…!';
+$language['SECURITY_CODE']='è¯·å›žç­”é—®é¢˜';
 # Password strength
-$language['WEEK']='Èõ';
-$language['MEDIUM']='ÖÐ';
-$language['SAFE']='Ç¿';
-$language['STRONG']='¼«Ç¿';
-$language["ERR_GENERIC"]='Ò»°ãÐÔ´íÎó: '.mysql_error();
+$language['WEEK']='å¼±';
+$language['MEDIUM']='ä¸­';
+$language['SAFE']='å¼º';
+$language['STRONG']='æžå¼º';
+$language["ERR_GENERIC"]='ä¸€èˆ¬æ€§é”™è¯¯: '.mysql_error();
 ?>

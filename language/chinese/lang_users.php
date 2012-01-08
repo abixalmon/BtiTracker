@@ -1,21 +1,21 @@
 <?php
-//ÖÐÎÄ·­Òë:ziggear 
-//Äã¿ÉÒÔ×ÔÓÉÐÞ¸ÄºÍ·¢²¼£¬µ«²»ÒªÉ¾³ý×¢ÊÍºÍ×÷ÕßÐÅÏ¢¡£
+//ä¸­æ–‡ç¿»è¯‘:ziggear 
+//ä½ å¯ä»¥è‡ªç”±ä¿®æ”¹å’Œå‘å¸ƒï¼Œä½†ä¸è¦åˆ é™¤æ³¨é‡Šå’Œä½œè€…ä¿¡æ¯ã€‚
 
-$language['FIND_USER']       = 'ËÑË÷ÓÃ»§';
-$language['USER_LEVEL']      = 'ÓÃ»§×é';
-$language['ALL']             = 'È«²¿';
-$language['SEARCH']          = 'ËÑË÷';
-$language['USER_NAME']       = 'ÓÃ»§Ãû';
-$language['USER_LEVEL']      = 'ÓÃ»§×é';
-$language['USER_JOINED']     = '×¢²áÈÕÆÚ';
-$language['USER_LASTACCESS'] = '×îºó·ÃÎÊ';
-$language['USER_COUNTRY']    = 'À´×Ô';
-$language['RATIO']           = '±ÈÂÊ';
-$language['USERS_PM']        = 'Õ¾ÄÚÐÅ';
-$language['EDIT']            = '±à¼­';
-$language['DELETE']          = 'É¾³ý';
-$language['NO_USERS_FOUND']  = 'Ã»ÓÐ·ûºÏÌõ¼þµÄÓÃ»§!';
-$language['UNKNOWN']         = 'Î´Öª';
+$language['FIND_USER']       = 'æœç´¢ç”¨æˆ·';
+$language['USER_LEVEL']      = 'ç”¨æˆ·ç»„';
+$language['ALL']             = 'å…¨éƒ¨';
+$language['SEARCH']          = 'æœç´¢';
+$language['USER_NAME']       = 'ç”¨æˆ·å';
+$language['USER_LEVEL']      = 'ç”¨æˆ·ç»„';
+$language['USER_JOINED']     = 'æ³¨å†Œæ—¥æœŸ';
+$language['USER_LASTACCESS'] = 'æœ€åŽè®¿é—®';
+$language['USER_COUNTRY']    = 'æ¥è‡ª';
+$language['RATIO']           = 'æ¯”çŽ‡';
+$language['USERS_PM']        = 'ç«™å†…ä¿¡';
+$language['EDIT']            = 'ç¼–è¾‘';
+$language['DELETE']          = 'åˆ é™¤';
+$language['NO_USERS_FOUND']  = 'æ²¡æœ‰ç¬¦åˆæ¡ä»¶çš„ç”¨æˆ·!';
+$language['UNKNOWN']         = 'æœªçŸ¥';
 
 ?>

@@ -1,28 +1,28 @@
 <?php
-//ÖÐÎÄ·­Òë:ziggear 
-//Äã¿ÉÒÔ×ÔÓÉÐÞ¸ÄºÍ·¢²¼£¬µ«²»ÒªÉ¾³ý×¢ÊÍºÍ×÷ÕßÐÅÏ¢¡£
-$language['BLOCK_USER']='ÓÃ»§ÐÅÏ¢';
-$language['BLOCK_INFO']='TrackerÐÅÏ¢';
-$language['BLOCK_MENU']='Ö÷²Ëµ¥';
+//ä¸­æ–‡ç¿»è¯‘:ziggear 
+//ä½ å¯ä»¥è‡ªç”±ä¿®æ”¹å’Œå‘å¸ƒï¼Œä½†ä¸è¦åˆ é™¤æ³¨é‡Šå’Œä½œè€…ä¿¡æ¯ã€‚
+$language['BLOCK_USER']='ç”¨æˆ·ä¿¡æ¯';
+$language['BLOCK_INFO']='Trackerä¿¡æ¯';
+$language['BLOCK_MENU']='ä¸»èœå•';
 /* We leave this name (drop down menu) blank so it doesnt use the block head showing its name, it looks unsightly and non professional imho!! TreetopClimber */
 $language['BLOCK_DDMENU']='';
-$language['BLOCK_CALENDAR']='ÈÕÀú'; 
-$language['BLOCK_CLOCK']='µ±Ç°Ê±¼ä';
-$language['BLOCK_FORUM']='ÂÛÌ³';
-$language['BLOCK_LASTMEMBER']='»¶Ó­';
-$language['BLOCK_ONLINE']='ÔÚÏß³ÉÔ±';
-$language['BLOCK_ONTODAY']='½ñÈÕ';//"On Today"
-$language['BLOCK_SHOUTBOX']='º°»°´°';
-$language['BLOCK_TOPTORRENTS']='ÖÖ×ÓÅÅÐÐ';
-$language['BLOCK_LASTTORRENTS']='×îÐÂÉÏ´«';
-$language['BLOCK_NEWS']='×îÐÂ¹«¸æ';
-$language['BLOCK_SERVERLOAD']='·þÎñÆ÷¸ºÔØ';
-$language['BLOCK_POLL']='µ÷²é';
-$language['BLOCK_SEEDWANTED']='ÓÃ»§ÇóÖÖ';
-$language['BLOCK_PAYPAL']='Ö§³ÖÎÒÃÇ';
-$language['BLOCK_MAINTRACKERTOOLBAR']='Tracker¹¤¾ßÀ¸';
-$language['BLOCK_MAINUSERTOOLBAR']='ÓÃ»§¹¤¾ßÀ¸';
-$language['WELCOME_LASTUSER']=' »¶Ó­ÐÂ³ÉÔ±: ';
-$language['BLOCK_MINCLASSVIEW']='×îÐ¡¿É¼ûÓÃ»§×é';
-$language['BLOCK_MAXCLASSVIEW']='×î´ó¿É¼ûÓÃ»§×é';
+$language['BLOCK_CALENDAR']='æ—¥åŽ†'; 
+$language['BLOCK_CLOCK']='å½“å‰æ—¶é—´';
+$language['BLOCK_FORUM']='è®ºå›';
+$language['BLOCK_LASTMEMBER']='æ¬¢è¿Ž';
+$language['BLOCK_ONLINE']='åœ¨çº¿æˆå‘˜';
+$language['BLOCK_ONTODAY']='ä»Šæ—¥';//"On Today"
+$language['BLOCK_SHOUTBOX']='å–Šè¯çª—';
+$language['BLOCK_TOPTORRENTS']='ç§å­æŽ’è¡Œ';
+$language['BLOCK_LASTTORRENTS']='æœ€æ–°ä¸Šä¼ ';
+$language['BLOCK_NEWS']='æœ€æ–°å…¬å‘Š';
+$language['BLOCK_SERVERLOAD']='æœåŠ¡å™¨è´Ÿè½½';
+$language['BLOCK_POLL']='è°ƒæŸ¥';
+$language['BLOCK_SEEDWANTED']='ç”¨æˆ·æ±‚ç§';
+$language['BLOCK_PAYPAL']='æ”¯æŒæˆ‘ä»¬';
+$language['BLOCK_MAINTRACKERTOOLBAR']='Trackerå·¥å…·æ ';
+$language['BLOCK_MAINUSERTOOLBAR']='ç”¨æˆ·å·¥å…·æ ';
+$language['WELCOME_LASTUSER']=' æ¬¢è¿Žæ–°æˆå‘˜: ';
+$language['BLOCK_MINCLASSVIEW']='æœ€å°å¯è§ç”¨æˆ·ç»„';
+$language['BLOCK_MAXCLASSVIEW']='æœ€å¤§å¯è§ç”¨æˆ·ç»„';
 ?>

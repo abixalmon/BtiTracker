@@ -1,37 +1,37 @@
 <?php
-//ÖÐÎÄ·­Òë:ziggear 
-//Äã¿ÉÒÔ×ÔÓÉÐÞ¸ÄºÍ·¢²¼£¬µ«²»ÒªÉ¾³ý×¢ÊÍºÍ×÷ÕßÐÅÏ¢¡£
+//ä¸­æ–‡ç¿»è¯‘:ziggear 
+//ä½ å¯ä»¥è‡ªç”±ä¿®æ”¹å’Œå‘å¸ƒï¼Œä½†ä¸è¦åˆ é™¤æ³¨é‡Šå’Œä½œè€…ä¿¡æ¯ã€‚
 
-$language['USERNAME']           = 'ÓÃ»§Ãû';
+$language['USERNAME']           = 'ç”¨æˆ·å';
 $language['EMAIL']              = 'Email';
-$language['LAST_IP']            = '×îºó·ÃÎÊIP';
-$language['USER_LEVEL']         = 'ÓÃ»§×é';
-$language['USER_JOINED']        = '×¢²áÈÕÆÚ';
-$language['USER_LASTACCESS']    = '×îºó·ÃÎÊ';
-$language['PEER_COUNTRY']       = 'À´×Ô';
-$language['USER_LOCAL_TIME']    = 'ÓÃ»§µ±µØÊ±¼ä';
-$language['DOWNLOADED']         = 'ÏÂÔØ';
-$language['UPLOADED']           = 'ÉÏ´«';
-$language['RATIO']              = 'ÉÏ´«/ÏÂÔØ';
-$language['FORUM']              = 'ÂÛÌ³';
-$language['POSTS']              = '·¢ÌûÊý';
-$language['POSTS_PER_DAY']      = 'ÈÕ¾ù %s Ìû';
-$language['TORRENTS']           = 'ÖÖ×Ó';
-$language['FILE']               = 'ÎÄ¼þÃû';
-$language['ADDED']              = 'ÉÏ´«ÈÕÆÚ';
-$language['SIZE']               = '´óÐ¡';
+$language['LAST_IP']            = 'æœ€åŽè®¿é—®IP';
+$language['USER_LEVEL']         = 'ç”¨æˆ·ç»„';
+$language['USER_JOINED']        = 'æ³¨å†Œæ—¥æœŸ';
+$language['USER_LASTACCESS']    = 'æœ€åŽè®¿é—®';
+$language['PEER_COUNTRY']       = 'æ¥è‡ª';
+$language['USER_LOCAL_TIME']    = 'ç”¨æˆ·å½“åœ°æ—¶é—´';
+$language['DOWNLOADED']         = 'ä¸‹è½½';
+$language['UPLOADED']           = 'ä¸Šä¼ ';
+$language['RATIO']              = 'ä¸Šä¼ /ä¸‹è½½';
+$language['FORUM']              = 'è®ºå›';
+$language['POSTS']              = 'å‘å¸–æ•°';
+$language['POSTS_PER_DAY']      = 'æ—¥å‡ %s å¸–';
+$language['TORRENTS']           = 'ç§å­';
+$language['FILE']               = 'æ–‡ä»¶å';
+$language['ADDED']              = 'ä¸Šä¼ æ—¥æœŸ';
+$language['SIZE']               = 'å¤§å°';
 $language['SHORT_S']            = 'S';
 $language['SHORT_L']            = 'L';
 $language['SHORT_C']            = 'C';
-$language['NO_TORR_UP_USER']    = '¸ÃÓÃ»§Ã»ÓÐÉÏ´«ÈÎºÎÖÖ×Ó!';
-$language['ACTIVE_TORRENT']     = '»î¶¯ÖÖ×Ó';
-$language['PEER_STATUS']        = '×´Ì¬';
-$language['NO_ACTIVE_TORR']     = 'ÔÝÊ±Ã»ÓÐ»î¶¯ÖÖ×Ó';
-$language['PEER_CLIENT']        = '¿Í»§¶Ë';
-$language['EDIT']               = '±à¼­';
-$language['DELETE']             = 'É¾³ý';
-$language['PM']                 = 'Õ¾ÄÚÐÅ';
-$language['BACK']               = '·µ»Ø';
-$language['NO_HISTORY']         = 'ÔÝÊ±Ã»ÓÐÀúÊ·';
-$language['GUEST_DETAILS']      = '·Ã¿ÍÃ»ÓÐ²é¿´ÓÃ»§×ÊÁÏµÄÈ¨ÏÞ!';
+$language['NO_TORR_UP_USER']    = 'è¯¥ç”¨æˆ·æ²¡æœ‰ä¸Šä¼ ä»»ä½•ç§å­!';
+$language['ACTIVE_TORRENT']     = 'æ´»åŠ¨ç§å­';
+$language['PEER_STATUS']        = 'çŠ¶æ€';
+$language['NO_ACTIVE_TORR']     = 'æš‚æ—¶æ²¡æœ‰æ´»åŠ¨ç§å­';
+$language['PEER_CLIENT']        = 'å®¢æˆ·ç«¯';
+$language['EDIT']               = 'ç¼–è¾‘';
+$language['DELETE']             = 'åˆ é™¤';
+$language['PM']                 = 'ç«™å†…ä¿¡';
+$language['BACK']               = 'è¿”å›ž';
+$language['NO_HISTORY']         = 'æš‚æ—¶æ²¡æœ‰åŽ†å²';
+$language['GUEST_DETAILS']      = 'è®¿å®¢æ²¡æœ‰æŸ¥çœ‹ç”¨æˆ·èµ„æ–™çš„æƒé™!';
 ?>

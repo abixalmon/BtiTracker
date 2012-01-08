@@ -1,30 +1,30 @@
 <?php
-//ÖÐÎÄ·­Òë:ziggear 
-//Äã¿ÉÒÔ×ÔÓÉÐÞ¸ÄºÍ·¢²¼£¬µ«²»ÒªÉ¾³ý×¢ÊÍºÍ×÷ÕßÐÅÏ¢¡£
-$language['NOT_SHA']='SHA1 ²»¿ÉÓÃ. ÄãÐèÒª PHP 4.3.0 »ò¸ü¸ß°æ±¾.';
-$language['NOT_AUTHORIZED_UPLOAD']='ÄãÃ»ÓÐÉÏ´«È¨ÏÞ!';
-$language['FILE_UPLOAD_ERROR_1']='ÎÞ·¨¶ÁÈ¡ÒÑÉÏ´«µÄÎÄ¼þ';
-$language['FILE_UPLOAD_ERROR_3']='²»ÔÊÐí´óÐ¡Îª0KBµÄÖÖ×Ó';
-$language['FACOLTATIVE']='¿ÉÑ¡';
-$language['FILE_UPLOAD_ERROR_2']='ÎÄ¼þÉÏ´«·¢Éú´íÎó';
-$language['ERR_PARSER']='ÄãµÄÖÖ×ÓËÆºõ´æÔÚÒ»¸ö´íÎó. ÎÞ·¨±»½âÎöÆ÷½ÓÊÕ.';
-$language['WRITE_CATEGORY']='Äã±ØÐëÑ¡ÔñÖÖ×ÓµÄ·ÖÀà...';
-$language['DOWNLOAD']='ÏÂÔØ';
-$language['MSG_UP_SUCCESS']='ÉÏ´«³É¹¦! ÖÖ×ÓÒÑ±»¼ÓÈëÁÐ±íÖÐ.';
-$language['MSG_DOWNLOAD_PID']='PID ÏµÍ³¶¯Ì¬»ñÈ¡ÁËÄãµÄÖÖ×ÓºÍÄãµÄ PID';
-$language['EMPTY_DESCRIPTION']='Äã±ØÐëÊäÈëÖÖ×ÓµÄÃèÊö!';
-$language['EMPTY_ANNOUNCE']='ÖÖ×ÓµÄAnnounceÎª¿Õ';
-$language['FILE_UPLOAD_ERROR_1']='ÎÞ·¨¶ÁÈ¡ÒÑÉÏ´«µÄÎÄ¼þ';
-$language['FILE_UPLOAD_ERROR_2']='ÎÄ¼þÉÏ´«·¢Éú´íÎó';
-$language['FILE_UPLOAD_ERROR_3']='²»ÔÊÐí´óÐ¡Îª0KBµÄÖÖ×Ó';
-$language['NO_SHA_NO_UP']='ÎÄ¼þÉÏ´«¹¦ÄÜ²»¿ÉÓÃ - Ã»ÓÐ SHA1 º¯Êý.';
-$language['NOT_SHA']='SHA1 º¯Êý²»¿ÉÓÃ. ÄãÐèÒª PHP 4.3.0 »ò¸ü¸ß°æ±¾.';
-$language['ERR_PARSER']='ÄãµÄÖÖ×ÓËÆºõ´æÔÚÒ»¸ö´íÎó. ÎÞ·¨±»½âÎöÆ÷½ÓÊÕ.';
-$language['WRITE_CATEGORY']='Äã±ØÐëÑ¡ÔñÖÖ×ÓµÄ·ÖÀà...';
-$language['ERR_HASH']='Êý¾Ý¹þÏ£Öµ±ØÐëÊÇ40Î»Ê®Áù½øÖÆÊý.';
-$language['ERR_EXTERNAL_NOT_ALLOWED']='²»ÔÊÐíÓÐÍâ²¿ÖÖ×Ó';
-$language['ERR_MOVING_TORR']='ÒÆ¶¯ÖÖ×Ó·¢Éú´íÎó...';
-$language['ERR_ALREADY_EXIST']='´ËÖÖ×Ó¿ÉÄÜÒÑ¾­´æÔÚÓÚ±¾Õ¾Êý¾Ý¿â.';
-$language['MSG_DOWNLOAD_PID']='PID ÏµÍ³¶¯Ì¬»ñÈ¡ÁËÄãµÄÖÖ×ÓºÍÄãµÄ PID';
-$language['MSG_UP_SUCCESS']='ÉÏ´«³É¹¦! ÖÖ×ÓÒÑ±»¼ÓÈëÁÐ±íÖÐ.';
+//ä¸­æ–‡ç¿»è¯‘:ziggear 
+//ä½ å¯ä»¥è‡ªç”±ä¿®æ”¹å’Œå‘å¸ƒï¼Œä½†ä¸è¦åˆ é™¤æ³¨é‡Šå’Œä½œè€…ä¿¡æ¯ã€‚
+$language['NOT_SHA']='SHA1 ä¸å¯ç”¨. ä½ éœ€è¦ PHP 4.3.0 æˆ–æ›´é«˜ç‰ˆæœ¬.';
+$language['NOT_AUTHORIZED_UPLOAD']='ä½ æ²¡æœ‰ä¸Šä¼ æƒé™!';
+$language['FILE_UPLOAD_ERROR_1']='æ— æ³•è¯»å–å·²ä¸Šä¼ çš„æ–‡ä»¶';
+$language['FILE_UPLOAD_ERROR_3']='ä¸å…è®¸å¤§å°ä¸º0KBçš„ç§å­';
+$language['FACOLTATIVE']='å¯é€‰';
+$language['FILE_UPLOAD_ERROR_2']='æ–‡ä»¶ä¸Šä¼ å‘ç”Ÿé”™è¯¯';
+$language['ERR_PARSER']='ä½ çš„ç§å­ä¼¼ä¹Žå­˜åœ¨ä¸€ä¸ªé”™è¯¯. æ— æ³•è¢«è§£æžå™¨æŽ¥æ”¶.';
+$language['WRITE_CATEGORY']='ä½ å¿…é¡»é€‰æ‹©ç§å­çš„åˆ†ç±»...';
+$language['DOWNLOAD']='ä¸‹è½½';
+$language['MSG_UP_SUCCESS']='ä¸Šä¼ æˆåŠŸ! ç§å­å·²è¢«åŠ å…¥åˆ—è¡¨ä¸­.';
+$language['MSG_DOWNLOAD_PID']='PID ç³»ç»ŸåŠ¨æ€èŽ·å–äº†ä½ çš„ç§å­å’Œä½ çš„ PID';
+$language['EMPTY_DESCRIPTION']='ä½ å¿…é¡»è¾“å…¥ç§å­çš„æè¿°!';
+$language['EMPTY_ANNOUNCE']='ç§å­çš„Announceä¸ºç©º';
+$language['FILE_UPLOAD_ERROR_1']='æ— æ³•è¯»å–å·²ä¸Šä¼ çš„æ–‡ä»¶';
+$language['FILE_UPLOAD_ERROR_2']='æ–‡ä»¶ä¸Šä¼ å‘ç”Ÿé”™è¯¯';
+$language['FILE_UPLOAD_ERROR_3']='ä¸å…è®¸å¤§å°ä¸º0KBçš„ç§å­';
+$language['NO_SHA_NO_UP']='æ–‡ä»¶ä¸Šä¼ åŠŸèƒ½ä¸å¯ç”¨ - æ²¡æœ‰ SHA1 å‡½æ•°.';
+$language['NOT_SHA']='SHA1 å‡½æ•°ä¸å¯ç”¨. ä½ éœ€è¦ PHP 4.3.0 æˆ–æ›´é«˜ç‰ˆæœ¬.';
+$language['ERR_PARSER']='ä½ çš„ç§å­ä¼¼ä¹Žå­˜åœ¨ä¸€ä¸ªé”™è¯¯. æ— æ³•è¢«è§£æžå™¨æŽ¥æ”¶.';
+$language['WRITE_CATEGORY']='ä½ å¿…é¡»é€‰æ‹©ç§å­çš„åˆ†ç±»...';
+$language['ERR_HASH']='æ•°æ®å“ˆå¸Œå€¼å¿…é¡»æ˜¯40ä½åå…­è¿›åˆ¶æ•°.';
+$language['ERR_EXTERNAL_NOT_ALLOWED']='ä¸å…è®¸æœ‰å¤–éƒ¨ç§å­';
+$language['ERR_MOVING_TORR']='ç§»åŠ¨ç§å­å‘ç”Ÿé”™è¯¯...';
+$language['ERR_ALREADY_EXIST']='æ­¤ç§å­å¯èƒ½å·²ç»å­˜åœ¨äºŽæœ¬ç«™æ•°æ®åº“.';
+$language['MSG_DOWNLOAD_PID']='PID ç³»ç»ŸåŠ¨æ€èŽ·å–äº†ä½ çš„ç§å­å’Œä½ çš„ PID';
+$language['MSG_UP_SUCCESS']='ä¸Šä¼ æˆåŠŸ! ç§å­å·²è¢«åŠ å…¥åˆ—è¡¨ä¸­.';
 ?>

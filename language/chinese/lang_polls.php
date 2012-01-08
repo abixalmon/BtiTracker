@@ -1,54 +1,54 @@
 <?php
-//ÖĞÎÄ·­Òë:ziggear 
-//Äã¿ÉÒÔ×ÔÓÉĞŞ¸ÄºÍ·¢²¼£¬µ«²»ÒªÉ¾³ı×¢ÊÍºÍ×÷ÕßĞÅÏ¢¡£
+//ä¸­æ–‡ç¿»è¯‘:ziggear 
+//ä½ å¯ä»¥è‡ªç”±ä¿®æ”¹å’Œå‘å¸ƒï¼Œä½†ä¸è¦åˆ é™¤æ³¨é‡Šå’Œä½œè€…ä¿¡æ¯ã€‚
 
 //AJAX Poll System Hack Start - 5:03 PM 3/24/2007
 $language['POLL_ID']='ID';
-$language['LATEST_POLL']='×îĞÂµ÷²é';
-$language['CAST_VOTE']='Í¶ÏÂÎÒµÄÒ»Æ±';
-$language['FETCHING_RESULTS']='¶ÁÈ¡µ÷²é½á¹ûÖĞ. ÇëÉÔºò...';
-$language['POLL_TITLE']='µ÷²éÖ÷Ìâ';
-$language['POLL_TITLE_MISSING']='µ÷²éÖ÷Ìâ¶ªÊ§...';
-$language['POLLING_SYSTEM']='AJAX µ÷²éÏµÍ³';
-$language['CURRENT_POLLS']='²é¿´µ±Ç°µ÷²éÏîÄ¿';
-$language['POLL_STARTED']='¿ªÊ¼ÓÚ';
-$language['POLL_ENDED']='½áÊøÓÚ';
-$language['POLL_LASTED']='×îºó»Ø¸´';
-$language['POLL_BY']='µ÷²é·¢ÆğÈË';
-$language['POLL_VOTES']='µÃÆ±Êı';
-$language['POLL_STILL_ACTIVE']='Ä¿Ç°¿ÉÓÃ';
-$language['POLL_NEW']='ĞÂµ÷²é';
-$language['POLL_START_NEW']='·¢ÆğĞÂµ÷²é';
-$language['POLL_ACTIVE']='ÊÇ·ñ¿ÉÓÃ';
-$language['POLL_ACTIVE_TRUE']='¿ÉÓÃ';
-$language['POLL_ACTIVE_FALSE']='²»¿ÉÓÃ';
-$language['POLL_OPTION']='Ñ¡Ïî';
-$language['POLL_OPTIONS']='Ñ¡Ïî';
-$language['POLL_MOVE']='ÏÂÒÆ';
-$language['POLL_NEW_OPTIONS']='ĞÂÑ¡Ïî';
-$language['POLL_SAVE']='±£´æ';
-$language['POLL_CANCEL']='È¡Ïû';
-$language['POLL_DELETE']='É¾³ıµ÷²é';
-$language['POLL_DEL_CONFIRM']='È·ÊµÒªÉ¾³ı´Ëµ÷²éÂğ?';
-$language['POLL_VOTERS']='²ÎÓëµ÷²éµÄÓÃ»§';
-$language['POLL_IP_ADDRESS']='IPµØÖ·';
-$language['POLL_DATE']='Í¶Æ±ÈÕÆÚ';
-$language['POLL_USER']='Í¶Æ±Õß';
-$language['POLL_ACCOUNT_DEL']='<i>ÒÑÉ¾³ı</i>';
-$language['POLL_BACK']='·µ»Ø';
-$language['YEAR']='Äê';
-$language['MONTH']='ÔÂ';
-$language['WEEK']='ÖÜ';
-$language['DAY']='ÈÕ';
-$language['HOUR']='Ê±';
-$language['MINUTE']='·Ö';
-$language['SECOND']='Ãë';
-$language['YEARS']='Äê';
-$language['MONTHS']='ÔÂ';
-$language['WEEKS']='ÖÜ';
-$language['DAYS']='ÈÕ';
-$language['HOURS']='Ê±';
-$language['MINUTES']='·Ö';
-$language['SECONDS']='Ãë';
+$language['LATEST_POLL']='æœ€æ–°è°ƒæŸ¥';
+$language['CAST_VOTE']='æŠ•ä¸‹æˆ‘çš„ä¸€ç¥¨';
+$language['FETCHING_RESULTS']='è¯»å–è°ƒæŸ¥ç»“æœä¸­. è¯·ç¨å€™...';
+$language['POLL_TITLE']='è°ƒæŸ¥ä¸»é¢˜';
+$language['POLL_TITLE_MISSING']='è°ƒæŸ¥ä¸»é¢˜ä¸¢å¤±...';
+$language['POLLING_SYSTEM']='AJAX è°ƒæŸ¥ç³»ç»Ÿ';
+$language['CURRENT_POLLS']='æŸ¥çœ‹å½“å‰è°ƒæŸ¥é¡¹ç›®';
+$language['POLL_STARTED']='å¼€å§‹äº';
+$language['POLL_ENDED']='ç»“æŸäº';
+$language['POLL_LASTED']='æœ€åå›å¤';
+$language['POLL_BY']='è°ƒæŸ¥å‘èµ·äºº';
+$language['POLL_VOTES']='å¾—ç¥¨æ•°';
+$language['POLL_STILL_ACTIVE']='ç›®å‰å¯ç”¨';
+$language['POLL_NEW']='æ–°è°ƒæŸ¥';
+$language['POLL_START_NEW']='å‘èµ·æ–°è°ƒæŸ¥';
+$language['POLL_ACTIVE']='æ˜¯å¦å¯ç”¨';
+$language['POLL_ACTIVE_TRUE']='å¯ç”¨';
+$language['POLL_ACTIVE_FALSE']='ä¸å¯ç”¨';
+$language['POLL_OPTION']='é€‰é¡¹';
+$language['POLL_OPTIONS']='é€‰é¡¹';
+$language['POLL_MOVE']='ä¸‹ç§»';
+$language['POLL_NEW_OPTIONS']='æ–°é€‰é¡¹';
+$language['POLL_SAVE']='ä¿å­˜';
+$language['POLL_CANCEL']='å–æ¶ˆ';
+$language['POLL_DELETE']='åˆ é™¤è°ƒæŸ¥';
+$language['POLL_DEL_CONFIRM']='ç¡®å®è¦åˆ é™¤æ­¤è°ƒæŸ¥å—?';
+$language['POLL_VOTERS']='å‚ä¸è°ƒæŸ¥çš„ç”¨æˆ·';
+$language['POLL_IP_ADDRESS']='IPåœ°å€';
+$language['POLL_DATE']='æŠ•ç¥¨æ—¥æœŸ';
+$language['POLL_USER']='æŠ•ç¥¨è€…';
+$language['POLL_ACCOUNT_DEL']='<i>å·²åˆ é™¤</i>';
+$language['POLL_BACK']='è¿”å›';
+$language['YEAR']='å¹´';
+$language['MONTH']='æœˆ';
+$language['WEEK']='å‘¨';
+$language['DAY']='æ—¥';
+$language['HOUR']='æ—¶';
+$language['MINUTE']='åˆ†';
+$language['SECOND']='ç§’';
+$language['YEARS']='å¹´';
+$language['MONTHS']='æœˆ';
+$language['WEEKS']='å‘¨';
+$language['DAYS']='æ—¥';
+$language['HOURS']='æ—¶';
+$language['MINUTES']='åˆ†';
+$language['SECONDS']='ç§’';
 //AJAX Poll System Hack Stop
 ?>
