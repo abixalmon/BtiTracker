@@ -67,7 +67,7 @@ $language['SETTING_SEEDS_PID']='Max num. of seeds with same PID';
 $language['SETTING_LEECHERS_PID']='Max num. of leechers with same PID';
 $language['SETTING_VALIDATION']='Validation Mode';
 $language['SETTING_CAPTCHA']='Secure Registration (use ImageCode, GD+Freetype libraries needed)';
-$language['SETTING_FORUM']='Forum link, can be:<br /><li><font color="#FF0000">internal</font> or empty (no value) for internal forum</li><li><font color="#FF0000">smf</font> for integrated <a target="_new" href="http://www.simplemachines.org">Simple Machines Forum</a> (1.x.x)</li><li><font color="#FF0000">smf2</font> for integrated <a target="_new" href="http://www.simplemachines.org">Simple Machines Forum</a> (2.x)</li><li><font color="#FF0000">ipb</font> for integrated <a target="_new" href="www.invisionpower.com">Invision Power Board</a> (3.x.x)</li><li>Your own forum solution (Specify url in the box)</li>';
+$language['SETTING_FORUM']='Forum link, can be:<br /><li><font color="#FF0000">internal</font> or empty (no value) for internal forum</li><li><font color="#FF0000">smf</font> for integrated <a target="_new" href="http://www.simplemachines.org">Simple Machines Forum</a> (1.x.x)</li><li><font color="#FF0000">smf2</font> for integrated <a target="_new" href="http://www.simplemachines.org">Simple Machines Forum</a> (2.x)</li><li><font color="#FF0000">ipb</font> for integrated <a target="_new" href="http://www.invisionpower.com">Invision Power Board</a> (3.x.x)</li><li>Your own forum solution (Specify url in the box)</li>';
 $language['BLOCKS_SETTING']='Index/Blocks page settings';
 $language['SETTING_CLOCK']='Clock type';
 $language['SETTING_FORUMBLOCK']='Forum Block Type';

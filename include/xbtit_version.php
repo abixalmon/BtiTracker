@@ -1,4 +1,4 @@
 <?php
 $tracker_version='2.3.0'; # version
-$tracker_revision='735';  # revision
+$tracker_revision='736';  # revision
 ?>
