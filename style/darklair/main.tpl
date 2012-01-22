@@ -62,7 +62,7 @@
         <if:HAS_RIGHT_COL>
         <td valign="top" width="5" rowspan="2"></td>
         <td id="col" valign="top" width="150"><tag:main_right /></td>
-        <if:HAS_RIGHT_COL>
+        </if:HAS_RIGHT_COL>
         <td valign="top" width="5" rowspan="2"></td>
       </tr>
     </table>
