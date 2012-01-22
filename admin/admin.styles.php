@@ -48,6 +48,7 @@ function read_styles()
             $sres[$i]["style_users"]=mysql_result($res,0,0);
             $sres[$i]["style"]=unesc($sres[$i]["style"]);
             $sres[$i]["style_url"]=unesc($sres[$i]["style_url"]);
+            $sres[$i]["style_type"]=(($sres[$i]["style_type"]==1)?$language["CLA_STYLE"]:(($sres[$i]["style_type"]==2)?$language["ATM_STYLE"]:(($sres[$i]["style_type"]==3)?$language["PET_STYLE"]:$language["UNKNOWN"])));
             $sres[$i]["edit"]="<a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=style&amp;action=edit&amp;id=".$sres[$i]["id"]."\">".image_or_link("$STYLEPATH/images/edit.png","",$language["EDIT"])."</a>";
             $sres[$i]["delete"]="<a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=style&amp;action=delete&amp;id=".$sres[$i]["id"]."\" onclick=\"return confirm('".AddSlashes($language["DELETE_CONFIRM"])."')\">".image_or_link("$STYLEPATH/images/delete.png","",$language["DELETE"])."</a>";
         }
@@ -95,12 +96,12 @@ switch($action)
     case 'save':
       if ($_POST["confirm"]==$language["FRM_CONFIRM"])
         {
-        if ($_POST["style_name"]!="" && $_POST["style_url"]!="")
+        if ($_POST["style_name"]!="" && $_POST["style_url"]!="" && $_POST["style_type"]!="")
           {
             if ($_GET["mode"]=='new')
-              do_sqlquery("INSERT INTO {$TABLE_PREFIX}style (style, style_url) VALUES (".sqlesc($_POST["style_name"]).",".sqlesc("style/".$_POST["style_url"]).")",true);
+              do_sqlquery("INSERT INTO {$TABLE_PREFIX}style (style, style_url, style_type) VALUES (".sqlesc($_POST["style_name"]).",".sqlesc("style/".$_POST["style_url"]).", ".sqlesc(((is_numeric($_POST["style_type"]) && $_POST["style_type"]>=1 && $_POST["style_type"]<=3))?(int)0+$_POST["style_type"]:1).")",true);
             else
-              do_sqlquery("UPDATE {$TABLE_PREFIX}style SET style=".sqlesc($_POST["style_name"]).",style_url=".sqlesc("style/".$_POST["style_url"])." WHERE id=".max(0,$_GET["id"]),true);
+              do_sqlquery("UPDATE {$TABLE_PREFIX}style SET style=".sqlesc($_POST["style_name"]).",style_url=".sqlesc("style/".$_POST["style_url"]).", style_type=".sqlesc(((is_numeric($_POST["style_type"]) && $_POST["style_type"]>=1 && $_POST["style_type"]<=3))?(int)0+$_POST["style_type"]:1)." WHERE id=".max(0,$_GET["id"]),true);
           }
         else
             stderr($language["ERROR"],$language["ALL_FIELDS_REQUIRED"]);
@@ -112,6 +113,11 @@ switch($action)
       $admintpl->set("style_add",true,true);
       $admintpl->set("language",$language);
       $admintpl->set("style_name","");
+      $admintpl->set("style_type","<select name='style_type'>
+            <option value='1' selected='yes'>".$language["CLA_STYLE"]."</option>
+            <option value='2'>".$language["ATM_STYLE"]."</option>
+            <option value='3'>".$language["PET_STYLE"]."</option>
+           </select>");
       $admintpl->set("frm_action","index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=style&amp;action=save&amp;mode=new");
       $admintpl->set("style_combo",styles_combo());
       break;
@@ -121,10 +127,15 @@ switch($action)
         {
           // we should get only 1 style, selected with radio ...
           $id=max(0,$_GET["id"]);
-          $sres=get_result("SELECT style,style_url FROM {$TABLE_PREFIX}style WHERE id=$id",true);
+          $sres=get_result("SELECT style, style_url, style_type FROM {$TABLE_PREFIX}style WHERE id=$id",true);
           $admintpl->set("style_add",true,true);
           $admintpl->set("language",$language);
           $admintpl->set("style_name",$sres[0]["style"]);
+          $admintpl->set("style_type","<select name='style_type'>
+            <option value='1'".(($sres[0]["style_type"]==1)?" selected='yes'":"").">".$language["CLA_STYLE"]."</option>
+            <option value='2'".(($sres[0]["style_type"]==2)?" selected='yes'":"").">".$language["ATM_STYLE"]."</option>
+            <option value='3'".(($sres[0]["style_type"]==3)?" selected='yes'":"").">".$language["PET_STYLE"]."</option>
+           </select>");
           $admintpl->set("frm_action","index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=style&amp;action=save&amp;mode=edit&amp;id=$id");
           $admintpl->set("style_combo",styles_combo(true,$sres[0]["style_url"]));
         }

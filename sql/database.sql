@@ -970,6 +970,7 @@ CREATE TABLE `{$db_prefix}style` (
   `id` int(10) NOT NULL auto_increment,
   `style` varchar(20) NOT NULL default '',
   `style_url` varchar(100) NOT NULL default '',
+  `style_type` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM ;
 
@@ -977,13 +978,13 @@ CREATE TABLE `{$db_prefix}style` (
 -- Dumping data for table `{$db_prefix}style`
 -- 
 
-INSERT INTO `{$db_prefix}style` (`id`, `style`, `style_url`) VALUES
-(1, 'xBtit Default', 'style/xbtit_default'),
-(2, 'Mint', 'style/mintgreen'),
-(3, 'Dark Lair', 'style/darklair'),
-(4, 'Yellow Jacket', 'style/thehive'),
-(5, 'Frosted', 'style/frosted'),
-(6, 'Holiday Spirit', 'style/holiday-spirit');
+INSERT INTO `{$db_prefix}style` (`id`, `style`, `style_url`, `style_type`) VALUES
+(1, 'xBtit Default', 'style/xbtit_default', 3),
+(2, 'Mint', 'style/mintgreen', 3),
+(3, 'Dark Lair', 'style/darklair', 3),
+(4, 'Yellow Jacket', 'style/thehive', 3),
+(5, 'Frosted', 'style/frosted', 3),
+(6, 'Holiday Spirit', 'style/holiday-spirit, 3);
 -- --------------------------------------------------------
 
 -- 

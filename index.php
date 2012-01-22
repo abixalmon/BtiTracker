@@ -85,34 +85,6 @@ session_start();
 
 dbconn(true);
 
-if (empty($_SESSION['CURUSER']['style_url']))
-{
-  // get user's style
-  $resheet=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}style where id=".$CURUSER["style"]." LIMIT 1",TRUE,$btit_settings["cache_duration"]);
-  if (!$resheet)
-     {
-
-     $STYLEPATH="$THIS_BASEPATH/style/xbtit_default";
-     $STYLEURL="$BASEURL/style/xbtit_default";
-
-  }
-  else
-      {
-          $resstyle=mysql_fetch_array($resheet);
-          $STYLEPATH="$THIS_BASEPATH/".$resstyle["style_url"];
-          $STYLEURL="$BASEURL/".$resstyle["style_url"];
-  }
-
-  $_SESSION['CURUSER']['style_url']=$STYLEURL;
-  $_SESSION['CURUSER']['style_path']=$STYLEPATH;
-}
-else
-{
-  $STYLEURL=$_SESSION['CURUSER']['style_url'];
-  $STYLEPATH=$_SESSION['CURUSER']['style_path'];
-
-}
-
 $style_css=load_css("main.css");
 
 $idlang=intval($_GET["language"]);
@@ -120,30 +92,6 @@ $idlang=intval($_GET["language"]);
 $pageID=(isset($_GET["page"])?$_GET["page"]:"");
 
 $no_columns=(isset($_GET["nocolumns"]) && intval($_GET["nocolumns"])==1?true:false);
-
-// getting user language
-if (empty($_SESSION['CURUSER']['language_path']))
-{
-  if ($idlang==0)
-     $reslang=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}language WHERE id=".$CURUSER["language"]." LIMIT 1",TRUE,$btit_settings["cache_duration"]);
-  else
-     $reslang=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}language WHERE id=$idlang"." LIMIT 1",TRUE,$btit_settings["cache_duration"]);
-
-  if (!$reslang)
-     {
-     $USERLANG="$THIS_BASEPATH/language/english";
-     }
-  else
-      {
-          $rlang=mysql_fetch_array($reslang);
-          $USERLANG="$THIS_BASEPATH/".$rlang["language_url"];
-      }
-  $_SESSION['CURUSER']['language_path']=$USERLANG;
-}
-else
-{
-  $USERLANG=$_SESSION['CURUSER']['language_path'];
-}
 
 //which module by cooly
 if($pageID=="modules")

@@ -432,7 +432,7 @@ function hash_pad($hash) {
 
 function userlogin()
 {
-    global $CURUSER, $TABLE_PREFIX, $err_msg_install, $btit_settings, $update_interval, $THIS_BASEPATH;
+    global $CURUSER, $TABLE_PREFIX, $err_msg_install, $btit_settings, $update_interval, $THIS_BASEPATH, $STYLEPATH, $STYLEURL, $STYLETYPE, $BASEURL, $USERLANG;
 
     unset($GLOBALS['CURUSER']);
 
@@ -507,7 +507,7 @@ function userlogin()
 
     if($id>1)
     {
-        $res = do_sqlquery("SELECT u.salt, u.pass_type, u.lip, u.cip, $udownloaded as downloaded, $uuploaded as uploaded, u.smf_fid, u.ipb_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = $id LIMIT 1;",true);
+        $res = do_sqlquery("SELECT u.salt, u.pass_type, u.lip, u.cip, $udownloaded as downloaded, $uuploaded as uploaded, u.smf_fid, u.ipb_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.*, `s`.`style_url`, `s`.`style_type`, `l`.`language_url` FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id LEFT JOIN `{$TABLE_PREFIX}style` `s` ON `u`.`style`=`s`.`id` LEFT JOIN `{$TABLE_PREFIX}language` `l` ON `u`.`language`=`l`.`id` WHERE u.id = $id LIMIT 1;",true);
         $row = mysql_fetch_assoc($res);
 
         if($btit_settings["secsui_cookie_type"]==1)
@@ -601,7 +601,7 @@ function userlogin()
     }
     if($id==1)
     {
-        $res = do_sqlquery("SELECT u.salt, u.pass_type, u.lip, u.cip, $udownloaded as downloaded, $uuploaded as uploaded, u.smf_fid, u.ipb_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.* FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id WHERE u.id = 1 LIMIT 1;",true);
+        $res = do_sqlquery("SELECT u.salt, u.pass_type, u.lip, u.cip, $udownloaded as downloaded, $uuploaded as uploaded, u.smf_fid, u.ipb_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.*, `s`.`style_url`, `s`.`style_type`, `l`.`language_url` FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id LEFT JOIN `{$TABLE_PREFIX}style` `s` ON `u`.`style`=`s`.`id` LEFT JOIN `{$TABLE_PREFIX}language` `l` ON `u`.`language`=`l`.`id` WHERE u.id = 1 LIMIT 1;",true);
         $row = mysql_fetch_assoc($res);
     }
 
@@ -611,9 +611,22 @@ function userlogin()
     else
         $err_msg_install='';
 
-    $_SESSION["CURUSER"]= $row;
+    if(!isset($STYLEPATH) || empty($STYLEPATH))
+        $STYLEPATH=$THIS_BASEPATH."/".((is_null($row["style_url"]))?"style/xbtit_default":$row["style_url"]);
+    if(!isset($STYLEURL) || empty($STYLEURL))
+        $STYLEURL=$BASEURL."/".((is_null($row["style_url"]))?"style/xbtit_default":$row["style_url"]);
+    if(!isset($STYLETYPE) || empty($STYLETYPE))
+        $STYLETYPE=((is_null($row["style_type"]))?3:(int)0+$row["style_type"]);
+    if(!isset($USERLANG) || empty($USERLANG))
+        $USERLANG=((is_null($row["language_url"]))?$THIS_BASEPATH."/language/english":$THIS_BASEPATH."/".$row["language_url"]);
+
+    $_SESSION["CURUSER"]=$row;
+    $_SESSION["CURUSER"]["style_url"]=$STYLEURL;
+    $_SESSION["CURUSER"]["style_path"]=$STYLEPATH;
+    $_SESSION["CURUSER"]["style_type"]=$STYLETYPE;
+    $_SESSION["CURUSER"]["language_path"]=$USERLANG;
     $_SESSION["CURUSER_EXPIRE"] = (time()+$btit_settings["cache_duration"]);
-    $GLOBALS['CURUSER'] = $row;
+    $GLOBALS["CURUSER"] = $_SESSION["CURUSER"];
 
     mysql_free_result($res);
     unset($row);
@@ -911,50 +924,176 @@ function print_username()
 # End
 # Begin standard foot tags!
 
-function stdfoot($normalpage=true, $update=true, $adminpage=false, $torrentspage=false, $forumpage=false) {
-  global $STYLEPATH, $tpl, $no_columns;
+function stdfoot($normalpage=true, $update=true, $adminpage=false, $torrentspage=false, $forumpage=false)
+{
+    global $STYLEPATH, $tpl, $no_columns, $PRINT_DEBUG, $STYLETYPE;
+    
+    $tpl->set('to_top',print_top());
+    $tpl->set('tracker_url',print_trackerurl());
+    $tpl->set('site_name',print_sitename());
+    $tpl->set('user_name',print_username());
+    $tpl->set('main_footer',bottom_menu()."<br />\n");
+    $tpl->set('xbtit_version',print_version());
+    $tpl->set('style_copyright',print_designer());
+    $tpl->set('xbtit_debug', (($PRINT_DEBUG)?print_debug():""));
 
-  $tpl->set('to_top',print_top());
-  $tpl->set('tracker_url',print_trackerurl());
-  $tpl->set('site_name',print_sitename());
-  $tpl->set('user_name',print_username());
-  $tpl->set('main_footer',bottom_menu()."<br />\n");
-  $tpl->set('xbtit_version',print_version());
-  $tpl->set('style_copyright',print_designer());
-  $tpl->set('xbtit_debug',print_debug());
+    if($STYLETYPE==2)
+    {
+        // It's a style modified for atmoner's original system
 
-// Improvement of template by atmoner
-if ($normalpage && !$no_columns) {
-       	$tpl->set("RIGHT_COL",TRUE,TRUE);
-    	$tpl->set("LEFT_COL",TRUE,TRUE);
-    	$tpl->set("NO_HEADER",TRUE,TRUE);
-    	$tpl->set("NO_FOOTER",TRUE,TRUE);
+        // Improvement of template by atmoner
+        if ($normalpage && !$no_columns)
+        {
+            $tpl->set("RIGHT_COL", true, true);
+            $tpl->set("LEFT_COL", true, true);
+            $tpl->set("NO_HEADER", true, true);
+            $tpl->set("NO_FOOTER", true, true);
+        }
+        elseif ($adminpage)
+        {
+            $tpl->set("RIGHT_COL", false, true);
+            $tpl->set("LEFT_COL", true, true);
+            $tpl->set("NO_HEADER", true, true);
+            $tpl->set("NO_FOOTER", true, true);
+        }
+        elseif ($torrentspage || $forumpage || $no_columns==1)
+        {
+            $tpl->set("RIGHT_COL", false, true);
+            $tpl->set("LEFT_COL", false, true);
+            $tpl->set("NO_HEADER", true, true);
+            $tpl->set("NO_FOOTER", true, true);
+        }
+        else
+        {
+            $tpl->set("RIGHT_COL", false, true);
+            $tpl->set("LEFT_COL", false, true);
+            $tpl->set("NO_HEADER", false, true);
+            $tpl->set("NO_FOOTER", false, true);
+        }
+        echo $tpl->fetch(load_template('main.tpl'));
+    }
+    elseif($STYLETYPE==3)
+    {
+        // It's a style modified for Petr1fied's enhanced version of atmoner's system.
+        $tpl->set("TYPE1_EXCLUSIVE_1", false, true);
+        $tpl->set("TYPE1_EXCLUSIVE_2", false, true);
+        $tpl->set("TYPE1_EXCLUSIVE_3", false, true);
+        $tpl->set("TYPE1_EXCLUSIVE_4", false, true);
+        $tpl->set("TYPE1_EXCLUSIVE_5", false, true);
 
-  } elseif ($adminpage) {
-        $tpl->set("RIGHT_COL",FALSE,TRUE);
-    	$tpl->set("LEFT_COL",TRUE,TRUE);
-    	$tpl->set("NO_HEADER",TRUE,TRUE);
-    	$tpl->set("NO_FOOTER",TRUE,TRUE);
+        $tpl->set("TYPE2_EXCLUSIVE_1", false, true);
+        $tpl->set("TYPE2_EXCLUSIVE_2", false, true);
+        $tpl->set("TYPE2_EXCLUSIVE_3", false, true);
+        $tpl->set("TYPE2_EXCLUSIVE_4", false, true);
+        $tpl->set("TYPE2_EXCLUSIVE_5", false, true);
 
- } elseif ($torrentspage || $forumpage || $no_columns==1) {
-     	$tpl->set("RIGHT_COL",FALSE,TRUE);
-    	$tpl->set("LEFT_COL",FALSE,TRUE);
-    	$tpl->set("NO_HEADER",TRUE,TRUE);
-    	$tpl->set("NO_FOOTER",TRUE,TRUE);
+        $tpl->set("TYPE3_EXCLUSIVE_1", false, true);
+        $tpl->set("TYPE3_EXCLUSIVE_2", false, true);
+        $tpl->set("TYPE3_EXCLUSIVE_3", false, true);
+        $tpl->set("TYPE3_EXCLUSIVE_4", false, true);
+        $tpl->set("TYPE3_EXCLUSIVE_5", false, true);
 
- } else {
-      	$tpl->set("RIGHT_COL",FALSE,TRUE);
-    	$tpl->set("LEFT_COL",FALSE,TRUE);
-    	$tpl->set("NO_HEADER",FALSE,TRUE);
-    	$tpl->set("NO_FOOTER",FALSE,TRUE);
+        $tpl->set("TYPE4_EXCLUSIVE_1", false, true);
+        $tpl->set("TYPE4_EXCLUSIVE_2", false, true);
+        $tpl->set("TYPE4_EXCLUSIVE_3", false, true);
+        $tpl->set("TYPE4_EXCLUSIVE_4", false, true);
+        $tpl->set("TYPE4_EXCLUSIVE_5", false, true);
 
-}
+        if ($normalpage && !$no_columns)
+        {
+            $tpl->set("HAS_LEFT_COL", true, true);
+       	    $tpl->set("HAS_RIGHT_COL", true, true);
+            $tpl->set("IS_DISPLAYED_1", true, true);
+            $tpl->set("IS_DISPLAYED_2", true, true);
+            $tpl->set("IS_DISPLAYED_3", true, true);
+            $tpl->set("IS_DISPLAYED_4", true, true);
+            $tpl->set("IS_DISPLAYED_5", true, true);
+            $tpl->set("TYPE1_EXCLUSIVE_1", true, true);
+            $tpl->set("TYPE1_EXCLUSIVE_2", true, true);
+            $tpl->set("TYPE1_EXCLUSIVE_3", true, true);
+            $tpl->set("TYPE1_EXCLUSIVE_4", true, true);
+            $tpl->set("TYPE1_EXCLUSIVE_5", true, true);
+        }
+        elseif ($adminpage)
+        {
+            $tpl->set("HAS_LEFT_COL", true, true);
+            $tpl->set("HAS_RIGHT_COL", false, true);
+            $tpl->set("IS_DISPLAYED_1", true, true);
+            $tpl->set("IS_DISPLAYED_2", true, true);
+            $tpl->set("IS_DISPLAYED_3", true, true);
+            $tpl->set("IS_DISPLAYED_4", true, true);
+            $tpl->set("IS_DISPLAYED_5", true, true);
+            $tpl->set("TYPE2_EXCLUSIVE_1", true, true);
+            $tpl->set("TYPE2_EXCLUSIVE_2", true, true);
+            $tpl->set("TYPE2_EXCLUSIVE_3", true, true);
+            $tpl->set("TYPE2_EXCLUSIVE_4", true, true);
+            $tpl->set("TYPE2_EXCLUSIVE_5", true, true);
+        }
+        elseif ($torrentspage || $forumpage || $no_columns==1)
+        {
+            $tpl->set("HAS_LEFT_COL", false, true);
+           	$tpl->set("HAS_RIGHT_COL", false, true);
+            $tpl->set("IS_DISPLAYED_1", true, true);
+            $tpl->set("IS_DISPLAYED_2", true, true);
+            $tpl->set("IS_DISPLAYED_3", true, true);
+            $tpl->set("IS_DISPLAYED_4", true, true);
+            $tpl->set("IS_DISPLAYED_5", true, true);
+            $tpl->set("IS_DISPLAYED_5", true, true);
+            $tpl->set("TYPE3_EXCLUSIVE_1", true, true);
+            $tpl->set("TYPE3_EXCLUSIVE_2", true, true);
+            $tpl->set("TYPE3_EXCLUSIVE_3", true, true);
+            $tpl->set("TYPE3_EXCLUSIVE_4", true, true);
+            $tpl->set("TYPE3_EXCLUSIVE_5", true, true);
+        }
+        else
+        {
+            $tpl->set("HAS_LEFT_COL", false, true);
+       	    $tpl->set("HAS_RIGHT_COL", false, true);
+            $tpl->set("IS_DISPLAYED_1", false, true);
+            $tpl->set("IS_DISPLAYED_2", false, true);
+            $tpl->set("IS_DISPLAYED_3", false, true);
+            $tpl->set("IS_DISPLAYED_4", false, true);
+            $tpl->set("IS_DISPLAYED_5", false, true);
+            $tpl->set("IS_DISPLAYED_5", false, true);
+            $tpl->set("TYPE4_EXCLUSIVE_1", true, true);
+            $tpl->set("TYPE4_EXCLUSIVE_2", true, true);
+            $tpl->set("TYPE4_EXCLUSIVE_3", true, true);
+            $tpl->set("TYPE4_EXCLUSIVE_4", true, true);
+            $tpl->set("TYPE4_EXCLUSIVE_5", true, true);
+        }
+        echo $tpl->fetch(load_template('main.tpl'));
+    }
+    else
+    {
+        // It's an original style type. Also default to this if there's an unknown value for the $STYLETYPE variable.
+        if ($normalpage && !$no_columns)
+            echo $tpl->fetch(load_template('main.tpl')); 
+        elseif ($adminpage)
+        {
+            if(file_exists(load_template('main.left_column.tpl')))
+                echo $tpl->fetch(load_template('main.left_column.tpl'));
+            else
+                echo $tpl->fetch(load_template('main.tpl'));
+        }
+        elseif ($torrentspage || $forumpage || $no_columns==1)
+        {
+            if(file_exists(load_template('main.no_columns.tpl')))
+                echo $tpl->fetch(load_template('main.no_columns.tpl'));
+            else
+                echo $tpl->fetch(load_template('main.tpl'));
+        }
+        else
+        {
+            if(file_exists(load_template('main.no_header_1_column.tpl')))
+                echo $tpl->fetch(load_template('main.no_header_1_column.tpl'));
+            else
+                echo $tpl->fetch(load_template('main.tpl'));
+        } 
+    }
+    ob_end_flush();
 
-    echo $tpl->fetch(load_template('main.tpl')); 
-  ob_end_flush();
-
-  if ($update)
-    register_shutdown_function('updatedata');
+    if ($update)
+        register_shutdown_function('updatedata');
 }
 
 function linkcolor($num) {
