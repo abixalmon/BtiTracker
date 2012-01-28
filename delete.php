@@ -114,7 +114,7 @@ $torrent["catname"]=$row["cat_name"];
 $torrent["size"]=makesize($row["size"]);
 include(dirname(__FILE__)."/include/offset.php");
 $torrent["date"]=date("d/m/Y",$row["data"]-$offset);
-if (!$XBT_USE)
+if (!$XBTT_USE)
 {
    if ($row["speed"] < 0) {
      $speed = "N/D";
