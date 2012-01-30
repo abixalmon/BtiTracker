@@ -80,13 +80,8 @@ else
 
 $combo_categories=categories( $category[0] );
 
-if(isset($_GET["active"]))
-{
-    $active=intval($_GET["active"]);
-} else {
-    $active=1;
-}
-// all
+(isset($_GET["active"]) && is_numeric($_GET["active"]) && $_GET["active"]>=0 && $_GET["active"]<=2) ? $active=intval($_GET["active"]) : $active=1;
+
 if($active==0)
 {
     $where = " WHERE 1=1";
