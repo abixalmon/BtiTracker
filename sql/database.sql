@@ -1064,7 +1064,7 @@ INSERT INTO `{$db_prefix}timezone` (`difference`, `timezone`) VALUES
 ('4.5', '(GMT + 4:30 hours) Kabul'),
 ('5', '(GMT + 5:00 hours) Ekaterinburg, Karachi, Tashkent'),
 ('5.5', '(GMT + 5:30 hours) Bombay, Calcutta, Madras, New Delhi'),
-('6', '(GMT + 6:00 hours) Almaty, Colomba, Dhakra'),
+('6', '(GMT + 6:00 hours) Almaty, Colomba, Dhaka'),
 ('7', '(GMT + 7:00 hours) Bangkok, Hanoi, Jakarta'),
 ('8', '(GMT + 8:00 hours) Hong Kong, Perth, Singapore, Taipei'),
 ('9', '(GMT + 9:00 hours) Osaka, Sapporo, Seoul, Tokyo, Yakutsk'),
