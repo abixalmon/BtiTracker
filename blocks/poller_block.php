@@ -38,7 +38,7 @@ if ($GLOBALS["ajax_poller"])
 
   if (!$CURUSER || $CURUSER["view_users"]=="yes")
     {
-      print("<a name=\"poll\" />");
+      print("<a name=\"poll\" /></a>");
       block_begin(LATEST_POLL);
   ?>
   <table border="0" class="block" cellspacing="0" cellpadding="0" width="100%"><tr><td align="center">
