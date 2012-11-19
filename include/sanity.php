@@ -102,7 +102,7 @@ function do_sanity() {
          
          // deleting orphan image in torrent's folder (if image code is enabled)
          $tordir=realpath("$CURRENTPATH/../$TORRENTSDIR");
-         if ($dir = @opendir($tordir."/"));
+         if ($dir = @opendir($tordir."/"))
            {
             while(false !== ($file = @readdir($dir)))
                {

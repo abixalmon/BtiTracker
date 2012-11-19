@@ -639,8 +639,7 @@ mysql_free_result($results);
 // only with the difference between stored down/up and sended by client
 if ($LIVESTATS)
   {
-     // changed peer_id with pid/ip 485
-     $resstat=mysql_query("SELECT uploaded, downloaded FROM {$TABLE_PREFIX}peers WHERE ".($PRIVATE_ANNOUNCE?"pid=\"$pid\"":"ip=\"$ip\"")." AND infohash=\"$info_hash\"");
+     $resstat = mysql_query("SELECT `uploaded`, `downloaded` FROM `{$TABLE_PREFIX}peers` WHERE ".(($PRIVATE_ANNOUNCE)?"`pid`='".$pid."'":"`ip`='".$ip."'")." AND `infohash`='".$info_hash."' AND `peer_id`='".$peer_id."'");
      if ($resstat && mysql_num_rows($resstat)>0)
          {
          $livestat=mysql_fetch_assoc($resstat);
