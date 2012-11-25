@@ -49,6 +49,9 @@ include("$THIS_BASEPATH/btemplate/bTemplate.php");
 
 require("$THIS_BASEPATH/include/functions.php");
 
+session_name("xbtit");
+session_start();
+dbconn(true);
 
 
 // If they've updated to SMF 2.0 and their tracker settings still thinks they're using SMF 1.x.x force an update
@@ -79,11 +82,6 @@ $time_start = get_microtime();
 //require_once ("$THIS_BASEPATH/include/config.php");
 
 clearstatcache();
-
-session_name("xbtit");
-session_start();
-
-dbconn(true);
 
 $style_css=load_css("main.css");
 
