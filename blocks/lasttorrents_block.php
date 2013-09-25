@@ -118,8 +118,8 @@ if (max(0,$CURUSER["WT"])>0)
             {
               if ($GLOBALS["usepopup"])
                 {
-                echo "\n\t<td align=\"center\" class=\"".linkcolor($data["seeds"])."\" style=\"text-align: center;\"><a class=\"lasttor\" href=\"javascript:poppeer('index.php?page=peers&amp;id=".$data["hash"]."');\" title=\"".$language["PEERS_DETAILS"]."\">" . $data["seeds"] . "</a></td>\n";
-                echo "\n\t<td align=\"center\" class=\"".linkcolor($data["leechers"])."\" style=\"text-align: center;\"><a class=\"lasttor\" href=\"javascript:poppeer('index.php?page=peers&amp;id=".$data["hash"]."');\" title=\"".$language["PEERS_DETAILS"]."\">" .$data["leechers"] . "</a></td>\n";
+                echo "\n\t<td align=\"center\" class=\"lista ".linkcolor($data["seeds"])."\" style=\"text-align: center;\"><a class=\"lasttor\" href=\"javascript:poppeer('index.php?page=peers&amp;id=".$data["hash"]."');\" title=\"".$language["PEERS_DETAILS"]."\">" . $data["seeds"] . "</a></td>\n";
+                echo "\n\t<td align=\"center\" class=\"lista ".linkcolor($data["leechers"])."\" style=\"text-align: center;\"><a class=\"lasttor\" href=\"javascript:poppeer('index.php?page=peers&amp;id=".$data["hash"]."');\" title=\"".$language["PEERS_DETAILS"]."\">" .$data["leechers"] . "</a></td>\n";
                 if ($data["finished"]>0)
                    echo "\n\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\"><a class=\"lasttor\" href=\"javascript:poppeer('index.php?page=torrent_history&amp;id=".$data["hash"]."');\" title=\"History - ".$data["filename"]."\">" . $data["finished"] . "</a></td>";
                 else
@@ -128,8 +128,8 @@ if (max(0,$CURUSER["WT"])>0)
                 }
               else
                 {
-                echo "\n\t<td align=\"center\" class=\"".linkcolor($data["seeds"])."\" style=\"text-align: center;\"><a class=\"lasttor\" href=\"index.php?page=peers&amp;id=".$data["hash"]."\" title=\"".$language["PEERS_DETAILS"]."\">" . $data["seeds"] . "</a></td>\n";
-                echo "\n\t<td align=\"center\" class=\"".linkcolor($data["leechers"])."\" style=\"text-align: center;\"><a class=\"lasttor\" href=\"index.php?page=peers&amp;id=".$data["hash"]."\" title=\"".$language["PEERS_DETAILS"]."\">" .$data["leechers"] . "</a></td>\n";
+                echo "\n\t<td align=\"center\" class=\"lista ".linkcolor($data["seeds"])."\" style=\"text-align: center;\"><a class=\"lasttor\" href=\"index.php?page=peers&amp;id=".$data["hash"]."\" title=\"".$language["PEERS_DETAILS"]."\">" . $data["seeds"] . "</a></td>\n";
+                echo "\n\t<td align=\"center\" class=\"lista ".linkcolor($data["leechers"])."\" style=\"text-align: center;\"><a class=\"lasttor\" href=\"index.php?page=peers&amp;id=".$data["hash"]."\" title=\"".$language["PEERS_DETAILS"]."\">" .$data["leechers"] . "</a></td>\n";
                 if ($data["finished"]>0)
                    echo "\n\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\"><a class=\"lasttor\" href=\"index.php?page=torrent_history&amp;id=".$data["hash"]."\" title=\"History - ".$data["filename"]."\">" . $data["finished"] . "</a></td>";
                 else
@@ -140,8 +140,8 @@ if (max(0,$CURUSER["WT"])>0)
            else
              {
                // linkcolor
-               echo "\n\t<td align=\"center\" width=\"30\" class=\"".linkcolor($data["seeds"])."\" style=\"text-align: center;\">" . $data["seeds"] . "</td>";
-               echo "\n\t<td align=\"center\" width=\"30\" class=\"".linkcolor($data["leechers"])."\" style=\"text-align: center;\">" .$data["leechers"] . "</td>";
+               echo "\n\t<td align=\"center\" width=\"30\" class=\"lista ".linkcolor($data["seeds"])."\" style=\"text-align: center;\">" . $data["seeds"] . "</td>";
+               echo "\n\t<td align=\"center\" width=\"30\" class=\"lista ".linkcolor($data["leechers"])."\" style=\"text-align: center;\">" .$data["leechers"] . "</td>";
                if ($data["finished"]>0)
                   echo "\n\t<td align=\"center\" width=\"40\" class=\"lista\" style=\"text-align: center;\">" . $data["finished"] . "</td>";
                else
