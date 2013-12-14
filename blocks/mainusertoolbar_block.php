@@ -31,21 +31,32 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 global $CURUSER, $FORUMLINK, $db_prefix, $btit_settings, $language, $ipb_prefix;
+?>
+<script type="text/javascript">
+function newpm() {
+<!--
+var answer = confirm ("You have a new PM, please click OK to go to your PM Inbox.")
+if (answer)
+window.location='index.php?page=usercp&uid=<?php echo $CURUSER["uid"]; ?>&do=pm&action=list&what=inbox'
+// -->
+}
+</script>
+<?php
 
   if (isset($CURUSER) && $CURUSER && $CURUSER["uid"]>1)
   {
   print("<form name=\"jump1\" action=\"index.php\" method=\"post\">\n");
 ?>
-<table cellpadding="0" cellspacing="0" width="100%">
+<table class="lista" cellpadding="0" cellspacing="0" width="100%">
 <tr>
 <?php
 $style=style_list();
 $langue=language_list();
-
-print("<td style=\"text-align:center;\" align=\"center\">".$language["USER_LEVEL"].": ".$CURUSER["level"]."</td>\n");
-print("<td class=\"green\" align=\"center\">&uarr;&nbsp;".makesize($CURUSER['uploaded']));
-print("</td><td class=\"red\" align=\"center\">&darr;&nbsp;".makesize($CURUSER['downloaded']));
-print("</td><td class=\"yellow\" align=\"center\">(SR ".($CURUSER['downloaded']>0?number_format($CURUSER['uploaded']/$CURUSER['downloaded'],2):"---").")</td>\n");
+print("<td align=\"left\" style=\"text-align:left;\"><b>".$language["WELCOME_BACK"]." ".$CURUSER["username"]."</b></td>\n");
+print("<td style=\"text-align:left;\" align=\"left\"><b>".$language["USER_LEVEL"].": ".$CURUSER["level"]."</b></td></tr><tr>\n");
+print("<td class=\"green\" style=\"text-align:right;\" align=\"center\">&uarr;&nbsp;".makesize($CURUSER['uploaded']));
+print("</td><td class=\"red\" style=\"text-align:center;\" align=\"left\">&nbsp;&darr;&nbsp;".makesize($CURUSER['downloaded']));
+print("</td><td class=\"yellow\" style=\"text-align:left;\" align=\"left\">&nbsp;(SR ".($CURUSER['downloaded']>0?number_format($CURUSER['uploaded']/$CURUSER['downloaded'],2):"---").")</td>\n");
 if ($CURUSER["admin_access"]=="yes")
    print("\n<td align=\"center\" style=\"text-align:center;\"><a class=\"mainuser\" href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."\">".$language["MNU_ADMINCP"]."</a></td>\n");
 
@@ -60,15 +71,22 @@ else
 if ($resmail && count($resmail)>0)
    {
     $mail=$resmail[0];
-    if ($mail['ur']>0)
+    if ($mail['ur']>0) {
+
+       if (substr($_SERVER['PHP_SELF'], -10)!="index.php?page=usercp")
+       print( "<script language=\"javascript\">newpm();</script>");
        print("<td style=\"text-align:center;\" align=\"center\"><a class=\"mainuser\" href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."&amp;do=pm&amp;action=list\">".$language["MAILBOX"]."</a> (<font color=\"#FF0000\"><b>".$mail['ur']."</b></font>)</td>\n");
+}
+
     else
+		
         print("<td style=\"text-align:center;\" align=\"center\"><a class=\"mainuser\" href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."&amp;do=pm&amp;action=list\">".$language["MAILBOX"]."</a></td>\n");
    }
 else
     print("<td style=\"text-align:center;\" align=\"center\"><a class=\"mainuser\" href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."&amp;do=pm&amp;action=list\">".$language["MAILBOX"]."</a></td>\n");
 
 print("\n<td style=\"text-align:center;\"><select name=\"style\" size=\"1\" onchange=\"location=document.jump1.style.options[document.jump1.style.selectedIndex].value\">");
+
 foreach($style as $a)
                {
                print("<option ");
@@ -108,7 +126,7 @@ else
     <table class="lista" border="0" width="100%" cellpadding="4" cellspacing="1">
     <tr>
     <td class="lista" align="left">
-      <table border="0" cellpadding="0" cellspacing="0">
+      <table border="0" cellpadding="0" cellspacing="10">
       <tr>
       <td align="right" class="lista"><?php echo $language["USER_NAME"]?>:</td>
       <td class="lista"><input type="text" size="15" name="uid" value="<?php $user ?>" maxlength="40" style="font-size:10px" /></td>
