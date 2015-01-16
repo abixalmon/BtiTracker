@@ -79,9 +79,9 @@ switch ($action)
         }
 
         do_sqlquery("DELETE FROM {$TABLE_PREFIX}topics WHERE id=$topicid",true);
-        $numtopic=mysql_affected_rows();
+        $numtopic=mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
         do_sqlquery("DELETE FROM {$TABLE_PREFIX}posts WHERE topicid=$topicid",true);
-        $numposts=mysql_affected_rows();
+        $numposts=mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
         do_sqlquery("DELETE FROM {$TABLE_PREFIX}readposts WHERE topicid=$topicid",true);
 
         do_sqlquery("UPDATE {$TABLE_PREFIX}forums SET topiccount=topiccount-$numtopic,postcount=postcount-$numposts WHERE id=$forumid",true);
@@ -102,27 +102,27 @@ switch ($action)
 
         $res = do_sqlquery("SELECT minclasswrite FROM {$TABLE_PREFIX}forums WHERE id=$forumid",true);
 
-        if (mysql_num_rows($res) != 1)
+        if (mysqli_num_rows($res) != 1)
             stderr($language["ERROR"],$language["ERR_FORUM_NOT_FOUND"]);
 
-        $arr = mysql_fetch_row($res);
+        $arr = mysqli_fetch_row($res);
 
         if ($CURUSER["id_level"] < $arr[0])
             stderr($language["ERROR"],$language["BAD_TOPIC_ID"]);
 
         $res = do_sqlquery("SELECT subject,forumid FROM {$TABLE_PREFIX}topics WHERE id=$topicid",true);
 
-        if (mysql_num_rows($res) != 1)
+        if (mysqli_num_rows($res) != 1)
             stderr($language["ERROR"],$language["TOPIC_NOT_FOUND"]);
 
-        $arr = mysql_fetch_assoc($res);
+        $arr = mysqli_fetch_assoc($res);
 
         if ($arr["forumid"] != $forumid)
           do_sqlquery("UPDATE {$TABLE_PREFIX}topics SET forumid=$forumid WHERE id=$topicid",true);
 
         // modifying count topics & post
         $res=do_sqlquery("SELECT count(*) as numposts FROM {$TABLE_PREFIX}posts WHERE topicid=$topicid",true);
-        $numposts=mysql_result($res,0,0);
+        $numposts=mysqli_result($res,0,0);
 
         do_sqlquery("UPDATE {$TABLE_PREFIX}forums SET topiccount=topiccount-1, postcount=postcount-$numposts WHERE id=".$arr["forumid"]);
         do_sqlquery("UPDATE {$TABLE_PREFIX}forums SET topiccount=topiccount+1, postcount=postcount+$numposts WHERE id=$forumid");
@@ -205,7 +205,7 @@ switch ($action)
       //------- Get topic id
 
       $res = do_sqlquery("SELECT (SELECT COUNT(*) FROM {$TABLE_PREFIX}posts WHERE topicid=p.topicid) as total_posts,topicid FROM {$TABLE_PREFIX}posts p WHERE id=$postid",true);
-      $arr = mysql_fetch_assoc($res) or stderr($language["ERROR"],$language["ERR_POST_NOT_FOUND"]);
+      $arr = mysqli_fetch_assoc($res) or stderr($language["ERROR"],$language["ERR_POST_NOT_FOUND"]);
       $topicid = intval($arr["topicid"]);
 
       if ($arr["total_posts"] < 2)
@@ -218,7 +218,7 @@ switch ($action)
 
       //------- Delete post
       do_sqlquery("DELETE FROM {$TABLE_PREFIX}posts WHERE id=$postid",true);
-      $numposts=mysql_affected_rows();
+      $numposts=mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
     
       // update post's count
       do_sqlquery("UPDATE {$TABLE_PREFIX}forums SET postcount=postcount-$numposts WHERE id=$forumid");

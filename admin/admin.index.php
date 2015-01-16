@@ -54,14 +54,14 @@ if (!$aid || empty($aid) || $aid==0 || !$arandom || empty($arandom) || $arandom=
 //{
 $mqry=do_sqlquery("select u.id, ul.admin_access from {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}users_level ul on ul.id=u.id_level WHERE u.id=$aid AND random=$arandom AND (admin_access='yes' OR edit_users='yes') AND username=".sqlesc($CURUSER["username"]),true);
 
-if (mysql_num_rows($mqry)<1)
+if (mysqli_num_rows($mqry)<1)
 {
        err_msg($language["ERROR"],$language["NOT_ADMIN_CP_ACCESS"]);
        stdfoot();
        exit;
 }
 else
-$mres=mysql_fetch_assoc($mqry);
+$mres=mysqli_fetch_assoc($mqry);
 $moderate_user=($mres["admin_access"]=="no");
 // EOF
 
@@ -215,7 +215,7 @@ switch ($do)
       $now = time();
 
       $res = do_sqlquery("SELECT last_time FROM {$TABLE_PREFIX}tasks WHERE task='sanity'");
-      $row = mysql_fetch_row($res);
+      $row = mysqli_fetch_row($res);
       if (!$row)
           do_sqlquery("INSERT INTO {$TABLE_PREFIX}tasks (task, last_time) VALUES ('sanity',$now)");
       else

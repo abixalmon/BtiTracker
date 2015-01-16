@@ -90,9 +90,9 @@ if (isset($_GET["info_hash"])) {
 
   $query ="SELECT f.info_hash, f.filename, f.url, UNIX_TIMESTAMP(f.data) as data, f.size, f.comment, f.category as cat_name, $tseeds, $tleechs, $tcompletes, f.speed, f.uploader FROM $ttables WHERE f.info_hash ='" . AddSlashes($_GET["info_hash"]) . "'";
   $res = do_sqlquery($query,true);
-  $results = mysql_fetch_assoc($res);
+  $results = mysqli_fetch_assoc($res);
 
-  if (!$results || mysql_num_rows($res)==0)
+  if (!$results || mysqli_num_rows($res)==0)
      err_msg($language["ERROR"],$language["TORRENT_EDIT_ERROR"]);
 
   else {
@@ -134,7 +134,7 @@ if (isset($_GET["info_hash"])) {
     $torrenttpl->set("torrent",$torrent);
 
     unset($results);
-    mysql_free_result($res);
+    ((mysqli_free_result($res) || (is_object($res) && (get_class($res) == "mysqli_result"))) ? true : false);
 
   }
 }

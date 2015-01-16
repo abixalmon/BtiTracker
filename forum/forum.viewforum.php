@@ -89,9 +89,9 @@ $perpage = $CURUSER["topicsperpage"];
 if (!$perpage) $perpage = 20;
 
 $res = do_sqlquery("SELECT COUNT(*) FROM {$TABLE_PREFIX}topics WHERE forumid=$forumid",true);
-$arr = mysql_fetch_row($res);
+$arr = mysqli_fetch_row($res);
 $numtopics=$arr[0];
-mysql_free_result($res);
+((mysqli_free_result($res) || (is_object($res) && (get_class($res) == "mysqli_result"))) ? true : false);
 unset($arr);
 
 list($pagertop, $pagerbottom, $limit)=forum_pager($perpage,$numtopics, "index.php?page=forum&amp;action=viewforum&amp;forumid=$forumid&amp;");
@@ -115,7 +115,7 @@ if ($numtopics > 0)
 
     $topics=array();
     $i=0;
-    while ($topicarr = mysql_fetch_assoc($topicsres))
+    while ($topicarr = mysqli_fetch_assoc($topicsres))
     {
       $topicid = $topicarr["id"];
       $topic_userid = $topicarr["userid"];
@@ -219,6 +219,6 @@ $forumtpl->set("can_create",$user_can_create,true);
 
 unset($topics);
 unset($topicarr);
-mysql_free_result($topicsres);
+((mysqli_free_result($topicsres) || (is_object($topicsres) && (get_class($topicsres) == "mysqli_result"))) ? true : false);
 
 ?>

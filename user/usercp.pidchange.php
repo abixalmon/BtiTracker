@@ -58,7 +58,7 @@ switch ($action)
     case 'change':
     default:
     $result=do_sqlquery("SELECT pid FROM {$TABLE_PREFIX}users WHERE id=".$CURUSER['uid'],true);
-    $row = mysql_fetch_assoc($result);
+    $row = mysqli_fetch_assoc($result);
     $pid=$row["pid"];
     if (!$pid)
       {
@@ -72,16 +72,16 @@ switch ($action)
         if ($XBTT_USE)
           {
         $rp=do_sqlquery("SELECT COUNT(*) FROM xbt_files_users xfu INNER JOIN xbt_users xu ON xfu.uid=xu.uid WHERE xu.torrent_pass='$pid' AND xfu.active=1",true);
-        $ispeer=mysql_fetch_row($rp);
+        $ispeer=mysqli_fetch_row($rp);
         if ($ispeer[0] > "0") $usercptpl->set("IS_PEER",true,true);
-        mysql_free_result($rp);
+        ((mysqli_free_result($rp) || (is_object($rp) && (get_class($rp) == "mysqli_result"))) ? true : false);
           }
         else
           {
         $rp=do_sqlquery("SELECT COUNT(*) FROM {$TABLE_PREFIX}peers WHERE pid='$pid'");
-        $ispeer=mysql_fetch_row($rp);
+        $ispeer=mysqli_fetch_row($rp);
         if ($ispeer[0] > "0") $usercptpl->set("IS_PEER",true,true);
-        mysql_free_result($rp);
+        ((mysqli_free_result($rp) || (is_object($rp) && (get_class($rp) == "mysqli_result"))) ? true : false);
           }
       }
     $pid_ctpl=array();

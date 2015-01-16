@@ -122,7 +122,7 @@ if ($action!="find")
 }
 else
 {
-  $res=get_result("SELECT username FROM {$TABLE_PREFIX}users WHERE id>1 AND username LIKE '%".mysql_real_escape_string($_POST["user"])."%' ORDER BY username",true,$btit_settings['cache_duration']);
+  $res=get_result("SELECT username FROM {$TABLE_PREFIX}users WHERE id>1 AND username LIKE '%".((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $_POST["user"]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""))."%' ORDER BY username",true,$btit_settings['cache_duration']);
   if (!$res or count($res)==0)
      {
          print("<center>".$language["NO_USERS_FOUND"]."!<br />");

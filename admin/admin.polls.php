@@ -113,7 +113,7 @@ if(!isset($_POST['new']) && empty($id) && !isset($votes)){
    $res = do_sqlquery("SELECT p.*, username, prefixcolor, suffixcolor, COUNT(memberID) FROM {$TABLE_PREFIX}poller p LEFT JOIN {$TABLE_PREFIX}users u ON p.starterID=u.id LEFT JOIN {$TABLE_PREFIX}users_level ul on u.id_level=ul.id_level LEFT JOIN {$TABLE_PREFIX}poller_vote pv on p.id=pv.pollerID GROUP BY p.ID DESC",true);
 
    $i=0;
-   while($inf = mysql_fetch_array($res)){
+   while($inf = mysqli_fetch_array($res)){
       //background color for the current active poll
       $bold = "normal";
       if ($inf["active"]== "yes") $bold = "bold";
@@ -292,7 +292,7 @@ if(isset($votes) && !isset($_POST['new']) && empty($id))
     //Per Page Listing Limitation Stop
 
     $i=0;
-    while($results = mysql_fetch_assoc($resource))
+    while($results = mysqli_fetch_assoc($resource))
       {
         //background color for checked poll option
         $bold = "normal";

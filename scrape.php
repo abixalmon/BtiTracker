@@ -103,11 +103,11 @@ error_reporting(0);
 
 // connect to db
 if ($GLOBALS["persist"])
-    $conres=mysql_pconnect($dbhost, $dbuser, $dbpass) or show_error("Tracker errore - mysql_connect: " . mysql_error());
+    $conres=($GLOBALS["___mysqli_ston"] = mysqli_connect($dbhost,  $dbuser,  $dbpass)) or show_error("Tracker errore - mysql_connect: " . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
 else
-    $conres=mysql_connect($dbhost, $dbuser, $dbpass) or show_error("Tracker errore - mysql_connect: " . mysql_error());
+    $conres=($GLOBALS["___mysqli_ston"] = mysqli_connect($dbhost,  $dbuser,  $dbpass)) or show_error("Tracker errore - mysql_connect: " . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
 
-    mysql_select_db($database) or show_error("Tracker errore - $database - ".mysql_error());
+    ((bool)mysqli_query($GLOBALS["___mysqli_ston"], "USE $database")) or show_error("Tracker errore - $database - ".((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
 
 if (isset($_GET["pid"])) $pid = $_GET["pid"];
 else $pid = "";
@@ -168,23 +168,23 @@ if (isset($_GET["info_hash"]))
 
 if ($usehash)
 //    $query = mysql_query("SELECT info_hash, filename FROM namemap WHERE external='no' AND info_hash=\"$info_hash\"");
-    $query = mysql_query("SELECT info_hash, filename FROM {$TABLE_PREFIX}files WHERE external='no' AND info_hash IN $info_hash");
+    $query = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT info_hash, filename FROM {$TABLE_PREFIX}files WHERE external='no' AND info_hash IN $info_hash");
 else
-    $query = mysql_query("SELECT info_hash, filename FROM {$TABLE_PREFIX}files WHERE external='no'");
+    $query = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT info_hash, filename FROM {$TABLE_PREFIX}files WHERE external='no'");
 
 $namemap = array();
-while ($row = mysql_fetch_row($query))
+while ($row = mysqli_fetch_row($query))
     $namemap[$row[0]] = $row[1];
 
 if ($usehash)
-    $query = mysql_query("SELECT f.info_hash, f.seeds, f.leechers, f.finished FROM {$TABLE_PREFIX}files f WHERE external='no' AND info_hash IN $info_hash") or show_error("Database error. Cannot complete request.");
+    $query = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT f.info_hash, f.seeds, f.leechers, f.finished FROM {$TABLE_PREFIX}files f WHERE external='no' AND info_hash IN $info_hash") or show_error("Database error. Cannot complete request.");
 else
-    $query = mysql_query("SELECT f.info_hash, f.seeds, f.leechers, f.finished FROM {$TABLE_PREFIX}files f WHERE external='no' ORDER BY info_hash") or show_error("Database error. Cannot complete request.");
+    $query = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT f.info_hash, f.seeds, f.leechers, f.finished FROM {$TABLE_PREFIX}files f WHERE external='no' ORDER BY info_hash") or show_error("Database error. Cannot complete request.");
 
 
 $result="d5:filesd";
 
-while ($row = mysql_fetch_row($query))
+while ($row = mysqli_fetch_row($query))
 {
     $hash = hex2bin($row[0]);
     $result.="20:".$hash."d";
@@ -200,6 +200,6 @@ $result.="ee";
 
 echo $result;
 
-mysql_close();
+((is_null($___mysqli_res = mysqli_close($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
 
 ?>

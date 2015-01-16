@@ -45,7 +45,7 @@ function read_styles()
         for ($i=0;$i<count($sres);$i++)
            {
             $res = do_sqlquery("SELECT COUNT(*) FROM {$TABLE_PREFIX}users WHERE style = " . $sres[$i]["id"],true);
-            $sres[$i]["style_users"]=mysql_result($res,0,0);
+            $sres[$i]["style_users"]=mysqli_result($res,0,0);
             $sres[$i]["style"]=unesc($sres[$i]["style"]);
             $sres[$i]["style_url"]=unesc($sres[$i]["style_url"]);
             $sres[$i]["style_type"]=(($sres[$i]["style_type"]==1)?$language["CLA_STYLE"]:(($sres[$i]["style_type"]==2)?$language["ATM_STYLE"]:(($sres[$i]["style_type"]==3)?$language["PET_STYLE"]:$language["UNKNOWN"])));
@@ -57,7 +57,7 @@ function read_styles()
         $admintpl->set("styles",$sres);
         $admintpl->set("style_add_new","<a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=style&amp;action=add\">".$language["STYLE_ADD"]."</a>");
         unset($sres);
-        mysql_free_result($res);
+        ((mysqli_free_result($res) || (is_object($res) && (get_class($res) == "mysqli_result"))) ? true : false);
 
 }
 

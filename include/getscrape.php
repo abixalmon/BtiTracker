@@ -56,7 +56,7 @@ function scrape($url,$infohash='')
 
             $ret = $scraper->scrape($url_c["scheme"]."://".$url_c["host"].":".$url_c["port"].(($url_c["scheme"]=="udp")?"":"/announce"),array($infohash));
             do_sqlquery("UPDATE `{$TABLE_PREFIX}files` SET `lastupdate`=NOW(), `lastsuccess`=NOW(), `seeds`=".$ret[$infohash]["seeders"].", `leechers`=".$ret[$infohash]["leechers"].", `finished`=".$ret[$infohash]["completed"]." WHERE `announce_url` = '".$url."'".($infohash==""?"":" AND `info_hash`='".$infohash."'"), true);
-            if (mysql_affected_rows()==1)
+            if (mysqli_affected_rows($GLOBALS["___mysqli_ston"])==1)
                 write_log('SUCCESS update external torrent from '.$url.' tracker (infohash: '.$infohash.')','');
         }
         catch(ScraperException $e)

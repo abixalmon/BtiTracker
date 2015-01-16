@@ -122,15 +122,15 @@ if (isset($_FILES["torrent"]))
       }
 
 if (isset($_POST["filename"]))
-   $filename = mysql_real_escape_string(htmlspecialchars($_POST["filename"]));
+   $filename = ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], htmlspecialchars($_POST["filename"])) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""));
 else
-    $filename = mysql_real_escape_string(htmlspecialchars($_FILES["torrent"]["name"]));
+    $filename = ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], htmlspecialchars($_FILES["torrent"]["name"])) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""));
 
 if (isset($hash) && $hash) $url = $TORRENTSDIR . "/" . $hash . ".btf";
 else $url = 0;
 
 if (isset($_POST["info"]) && $_POST["info"]!="")
-   $comment = mysql_real_escape_string($_POST["info"]);
+   $comment = ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $_POST["info"]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""));
 else { // description is now required (same as for edit.php)
 //    $comment = "";
         err_msg($language["ERROR"],$language["EMPTY_DESCRIPTION"]);
@@ -140,11 +140,11 @@ else { // description is now required (same as for edit.php)
 
 // filename not writen by user, we get info directly from torrent.
 if (strlen($filename) == 0 && isset($array["info"]["name"]))
-   $filename = mysql_real_escape_string(htmlspecialchars($array["info"]["name"]));
+   $filename = ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], htmlspecialchars($array["info"]["name"])) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""));
 
 // description not writen by user, we get info directly from torrent.
 if (isset($array["comment"]))
-   $info = mysql_real_escape_string(htmlspecialchars($array["comment"]));
+   $info = ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], htmlspecialchars($array["comment"])) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""));
 else
     $info = "";
 
@@ -181,13 +181,13 @@ if (!isset($array["announce"]))
 
       // category check
       $rc=do_sqlquery("SELECT id FROM {$TABLE_PREFIX}categories WHERE id=$categoria",true);
-      if (mysql_num_rows($rc)==0)
+      if (mysqli_num_rows($rc)==0)
          {
              err_msg($language["ERROR"],$language["WRITE_CATEGORY"]);
              stdfoot();
              exit();
       }
-      @mysql_free_result($rc);
+      @((mysqli_free_result($rc) || (is_object($rc) && (get_class($rc) == "mysqli_result"))) ? true : false);
 
       $announce=trim($array["announce"]);
 

@@ -32,7 +32,7 @@
 
 function do_sanity() {
 
-         global $PRIVATE_ANNOUNCE, $TORRENTSDIR, $CURRENTPATH,$LIVESTATS,$LOG_HISTORY, $TABLE_PREFIX;
+         global $PRIVATE_ANNOUNCE, $TORRENTSDIR, $CAPTCHA_FOLDER, $CURRENTPATH,$LIVESTATS,$LOG_HISTORY, $TABLE_PREFIX;
 
          // SANITY FOR TORRENTS
          $results = do_sqlquery("SELECT info_hash, seeds, leechers, dlbytes, filename FROM {$TABLE_PREFIX}files WHERE external='no'");
@@ -101,15 +101,15 @@ function do_sanity() {
          quickQuery("DELETE readposts FROM {$TABLE_PREFIX}readposts LEFT JOIN users ON readposts.userid = users.id WHERE users.id IS NULL");
          
          // deleting orphan image in torrent's folder (if image code is enabled)
-         $tordir=realpath("$CURRENTPATH/../$TORRENTSDIR");
-         if ($dir = @opendir($tordir."/"))
-           {
-            while(false !== ($file = @readdir($dir)))
-               {
-                   if ($ext = substr(strrchr($file, "."), 1)=="png")
-                       unlink("$tordir/$file");
-               }
-            @closedir($dir);
+    $CAPTCHA_FOLDER = realpath("$CURRENTPATH/../$CAPTCHA_FOLDER");
+    if($dir = @opendir($CAPTCHA_FOLDER."/"))
+    {
+        while(false !== ($file = @readdir($dir)))
+        {
+            if($ext = substr(strrchr($file, "."), 1) == "png")
+                unlink("$CAPTCHA_FOLDER/$file");
+        }
+        @closedir($dir);
          }
 
 }

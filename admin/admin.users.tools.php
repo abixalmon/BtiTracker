@@ -265,7 +265,7 @@ switch ($action) {
             $chpass=(isset($_POST['chpass']) && $pass!='');
             # new level of the user
             $rlev=do_sqlquery("SELECT `id_level` `base_level`, `level` `name`".((substr($FORUMLINK,0,3)=='smf')?", `smf_group_mirror`":(($FORUMLINK=='ipb')?", `ipb_group_mirror`":""))." FROM {$TABLE_PREFIX}users_level WHERE id=".$level." LIMIT 1");
-            $reslev=mysql_fetch_assoc($rlev);
+            $reslev=mysqli_fetch_assoc($rlev);
             if ( ($CURUSER['id_level'] < $reslev['base_level']))
                 $level=0;
             # check avatar image extension if someone have better idea ;)

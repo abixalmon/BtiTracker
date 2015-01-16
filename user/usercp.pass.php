@@ -78,15 +78,15 @@ switch ($action)
         else
         {
             $testpass=hash_generate(array("salt" => $CURUSER["salt"]), $_POST["old_pwd"], $CURUSER["username"]);
-            $respwd = do_sqlquery("SELECT * FROM `{$TABLE_PREFIX}users` WHERE `id`=$uid AND `password`='".mysql_real_escape_string($testpass[$CURUSER["pass_type"]]["hash"])."' AND username=".sqlesc($CURUSER["username"])."",true);
-            if (!$respwd || mysql_num_rows($respwd)==0)
+            $respwd = do_sqlquery("SELECT * FROM `{$TABLE_PREFIX}users` WHERE `id`=$uid AND `password`='".((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $testpass[$CURUSER["pass_type"]]["hash"]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""))."' AND username=".sqlesc($CURUSER["username"])."",true);
+            if (!$respwd || mysqli_num_rows($respwd)==0)
                 stderr($language["ERROR"],$language["ERR_RETR_DATA"]);
             else
             {
-                $arr=mysql_fetch_assoc($respwd);
+                $arr=mysqli_fetch_assoc($respwd);
                 $multipass=hash_generate(array("salt" => ""), $_POST["new_pwd"], $CURUSER["username"]);
                 $i=$btit_settings["secsui_pass_type"];
-                do_sqlquery("UPDATE {$TABLE_PREFIX}users SET `password`='".mysql_real_escape_string($multipass[$i]["rehash"])."', `salt`='".mysql_real_escape_string($multipass[$i]["salt"])."', `pass_type`='".$i."', `dupe_hash`='".mysql_real_escape_string($multipass[$i]["dupehash"])."' WHERE id=$uid AND password='".mysql_real_escape_string($testpass[$CURUSER["pass_type"]]["hash"])."' AND username=".sqlesc($CURUSER["username"])."",true);
+                do_sqlquery("UPDATE {$TABLE_PREFIX}users SET `password`='".((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $multipass[$i]["rehash"]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""))."', `salt`='".((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $multipass[$i]["salt"]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""))."', `pass_type`='".$i."', `dupe_hash`='".((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $multipass[$i]["dupehash"]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""))."' WHERE id=$uid AND password='".((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $testpass[$CURUSER["pass_type"]]["hash"]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""))."' AND username=".sqlesc($CURUSER["username"])."",true);
                 if(substr($GLOBALS["FORUMLINK"],0,3)=="smf")
                 {
                     $passhash=smf_passgen($CURUSER["username"], $_POST["new_pwd"]);

@@ -87,7 +87,7 @@ if ($act=="confirm") {
       $random2=rand(10000, 60000);
       $res=do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `id_level`=3".((substr($FORUMLINK,0,3)=="smf" || $FORUMLINK=="ipb") ? ", `random`=$random2" : "")." WHERE `id_level`=2 AND `random`=$random",true);
       if (!$res)
-         die("ERROR: " . mysql_error() . "\n");
+         die("ERROR: " . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . "\n");
       else {
           if(substr($FORUMLINK,0,3)=="smf")
           {
@@ -153,7 +153,7 @@ if ($_POST["conferma"]) {
        elseif ($ret==-4)
         stderr($language["ERROR"],$language["ERR_USER_ALREADY_EXISTS"]);
        elseif ($ret==-7)
-         stderr($language["ERROR"],$language["ERR_NO_SPACE"]."<span style=\"color:red;font-weight:bold;\">".preg_replace('/\ /', '_', mysql_real_escape_string($_POST["user"]))."</span><br />");
+         stderr($language["ERROR"],$language["ERR_NO_SPACE"]."<span style=\"color:red;font-weight:bold;\">".preg_replace('/\ /', '_', ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $_POST["user"]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : "")))."</span><br />");
        elseif ($ret==-8)
          stderr($language["ERROR"],$language["ERR_SPECIAL_CHAR"]);
        elseif ($ret==-9)
@@ -267,7 +267,7 @@ function tabella($action,$dati=array()) {
        $remotedns = strtoupper($remotedns);
        preg_match('/^(.+)\.([A-Z]{2,3})$/', $remotedns, $tldm);
        if (isset($tldm[2]))
-              $remotedns = mysql_real_escape_string($tldm[2]);
+              $remotedns = ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $tldm[2]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""));
      }
 
    foreach($fres as $flag)
@@ -360,10 +360,10 @@ function aggiungiutente() {
 
 global $SITENAME,$SITEEMAIL,$BASEURL,$VALIDATION,$USERLANG,$USE_IMAGECODE, $TABLE_PREFIX, $XBTT_USE, $language,$THIS_BASEPATH, $FORUMLINK, $db_prefix, $btit_settings;
 
-$utente=mysql_real_escape_string($_POST["user"]);
-$pwd=mysql_real_escape_string($_POST["pwd"]);
-$pwd1=mysql_real_escape_string($_POST["pwd1"]);
-$email=mysql_real_escape_string($_POST["email"]);
+$utente=((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $_POST["user"]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""));
+$pwd=((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $_POST["pwd"]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""));
+$pwd1=((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $_POST["pwd1"]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""));
+$email=((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $_POST["email"]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""));
 $idlangue=intval($_POST["language"]);
 $idstyle=intval($_POST["style"]);
 $idflag=intval($_POST["flag"]);
@@ -397,7 +397,7 @@ if ($utente=="" || $pwd=="" || $email=="") {
 }
 
 $res=do_sqlquery("SELECT email FROM {$TABLE_PREFIX}users WHERE email='$email'",true);
-if (mysql_num_rows($res)>0)
+if (mysqli_num_rows($res)>0)
    {
    return -2;
    exit;
@@ -414,14 +414,14 @@ if(!preg_match($regex,$email))
 
 // duplicate username
 $res=do_sqlquery("SELECT username FROM {$TABLE_PREFIX}users WHERE username='$utente'",true);
-if (mysql_num_rows($res)>0)
+if (mysqli_num_rows($res)>0)
    {
    return -4;
    exit;
 }
 // duplicate username
 
-if (strpos(mysql_real_escape_string($utente), " ")==true)
+if (strpos(((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $utente) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : "")), " ")==true)
    {
    return -7;
    exit;
@@ -482,7 +482,7 @@ else
   }
 
 $bannedchar=array("\\", "/", ":", "*", "?", "\"", "@", "$", "'", "`", ",", ";", ".", "<", ">", "!", "£", "%", "^", "&", "(", ")", "+", "=", "#", "~");
-if (straipos(mysql_real_escape_string($utente), $bannedchar)==true)
+if (straipos(((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $utente) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : "")), $bannedchar)==true)
    {
    return -8;
    exit;
@@ -529,14 +529,14 @@ $multipass=hash_generate(array("salt" => ""), $_POST["pwd"], $_POST["user"]);
 $i=$btit_settings["secsui_pass_type"];
 
 $pid=md5(uniqid(rand(),true));
-do_sqlquery("INSERT INTO `{$TABLE_PREFIX}users` (`username`, `password`, `salt`, `pass_type`, `dupe_hash`, `random`, `id_level`, `email`, `style`, `language`, `flag`, `joined`, `lastconnect`, `pid`, `time_offset`) VALUES ('".$utente."', '".mysql_real_escape_string($multipass[$i]["rehash"])."', '".mysql_real_escape_string($multipass[$i]["salt"])."', '".$i."', '".mysql_real_escape_string($multipass[$i]["dupehash"])."', ".$random.", ".$idlevel.", '".$email."', ".$idstyle.", ".$idlangue.", ".$idflag.", NOW(), NOW(),'".$pid."', '".$timezone."')",true);
+do_sqlquery("INSERT INTO `{$TABLE_PREFIX}users` (`username`, `password`, `salt`, `pass_type`, `dupe_hash`, `random`, `id_level`, `email`, `style`, `language`, `flag`, `joined`, `lastconnect`, `pid`, `time_offset`) VALUES ('".$utente."', '".((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $multipass[$i]["rehash"]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""))."', '".((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $multipass[$i]["salt"]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""))."', '".$i."', '".((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $multipass[$i]["dupehash"]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""))."', ".$random.", ".$idlevel.", '".$email."', ".$idstyle.", ".$idlangue.", ".$idflag.", NOW(), NOW(),'".$pid."', '".$timezone."')",true);
 
-$newuid=mysql_insert_id();
+$newuid=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
 
 // Continue to create smf members if they disable smf mode
 $test=do_sqlquery("SHOW TABLES LIKE '{$db_prefix}members'",true);
 
-if (substr($FORUMLINK,0,3)=="smf" || mysql_num_rows($test))
+if (substr($FORUMLINK,0,3)=="smf" || mysqli_num_rows($test))
 {
     $smfpass=smf_passgen($utente, $pwd);
     $fetch=get_result("SELECT `smf_group_mirror` FROM `{$TABLE_PREFIX}users_level` WHERE `id`=".$idlevel, true, $btit_settings["cache_duration"]);
@@ -547,7 +547,7 @@ if (substr($FORUMLINK,0,3)=="smf" || mysql_num_rows($test))
     else
         do_sqlquery("INSERT INTO `{$db_prefix}members` (`member_name`, `date_registered`, `id_group`, `real_name`, `passwd`, `email_address`, `member_ip`, `member_ip2`, `is_activated`, `password_salt`) VALUES ('$utente', UNIX_TIMESTAMP(), $flevel, '$utente', '$smfpass[0]', '$email', '".getip()."', '".getip()."', 1, '$smfpass[1]')",true);
 
-    $fid=mysql_insert_id();
+    $fid=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
     do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = $fid WHERE `variable` = 'latestMember'",true);
     do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = '$utente' WHERE `variable` = 'latestRealName'",true);
     do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = UNIX_TIMESTAMP() WHERE `variable` = 'memberlist_updated'",true);
@@ -558,7 +558,7 @@ if (substr($FORUMLINK,0,3)=="smf" || mysql_num_rows($test))
 // Continue to create ipb members if they disable ipb mode
 $test=do_sqlquery("SHOW TABLES LIKE '{$ipb_prefix}members'");
 
-if ($FORUMLINK=="ipb" || mysql_num_rows($test))
+if ($FORUMLINK=="ipb" || mysqli_num_rows($test))
 {
     ipb_create($utente, $email, $pwd, $idlevel, $newuid);
 }
@@ -571,16 +571,16 @@ if ($XBTT_USE)
 if ($VALIDATION=="user")
    {
    ini_set("sendmail_from","");
-   if (mysql_errno()==0)
+   if (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false))==0)
      {
       send_mail($email,$language["ACCOUNT_CONFIRM"],$language["ACCOUNT_MSG"]."\n\n".$BASEURL."/index.php?page=account&act=confirm&confirm=$random&language=$idlangue");
       write_log("Signup new user $utente ($email)","add");
       }
    else
-       die(mysql_error());
+       die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
    }
 
-return mysql_errno();
+return ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false));
 }
 
 ?>

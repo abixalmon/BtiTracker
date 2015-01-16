@@ -48,7 +48,7 @@ if ($act == "takerecover")
     stderr($language["ERROR"],$language["ERR_NO_EMAIL"]);
 
   $res = do_sqlquery("SELECT id, email FROM {$TABLE_PREFIX}users WHERE email=".sqlesc($email)." LIMIT 1",true);
-  $arr = mysql_fetch_assoc($res) or stderr($language["ERROR"],$language["ERR_EMAIL_NOT_FOUND_1"]." <b>$email</b> ".$language["ERR_EMAIL_NOT_FOUND_2"]);
+  $arr = mysqli_fetch_assoc($res) or stderr($language["ERROR"],$language["ERR_EMAIL_NOT_FOUND_1"]." <b>$email</b> ".$language["ERR_EMAIL_NOT_FOUND_2"]);
 if ($USE_IMAGECODE)
 {
   if (extension_loaded('gd'))
@@ -108,7 +108,7 @@ srand((double)microtime()*1000000);
 $random = rand($floor, $ceiling);
 
 do_sqlquery("UPDATE {$TABLE_PREFIX}users SET random='$random' WHERE id='".$arr["id"]."'",true);
-if (mysql_affected_rows()==0)
+if (mysqli_affected_rows($GLOBALS["___mysqli_ston"])==0)
     stderr($language["ERROR"],"".$language["ERR_DB_ERR"].",".$arr["id"].",".$email.",".$random."");
 
 $user_temp_id = $arr["id"];
@@ -134,7 +134,7 @@ if (!$id || !$random || empty($random) || $random==0)
     stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);
 
 $res = do_sqlquery("SELECT `username`, `email`, `random`".((substr($GLOBALS["FORUMLINK"],0,3)=="smf") ? ", `smf_fid`" : (($GLOBALS["FORUMLINK"]=="ipb")?", ipb_fid":""))." FROM `{$TABLE_PREFIX}users` WHERE `id` = $id",true);
-$arr = mysql_fetch_array($res);
+$arr = mysqli_fetch_array($res);
 
 if ($random!=$arr["random"])
     stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);
@@ -145,9 +145,9 @@ if ($random!=$arr["random"])
     $multipass=hash_generate(array("salt" => ""), $newpassword, $arr["username"]);
     $i=$btit_settings["secsui_pass_type"];
 
-    do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `password`='".mysql_real_escape_string($multipass[$i]["rehash"])."', `salt`='".mysql_real_escape_string($multipass[$i]["salt"])."', `pass_type`='".$i."', `dupe_hash`='".mysql_real_escape_string($multipass[$i]["dupehash"])."' WHERE `id`=$id AND `random`=$random",true);
+    do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `password`='".((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $multipass[$i]["rehash"]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""))."', `salt`='".((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $multipass[$i]["salt"]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""))."', `pass_type`='".$i."', `dupe_hash`='".((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $multipass[$i]["dupehash"]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""))."' WHERE `id`=$id AND `random`=$random",true);
 
-    if (!mysql_affected_rows())
+    if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"]))
         stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);
 
     if(substr($GLOBALS["FORUMLINK"],0,3)=="smf")
@@ -189,7 +189,7 @@ elseif ($act=="recover_ok")
        stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);
 
   $res = do_sqlquery("SELECT `username`, `email`, `random`".((substr($GLOBALS["FORUMLINK"],0,3)=="smf") ? ", `smf_fid`" : "")." FROM `{$TABLE_PREFIX}users` WHERE `id` = $id",true);
-  $arr = mysql_fetch_array($res);
+  $arr = mysqli_fetch_array($res);
 
   if ($random!=$arr["random"])
        stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);

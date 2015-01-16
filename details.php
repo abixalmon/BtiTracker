@@ -177,7 +177,7 @@ if ($row["username"]!=$CURUSER["username"] && $CURUSER["uid"]>1)
    {
    $ratings = array(5 => $language["FIVE_STAR"] ,4 =>$language["FOUR_STAR"] ,3 =>$language["THREE_STAR"] ,2 =>$language["TWO_STAR"] ,1 =>$language["ONE_STAR"] );
    $xres = do_sqlquery("SELECT rating, added FROM {$TABLE_PREFIX}ratings WHERE infohash = '$id' AND userid = " . $CURUSER["uid"],true);
-   $xrow = @mysql_fetch_array($xres);
+   $xrow = @mysqli_fetch_array($xres);
    if ($xrow)
        $s = $totrate. " (".$language["YOU_RATE"]." \"" . $ratings[$xrow["rating"]] . "\")";
    else {

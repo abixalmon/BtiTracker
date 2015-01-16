@@ -47,7 +47,7 @@ if (!$CURUSER || $CURUSER["can_download"]=="no")
 if(ini_get('zlib.output_compression'))
   ini_set('zlib.output_compression','Off');
 
-$infohash=mysql_real_escape_string($_GET["id"]);
+$infohash=((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $_GET["id"]) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""));
 $filepath=$TORRENTSDIR."/".$infohash . ".btf";
 
 if (!is_file($filepath) || !is_readable($filepath))
